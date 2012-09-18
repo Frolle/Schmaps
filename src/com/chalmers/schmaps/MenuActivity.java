@@ -7,25 +7,29 @@ import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 
-public class MenuActivity extends Activity {
-
+public class MenuActivity extends Activity implements View.OnClickListener {
+	Button searchHall;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
-        Button searchHall = (Button) findViewById(R.id.button1);
-        searchHall.setOnClickListener(new View.OnClickListener() {
-			
-			public void onClick(View arg0) {
-				Intent startMapActivity = new Intent("android.intent.action.MAPACTIVITY");
-				startActivity(startMapActivity);
-			}
-		});
+        assignInstances();
     }
 
-    @Override
+    private void assignInstances() {
+        searchHall = (Button) findViewById(R.id.button1);
+        searchHall.setOnClickListener(this);
+		
+	}
+
+	@Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.activity_menu, menu);
         return true;
     }
+
+	public void onClick(View v) {
+		Intent startMapActivity = new Intent("android.intent.action.MAPACTIVITY");
+		startActivity(startMapActivity);		
+	}
 }

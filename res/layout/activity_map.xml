@@ -2,22 +2,38 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
+	<LinearLayout
+	    android:id="@+id/lineLayETBT"
+    	android:layout_width="match_parent"
+    	android:layout_height="wrap_content"
+    	android:orientation="horizontal"
+    	android:weightSum="100">
+	    <EditText
+	        android:layout_weight="30"
+	        android:id="@+id/edittextlecture"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_alignParentTop="true"
+	        android:hint="Touch to enter lecture hall!"
+	        tools:context=".MapActivity" />
 
-    <EditText
-        android:id="@+id/edittextlecture"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:text="@string/edit_text_view"
-        tools:context=".MapActivity" />
-	<Button
-	    android:id="@+id/edittextbutton"
-	    android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_toRightOf="@+id/edittextlecture"
-        android:text="@string/edit_button"
-        tools:context=".MapActivity"
-         />
-	    
+	    <Button
+	        android:id="@+id/edittextbutton"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_weight="70"
+	        android:scaleY="0.8"
+	        android:text="@string/edit_button"
+	        tools:context=".MapActivity" />
+		
+	    </LinearLayout>
+
+	    	<TextView
+	    	    android:id="@+id/showLectureText"
+	    	    android:layout_width="wrap_content"
+	    	    android:layout_height="wrap_content"
+	    	    android:layout_below="@+id/lineLayETBT"
+	    	    android:layout_centerHorizontal="true"
+	    	    android:text="@string/app_name" />
+	
 </RelativeLayout>

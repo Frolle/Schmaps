@@ -9,39 +9,44 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
-public class MapActivity extends Activity {
-
+public class MapActivity extends Activity implements View.OnClickListener {
+	HashMap<String, Integer> lectureHashMap;
+	Button editButton;
+	EditText lectureEdit;
+	TextView showLecture;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
-        final HashMap<String, Integer> lectureHashMap = new HashMap();
-        final Button editButton = (Button) findViewById(R.id.edittextbutton);
-        final EditText lectureEdit = (EditText) findViewById(R.id.edittextlecture);
-        lectureEdit.setOnTouchListener(new View.OnTouchListener() {
-			
-			public boolean onTouch(View arg0, MotionEvent arg1) {
-				lectureEdit.setText("");
-				return false;
-			}
-		});
-        editButton.setOnClickListener(new View.OnClickListener() {
-			
-			public void onClick(View arg0) {
-				String lectureText = lectureEdit.getText().toString();
-				if(lectureHashMap.containsKey(lectureText))
-						{
-							//TODO A method that returns coordinates to database.
-						}
-				
-			}
-		});
+        assignInstances();
     }
 
-    @Override
+    private void assignInstances() {
+        lectureHashMap = new HashMap();
+        editButton = (Button) findViewById(R.id.edittextbutton);
+        lectureEdit = (EditText) findViewById(R.id.edittextlecture);
+        editButton.setOnClickListener(this);
+        lectureHashMap.put("Matsalen", 42);
+        showLecture = (TextView) findViewById(R.id.showLectureText);
+        showLecture.setText("Hi!");
+	}
+
+	@Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.activity_map, menu);
         return true;
     }
+
+	public void onClick(View v) {
+		String lectureText = lectureEdit.getText().toString();
+		if(lectureHashMap.containsKey(lectureText))
+				{
+					showLecture.setText(lectureHashMap.get(lectureText).toString());
+				}
+		else
+			showLecture.setText("WTF?!");
+		
+	}
 }
