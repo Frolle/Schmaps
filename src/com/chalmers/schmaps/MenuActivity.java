@@ -13,7 +13,7 @@ public class MenuActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
-        Button searchHall = (Button) findViewById(R.id.button1);
+        Button searchHall = (Button) findViewById(R.id.hButton);
         searchHall.setOnClickListener(new View.OnClickListener() {
 			
 			public void onClick(View arg0) {
