@@ -17,7 +17,7 @@ public class MenuActivity extends Activity implements View.OnClickListener {
     }
 
     private void assignInstances() {
-        searchHall = (Button) findViewById(R.id.button1);
+        searchHall = (Button) findViewById(R.id.hButton);
         searchHall.setOnClickListener(this);
 		
 	}
