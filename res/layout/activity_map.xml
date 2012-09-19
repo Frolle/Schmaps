@@ -5,7 +5,6 @@
     android:layout_height="fill_parent"
     android:clickable="true"
     android:apiKey="0LIGr976PR9ieBmFbnTRqglKcTUEtXIukD5Xv4g"
-	android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
     xmlns:tools="http://schemas.android.com/tools">
 	<LinearLayout
 	    android:id="@+id/lineLayETBT"

@@ -16,7 +16,8 @@
 	<uses-library android:name="com.google.android.maps" />
         <activity
             android:name=".Startup"
-            android:label="@string/title_activity_startup" >
+            android:label="@string/title_activity_startup"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -25,7 +26,8 @@
         </activity>
         <activity
             android:name=".MenuActivity"
-            android:label="@string/title_activity_menu" >
+            android:label="@string/title_activity_menu"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
             <intent-filter>
                 <action android:name="android.intent.action.MENUACTIVITY" />
 
@@ -34,7 +36,8 @@
         </activity>
         <activity
             android:name=".GoogleMapActivity"
-            android:label="@string/title_activity_map" >
+            android:label="@string/title_activity_map"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
             <intent-filter>
                 <action android:name="android.intent.action.GOOGLEMAPACTIVITY" />
 
