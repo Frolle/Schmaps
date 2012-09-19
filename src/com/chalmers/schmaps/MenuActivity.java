@@ -29,7 +29,7 @@ public class MenuActivity extends Activity implements View.OnClickListener {
     }
 
 	public void onClick(View v) {
-		Intent startMapActivity = new Intent("android.intent.action.MAPACTIVITY");
+		Intent startMapActivity = new Intent("android.intent.action.GOOGLEMAPACTIVITY");
 		startActivity(startMapActivity);		
 	}
 }
