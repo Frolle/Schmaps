@@ -1,17 +1,43 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/menuactivity" >
+    android:layout_height="match_parent" 
+    android:background="@drawable/campusjohanneberg"
+    >
+    
+    
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="18dp"
+        android:gravity="top"
+        android:text="@string/hello_world"
+        tools:context=".StartingPoint" />
 
     <Button
-        android:id="@+id/button1"
-        android:layout_width="wrap_content"
+        android:id="@+id/fButton"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:scaleX="3"
-        android:scaleY="3"
-        android:text="Sök sal" />
+        android:background="@layout/shape"
+        android:gravity="center"
+        android:text="Matställe"
+        android:textSize="20dp" />
+
+    <Button
+        android:id="@+id/hButton"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/fButton"
+        android:layout_alignLeft="@+id/fButton"
+        android:background="@layout/shape"
+        android:gravity="center"
+        android:text="Sök sal"
+        android:textSize="20dp" />
 
 </RelativeLayout>
