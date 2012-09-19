@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import com.google.android.maps.GeoPoint;
+import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapView;
 import com.google.android.maps.Overlay;
 import com.google.android.maps.OverlayItem;
@@ -79,4 +80,10 @@ public class GoogleMapActivity extends MapActivity {
         getMenuInflater().inflate(R.menu.activity_map, menu);
         return true;
     }
+
+	@Override
+	protected boolean isRouteDisplayed() {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }
