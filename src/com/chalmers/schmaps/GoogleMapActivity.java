@@ -23,12 +23,17 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-public class GoogleMapActivity extends MapActivity {
-
+public class GoogleMapActivity extends MapActivity implements View.OnClickListener {
+	
+	private Button editButton;
+    private EditText lectureEdit;
+	
+	
 	private LocationManager location_manager;
 	private LocationListener location_listener;
 	private List<Overlay> mapOverlays;
 	private MapItemizedOverlay overlay;
+	private String roomToFind;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -44,22 +49,14 @@ public class GoogleMapActivity extends MapActivity {
 		overlay = new MapItemizedOverlay(drawable, this);
 
 		SearchSQL search = new SearchSQL(GoogleMapActivity.this);
-//		search.openWrite(); //öppnar databasen för att skriva i den, denna kodsnutt ska inte vara här sen!
-//		search.createEntry();
-//		search.close(); 
-//
-//		
-//		search.openRead(); //öppnar databasen för läsafrån den
-//		GeoPoint gp = new GeoPoint(search.getLat("Runan"),search.getLong("Runan")); //hämtar latitude och longitude i databasen och skapar en geopunkt 
-//
-//		String s1 = search.getAddress("Runan");
-//		String s2 = search.getLevel("Runan");
-//		search.close();
-//		OverlayItem over = new OverlayItem(gp, s1, s2); //s1 och s2 visas i dialogrutan
-//
-//		overlay.addOverlay(over);
-//		mapOverlays.add(overlay);
-//
+		search.openWrite(); //öppnar databasen för att skriva i den, denna kodsnutt ska inte vara här sen!
+		search.createEntry();
+		search.close(); 
+		
+		assignInstances();
+		
+		
+
 		location_manager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
 		location_listener = new LocationListener(){
 
@@ -130,29 +127,42 @@ public class GoogleMapActivity extends MapActivity {
 		}
 	}
 
-	/* detta är simons kod, markerar bort den än så länge
-                assignInstances();
-    }
+	// detta är simons kod, markerar bort den än så länge
+ 
 
     private void assignInstances() {
-        lectureHashMap = new HashMap();
+        //lectureHashMap = new HashMap();
         editButton = (Button) findViewById(R.id.edittextbutton);
         lectureEdit = (EditText) findViewById(R.id.edittextlecture);
         editButton.setOnClickListener(this);
-        lectureHashMap.put("Matsalen", 42);
-        showLecture = (TextView) findViewById(R.id.showLectureText);
-        showLecture.setText("Hi!");
+        //lectureHashMap.put("Matsalen", 42);
+        //showLecture = (TextView) findViewById(R.id.showLectureText);
+        //showLecture.setText("Hi!");
 	}
 
 		public void onClick(View v) {
-		String lectureText = lectureEdit.getText().toString();
-		if(lectureHashMap.containsKey(lectureText))
+		roomToFind = lectureEdit.getText().toString();
+		roomToFind.toLowerCase();
+		
+		SearchSQL search = new SearchSQL(GoogleMapActivity.this);
+		search.openRead(); //öppnar databasen för läsafrån den
+		GeoPoint gp = new GeoPoint(search.getLat(roomToFind),search.getLong(roomToFind)); //hämtar latitude och longitude i databasen och skapar en geopunkt 
+
+		String s1 = search.getAddress(roomToFind);
+		String s2 = search.getLevel(roomToFind);
+		search.close();
+		OverlayItem over = new OverlayItem(gp, s1, s2); //s1 och s2 visas i dialogrutan
+
+		overlay.addOverlay(over);
+		mapOverlays.add(overlay);
+		
+		/*if(lectureHashMap.containsKey(lectureText))
 				{
 					showLecture.setText(lectureHashMap.get(lectureText).toString());
 				}
 		else
-			showLecture.setText("WTF?!");
+			showLecture.setText("WTF?!");*/
 
-	}*/
+	}
 
 }

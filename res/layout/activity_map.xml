@@ -20,7 +20,7 @@
 	        android:layout_height="wrap_content"
 	        android:layout_alignParentTop="true"
 	        android:hint="Touch to enter lecture hall!"
-	        tools:context=".MapActivity" />
+	        tools:context=".GoogleMapActivity" />
 
 	    <Button
 	        android:id="@+id/edittextbutton"
@@ -28,7 +28,7 @@
 	        android:layout_height="wrap_content"
 	        android:layout_weight="70"
 	        android:text="@string/edit_button"
-	        tools:context=".MapActivity" />
+	        tools:context=".GooleMapActivity" />
 	    </LinearLayout>
 		<com.google.android.maps.MapView 
     		xmlns:tools="http://schemas.android.com/tools"
