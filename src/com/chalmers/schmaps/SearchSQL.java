@@ -44,14 +44,14 @@ public class SearchSQL {
 		ContentValues cv = new ContentValues();
 		
 		// ett exempel på hur man lägger in
-		cv.put(KEY_ROOM, "Runan");
+		cv.put(KEY_ROOM, "runan");
 		cv.put(KEY_LAT, 57689262);
 		cv.put(KEY_LONG, 11973805);
 		cv.put(KEY_STREET, "Chalmersplatsen 1");
 		cv.put(KEY_LEVEL, "Plan 2");
 		ourDatabase.insert(DATABASE_TABLE, null, cv);
 		
-		cv.put(KEY_ROOM, "Hej");
+		cv.put(KEY_ROOM, "hej");
 		cv.put(KEY_LAT, 58070517);
 		cv.put(KEY_LONG, 11760864);
 		cv.put(KEY_STREET, "Gata 2");
