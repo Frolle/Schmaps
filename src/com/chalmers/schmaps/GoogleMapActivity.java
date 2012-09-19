@@ -96,9 +96,6 @@ public class GoogleMapActivity extends MapActivity {
 	}
 
 
-
-
-
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.activity_map, menu);
@@ -117,8 +114,6 @@ public class GoogleMapActivity extends MapActivity {
 		super.onPause();
 		location_manager.removeUpdates(location_listener);
 	}
-
-
 
 	@Override
 	protected void onResume() {
