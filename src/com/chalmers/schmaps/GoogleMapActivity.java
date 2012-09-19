@@ -44,22 +44,22 @@ public class GoogleMapActivity extends MapActivity {
 		overlay = new MapItemizedOverlay(drawable, this);
 
 		SearchSQL search = new SearchSQL(GoogleMapActivity.this);
-		search.openWrite(); //öppnar databasen för att skriva i den, denna kodsnutt ska inte vara här sen!
-		search.createEntry();
-		search.close(); 
-
-		
-		search.openRead(); //öppnar databasen för läsafrån den
-		GeoPoint gp = new GeoPoint(search.getLat("Runan"),search.getLong("Runan")); //hämtar latitude och longitude i databasen och skapar en geopunkt 
-
-		String s1 = search.getAddress("Runan");
-		String s2 = search.getLevel("Runan");
-		search.close();
-		OverlayItem over = new OverlayItem(gp, s1, s2); //s1 och s2 visas i dialogrutan
-
-		overlay.addOverlay(over);
-		mapOverlays.add(overlay);
-
+//		search.openWrite(); //öppnar databasen för att skriva i den, denna kodsnutt ska inte vara här sen!
+//		search.createEntry();
+//		search.close(); 
+//
+//		
+//		search.openRead(); //öppnar databasen för läsafrån den
+//		GeoPoint gp = new GeoPoint(search.getLat("Runan"),search.getLong("Runan")); //hämtar latitude och longitude i databasen och skapar en geopunkt 
+//
+//		String s1 = search.getAddress("Runan");
+//		String s2 = search.getLevel("Runan");
+//		search.close();
+//		OverlayItem over = new OverlayItem(gp, s1, s2); //s1 och s2 visas i dialogrutan
+//
+//		overlay.addOverlay(over);
+//		mapOverlays.add(overlay);
+//
 		location_manager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
 		location_listener = new LocationListener(){
 
@@ -153,9 +153,6 @@ public class GoogleMapActivity extends MapActivity {
 		else
 			showLecture.setText("WTF?!");
 
-	}
+	}*/
 
-	 */
 }
-
-
