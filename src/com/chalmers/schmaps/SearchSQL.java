@@ -24,12 +24,12 @@ public class SearchSQL {
 	private final Context ourContext;
 	private SQLiteDatabase ourDatabase;
 	
-	public TestDatabaseActivity(Context c){
+	public SearchSQL(Context c){
 		ourContext = c;
 		
 	}
 	
-	public TestDatabaseActivity open(){
+	public SearchSQL open(){
 		ourHelper = new MySQLiteOpenHelper(ourContext);
 		ourDatabase = ourHelper.getWritableDatabase();
 		return this;
