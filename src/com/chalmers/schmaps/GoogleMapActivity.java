@@ -90,4 +90,18 @@ public class GoogleMapActivity extends MapActivity {
 		// TODO Auto-generated method stub
 		return false;
 	}
+	
+	@Override
+	protected void onPause() {
+		// TODO Auto-generated method stub
+		super.onPause();;
+	}
+
+
+
+	@Override
+	protected void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+	}
 }
