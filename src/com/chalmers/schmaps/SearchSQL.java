@@ -77,7 +77,7 @@ public class SearchSQL {
 		public void onCreate(SQLiteDatabase db) {
 			// TODO Auto-generated method stub
 			db.execSQL("CREATE TABLE " + DATABASE_TABLE + " (" +
-					KEY_ROWID + " INTEGER AUTOINCREMENT, " +
+					KEY_ROWID + " INTEGER PRIMARY KEY, " +
 					KEY_ROOM + " TEXT NOT NULL, " +
 					KEY_LAT + " INTEGER, " + 
 					KEY_LONG + " INTEGER, " +

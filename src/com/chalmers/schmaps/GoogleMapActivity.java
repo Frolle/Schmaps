@@ -156,13 +156,6 @@ public class GoogleMapActivity extends MapActivity implements View.OnClickListen
 		overlay.addOverlay(over);
 		mapOverlays.add(overlay);
 		
-		/*if(lectureHashMap.containsKey(lectureText))
-				{
-					showLecture.setText(lectureHashMap.get(lectureText).toString());
-				}
-		else
-			showLecture.setText("WTF?!");*/
-
 	}
 
 }
