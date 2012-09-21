@@ -50,7 +50,7 @@ public class GoogleMapActivity extends MapActivity implements View.OnClickListen
 
 		SearchSQL search = new SearchSQL(GoogleMapActivity.this);
 		search.openWrite(); //öppnar databasen för att skriva i den, denna kodsnutt ska inte vara här sen!
-		search.createEntry();
+//		search.createEntry();
 		search.close(); 
 		
 		assignInstances();
