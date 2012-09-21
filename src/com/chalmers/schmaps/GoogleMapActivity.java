@@ -123,6 +123,9 @@ public class GoogleMapActivity extends MapActivity implements View.OnClickListen
 		}
 	}
 
+	// detta är simons kod, markerar bort den än så länge
+ 
+
     private void assignInstances() {
         editButton = (Button) findViewById(R.id.edittextbutton);
         lectureEdit = (EditText) findViewById(R.id.edittextlecture);
@@ -133,20 +136,16 @@ public class GoogleMapActivity extends MapActivity implements View.OnClickListen
 		roomToFind = lectureEdit.getText().toString();
 		roomToFind.toLowerCase().trim(); //removes white signs and converts to lower case
 		roomToFind = roomToFind.replaceAll("[^a-zA-Z0-9]+",""); //Removes illegal characters to prevent sql injection
-		
 		SearchSQL search = new SearchSQL(GoogleMapActivity.this);
-		search.openRead(); //open database to read
-		
-		if(search.exists(roomToFind)){
-			GeoPoint gp = new GeoPoint(search.getLat(roomToFind),search.getLong(roomToFind)); //create a geopoint
-			
-			OverlayItem over = new OverlayItem(gp, search.getAddress(roomToFind), search.getLevel(roomToFind)); //address and level is shown in the dialog
-			
-			search.close();
-			
-			overlay.addOverlay(over);
-			mapOverlays.add(overlay);
-			mapView.postInvalidate();
+		search.openRead(); //öppnar databasen för läsafrån den
+		 if(search.exists(roomToFind)){
+			 GeoPoint gp = new GeoPoint(search.getLat(roomToFind),search.getLong(roomToFind)); //create a geopoint
+			 OverlayItem over = new OverlayItem(gp, search.getAddress(roomToFind), search.getLevel(roomToFind)); //address and level is shown in the dialog
+			 search.close();
+			 overlay.addOverlay(over);
+			 overlay.removeOverlay();
+			 mapOverlays.add(overlay);
+			 mapView.postInvalidate();
+			 }
 		}
-	}
 }
