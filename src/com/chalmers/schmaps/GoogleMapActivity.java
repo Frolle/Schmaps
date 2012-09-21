@@ -31,15 +31,16 @@ public class GoogleMapActivity extends MapActivity implements View.OnClickListen
 	private List<Overlay> mapOverlays;
 	private MapItemizedOverlay overlay;
 	private String roomToFind;
+	private MapView mapView;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.activity_map); 
-		MapView mapView = (MapView) findViewById(R.id.mapview);
+		mapView = (MapView) findViewById(R.id.mapview);
 		mapView.setBuiltInZoomControls(true);
-		mapView.setSatellite(true);
+		mapView.setSatellite(false);
 
 		mapOverlays = mapView.getOverlays();
 		Drawable drawable = this.getResources().getDrawable(R.drawable.ic_launcher); 
@@ -152,7 +153,7 @@ public class GoogleMapActivity extends MapActivity implements View.OnClickListen
 
 			overlay.addOverlay(over);
 			mapOverlays.add(overlay);
-			onResume();
+			mapView.postInvalidate();
 
 	}
 }
