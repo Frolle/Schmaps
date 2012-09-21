@@ -139,11 +139,11 @@ public class GoogleMapActivity extends MapActivity implements View.OnClickListen
 		
 		SearchSQL search = new SearchSQL(GoogleMapActivity.this);
 		search.openRead(); //öppnar databasen för läsafrån den
-		
-		int latitude = search.getLat(roomToFind);
-		int longitude = search.getLong(roomToFind);
-	
-	
+		if(search.exists(roomToFind)){
+			int latitude = search.getLat(roomToFind);
+			int longitude = search.getLong(roomToFind);
+
+
 			GeoPoint gp = new GeoPoint(latitude,longitude); //skapar en geopunkt 
 
 			String s1 = search.getAddress(roomToFind);
@@ -154,6 +154,6 @@ public class GoogleMapActivity extends MapActivity implements View.OnClickListen
 			overlay.addOverlay(over);
 			mapOverlays.add(overlay);
 			mapView.postInvalidate();
-
+		}
 	}
 }
