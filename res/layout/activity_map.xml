@@ -3,21 +3,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
-    <EditText
-        android:id="@+id/edittextlecture"
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:text="@string/edit_text_view"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:text="@string/hello_world"
         tools:context=".MapActivity" />
-	<Button
-	    android:id="@+id/edittextbutton"
-	    android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_toRightOf="@+id/edittextlecture"
-        android:text="@string/edit_button"
-        tools:context=".MapActivity"
-         />
-	    
+
 </RelativeLayout>
