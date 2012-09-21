@@ -166,6 +166,16 @@ public class SearchSQL {
 	 
 	    }
 	}
+	public boolean exists(String query)
+	{
+		String [] columns = new String []{KEY_ROWID, KEY_ROOM, KEY_LAT, KEY_LONG, KEY_STREET, KEY_LEVEL};
+		Cursor cursor = ourDatabase.query(DATABASE_TABLE, columns, KEY_ROOM + " LIKE ?" , new String [] { "%" + query + "%"}, null, null, null);
+		if(cursor.getCount()<=0)
+			return false;
+		else 
+			return true;
+
+	}
 
 	public int getLat(String query) {
 		// TODO Auto-generated method stub

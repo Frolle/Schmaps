@@ -22,7 +22,10 @@ public class MapItemizedOverlay extends ItemizedOverlay {
 	    mOverlays.add(overlay);
 	    populate(); //anropar createItem(int) och ItemizeOverlay
 	}
-	
+	public void removeOverlay(){
+		mOverlays.clear();
+		populate();
+	}
 	@Override
 	protected OverlayItem createItem(int i) {
 		return mOverlays.get(i);
