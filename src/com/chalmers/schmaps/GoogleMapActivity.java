@@ -123,9 +123,6 @@ public class GoogleMapActivity extends MapActivity implements View.OnClickListen
 		}
 	}
 
-	// detta är simons kod, markerar bort den än så länge
- 
-
     private void assignInstances() {
         editButton = (Button) findViewById(R.id.edittextbutton);
         lectureEdit = (EditText) findViewById(R.id.edittextlecture);
@@ -138,19 +135,15 @@ public class GoogleMapActivity extends MapActivity implements View.OnClickListen
 		roomToFind = roomToFind.replaceAll("[^a-zA-Z0-9]+",""); //Removes illegal characters to prevent sql injection
 		
 		SearchSQL search = new SearchSQL(GoogleMapActivity.this);
-		search.openRead(); //öppnar databasen för läsafrån den
+		search.openRead(); //open database to read
+		
 		if(search.exists(roomToFind)){
-			int latitude = search.getLat(roomToFind);
-			int longitude = search.getLong(roomToFind);
-
-
-			GeoPoint gp = new GeoPoint(latitude,longitude); //skapar en geopunkt 
-
-			String s1 = search.getAddress(roomToFind);
-			String s2 = search.getLevel(roomToFind);
+			GeoPoint gp = new GeoPoint(search.getLat(roomToFind),search.getLong(roomToFind)); //create a geopoint
+			
+			OverlayItem over = new OverlayItem(gp, search.getAddress(roomToFind), search.getLevel(roomToFind)); //address and level is shown in the dialog
+			
 			search.close();
-			OverlayItem over = new OverlayItem(gp, s1, s2); //s1 och s2 visas i dialogrutan
-
+			
 			overlay.addOverlay(over);
 			mapOverlays.add(overlay);
 			mapView.postInvalidate();
