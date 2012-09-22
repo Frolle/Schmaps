@@ -122,8 +122,6 @@ public class GoogleMapActivity extends MapActivity implements View.OnClickListen
 			//print("Couldn't use the GPS: " + e + ", " + e.getMessage());
 		}
 	}
-
-	// detta är simons kod, markerar bort den än så länge
  
 
     private void assignInstances() {
