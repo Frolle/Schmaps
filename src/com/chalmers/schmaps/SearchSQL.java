@@ -97,7 +97,6 @@ public class SearchSQL {
 			if (cursor != null && !cursor.isClosed()) {
 	            cursor.close();
 			}
-			System.out.println("Latitude: "+ lat);
 			return lat;
 		}
 		return 0;
