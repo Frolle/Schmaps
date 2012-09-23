@@ -191,7 +191,13 @@ public class SearchSQL {
 		@Override
 		public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 			// TODO Auto-generated method stub
-			db.execSQL("DROP TABLE IF EXIST " + DATABASE_TABLE);
+			if (newVersion > oldVersion){
+				Log.e(TAG, "Database version higher than old.");
+				myContext.deleteDatabase(DATABASE_NAME);
+				try{
+				createDataBase();
+				}catch(IOException e){}
+			}
 			
 		}
 		
@@ -244,7 +250,14 @@ public class SearchSQL {
 	    	        { 
 	    	            throw new Error("Error Copying Database"); 
 	    	        } 
-	    	    } 
+	    	    }
+	    	 else{
+	    		 String myPath = DATABASE_PATH + DATABASE_NAME;
+	 	    	 SQLiteDatabase tempDB = SQLiteDatabase.openDatabase(myPath, null, SQLiteDatabase.OPEN_READONLY);
+	    		 int oldVersion = tempDB.getVersion();
+	    		 tempDB.close();
+	    		 onUpgrade(tempDB, oldVersion, DATABASE_VERSION);
+	    	 }
 	 
 	    }
 		
