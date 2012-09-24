@@ -4,6 +4,7 @@ package com.chalmers.schmaps;
 import java.util.List;
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
+import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
 import com.google.android.maps.Overlay;
 import com.google.android.maps.OverlayItem;
@@ -142,7 +143,12 @@ public class GoogleMapActivity extends MapActivity implements View.OnClickListen
 		search.openRead(); //öppnar databasen för läsafrån den
 		 if(search.exists(roomToFind)){
 			 GeoPoint gp = new GeoPoint(search.getLat(roomToFind),search.getLong(roomToFind)); //create a geopoint
+
+			 MapController mapcon = mapView.getController();
+			 mapcon.animateTo(gp);
+		     mapcon.setZoom(18); //zoom level
 			 OverlayItem over = new OverlayItem(gp, search.getAddress(roomToFind), search.getLevel(roomToFind)); //address and level is shown in the dialog
+			 
 			 search.close();
 			 overlay.removeOverlay();
 			 overlay.addOverlay(over);
