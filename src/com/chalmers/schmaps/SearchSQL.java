@@ -41,10 +41,10 @@ public class SearchSQL {
 	 */
 	public SearchSQL openRead(){
 		ourHelper = new MySQLiteOpenHelper(ourContext);
-		
-		
+		// Needs to be here
 		ourHelper.openDataBase();
 		ourHelper.close();
+		//-----------------------
 		ourDatabase = ourHelper.getReadableDatabase();
 		return this;
 	}
