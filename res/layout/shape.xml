@@ -6,5 +6,9 @@
                 android:bottom="1dp"/>
             <solid android:color="#B087ceeb"/>
             <stroke android:color="#FF000000"
-                	android:width="0.006dp" />
-</shape>
+                	android:width="0.006dp" />       
+    <selector>
+    <item android:state_pressed="true" android:color="#00FFFF" />
+   </selector>
+            
+ </shape>
