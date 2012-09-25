@@ -1,5 +1,6 @@
 package com.chalmers.schmaps;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
@@ -10,6 +11,7 @@ import android.widget.Button;
 
 public class MenuActivity extends Activity implements View.OnClickListener {
 	Button searchHall;
+	Button groupRoom;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -19,6 +21,8 @@ public class MenuActivity extends Activity implements View.OnClickListener {
 
     private void assignInstances() {
         searchHall = (Button) findViewById(R.id.hButton);
+        groupRoom = (Button) findViewById(R.id.gButton);
+        groupRoom.setOnClickListener(this);
         searchHall.setOnClickListener(this);
 		
 	}
@@ -33,6 +37,13 @@ public class MenuActivity extends Activity implements View.OnClickListener {
 
 		if(v==searchHall){  
 			searchHall.getBackground().setColorFilter(new LightingColorFilter(0x000000, 0x4682b4)); //graphics for the button
+		}
+		if(v==groupRoom){
+			 groupRoom.getBackground().setColorFilter(new LightingColorFilter(0x000000, 0x4682b4)); //graphics for the button
+			 Uri uri = Uri.parse("https://web.timeedit.se/chalmers_se/db1/b1/");
+			 Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+			 startActivity(intent);
+			
 		}
 
 		Intent startMapActivity = new Intent("android.intent.action.GOOGLEMAPACTIVITY");
