@@ -48,7 +48,7 @@ public class GoogleMapActivity extends MapActivity implements View.OnClickListen
 		mapView.setSatellite(false);
 
 		mapOverlays = mapView.getOverlays();
-		Drawable drawable = this.getResources().getDrawable(R.drawable.ic_launcher); 
+		Drawable drawable = this.getResources().getDrawable(R.drawable.flag); 
 		overlay = new MapItemizedOverlay(drawable, this);
 	
 		assignInstances();
