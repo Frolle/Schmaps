@@ -25,7 +25,7 @@ public class SearchSQL {
 	private static final String DATABASE_NAME = "SchmapsDB"; //namnet på vår databas
 	private static final String DATABASE_TABLE = "Salar"; //namnet på vår tabell (kan ha flera tabeller)
 	private static String DATABASE_PATH = "";
-	private static final int DATABASE_VERSION = 1;
+	private static final int DATABASE_VERSION = 2;
 	
 	private MySQLiteOpenHelper ourHelper;
 	private final Context ourContext;
