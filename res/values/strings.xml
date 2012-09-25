@@ -1,7 +1,7 @@
 <resources>
 
     <string name="app_name">Schmaps</string>
-    <string name="hello_world">Hello world!</string>
+    <string name="edit_button">Enter</string>
     <string name="menu_settings">Settings</string>
     <string name="title_activity_startup">Schmaps</string>
     <string name="title_activity_menu">MenuActivity</string>
