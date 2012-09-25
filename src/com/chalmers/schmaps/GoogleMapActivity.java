@@ -4,6 +4,7 @@ package com.chalmers.schmaps;
 import java.util.List;
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
+import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
 import com.google.android.maps.Overlay;
 import com.google.android.maps.OverlayItem;
@@ -14,6 +15,7 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.app.Dialog;
 import android.content.Context;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
@@ -21,6 +23,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 public class GoogleMapActivity extends MapActivity implements View.OnClickListener {
+	
+	private static String TAG = "GoogleMapActivity";
 	
 	private Button editButton;
     private EditText lectureEdit;
@@ -32,6 +36,7 @@ public class GoogleMapActivity extends MapActivity implements View.OnClickListen
 	private MapItemizedOverlay overlay;
 	private String roomToFind;
 	private MapView mapView;
+	private SearchSQL search;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -43,15 +48,12 @@ public class GoogleMapActivity extends MapActivity implements View.OnClickListen
 		mapView.setSatellite(false);
 
 		mapOverlays = mapView.getOverlays();
-		Drawable drawable = this.getResources().getDrawable(R.drawable.ic_launcher); 
+		Drawable drawable = this.getResources().getDrawable(R.drawable.dot); 
 		overlay = new MapItemizedOverlay(drawable, this);
-
-		SearchSQL search = new SearchSQL(GoogleMapActivity.this);
-		search.openWrite(); //öppnar databasen för att skriva i den, denna kodsnutt ska inte vara här sen!
-		search.createEntry();
-		search.close(); 
-		
+	
 		assignInstances();
+		
+		
 
 		location_manager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
 		location_listener = new LocationListener(){
@@ -85,6 +87,9 @@ public class GoogleMapActivity extends MapActivity implements View.OnClickListen
 
 			}	
 		};
+		
+		search = new SearchSQL(GoogleMapActivity.this);
+		search.createDatabase();
 
 	}
 
@@ -122,8 +127,7 @@ public class GoogleMapActivity extends MapActivity implements View.OnClickListen
 			//print("Couldn't use the GPS: " + e + ", " + e.getMessage());
 		}
 	}
- 
-
+	
     private void assignInstances() {
         editButton = (Button) findViewById(R.id.edittextbutton);
         lectureEdit = (EditText) findViewById(R.id.edittextlecture);
@@ -134,14 +138,18 @@ public class GoogleMapActivity extends MapActivity implements View.OnClickListen
 		roomToFind = lectureEdit.getText().toString();
 		roomToFind.toLowerCase().trim(); //removes white signs and converts to lower case
 		roomToFind = roomToFind.replaceAll("[^a-zA-Z0-9]+",""); //Removes illegal characters to prevent sql injection
-		SearchSQL search = new SearchSQL(GoogleMapActivity.this);
 		search.openRead(); //öppnar databasen för läsafrån den
 		 if(search.exists(roomToFind)){
 			 GeoPoint gp = new GeoPoint(search.getLat(roomToFind),search.getLong(roomToFind)); //create a geopoint
+
+			 MapController mapcon = mapView.getController();
+			 mapcon.animateTo(gp);
+		     mapcon.setZoom(18); //zoom level
 			 OverlayItem over = new OverlayItem(gp, search.getAddress(roomToFind), search.getLevel(roomToFind)); //address and level is shown in the dialog
+			 
 			 search.close();
-			 overlay.addOverlay(over);
 			 overlay.removeOverlay();
+			 overlay.addOverlay(over);
 			 mapOverlays.add(overlay);
 			 mapView.postInvalidate();
 			 }
