@@ -1,6 +1,9 @@
 package com.chalmers.schmaps;
 
 import java.io.*;
+import java.util.List;
+
+import com.google.android.maps.GeoPoint;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -24,6 +27,7 @@ public class SearchSQL {
 	private static String TAG = "SearchSQL";
 	private static final String DATABASE_NAME = "SchmapsDB"; //namnet på vår databas
 	private static final String DATABASE_TABLE = "Salar"; //namnet på vår tabell (kan ha flera tabeller)
+	private static final String DB_MICROWAVETABLE = "Microwaves"; //Name of our microwave table
 	private static String DATABASE_PATH = "";
 	private static final int DATABASE_VERSION = 2;
 	
@@ -64,9 +68,10 @@ public class SearchSQL {
 	}
 	
 	/********************
-	 * 
-	 * @param query
-	 * @return
+	 * Checks the database if it contains the query from the user. It checks if the cursor
+	 * returns any rows from the ID, if it doesn't the entry does not exist.
+	 * @param query - a string with the entry from the user.
+	 * @return boolean - to determine if the entry exists or not.
 	 * 
 	 *******************/
 	public boolean exists(String query)
@@ -167,6 +172,13 @@ public class SearchSQL {
 			return level;
 		}
 		return null;
+	}
+	
+	public List<GeoPoint> getGeopointLocations(String tableName)
+	{
+		Cursor cursor = ourDatabase.rawQuery("select * from " + tableName, null)
+		return null;
+		
 	}
 	
 	private static class MySQLiteOpenHelper extends SQLiteOpenHelper{
