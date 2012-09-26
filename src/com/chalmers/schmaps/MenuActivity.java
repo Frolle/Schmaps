@@ -1,14 +1,26 @@
 package com.chalmers.schmaps;
 
 import android.os.Bundle;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.LightingColorFilter;
+import android.support.v4.view.ViewCompatJB;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 
 public class MenuActivity extends Activity implements View.OnClickListener {
+	private static final int MICROWAVEBUTTON = 1;
+	private static final int RESTAURANTBUTTON = 2;
+	private static final int ATMBUTTON = 3;
+	private static final int LECTUREHALLBUTTON = 4;
+	private static final int BOOKINGKEY = 5;
+	private static final int BUSKEY = 6;
+
+
+
+
 	Button searchHall;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -18,7 +30,7 @@ public class MenuActivity extends Activity implements View.OnClickListener {
 	}
 
 	private void assignInstances() {
-		searchHall = (Button) findViewById(R.id.hButton);
+		searchHall = (Button) findViewById(R.id.searchHallButton);
 		searchHall.setOnClickListener(this);
 
 	}
@@ -31,11 +43,17 @@ public class MenuActivity extends Activity implements View.OnClickListener {
 
 	public void onClick(View v) {
 
-		if(v==searchHall){
+		switch(v.getId()){
+		
+		case R.id.searchHallButton:
 			searchHall.getBackground().setColorFilter(new LightingColorFilter(0x000000, 0x4682b4)); //graphics for the button
+			Intent startMapActivity = new Intent("android.intent.action.GOOGLEMAPACTIVITY");
+			startActivity(startMapActivity);	
+			break;
+		
+		case R.id.microwaveButton:
+			searchHall.getBackground().setColorFilter(new LightingColorFilter(0x000000, 0x4682b4)); //graphics for the button
+			
 		}
-
-		Intent startMapActivity = new Intent("android.intent.action.GOOGLEMAPACTIVITY");
-		startActivity(startMapActivity);	
 	}
 }
