@@ -1,9 +1,11 @@
 package com.chalmers.schmaps;
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.google.android.maps.GeoPoint;
+import com.google.android.maps.OverlayItem;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -25,12 +27,18 @@ public class SearchSQL {
 	public static final String KEY_LEVEL = "level";
 	
 	private static String TAG = "SearchSQL";
+	
 	private static final String DATABASE_NAME = "SchmapsDB"; //namnet på vår databas
 	private static final String DATABASE_TABLE = "Salar"; //namnet på vår tabell (kan ha flera tabeller)
 	private static final String DB_MICROWAVETABLE = "Microwaves"; //Name of our microwave table
+	
 	private static String DATABASE_PATH = "";
 	private static final int DATABASE_VERSION = 2;
 	
+	private static final int MICROWAVETABLE = 1;
+	private static final int RESTAURANTTABLE = 2;
+	private static final int ATMTABLE = 3;
+
 	private MySQLiteOpenHelper ourHelper;
 	private final Context ourContext;
 	private SQLiteDatabase ourDatabase;
@@ -174,11 +182,31 @@ public class SearchSQL {
 		return null;
 	}
 	
-	public List<GeoPoint> getGeopointLocations(String tableName)
+	/**
+	 * Method that returns an overlay item of geopoints according to what type of places the user
+	 * requests.
+	 * @param tableName - defines what table that should be searched.
+	 * @return List of geopoints for drawing them on the map.
+	 */
+	public ArrayList<OverlayItem> getLocations(int tableName)
 	{
-		Cursor cursor = ourDatabase.rawQuery("select * from " + tableName, null)
+		ArrayList<OverlayItem> locationList = new ArrayList<OverlayItem>();
+		switch (tableName) {
+		case MICROWAVETABLE:
+			Cursor cursor = ourDatabase.rawQuery("select * from " + DB_MICROWAVETABLE, null);
+			cursor.moveToFirst();
+			while(!cursor.isAfterLast())
+			{
+				GeoPoint gp = new GeoPoint(cursor.getInt(2), cursor.getInt(3));
+				System.out.println(cursor.getInt(2));
+				OverlayItem item = new OverlayItem(gp, cursor.getString(4), cursor.getString(5));
+				locationList.add(item);
+				cursor.moveToNext();
+			}
+			cursor.close();
+			return locationList;
+		}
 		return null;
-		
 	}
 	
 	private static class MySQLiteOpenHelper extends SQLiteOpenHelper{
