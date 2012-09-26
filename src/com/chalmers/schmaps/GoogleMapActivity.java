@@ -1,6 +1,7 @@
 package com.chalmers.schmaps;
 
 
+import java.util.ArrayList;
 import java.util.List;
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
@@ -24,7 +25,13 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 public class GoogleMapActivity extends MapActivity implements View.OnClickListener {
-	
+	private static final int MICROWAVEBUTTON = 1;
+	private static final int RESTAURANTBUTTON = 2;
+	private static final int ATMBUTTON = 3;
+	private static final int LECTUREHALLBUTTON = 4;
+	private static final int BOOKINGKEY = 5;
+	private static final int BUSKEY = 6;
+
 	private static String TAG = "GoogleMapActivity";
 	
 	private Button editButton;
@@ -44,48 +51,39 @@ public class GoogleMapActivity extends MapActivity implements View.OnClickListen
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		Bundle setView = getIntent().getExtras();
-		if(setView.getBoolean("Show searchfield"))
+		switch(setView.getInt("Show searchfield")){
+		case LECTUREHALLBUTTON:
 			setContentView(R.layout.activity_map); 
-		else
+			assignInstances();
+	        editButton = (Button) findViewById(R.id.edittextbutton);
+	        lectureEdit = (EditText) findViewById(R.id.edittextlecture);
+	        editButton.setOnClickListener(this);
+	        break;
+		
+		case MICROWAVEBUTTON:
 			setContentView(R.layout.activity_strippedmap);
-		assignInstances();
+			assignInstances();
+			drawLocationList(MICROWAVEBUTTON);
+			break;
+		}
 		
-		location_manager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
-		location_listener = new LocationListener(){
 
-			public void onLocationChanged(Location location) { //metod som hämtar din position genom att anropa onResume
+	}
 
-				/*
-				int longitude = (int) (location.getLongitude() * 1E6);
-				int latitude = (int) (location.getLatitude() * 1E6);
 
-				GeoPoint point = new GeoPoint(latitude, longitude);
-				OverlayItem overlayitem = new OverlayItem(point, "Hola, Mundo!", "I'm in Mexico City!");
-				overlay.addOverlay(overlayitem);
-				mapOverlays.add(overlay);
-				 */
+	private void drawLocationList(int table) {
+		search.openRead();
+		ArrayList<OverlayItem> locationList = search.getLocations(table);
+		search.close();
+		overlay.removeOverlay();
+		for(OverlayItem item : locationList)
+		{
+			overlay.addOverlay(item);
+			mapOverlays.add(overlay);
 
-			}
-
-			public void onProviderDisabled(String provider) {
-				// TODO Auto-generated method stub
-
-			}
-
-			public void onProviderEnabled(String provider) {
-				// TODO Auto-generated method stub
-
-			}
-
-			public void onStatusChanged(String provider, int status,
-					Bundle extras) {
-
-			}	
-		};
+		}
+		mapView.postInvalidate();
 		
-		search = new SearchSQL(GoogleMapActivity.this);
-		search.createDatabase();
-
 	}
 
 
@@ -124,17 +122,49 @@ public class GoogleMapActivity extends MapActivity implements View.OnClickListen
 	}
 	
     private void assignInstances() {
-        editButton = (Button) findViewById(R.id.edittextbutton);
-        lectureEdit = (EditText) findViewById(R.id.edittextlecture);
-        editButton.setOnClickListener(this);
+
 		mapView = (MapView) findViewById(R.id.mapview);
 		mapView.setBuiltInZoomControls(true);
 		mapView.setSatellite(false);
 		mapOverlays = mapView.getOverlays();
 		Drawable drawable = this.getResources().getDrawable(R.drawable.dot); 
 		overlay = new MapItemizedOverlay(drawable, this);
-	
+		
+		location_manager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+		location_listener = new LocationListener(){
 
+			public void onLocationChanged(Location location) { //metod som hämtar din position genom att anropa onResume
+
+				/*
+				int longitude = (int) (location.getLongitude() * 1E6);
+				int latitude = (int) (location.getLatitude() * 1E6);
+
+				GeoPoint point = new GeoPoint(latitude, longitude);
+				OverlayItem overlayitem = new OverlayItem(point, "Hola, Mundo!", "I'm in Mexico City!");
+				overlay.addOverlay(overlayitem);
+				mapOverlays.add(overlay);
+				 */
+
+			}
+
+			public void onProviderDisabled(String provider) {
+				// TODO Auto-generated method stub
+
+			}
+
+			public void onProviderEnabled(String provider) {
+				// TODO Auto-generated method stub
+
+			}
+
+			public void onStatusChanged(String provider, int status,
+					Bundle extras) {
+
+			}	
+		};
+		Log.e(TAG, "LOL?!");
+		search = new SearchSQL(GoogleMapActivity.this);
+		search.createDatabase();
 	}
 
 		public void onClick(View v) {
