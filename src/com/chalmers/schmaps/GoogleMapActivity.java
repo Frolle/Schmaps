@@ -18,6 +18,7 @@ import android.content.Context;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -41,20 +42,14 @@ public class GoogleMapActivity extends MapActivity implements View.OnClickListen
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
-		setContentView(R.layout.activity_map); 
-		mapView = (MapView) findViewById(R.id.mapview);
-		mapView.setBuiltInZoomControls(true);
-		mapView.setSatellite(false);
-
-		mapOverlays = mapView.getOverlays();
-		Drawable drawable = this.getResources().getDrawable(R.drawable.dot); 
-		overlay = new MapItemizedOverlay(drawable, this);
-	
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
+		Bundle setView = getIntent().getExtras();
+		if(setView.getBoolean("Show searchfield"))
+			setContentView(R.layout.activity_map); 
+		else
+			setContentView(R.layout.activity_strippedmap);
 		assignInstances();
 		
-		
-
 		location_manager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
 		location_listener = new LocationListener(){
 
@@ -132,6 +127,14 @@ public class GoogleMapActivity extends MapActivity implements View.OnClickListen
         editButton = (Button) findViewById(R.id.edittextbutton);
         lectureEdit = (EditText) findViewById(R.id.edittextlecture);
         editButton.setOnClickListener(this);
+		mapView = (MapView) findViewById(R.id.mapview);
+		mapView.setBuiltInZoomControls(true);
+		mapView.setSatellite(false);
+		mapOverlays = mapView.getOverlays();
+		Drawable drawable = this.getResources().getDrawable(R.drawable.dot); 
+		overlay = new MapItemizedOverlay(drawable, this);
+	
+
 	}
 
 		public void onClick(View v) {
