@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.LightingColorFilter;
-import android.support.v4.view.ViewCompatJB;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
@@ -18,10 +17,9 @@ public class MenuActivity extends Activity implements View.OnClickListener {
 	private static final int BOOKINGKEY = 5;
 	private static final int BUSKEY = 6;
 
-
-
-
-	Button searchHall;
+	private Intent startMapActivity;
+	private Button searchHall;
+	private Button microwaveButton;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -32,7 +30,8 @@ public class MenuActivity extends Activity implements View.OnClickListener {
 	private void assignInstances() {
 		searchHall = (Button) findViewById(R.id.searchHallButton);
 		searchHall.setOnClickListener(this);
-
+		microwaveButton = (Button) findViewById(R.id.microwaveButton);
+		microwaveButton.setOnClickListener(this);
 	}
 
 	@Override
@@ -41,19 +40,27 @@ public class MenuActivity extends Activity implements View.OnClickListener {
 		return true;
 	}
 
+	/**
+	 * onClick method for determining which activity will start through the use of view ID's and
+	 * a switch case to start correct activity with correct variables.
+	 */
 	public void onClick(View v) {
 
 		switch(v.getId()){
 		
 		case R.id.searchHallButton:
 			searchHall.getBackground().setColorFilter(new LightingColorFilter(0x000000, 0x4682b4)); //graphics for the button
-			Intent startMapActivity = new Intent("android.intent.action.GOOGLEMAPACTIVITY");
+			startMapActivity = new Intent("android.intent.action.GOOGLEMAPACTIVITY");
+			startMapActivity.putExtra("Show searchfield", true);
 			startActivity(startMapActivity);	
 			break;
 		
 		case R.id.microwaveButton:
 			searchHall.getBackground().setColorFilter(new LightingColorFilter(0x000000, 0x4682b4)); //graphics for the button
-			
+			startMapActivity = new Intent("android.intent.action.GOOGLEMAPACTIVITY");
+			startMapActivity.putExtra("Show searchfield", false);
+			startActivity(startMapActivity);	
+
 		}
 	}
 }
