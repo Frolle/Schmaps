@@ -51,7 +51,9 @@ public class GoogleMapActivity extends MapActivity implements View.OnClickListen
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		Bundle setView = getIntent().getExtras();
+		
 		switch(setView.getInt("Show searchfield")){
+		
 		case LECTUREHALLBUTTON:
 			setContentView(R.layout.activity_map); 
 			assignInstances();
