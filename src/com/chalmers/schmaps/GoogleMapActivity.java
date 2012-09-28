@@ -32,6 +32,10 @@ public class GoogleMapActivity extends MapActivity implements View.OnClickListen
 	private static final int BOOKINGKEY = 5;
 	private static final int BUSKEY = 6;
 
+	private static final String DATABASE_NAME = "SchmapsDB"; //namnet på vår databas
+	private static final String DATABASE_TABLE = "Salar"; //namnet på vår tabell (kan ha flera tabeller)
+	private static final String DB_MICROWAVETABLE = "Microwaves"; //Name of our microwave table
+	
 	private static String TAG = "GoogleMapActivity";
 	
 	private Button editButton;
@@ -63,7 +67,7 @@ public class GoogleMapActivity extends MapActivity implements View.OnClickListen
 		case MICROWAVEBUTTON:
 			setContentView(R.layout.activity_strippedmap);
 			assignInstances();
-			drawLocationList(MICROWAVEBUTTON);
+			drawLocationList(DB_MICROWAVETABLE);
 			break;
 		}
 		
@@ -74,7 +78,7 @@ public class GoogleMapActivity extends MapActivity implements View.OnClickListen
  * Draws locations (overlayitems) from specified table
  * @param table
  */
-	private void drawLocationList(int table) {
+	private void drawLocationList(String table) {
 		search.openRead();
 		ArrayList<OverlayItem> locationList = search.getLocations(table);
 		search.close();
