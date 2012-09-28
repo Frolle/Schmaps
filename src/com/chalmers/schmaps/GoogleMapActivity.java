@@ -70,7 +70,10 @@ public class GoogleMapActivity extends MapActivity implements View.OnClickListen
 
 	}
 
-
+/**
+ * Draws locations (overlayitems) from specified table
+ * @param table
+ */
 	private void drawLocationList(int table) {
 		search.openRead();
 		ArrayList<OverlayItem> locationList = search.getLocations(table);
