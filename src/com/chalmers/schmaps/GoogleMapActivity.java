@@ -171,7 +171,6 @@ public class GoogleMapActivity extends MapActivity implements View.OnClickListen
 
 			}	
 		};
-		Log.e(TAG, "LOL?!");
 		search = new SearchSQL(GoogleMapActivity.this);
 		search.createDatabase();
 	}
@@ -183,7 +182,7 @@ public class GoogleMapActivity extends MapActivity implements View.OnClickListen
 		search.openRead(); //öppnar databasen för läsafrån den
 		 if(search.exists(roomToFind)){
 			 GeoPoint gp = new GeoPoint(search.getLat(roomToFind),search.getLong(roomToFind)); //create a geopoint
-
+			 
 			 MapController mapcon = mapView.getController();
 			 mapcon.animateTo(gp);
 		     mapcon.setZoom(18); //zoom level
