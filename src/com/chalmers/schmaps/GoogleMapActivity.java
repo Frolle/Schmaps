@@ -8,13 +8,23 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.json.JSONTokener;
+
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
 import com.google.android.maps.Overlay;
 import com.google.android.maps.OverlayItem;
+import com.google.android.maps.Projection;
+
+import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 import android.location.Criteria;
 import android.location.Location;
@@ -51,6 +61,7 @@ public class GoogleMapActivity extends MapActivity implements View.OnClickListen
 	private Location location;
 	private int longitude;
 	private int latitude;
+	private JSONObject jsonObject;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -72,7 +83,7 @@ public class GoogleMapActivity extends MapActivity implements View.OnClickListen
 		criteria = new Criteria(); //deafult criteria
 		bestProvider = location_manager.getBestProvider(criteria, false); //best reception
 		location = location_manager.getLastKnownLocation(bestProvider);
-		
+
 		if(location != null){
 			longitude = (int) (location.getLongitude()*1E6);
 			latitude = (int) (location.getLatitude()*1E6);
@@ -184,20 +195,90 @@ public class GoogleMapActivity extends MapActivity implements View.OnClickListen
 			dialog.show();
 
 		}
-		
+
+		jsonObject = null;
 		DownloadWebPageTask task = new DownloadWebPageTask();
-	    task.execute(new String[] {});
+		task.execute(new String[] {});
+		Log.e(TAG, "ute");
+
+		while(jsonObject == null){
+			try {
+				Thread.sleep(500);
+			} catch (InterruptedException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+
+		}
+
+
+
+
+
+		try {
+			JSONArray routes = jsonObject.getJSONArray("routes");
+			JSONObject route = routes.getJSONObject(0);
+			// Take all legs from the route
+			JSONArray legs = route.getJSONArray("legs");
+			// Grab first leg
+			JSONObject leg = legs.getJSONObject(0);
+
+			JSONArray steps = leg.getJSONArray("steps");
+
+			JSONObject step,start_location,end_location;
+
+			int srcLat,srcLng,destLat,destLng;
+
+
+			int a = steps.length();
+
+			Integer i = a;
+			String s = i.toString();
+			Log.e(TAG, s);
+			
+			GeoPoint geo;
+			ArrayList<GeoPoint> geoList = new ArrayList<GeoPoint>();
+			
+			
+			for(int count = 1;count<steps.length();count++){
+				step = steps.getJSONObject(count);
+				if(count == 1){
+					start_location = step.getJSONObject("start_location");
+					srcLat = (int)(start_location.getDouble("lat")*1E6);
+					srcLng = (int)(start_location.getDouble("lng")*1E6);
+					geo = new GeoPoint(srcLat,srcLng);
+					geoList.add(0, geo);
+				}
+				end_location = step.getJSONObject("end_location");
+				destLat = (int)(end_location.getDouble("lat"));
+				destLng = (int)(end_location.getDouble("lng"));
+				geo = new GeoPoint(destLat,destLng);
+				geoList.add(count, geo);
+			}
+			PathOverlay pathOverlay = new PathOverlay(geoList);
+			Canvas canvas = new Canvas();
+			
+			mapOverlays.add(pathOverlay);
+			pathOverlay.draw(canvas, mapView, false);
+				
+
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 	}
-	
-	private class DownloadWebPageTask extends AsyncTask<String, Void, String> {
+
+	private class DownloadWebPageTask extends AsyncTask<String, Void, JSONObject> {
+		//http://www.vogella.com/articles/AndroidPerformance/article.html
 
 		@Override
-		protected String doInBackground(String... params) {
+		protected JSONObject doInBackground(String... params) {
 			// TODO Auto-generated method stub
 			StringBuilder urlString = new StringBuilder();
-			
+
 			urlString.append("http://maps.googleapis.com/maps/api/directions/json?origin=57.715431,11.999704&destination=57.714222,11.996904&sensor=false&avoid=highways&mode=walking");
-			
+
 			/*
 			urlString.append("http://maps.google.com/maps?f=d&hl=en");
 			urlString.append("&saddr=");
@@ -213,15 +294,15 @@ public class GoogleMapActivity extends MapActivity implements View.OnClickListen
 			InputStream is = null;
 			URL url = null;
 			HttpURLConnection urlConnection = null;
-			
-	        try {
+
+			try {
 				url = new URL(urlString.toString());
 				urlConnection = (HttpURLConnection) url.openConnection();
-		        urlConnection.setRequestMethod("GET");
-		        urlConnection.setDoOutput(true);
-		        urlConnection.setDoInput(true);
-		        is = urlConnection.getInputStream();
-		        urlConnection.connect();
+				urlConnection.setRequestMethod("GET");
+				urlConnection.setDoOutput(true);
+				urlConnection.setDoInput(true);
+				is = urlConnection.getInputStream();
+				urlConnection.connect();
 			} catch (MalformedURLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -229,25 +310,44 @@ public class GoogleMapActivity extends MapActivity implements View.OnClickListen
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-	        
-	        InputStreamReader inputStream = new InputStreamReader(is);
-	        BufferedReader r = new BufferedReader(inputStream);
-	        String line = null;
-	        try {
-				line = r.readLine();
-				while (line!=null){
-		            Log.i("RESULT", line);
-		            line = r.readLine();
-		        }
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+
+			InputStreamReader inputStream = new InputStreamReader(is);
+			BufferedReader r = new BufferedReader(inputStream);
+			String line = null;
+			StringBuilder response = new StringBuilder();
+			String jsonResponse = "";
+
+			Log.e(TAG, "och nu buffer");
+
+			try{
+				while((line = r.readLine()) != null){
+					response.append(line);
+				}
+				//Close the reader, stream & connection
+				r.close();
+				inputStream.close();
+				urlConnection.disconnect();
+				jsonResponse = response.toString();
+			}catch(Exception e) {
+				Log.e("Buffer Error", "Error converting result " + e.toString());
 			}
 
-			
-			return null;
+			Log.e(TAG, jsonResponse);
+
+			Log.e(TAG, "och nu json");
+
+			try{
+				Log.e(TAG, "hej");
+				jsonObject = new JSONObject(jsonResponse);
+				Log.e(TAG, "hej2");
+			}catch(JSONException e){
+
+			}
+			Log.e(TAG, "klar");
+			return jsonObject;
+
 		}
-		
+
 	}
 
 }
