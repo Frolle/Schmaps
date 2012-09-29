@@ -188,12 +188,10 @@ public class SearchSQL {
 	 * @param tableName - defines what table that should be searched.
 	 * @return List of geopoints for drawing them on the map.
 	 */
-	public ArrayList<OverlayItem> getLocations(int tableName)
+	public ArrayList<OverlayItem> getLocations(String tableName)
 	{
 		ArrayList<OverlayItem> locationList = new ArrayList<OverlayItem>();
-		switch (tableName) {
-		case MICROWAVETABLE:
-			Cursor cursor = ourDatabase.rawQuery("select * from " + DB_MICROWAVETABLE, null);
+			Cursor cursor = ourDatabase.rawQuery("select * from " + tableName, null);
 			cursor.moveToFirst();
 			while(!cursor.isAfterLast())
 			{
@@ -205,8 +203,24 @@ public class SearchSQL {
 			}
 			cursor.close();
 			return locationList;
-		}
-		return null;
+
+//		ArrayList<OverlayItem> locationList = new ArrayList<OverlayItem>();
+//		switch (tableName) {
+//		case MICROWAVETABLE:
+//			Cursor cursor = ourDatabase.rawQuery("select * from " + DB_MICROWAVETABLE, null);
+//			cursor.moveToFirst();
+//			while(!cursor.isAfterLast())
+//			{
+//				GeoPoint gp = new GeoPoint(cursor.getInt(2), cursor.getInt(3));
+//				System.out.println(cursor.getInt(2));
+//				OverlayItem item = new OverlayItem(gp, cursor.getString(4), cursor.getString(5));
+//				locationList.add(item);
+//				cursor.moveToNext();
+//			}
+//			cursor.close();
+//			return locationList;
+//		}
+//		return null;
 	}
 	
 	private static class MySQLiteOpenHelper extends SQLiteOpenHelper{
