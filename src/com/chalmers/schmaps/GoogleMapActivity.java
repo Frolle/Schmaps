@@ -14,7 +14,6 @@ import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.json.JSONTokener;
 
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
@@ -22,7 +21,6 @@ import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
 import com.google.android.maps.Overlay;
 import com.google.android.maps.OverlayItem;
-import com.google.android.maps.Projection;
 
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
@@ -32,7 +30,6 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.util.Log;
@@ -48,7 +45,7 @@ public class GoogleMapActivity extends MapActivity implements View.OnClickListen
 	private Button editButton;
 	private EditText lectureEdit;
 
-	private GeoPoint ourLocation;
+	private GeoPoint ourLocation, roomLocation;
 	private LocationManager location_manager;
 	private LocationListener location_listener;
 	private List<Overlay> mapOverlays;
@@ -62,6 +59,10 @@ public class GoogleMapActivity extends MapActivity implements View.OnClickListen
 	private int longitude;
 	private int latitude;
 	private JSONObject jsonObject;
+	private ArrayList<GeoPoint> getDir = new ArrayList<GeoPoint>();
+	private OverlayItem overlayitemStudent, overlayItemRoom;
+	private Drawable room, student;
+	private MapController mapcon;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -72,10 +73,10 @@ public class GoogleMapActivity extends MapActivity implements View.OnClickListen
 		mapView.setBuiltInZoomControls(true);
 
 		mapOverlays = mapView.getOverlays();
-		Drawable drawable = this.getResources().getDrawable(R.drawable.dot); 
-		Drawable drawable2 = this.getResources().getDrawable(R.drawable.tomte);
-		overlay = new MapItemizedOverlay(drawable, this);
-		overlay2 = new MapItemizedOverlay(drawable2, this);
+		room = this.getResources().getDrawable(R.drawable.dot); 
+		student = this.getResources().getDrawable(R.drawable.tomte);
+		overlay = new MapItemizedOverlay(room, this);
+		overlay2 = new MapItemizedOverlay(student, this);
 
 		assignInstances();
 
@@ -87,23 +88,31 @@ public class GoogleMapActivity extends MapActivity implements View.OnClickListen
 		if(location != null){
 			longitude = (int) (location.getLongitude()*1E6);
 			latitude = (int) (location.getLatitude()*1E6);
-
+			
 			ourLocation = new GeoPoint(latitude, longitude);
-			OverlayItem overlayitem = new OverlayItem(ourLocation, "Your position", "I'm in Mexico City!");
-			overlay2.addOverlay(overlayitem);
+			getDir.add(0,ourLocation);
+			mapcon = mapView.getController();
+			mapcon.animateTo(ourLocation);
+			mapcon.setZoom(18); //zoom level
+			overlayitemStudent = new OverlayItem(ourLocation, "Your position", "I'm in Mexico City!");
+			overlay2.addOverlay(overlayitemStudent);
 			mapOverlays.add(overlay2);
 		}
 
 
 
 		location_listener = new LocationListener(){
-
-			public void onLocationChanged(Location loc) { //metod som hämtar din position genom att anropa onResume		
+			public void onLocationChanged(Location loc) { //gets your curent position by calling onResume		
 				longitude = (int) (location.getLongitude()*1E6);
 				latitude = (int) (location.getLatitude()*1E6);
 
 				ourLocation = new GeoPoint(latitude, longitude);
-				OverlayItem overlayitem = new OverlayItem(ourLocation, "Your position", "I'm in Mexico City!");
+				getDir.add(0,ourLocation);
+				mapcon = mapView.getController();
+				mapcon.animateTo(ourLocation);
+				mapcon.setZoom(18); //zoom level
+				
+				OverlayItem overlayitem = new OverlayItem(ourLocation, "Hey amigo", "This is your position!");
 				overlay2.addOverlay(overlayitem);
 				mapOverlays.add(overlay2);
 			}
@@ -144,14 +153,12 @@ public class GoogleMapActivity extends MapActivity implements View.OnClickListen
 
 	@Override
 	protected void onPause() {
-		// TODO Auto-generated method stub
 		super.onPause();
 		location_manager.removeUpdates(location_listener);
 	}
 
 	@Override
 	protected void onResume() {
-		// TODO Auto-generated method stub
 		super.onResume();
 		try {
 			// Register the listener with the Location Manager to receive
@@ -160,7 +167,6 @@ public class GoogleMapActivity extends MapActivity implements View.OnClickListen
 			location_manager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000, 10, location_listener);
 		}
 		catch (Exception e) {
-			//print("Couldn't use the GPS: " + e + ", " + e.getMessage());
 		}
 	}
 
@@ -174,18 +180,18 @@ public class GoogleMapActivity extends MapActivity implements View.OnClickListen
 		roomToFind = lectureEdit.getText().toString();
 		roomToFind.toLowerCase().trim(); //removes white signs and converts to lower case
 		roomToFind = roomToFind.replaceAll("[^a-öA-Ö0-9]+",""); //Removes illegal characters to prevent sql injection
-		search.openRead(); //öppnar databasen för läsafrån den
+		search.openRead(); //open database in read mode
 		if(search.exists(roomToFind)){
-			GeoPoint gp = new GeoPoint(search.getLat(roomToFind),search.getLong(roomToFind)); //create a geopoint
-
-			MapController mapcon = mapView.getController();
-			mapcon.animateTo(gp);
+			roomLocation = new GeoPoint(search.getLat(roomToFind),search.getLong(roomToFind)); //create a geopoint
+			getDir.add(1,roomLocation);
+			mapcon = mapView.getController();
+			mapcon.animateTo(roomLocation);
 			mapcon.setZoom(18); //zoom level
-			OverlayItem over = new OverlayItem(gp, search.getAddress(roomToFind), search.getLevel(roomToFind)); //address and level is shown in the dialog
+			overlayItemRoom = new OverlayItem(roomLocation, search.getAddress(roomToFind), search.getLevel(roomToFind)); //address and level is shown in the dialog
 
 			search.close();
 			overlay.removeOverlay();
-			overlay.addOverlay(over);
+			overlay.addOverlay(overlayItemRoom);
 			mapOverlays.add(overlay);
 			mapView.postInvalidate();
 		}else{
@@ -195,10 +201,14 @@ public class GoogleMapActivity extends MapActivity implements View.OnClickListen
 			dialog.show();
 
 		}
-
+		/*
 		jsonObject = null;
-		DownloadWebPageTask task = new DownloadWebPageTask();
-		task.execute(new String[] {});
+		
+		
+		
+		
+		GetDirections directions = new GetDirections();
+		directions.execute();
 		Log.e(TAG, "ute");
 
 		while(jsonObject == null){
@@ -212,7 +222,7 @@ public class GoogleMapActivity extends MapActivity implements View.OnClickListen
 		}
 
 
-
+		
 
 
 		try {
@@ -229,16 +239,8 @@ public class GoogleMapActivity extends MapActivity implements View.OnClickListen
 
 			int srcLat,srcLng,destLat,destLng;
 
-
-			int a = steps.length();
-
-			Integer i = a;
-			String s = i.toString();
-			Log.e(TAG, s);
-			
 			GeoPoint geo;
 			ArrayList<GeoPoint> geoList = new ArrayList<GeoPoint>();
-			
 			
 			for(int count = 1;count<steps.length();count++){
 				step = steps.getJSONObject(count);
@@ -250,8 +252,8 @@ public class GoogleMapActivity extends MapActivity implements View.OnClickListen
 					geoList.add(0, geo);
 				}
 				end_location = step.getJSONObject("end_location");
-				destLat = (int)(end_location.getDouble("lat"));
-				destLng = (int)(end_location.getDouble("lng"));
+				destLat = (int)(end_location.getDouble("lat")*1E6);
+				destLng = (int)(end_location.getDouble("lng")*1E6);
 				geo = new GeoPoint(destLat,destLng);
 				geoList.add(count, geo);
 			}
@@ -266,35 +268,44 @@ public class GoogleMapActivity extends MapActivity implements View.OnClickListen
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
+	*/
 	}
 
-	private class DownloadWebPageTask extends AsyncTask<String, Void, JSONObject> {
-		//http://www.vogella.com/articles/AndroidPerformance/article.html
+	
+	private class GetDirections extends AsyncTask<Void, Void, JSONObject> {
+		/** this class creates a new thread 
+		 * 	inspired by
+		 *  http://www.vogella.com/articles/AndroidPerformance/article.html
+		 */
+		
 
 		@Override
-		protected JSONObject doInBackground(String... params) {
-			// TODO Auto-generated method stub
-			StringBuilder urlString = new StringBuilder();
-
-			urlString.append("http://maps.googleapis.com/maps/api/directions/json?origin=57.715431,11.999704&destination=57.714222,11.996904&sensor=false&avoid=highways&mode=walking");
-
-			/*
-			urlString.append("http://maps.google.com/maps?f=d&hl=en");
-			urlString.append("&saddr=");
-			urlString.append(Double.toString((double) src.getLatitudeE6() / 1.0E6));
-			urlString.append(",");
-			urlString.append(Double.toString((double) src.getLongitudeE6() / 1.0E6));
-			urlString.append("&daddr=");// to
-			urlString.append(Double.toString((double) dest.getLatitudeE6() / 1.0E6));
-			urlString.append(",");
-			urlString.append(Double.toString((double) dest.getLongitudeE6() / 1.0E6));
-			urlString.append("&ie=UTF8&0&om=0&output=kml"); 
+		protected JSONObject doInBackground(Void... params) {
+			/** when called makes a request to google directions api (json format) 
+			 *  gets the response back
+			 *  convertes the response to a jsonobject
 			 */
+			StringBuilder urlString = new StringBuilder();
+			StringBuilder response = new StringBuilder();
 			InputStream is = null;
 			URL url = null;
 			HttpURLConnection urlConnection = null;
-
+			String line = null;
+			String jsonResponse = "";
+			
+			//Create a string with the right start and end possition
+			urlString.append("http://maps.googleapis.com/maps/api/directions/json?origin=");
+			urlString.append(Double.toString((double) getDir.get(0).getLatitudeE6() / 1.0E6)); //from, your position, latitude
+			urlString.append(",");
+			urlString.append(Double.toString((double) getDir.get(0).getLongitudeE6() / 1.0E6));//longitude
+			urlString.append("&destination=");// to, where you are goint
+			urlString.append(Double.toString((double) getDir.get(1).getLatitudeE6() / 1.0E6)); //latitude
+			urlString.append(",");
+			urlString.append(Double.toString((double) getDir.get(1).getLongitudeE6() / 1.0E6)); //ongitude
+			urlString.append("&sensor=false&avoid=highways&mode=walking"); //we want the walking directions
+			
+			
+			//establish a connection with google directions api
 			try {
 				url = new URL(urlString.toString());
 				urlConnection = (HttpURLConnection) url.openConnection();
@@ -311,43 +322,34 @@ public class GoogleMapActivity extends MapActivity implements View.OnClickListen
 				e.printStackTrace();
 			}
 
+			
 			InputStreamReader inputStream = new InputStreamReader(is);
-			BufferedReader r = new BufferedReader(inputStream);
-			String line = null;
-			StringBuilder response = new StringBuilder();
-			String jsonResponse = "";
+			BufferedReader reader = new BufferedReader(inputStream);
+			
 
-			Log.e(TAG, "och nu buffer");
-
+			//read from the buffer line by line and save in response (a stringbuider)
 			try{
-				while((line = r.readLine()) != null){
+				while((line = reader.readLine()) != null){
 					response.append(line);
 				}
 				//Close the reader, stream & connection
-				r.close();
+				reader.close();
 				inputStream.close();
 				urlConnection.disconnect();
-				jsonResponse = response.toString();
 			}catch(Exception e) {
 				Log.e("Buffer Error", "Error converting result " + e.toString());
 			}
 
+			jsonResponse = response.toString();
 			Log.e(TAG, jsonResponse);
-
-			Log.e(TAG, "och nu json");
-
+			
+			//convert string to jsonobject
 			try{
-				Log.e(TAG, "hej");
 				jsonObject = new JSONObject(jsonResponse);
-				Log.e(TAG, "hej2");
 			}catch(JSONException e){
 
 			}
-			Log.e(TAG, "klar");
 			return jsonObject;
-
 		}
-
 	}
-
 }
