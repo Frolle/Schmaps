@@ -31,6 +31,9 @@ public class GoogleMapActivity extends MapActivity implements View.OnClickListen
 	private static final int LECTUREHALLBUTTON = 4;
 	private static final int BOOKINGKEY = 5;
 	private static final int BUSKEY = 6;
+	private static final int JOHANNESBERG = 40;
+	private static final int LINDHOLMEN = 42;
+	
 
 	private static final String DATABASE_NAME = "SchmapsDB"; //namnet på vår databas
 	private static final String DATABASE_TABLE = "Salar"; //namnet på vår tabell (kan ha flera tabeller)
@@ -41,7 +44,7 @@ public class GoogleMapActivity extends MapActivity implements View.OnClickListen
 	private Button editButton;
     private EditText lectureEdit;
 	
-	
+    private MapController mapcon;
 	private LocationManager location_manager;
 	private LocationListener location_listener;
 	private List<Overlay> mapOverlays;
@@ -49,35 +52,75 @@ public class GoogleMapActivity extends MapActivity implements View.OnClickListen
 	private String roomToFind;
 	private MapView mapView;
 	private SearchSQL search;
-
+	private GeoPoint johannesbergLoc;
+	private GeoPoint lindholmenLoc;
 	@Override
 	/**
 	 * Method for determining on create how the mapview will be shown and assign the instances accordingly.
 	 */
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		requestWindowFeature(Window.FEATURE_NO_TITLE);
+		//requestWindowFeature(Window.FEATURE_NO_TITLE);
 		Bundle setView = getIntent().getExtras();
+		//First if-check to see what mapview should be drawn and assign variables accordingly.
+		if(setView.getBoolean("Show searchfield")){
 		
-		switch(setView.getInt("Show searchfield")){
-		
-		case LECTUREHALLBUTTON:
 			setContentView(R.layout.activity_map); 
 			assignInstances();
 	        editButton = (Button) findViewById(R.id.edittextbutton);
 	        lectureEdit = (EditText) findViewById(R.id.edittextlecture);
 	        editButton.setOnClickListener(this);
-	        break;
+		}		
 		
-		case MICROWAVEBUTTON:
-			setContentView(R.layout.activity_strippedmap);
-			assignInstances();
-			drawLocationList(DB_MICROWAVETABLE);
-			break;
-		}
-		
+	        else {
+    			setContentView(R.layout.activity_strippedmap);
+	    		assignInstances();
+    			//Second if-check to see if it's Lindholmen or Johannesberg campus
+//	        	switch(setView.getInt("Campus")){
+//	        	case JOHANNESBERG:
+//	        		mapcon.animateTo(johannesbergLoc);
+//	        		break;
+//	        	case LINDHOLMEN: 
+//	        		mapcon.animateTo(lindholmenLoc);
+//	        		break;
+//	        	}
+	        	//Switch case to determine what locations to be drawn on map
 
-	}
+	        	if(setView.getInt("Campus")==JOHANNESBERG)
+	        		mapcon.animateTo(johannesbergLoc);
+	        	else 
+	        		mapcon.animateTo(lindholmenLoc);
+	        	//Switch case to determine what locations to be drawn on map
+	        	switch(setView.getInt("Show locations")){
+	        	
+	        	case MICROWAVEBUTTON:
+	        		drawLocationList(DB_MICROWAVETABLE);
+	        		break;
+	        	}
+
+	        }
+		}
+
+		
+//		switch(setView.getInt("Show searchfield")){
+//		
+//		case LECTUREHALLBUTTON:
+//			setContentView(R.layout.activity_map); 
+//			assignInstances();
+//	        editButton = (Button) findViewById(R.id.edittextbutton);
+//	        lectureEdit = (EditText) findViewById(R.id.edittextlecture);
+//	        editButton.setOnClickListener(this);
+//	        break;
+//		
+//		case MICROWAVEBUTTON:
+//			setContentView(R.layout.activity_strippedmap);
+//			assignInstances();
+//			drawLocationList(DB_MICROWAVETABLE);
+//			break;
+//		}
+//		
+//
+//	}
 
 /**
  * Draws locations (overlayitems) from specified table
@@ -138,7 +181,10 @@ public class GoogleMapActivity extends MapActivity implements View.OnClickListen
 		mapView = (MapView) findViewById(R.id.mapview);
 		mapView.setBuiltInZoomControls(true);
 		mapView.setSatellite(false);
+		mapcon = mapView.getController();
 		mapOverlays = mapView.getOverlays();
+		lindholmenLoc = new GeoPoint(57706434, 11937214);
+		johannesbergLoc = new GeoPoint(57688678, 11977136);
 		Drawable drawable = this.getResources().getDrawable(R.drawable.dot); 
 		overlay = new MapItemizedOverlay(drawable, this);
 		
@@ -189,8 +235,6 @@ public class GoogleMapActivity extends MapActivity implements View.OnClickListen
 		search.openRead(); //öppnar databasen för läsafrån den
 		 if(search.exists(roomToFind)){
 			 GeoPoint gp = new GeoPoint(search.getLat(roomToFind),search.getLong(roomToFind)); //create a geopoint
-			 
-			 MapController mapcon = mapView.getController();
 			 mapcon.animateTo(gp);
 		     mapcon.setZoom(18); //zoom level
 			 OverlayItem over = new OverlayItem(gp, search.getAddress(roomToFind), search.getLevel(roomToFind)); //address and level is shown in the dialog
