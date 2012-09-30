@@ -51,6 +51,9 @@ public class GoogleMapActivity extends MapActivity implements View.OnClickListen
 	private SearchSQL search;
 
 	@Override
+	/**
+	 * Method for determining on create how the mapview will be shown and assign the instances accordingly.
+	 */
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -175,6 +178,10 @@ public class GoogleMapActivity extends MapActivity implements View.OnClickListen
 		search.createDatabase();
 	}
 
+    /**
+     * onClick method that takes the input from the user and queries the database with the input and draws
+     * and animate to the location if found.
+     */
 		public void onClick(View v) {
 		roomToFind = lectureEdit.getText().toString();
 		roomToFind.toLowerCase().trim(); //removes white signs and converts to lower case
