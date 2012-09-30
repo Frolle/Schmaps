@@ -8,10 +8,13 @@ import android.view.View;
 import android.widget.Button;
 
 public class CampusMenuActivity extends Activity implements View.OnClickListener {
-
+	private static final int JOHANNESBERG = 40;
+	private static final int LINDHOLMEN = 42;
+	
 	private Intent startMapActivity;
 	private Button johannesbergButton;
 	private Button lindholmenButton;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -32,17 +35,24 @@ public class CampusMenuActivity extends Activity implements View.OnClickListener
 		lindholmenButton = (Button) findViewById(R.id.lindholmenButton);
 		lindholmenButton.setOnClickListener(this);
 	}
+	
+	/**
+	 * Starts GoogleMapActivity with different parameters depending on what the user
+	 * entered.
+	 */
 	public void onClick(View arg0) {
 		switch (arg0.getId())
 		{
 		case R.id.johannesbergButton:
 			startMapActivity = new Intent("android.intent.action.GOOGLEMAPACTIVITY");
-			//startMapActivity.putExtra(name, value);
+			startMapActivity.putExtra("Show searchfield", false);
+			startMapActivity.putExtra("Campus", JOHANNESBERG);
 			startActivity(startMapActivity);
 			
 		case R.id.lindholmenButton:
 			startMapActivity = new Intent("android.intent.action.GOOGLEMAPACTIVITY");
-			//startMapActivity.putExtra(name, value);
+			startMapActivity.putExtra("Show searchfield", false);
+			startMapActivity.putExtra("Campus", LINDHOLMEN);
 			startActivity(startMapActivity);
 		}
 	}
