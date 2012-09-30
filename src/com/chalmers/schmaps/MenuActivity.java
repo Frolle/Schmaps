@@ -58,6 +58,7 @@ public class MenuActivity extends Activity implements View.OnClickListener {
 		case R.id.microwaveButton:
 			microwaveButton.getBackground().setColorFilter(new LightingColorFilter(0x000000, 0x4682b4)); //graphics for the button
 			startMapActivity = new Intent("android.intent.action.CAMPUSMENUACTIVITY");
+			startMapActivity.putExtra("Show locations", MICROWAVEBUTTON);
 			startActivity(startMapActivity);	
 
 		}
