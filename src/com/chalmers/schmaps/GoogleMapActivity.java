@@ -58,6 +58,22 @@ public class GoogleMapActivity extends MapActivity implements View.OnClickListen
 		else if(mapFlag == false){			//if flag == false, show a map without a searchfield
 			setContentView(R.layout.activity_map_nofield); 
 			mapView = (MapView) findViewById(R.id.mapview2);
+			if(s == "Johanneberg"){			//if it's Johanneberg...
+				i = bundle.getInt("Johanneberg");
+				switch (i) {
+				case '1':					//draw the restuarants in Johanneberg
+					
+					break;
+				}
+			}
+			else {
+				i = bundle.getInt("Lindholmen");
+				switch(i){
+				case '1':					//draw the restaurants in Lindholmen
+				
+					break;
+				}
+			}
 
 		}
 		
