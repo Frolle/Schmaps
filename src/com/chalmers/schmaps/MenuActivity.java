@@ -44,6 +44,7 @@ public class MenuActivity extends Activity implements View.OnClickListener {
 		if(v==searchHall){  
 			searchHall.getBackground().setColorFilter(new LightingColorFilter(0x000000, 0x4682b4)); //graphics for the button
 			Intent startMapActivity = new Intent("android.intent.action.GOOGLEMAPACTIVITY");
+			startMapActivity.putExtra("Map", true); //setting flag to know that the activity_map.xml should be run.
 			startActivity(startMapActivity);
 		}
 		
@@ -51,7 +52,7 @@ public class MenuActivity extends Activity implements View.OnClickListener {
 		else if(v==findRestaurants){
 			findRestaurants.getBackground().setColorFilter(new LightingColorFilter(0x000000, 0x4682b4));
 			Intent campusMenu= new Intent("android.intent.action.CAMPUSMENUACTIVITY");
-			campusMenu.putExtra("Search", RESTAURANTS);
+			campusMenu.putExtra("Search", RESTAURANTS);	//Setting an id which the next Activity can use.
 			startActivity(campusMenu);
 			
 		}
