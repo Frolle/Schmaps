@@ -12,6 +12,10 @@ import android.widget.Button;
 public class MenuActivity extends Activity implements View.OnClickListener {
 	Button searchHall;
 	Button groupRoom;
+	Button findRestaurants;
+	public static final int RESTAURANTS = 1 ;
+	
+	
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,6 +26,8 @@ public class MenuActivity extends Activity implements View.OnClickListener {
     private void assignInstances() {
         searchHall = (Button) findViewById(R.id.hButton);
         groupRoom = (Button) findViewById(R.id.gButton);
+        findRestaurants = (Button) findViewById(R.id.fButton);
+        findRestaurants.setOnClickListener(this);
         groupRoom.setOnClickListener(this);
         searchHall.setOnClickListener(this);
 		
@@ -37,16 +43,18 @@ public class MenuActivity extends Activity implements View.OnClickListener {
 
 		if(v==searchHall){  
 			searchHall.getBackground().setColorFilter(new LightingColorFilter(0x000000, 0x4682b4)); //graphics for the button
+			Intent startMapActivity = new Intent("android.intent.action.GOOGLEMAPACTIVITY");
+			startActivity(startMapActivity);
 		}
-		if(v==groupRoom){
-			 groupRoom.getBackground().setColorFilter(new LightingColorFilter(0x000000, 0x4682b4)); //graphics for the button
-			 Uri uri = Uri.parse("https://web.timeedit.se/chalmers_se/db1/b1/");
-			 Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-			 startActivity(intent);
+		
+		
+		else if(v==findRestaurants){
+			findRestaurants.getBackground().setColorFilter(new LightingColorFilter(0x000000, 0x4682b4));
+			Intent campusMenu= new Intent("android.intent.action.CAMPUSMENUACTIVITY");
+			campusMenu.putExtra("Search", RESTAURANTS);
+			startActivity(campusMenu);
 			
 		}
 
-		Intent startMapActivity = new Intent("android.intent.action.GOOGLEMAPACTIVITY");
-		startActivity(startMapActivity);		
 	}
 }

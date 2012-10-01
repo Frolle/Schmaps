@@ -23,6 +23,8 @@ public class SearchSQL {
 	
 	private static String TAG = "SearchSQL";
 	private static final String DATABASE_NAME = "SchmapsDB"; //namnet på vår databas
+	private static final String LRESTAURANT_TABLE ="Lindholmen_Restaurants"; // Lindholmen restaurants table
+	private static final String JRESTAURANT_TABLE ="Johanneberg_Restaurants"; // Johanneberg restaurants table
 	private static final String DATABASE_TABLE = "Salar"; //namnet på vår tabell (kan ha flera tabeller)
 	private static String DATABASE_PATH = "";
 	private static final int DATABASE_VERSION = 1;
@@ -180,6 +182,7 @@ public class SearchSQL {
 			this.myContext = context;
 			// TODO Auto-generated constructor stub
 		}
+		
 
 		@Override
 		public void onCreate(SQLiteDatabase db) {
