@@ -37,16 +37,32 @@ public class GoogleMapActivity extends MapActivity implements View.OnClickListen
 	private String roomToFind;
 	private MapView mapView;
 	private SearchSQL search;
+	
+	public Bundle bundle;
+	private int i;
+	private String s;
+	private boolean mapFlag;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		bundle = getIntent().getExtras();	//Getting eventual extra data transferred from another activity
+		mapFlag = bundle.getBoolean("Map");	//Getting the boolean from the "Map"-extras
+		s = bundle.getString("Campus");
 
-		setContentView(R.layout.activity_map); 
-		mapView = (MapView) findViewById(R.id.mapview);
+		if(mapFlag == true){				//if flag == true, show a map with a searchfield
+			setContentView(R.layout.activity_map); 
+			mapView = (MapView) findViewById(R.id.mapview);
+
+		}
+		else if(mapFlag == false){			//if flag == false, show a map without a searchfield
+			setContentView(R.layout.activity_map_nofield); 
+			mapView = (MapView) findViewById(R.id.mapview2);
+
+		}
+		
 		mapView.setBuiltInZoomControls(true);
 		mapView.setSatellite(false);
-
 		mapOverlays = mapView.getOverlays();
 		Drawable drawable = this.getResources().getDrawable(R.drawable.dot); 
 		overlay = new MapItemizedOverlay(drawable, this);
