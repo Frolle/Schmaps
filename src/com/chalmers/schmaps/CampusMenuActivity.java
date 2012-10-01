@@ -14,6 +14,7 @@ public class CampusMenuActivity extends Activity implements View.OnClickListener
 	private Intent startMapActivity;
 	private Button johannesbergButton;
 	private Button lindholmenButton;
+	private Bundle menuActionChosen;
 
 
     @Override
@@ -34,6 +35,7 @@ public class CampusMenuActivity extends Activity implements View.OnClickListener
 		johannesbergButton.setOnClickListener(this);
 		lindholmenButton = (Button) findViewById(R.id.lindholmenButton);
 		lindholmenButton.setOnClickListener(this);
+		menuActionChosen = getIntent().getExtras();
 	}
 	
 	/**
@@ -47,13 +49,19 @@ public class CampusMenuActivity extends Activity implements View.OnClickListener
 			startMapActivity = new Intent("android.intent.action.GOOGLEMAPACTIVITY");
 			startMapActivity.putExtra("Show searchfield", false);
 			startMapActivity.putExtra("Campus", JOHANNESBERG);
+			//Transfer what kind of locations should be drawn
+			startMapActivity.putExtra("Show locations", menuActionChosen.getInt("Show locations"));
 			startActivity(startMapActivity);
+			break;
 			
 		case R.id.lindholmenButton:
 			startMapActivity = new Intent("android.intent.action.GOOGLEMAPACTIVITY");
 			startMapActivity.putExtra("Show searchfield", false);
 			startMapActivity.putExtra("Campus", LINDHOLMEN);
+			//Transfer what kind of locations should be drawn
+			startMapActivity.putExtra("Show locations", menuActionChosen.getInt("Show locations"));
 			startActivity(startMapActivity);
+			break;
 		}
 	}
 }

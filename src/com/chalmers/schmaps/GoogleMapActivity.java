@@ -64,7 +64,6 @@ public class GoogleMapActivity extends MapActivity implements View.OnClickListen
 		Bundle setView = getIntent().getExtras();
 		//First if-check to see what mapview should be drawn and assign variables accordingly.
 		if(setView.getBoolean("Show searchfield")){
-		
 			setContentView(R.layout.activity_map); 
 			assignInstances();
 	        editButton = (Button) findViewById(R.id.edittextbutton);
@@ -76,21 +75,11 @@ public class GoogleMapActivity extends MapActivity implements View.OnClickListen
     			setContentView(R.layout.activity_strippedmap);
 	    		assignInstances();
     			//Second if-check to see if it's Lindholmen or Johannesberg campus
-//	        	switch(setView.getInt("Campus")){
-//	        	case JOHANNESBERG:
-//	        		mapcon.animateTo(johannesbergLoc);
-//	        		break;
-//	        	case LINDHOLMEN: 
-//	        		mapcon.animateTo(lindholmenLoc);
-//	        		break;
-//	        	}
-	        	//Switch case to determine what locations to be drawn on map
-
 	        	if(setView.getInt("Campus")==JOHANNESBERG)
 	        		mapcon.animateTo(johannesbergLoc);
 	        	else 
 	        		mapcon.animateTo(lindholmenLoc);
-	        	//Switch case to determine what locations to be drawn on map
+	        	//Switch case to determine what series of locations to be drawn on map
 	        	switch(setView.getInt("Show locations")){
 	        	
 	        	case MICROWAVEBUTTON:
@@ -158,6 +147,7 @@ public class GoogleMapActivity extends MapActivity implements View.OnClickListen
 	protected void onPause() {
 		// TODO Auto-generated method stub
 		super.onPause();
+		finish();
 		location_manager.removeUpdates(location_listener);
 	}
 
