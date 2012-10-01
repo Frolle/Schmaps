@@ -11,12 +11,10 @@ public class CampusMenu extends Activity implements View.OnClickListener{
 	
 	Button jberg;
 	Button lholmen;
-	SearchSQL sql;
 	Bundle b; 
 	int i;
+	Intent intent;
 	
-	public static final int JOHANNEBERG = 1;
-	public static final int LINDHOLMEN = 2;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -26,6 +24,7 @@ public class CampusMenu extends Activity implements View.OnClickListener{
     }
 
     private void assignInstances() {   	
+    	intent = new Intent("android.intent.action.GOOGLEMAPACTIVITY");
     	b = getIntent().getExtras();
     	i = b.getInt("Search");
     	jberg =(Button) findViewById(R.id.jButton);
@@ -40,14 +39,18 @@ public class CampusMenu extends Activity implements View.OnClickListener{
 		
 		if(v == jberg){
 			jberg.getBackground().setColorFilter(new LightingColorFilter(0x000000, 0x4682b4));
+			intent.putExtra("Johanneberg", i);
+			
+			
 			
 		}
-		if(v==lholmen){
+		else if(v==lholmen){
 			lholmen.getBackground().setColorFilter(new LightingColorFilter(0x000000, 0x4682b4));
+			intent.putExtra("Lindholmen", i);
 			
 		}
-		Intent startMapActivity = new Intent("android.intent.action.GOOGLEMAPACTIVITY");
-		startActivity(startMapActivity);
+		intent.putExtra("Map", false);
+		startActivity(intent);
 		
 	}
 	
