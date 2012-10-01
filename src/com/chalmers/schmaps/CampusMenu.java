@@ -9,11 +9,11 @@ import android.widget.Button;
 
 public class CampusMenu extends Activity implements View.OnClickListener{
 	
-	Button jberg;
-	Button lholmen;
-	Bundle b; 
-	int i;
-	Intent intent;
+	private Button jberg;
+	private Button lholmen;
+	public Bundle b; 
+	private int i;
+	private Intent intent;
 	
 
     @Override
@@ -25,8 +25,8 @@ public class CampusMenu extends Activity implements View.OnClickListener{
 
     private void assignInstances() {   	
     	intent = new Intent("android.intent.action.GOOGLEMAPACTIVITY");
-    	b = getIntent().getExtras();
-    	i = b.getInt("Search");
+    	b = getIntent().getExtras();	//Get the extra info from the MenuActivity
+    	i = b.getInt("Search");	//get the button-id from the MenuActivity
     	jberg =(Button) findViewById(R.id.jButton);
     	lholmen =(Button) findViewById(R.id.lButton);   
         jberg.setOnClickListener(this);
@@ -39,17 +39,19 @@ public class CampusMenu extends Activity implements View.OnClickListener{
 		
 		if(v == jberg){
 			jberg.getBackground().setColorFilter(new LightingColorFilter(0x000000, 0x4682b4));
-			intent.putExtra("Johanneberg", i);
+			intent.putExtra("Campus", "Johanneberg");
+			intent.putExtra("Johanneberg", i);	//send "Johanneberg" + button-id to create the correct map later on in the GoogleMapActivity
 			
 			
 			
 		}
 		else if(v==lholmen){
 			lholmen.getBackground().setColorFilter(new LightingColorFilter(0x000000, 0x4682b4));
+			intent.putExtra("Campus", "Lindholmen");
 			intent.putExtra("Lindholmen", i);
 			
 		}
-		intent.putExtra("Map", false);
+		intent.putExtra("Map", false); //Setting a boolean for use in GoogleMapActivity
 		startActivity(intent);
 		
 	}
