@@ -56,7 +56,8 @@ public class GoogleMapActivity extends MapActivity implements View.OnClickListen
 	private GeoPoint lindholmenLoc;
 	@Override
 	/**
-	 * Method for determining on create how the mapview will be shown and assign the instances accordingly.
+	 * Method for determining on creation how the map view will be shown, what locations should be drawn
+	 * and assign the instances accordingly.
 	 */
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -112,8 +113,8 @@ public class GoogleMapActivity extends MapActivity implements View.OnClickListen
 //	}
 
 /**
- * Draws locations (overlayitems) from specified table
- * @param table
+ * Draws locations (overlayitems) from specified table.
+ * @param table - table containing the locations to be drawn.
  */
 	private void drawLocationList(String table) {
 		search.openRead();
@@ -166,6 +167,9 @@ public class GoogleMapActivity extends MapActivity implements View.OnClickListen
 		}
 	}
 	
+	/**
+	 * Simple method to assign all instance variables and initiate the settings for map view.
+	 */
     private void assignInstances() {
 
 		mapView = (MapView) findViewById(R.id.mapview);
