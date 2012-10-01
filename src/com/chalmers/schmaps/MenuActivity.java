@@ -60,7 +60,7 @@ public class MenuActivity extends Activity implements View.OnClickListener {
 			startMapActivity = new Intent("android.intent.action.CAMPUSMENUACTIVITY");
 			startMapActivity.putExtra("Show locations", MICROWAVEBUTTON);
 			startActivity(startMapActivity);
-			break;
+			
 
 		}
 	}
