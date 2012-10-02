@@ -1,15 +1,20 @@
 package com.chalmers.schmaps;
 
+import android.R.color;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.LightingColorFilter;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 
 public class MenuActivity extends Activity implements View.OnClickListener {
-	Button searchHall;
+	
+	public static int ATM = 1;
+	
+	Button searchHall,groupRoom,atmButton;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -18,8 +23,12 @@ public class MenuActivity extends Activity implements View.OnClickListener {
 	}
 
 	private void assignInstances() {
-		searchHall = (Button) findViewById(R.id.hButton);
+		searchHall = (Button) findViewById(R.id.hallButton);
 		searchHall.setOnClickListener(this);
+		groupRoom = (Button) findViewById(R.id.groupRoomButton);
+		groupRoom.setOnClickListener(this);
+		atmButton = (Button) findViewById(R.id.atmButton);
+		atmButton.setOnClickListener(this);
 
 	}
 
@@ -30,12 +39,29 @@ public class MenuActivity extends Activity implements View.OnClickListener {
 	}
 
 	public void onClick(View v) {
+		switch(v.getId()){
+		case R.id.hallButton:
+		
+			searchHall.setBackgroundColor(Color.DKGRAY); //change button color when button is clicked
+			Intent startMapActivity = new Intent("android.intent.action.GOOGLEMAPACTIVITY");
+			startActivity(startMapActivity);	
+			break;
+						
+		case R.id.groupRoomButton:
+			groupRoom.setBackgroundColor(Color.DKGRAY); //change button color when button is clicked
+			//Start the group room activity
+			Intent startGroupRoomActivity = new Intent(this,GroupRoomActivity.class);
+			startActivity(startGroupRoomActivity);	
+			break;
 
-		if(v==searchHall){
-			searchHall.getBackground().setColorFilter(new LightingColorFilter(0x000000, 0x4682b4)); //graphics for the button
+		case R.id.atmButton:
+			atmButton.setBackgroundColor(Color.DKGRAY); //change button color when button is clicked
+			//Start the group room activity
+			Intent startAtm = new Intent(this,GoogleMapActivity.class);
+			startAtm.putExtra(null, 1);
+			startActivity(startAtm);	
+			break;
 		}
-
-		Intent startMapActivity = new Intent("android.intent.action.GOOGLEMAPACTIVITY");
-		startActivity(startMapActivity);	
 	}
+	
 }

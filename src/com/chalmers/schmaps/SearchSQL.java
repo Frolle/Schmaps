@@ -1,6 +1,11 @@
 package com.chalmers.schmaps;
 
 import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.google.android.maps.GeoPoint;
+import com.google.android.maps.OverlayItem;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -24,6 +29,7 @@ public class SearchSQL {
 	private static String TAG = "SearchSQL";
 	private static final String DATABASE_NAME = "SchmapsDB"; //namnet på vår databas
 	private static final String DATABASE_TABLE = "Salar"; //namnet på vår tabell (kan ha flera tabeller)
+	private static final String DATABASE_ATMTABLE = "Bankomater";
 	private static String DATABASE_PATH = "";
 	private static final int DATABASE_VERSION = 2;
 	
@@ -168,6 +174,43 @@ public class SearchSQL {
 		}
 		return null;
 	}
+	// Getting tables from database(atm for example)
+    public List<OverlayItem> getAllContacts() {
+        List<OverlayItem> list = new ArrayList<OverlayItem>();
+        // Select All Query
+        String selectQuery = "SELECT  * FROM " + DATABASE_ATMTABLE;
+ 
+        SQLiteDatabase db = this.ourDatabase;
+        Cursor cursor = db.rawQuery(selectQuery, null);
+ 
+        // looping through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            do {
+                String title = cursor.getString(cursor
+                        .getColumnIndex("title"));
+                String description = cursor.getString(cursor
+                        .getColumnIndex("description"));
+                int latitude = (int) (cursor.getDouble(cursor
+                        .getColumnIndex("latitude")) * 1E6);
+                int longitude = (int) (cursor.getDouble(cursor
+                        .getColumnIndex("longitude")) * 1E6);
+
+                list.add(new OverlayItem(new GeoPoint(latitude, longitude), title,
+                        description));
+                /*
+                 Cursor cursor = db1.query(TABLE_NAME, FROM, null, null, null, null,
+            ORDER_BY);
+    Double lat = cursor.getDouble(2);
+    Double lon = cursor.getDouble(1);
+    cursor.moveToNext();
+    overlay.addGeoPoint( new GeoPoint( (int)(lat*1E6),  (int)(lon*1E6)));
+                 */
+            } while (cursor.moveToNext());
+        }
+ 
+        // return list
+        return list;
+    }
 	
 	private static class MySQLiteOpenHelper extends SQLiteOpenHelper{
 

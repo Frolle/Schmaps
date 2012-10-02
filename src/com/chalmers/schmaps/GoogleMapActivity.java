@@ -26,7 +26,7 @@ public class GoogleMapActivity extends MapActivity implements View.OnClickListen
 	
 	private static String TAG = "GoogleMapActivity";
 	
-	private Button editButton;
+	private Button editButton,atmButton;
     private EditText lectureEdit;
 	
 	
@@ -135,10 +135,11 @@ public class GoogleMapActivity extends MapActivity implements View.OnClickListen
 	}
 
 		public void onClick(View v) {
-		roomToFind = lectureEdit.getText().toString();
-		roomToFind.toLowerCase().trim(); //removes white signs and converts to lower case
-		roomToFind = roomToFind.replaceAll("[^a-zA-Z0-9]+",""); //Removes illegal characters to prevent sql injection
-		search.openRead(); //öppnar databasen för läsafrån den
+			roomToFind = lectureEdit.getText().toString();
+			roomToFind.toLowerCase().trim(); //removes white signs and converts to lower case
+			roomToFind = roomToFind.replaceAll("[^a-zA-Z0-9]+",""); //Removes illegal characters to prevent sql injection
+			search.openRead(); //öppnar databasen för läsafrån den
+			
 		 if(search.exists(roomToFind)){
 			 GeoPoint gp = new GeoPoint(search.getLat(roomToFind),search.getLong(roomToFind)); //create a geopoint
 
@@ -152,6 +153,6 @@ public class GoogleMapActivity extends MapActivity implements View.OnClickListen
 			 overlay.addOverlay(over);
 			 mapOverlays.add(overlay);
 			 mapView.postInvalidate();
-			 }
+	     }
 		}
 }
