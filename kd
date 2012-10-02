@@ -1,0 +1,151 @@
+[33md517b19[m HEAD@{0}: reset: moving to HEAD~1
+[33mcdba540[m HEAD@{1}: reset: moving to HEAD~1
+[33m82bdafa[m HEAD@{2}: reset: moving to HEAD^
+[33m488dfae[m HEAD@{3}: commit: Removed old class
+[33m82bdafa[m HEAD@{4}: commit: Removed unnecessary comments
+[33mcdba540[m HEAD@{5}: commit: Parted old activity into two new ones, this one is for showing locations on map
+[33md517b19[m HEAD@{6}: commit: Tried fixing test function again
+[33m8dccc2a[m HEAD@{7}: commit: Erased unnecessary comments and changed method to be more general
+[33me6105cc[m HEAD@{8}: commit: Added title for new activitiy
+[33m435be8a[m HEAD@{9}: commit: Refactorizing, parting googlemapactivity into two, added new activity in manifest
+[33meb872b3[m HEAD@{10}: checkout: moving from master to microwavelocations
+[33m1cf1051[m HEAD@{11}: pull origin master: Fast-forward
+[33m6841487[m HEAD@{12}: checkout: moving from microwavelocations to master
+[33meb872b3[m HEAD@{13}: commit: Hopefully fixed the testing
+[33m8b76544[m HEAD@{14}: commit: Added files for JUnit testing
+[33m26322ab[m HEAD@{15}: commit: Fixed an error with switch case
+[33m4662a22[m HEAD@{16}: checkout: moving from master to microwavelocations
+[33m6841487[m HEAD@{17}: checkout: moving from microwavelocations to master
+[33m4662a22[m HEAD@{18}: commit: Trying to create a testclass
+[33m3280b2c[m HEAD@{19}: commit: Added some comments to comment-less methods
+[33m85f1eb3[m HEAD@{20}: commit: Mistake, not needed
+[33m5459cf7[m HEAD@{21}: commit: Fixed so that mapactivity animates correctly to positions accordingly to what user selected
+[33m5d3b352[m HEAD@{22}: commit: Trying to do in onCreate method a switch case to animate to correct coordinates pending on previous choices in menus and drawing right locations
+[33mac67eb8[m HEAD@{23}: commit: Added putextra method for additional information
+[33md36e9aa[m HEAD@{24}: commit: Changed to fullscreen of activity
+[33md093b4e[m HEAD@{25}: commit: Changed so that the extra info to next activity is a boolean for better optimizing
+[33m364ddb3[m HEAD@{26}: commit: Added switch case arguments pending on what campus user chooses
+[33m3ed915f[m HEAD@{27}: reset: moving to 3ed915f806
+[33m9f3b280[m HEAD@{28}: commit: lol
+[33m45cbb48[m HEAD@{29}: commit: Fixed correct settings for CampusMenuActivity
+[33mfaea10e[m HEAD@{30}: commit: Removed unnecessary log-calls and formatted the code
+[33mc01081d[m HEAD@{31}: commit: Added new menu to select microwave locations for Johannesberg or Lindholmen
+[33m53eeb0a[m HEAD@{32}: pull origin microwavelocations: Merge made by the 'recursive' strategy.
+[33m11f70db[m HEAD@{33}: checkout: moving from master to microwavelocations
+[33m6841487[m HEAD@{34}: pull origin master: Merge made by the 'recursive' strategy.
+[33m28b1bb4[m HEAD@{35}: commit: Requirements for the app
+[33md462580[m HEAD@{36}: checkout: moving from microwavelocations to master
+[33m11f70db[m HEAD@{37}: pull origin microwavelocations: Merge made by the 'recursive' strategy.
+[33mbf7eb00[m HEAD@{38}: commit: Lolpwnage
+[33m1c8743c[m HEAD@{39}: commit: Added keys for table referencing and added a method for getting several entries/locations from database
+[33m7cd542f[m HEAD@{40}: commit: Added key variables, switch case onClick method to determine which layout to be drawn, changed variable names to more explanatory ones
+[33m73c3630[m HEAD@{41}: commit: Added switch case to determine which layout to display, function to draw multiple overlay items, fixed the assignInstances method, added key variables.
+[33m42016f9[m HEAD@{42}: commit: Fixed the buttons so they appear and animate correctly
+[33mfac144c[m HEAD@{43}: commit: Added new table with microwave locations
+[33mc0213bb[m HEAD@{44}: commit: Layout for views that not use search field
+[33m45608e0[m HEAD@{45}: commit: Fixed so it starts one view depending on which button is clicked
+[33mf213862[m HEAD@{46}: commit: Added javadoc comments
+[33m72c7375[m HEAD@{47}: commit: Added static variables for referencing to tables and started on return list-method
+[33md8ca52d[m HEAD@{48}: commit: Added static variables for referencing and a switch case for onClick method
+[33m3da1cce[m HEAD@{49}: commit: Added button and changed id names to more explanatory ones
+[33md462580[m HEAD@{50}: checkout: moving from master to microwavelocations
+[33md462580[m HEAD@{51}: pull origin master: Fast-forward
+[33m21536d8[m HEAD@{52}: pull origin master: Fast-forward
+[33m7f004bc[m HEAD@{53}: commit (merge): Merged from MapActivity
+[33m34dc1a1[m HEAD@{54}: checkout: moving from MapActivity to master
+[33mbf2fdf8[m HEAD@{55}: commit (merge): Merged from database branch
+[33m135f8a0[m HEAD@{56}: checkout: moving from mapactivity to MapActivity
+[33m135f8a0[m HEAD@{57}: checkout: moving from database to mapactivity
+[33ma52565c[m HEAD@{58}: pull origin database: Merge made by the 'recursive' strategy.
+[33mfd9f982[m HEAD@{59}: commit: Deleted not used java class
+[33maf71ff5[m HEAD@{60}: pull origin: Fast-forward
+[33m9389689[m HEAD@{61}: pull origin database: Fast-forward
+[33m1c15f70[m HEAD@{62}: pull origin database: Fast-forward
+[33m856d7a6[m HEAD@{63}: pull origin database: Fast-forward
+[33m1446c6c[m HEAD@{64}: checkout: moving from master to database
+[33m34dc1a1[m HEAD@{65}: pull origin master: Fast-forward
+[33m9b30f8b[m HEAD@{66}: checkout: moving from MapActivity to master
+[33m135f8a0[m HEAD@{67}: pull origin MapActivity: Merge made by the 'recursive' strategy.
+[33me4a02b4[m HEAD@{68}: checkout: moving from master to MapActivity
+[33m9b30f8b[m HEAD@{69}: checkout: moving from MapActivity to master
+[33me4a02b4[m HEAD@{70}: commit: A little formatting and added some comments
+[33mfb4ec71[m HEAD@{71}: commit: Fixed so that old marker is removed from view
+[33m5ff713d[m HEAD@{72}: reset: moving to 5ff713dbf9
+[33md837c35[m HEAD@{73}: commit: Fixed so that the old marker is removed
+[33mf3dc1b6[m HEAD@{74}: commit: Transferred logo into all DPI categories
+[33m2e6ab41[m HEAD@{75}: commit: Fixed so that it does not crashes with non-existing entry
+[33mc10f109[m HEAD@{76}: commit: Changed so that geopos shows instantly
+[33m148da4d[m HEAD@{77}: pull origin MapActivity: Merge made by the 'recursive' strategy.
+[33m3c3347f[m HEAD@{78}: checkout: moving from master to MapActivity
+[33m9b30f8b[m HEAD@{79}: checkout: moving from MapActivity to master
+[33m3c3347f[m HEAD@{80}: pull origin MapActivity: Merge made by the 'recursive' strategy.
+[33maf8719f[m HEAD@{81}: checkout: moving from master to MapActivity
+[33m9b30f8b[m HEAD@{82}: checkout: moving from MapActivity to master
+[33maf8719f[m HEAD@{83}: commit: Rows changed
+[33m33091aa[m HEAD@{84}: commit: Fixed so that the database entries works for everyone
+[33m41f4239[m HEAD@{85}: pull origin MapActivity: Fast-forward
+[33mbe2f745[m HEAD@{86}: pull origin MapActivity: Fast-forward
+[33mdc28510[m HEAD@{87}: commit: Fixed layout with google maps and correct properties
+[33md36d7bd[m HEAD@{88}: commit (merge): Fixed git errors
+[33mea5e298[m HEAD@{89}: commit: Fixed layout with google maps as background
+[33m200dbb8[m HEAD@{90}: pull origin MapActivity: Merge made by the 'recursive' strategy.
+[33me5160fd[m HEAD@{91}: commit: Changed XML to only display google
+[33m1a61888[m HEAD@{92}: commit: Discarded code not in use
+[33mecdce92[m HEAD@{93}: commit: Removed unnecessary class
+[33mdfdeb89[m HEAD@{94}: commit: Fixed full screen on activities
+[33mfa6db3b[m HEAD@{95}: commit: Removed title bar from activities
+[33maa32ba2[m HEAD@{96}: commit: Fixed name of intent
+[33m490773d[m HEAD@{97}: commit: Refactored name of MapActivity so correct class can be inherited
+[33mf1d1497[m HEAD@{98}: commit: Fixed classname and variables
+[33m3fbaa98[m HEAD@{99}: commit: Fixed variable names and properties according to google standard
+[33m13f4a5d[m HEAD@{100}: pull origin MapActivity: Merge made by the 'recursive' strategy.
+[33mc40a033[m HEAD@{101}: checkout: moving from master to MapActivity
+[33m9b30f8b[m HEAD@{102}: commit: Added Emma's layout to menu
+[33m957e34d[m HEAD@{103}: checkout: moving from MapActivity to master
+[33mc40a033[m HEAD@{104}: checkout: moving from master to MapActivity
+[33m957e34d[m HEAD@{105}: reset: moving to 957e34ddd3
+[33m2f19071[m HEAD@{106}: pull origin master: Fast-forward
+[33m957e34d[m HEAD@{107}: checkout: moving from MapActivity to master
+[33mc40a033[m HEAD@{108}: commit: Changed layout to Emma's layout
+[33m9f88311[m HEAD@{109}: commit: Fixed all the errors that git-merging caused
+[33m258a798[m HEAD@{110}: checkout: moving from master to MapActivity
+[33m957e34d[m HEAD@{111}: checkout: moving from MapActivity to master
+[33m258a798[m HEAD@{112}: checkout: moving from master to MapActivity
+[33m957e34d[m HEAD@{113}: checkout: moving from MapActivity to master
+[33m258a798[m HEAD@{114}: pull origin MapActivity: Fast-forward
+[33m2f19071[m HEAD@{115}: pull origin master: Fast-forward
+[33m957e34d[m HEAD@{116}: reset: moving to 957e34ddd3
+[33m8bce997[m HEAD@{117}: pull origin MapActivity: Merge made by the 'recursive' strategy.
+[33m01bb124[m HEAD@{118}: checkout: moving from master to MapActivity
+[33m957e34d[m HEAD@{119}: checkout: moving from MapActivity to master
+[33m01bb124[m HEAD@{120}: commit: test
+[33mc729229[m HEAD@{121}: commit: Emulated a database returning values related to keys
+[33mafa2730[m HEAD@{122}: commit: Fixed the layout of edittext and button
+[33m2d50596[m HEAD@{123}: checkout: moving from master to MapActivity
+[33m957e34d[m HEAD@{124}: checkout: moving from MapActivity to master
+[33m2d50596[m HEAD@{125}: commit: Added a button to enter text from EditText
+[33m5538688[m HEAD@{126}: commit: Added some preliminary code for checking strings on edit text
+[33m140d638[m HEAD@{127}: commit: Added an EditText for writing lecture halls
+[33m957e34d[m HEAD@{128}: checkout: moving from master to MapActivity
+[33m957e34d[m HEAD@{129}: checkout: moving from MapActivity to master
+[33m957e34d[m HEAD@{130}: checkout: moving from MapActibity to MapActivity
+[33m957e34d[m HEAD@{131}: checkout: moving from master to MapActibity
+[33m957e34d[m HEAD@{132}: checkout: moving from MapActivity to master
+[33m8c19b27[m HEAD@{133}: checkout: moving from master to MapActivity
+[33m957e34d[m HEAD@{134}: commit: Added files for MapActivity
+[33mb9c126f[m HEAD@{135}: commit: Added intent to start mapactivity when button is clicked
+[33mcca58ae[m HEAD@{136}: commit: Added mapactivity and adjustments for integrating it
+[33m8c19b27[m HEAD@{137}: checkout: moving from MapActivity to master
+[33m8c19b27[m HEAD@{138}: checkout: moving from master to MapActivity
+[33m8c19b27[m HEAD@{139}: checkout: moving from MenuActivity to master
+[33m35de0a3[m HEAD@{140}: commit: Small errors fixed
+[33m1d9df21[m HEAD@{141}: commit: Added input/output streams for file reading/writing
+[33m8c19b27[m HEAD@{142}: checkout: moving from master to MenuActivity
+[33m8c19b27[m HEAD@{143}: pull origin master: Fast-forward
+[33m6cd2927[m HEAD@{144}: pull origin master: Fast-forward
+[33m91cd4f3[m HEAD@{145}: checkout: moving from menu_activity to master
+[33m91cd4f3[m HEAD@{146}: checkout: moving from master to menu_activity
+[33m91cd4f3[m HEAD@{147}: commit: Added project description
+[33m4cd677e[m HEAD@{148}: pull origin master: Fast-forward
+[33mb48cdb3[m HEAD@{149}: pull origin master: Merge made by the 'recursive' strategy.
+[33ma8ac4c4[m HEAD@{150}: commit (initial): First commit, initialized project

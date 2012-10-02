@@ -51,7 +51,6 @@ public class MenuActivity extends Activity implements View.OnClickListener {
 		case R.id.searchHallButton:
 			searchHall.getBackground().setColorFilter(new LightingColorFilter(0x000000, 0x4682b4)); //graphics for the button
 			startMapActivity = new Intent("android.intent.action.GOOGLEMAPACTIVITY");
-			startMapActivity.putExtra("Show searchfield", true);
 			startActivity(startMapActivity);	
 			break;
 		
@@ -60,7 +59,6 @@ public class MenuActivity extends Activity implements View.OnClickListener {
 			startMapActivity = new Intent("android.intent.action.CAMPUSMENUACTIVITY");
 			startMapActivity.putExtra("Show locations", MICROWAVEBUTTON);
 			startActivity(startMapActivity);
-			
 
 		}
 	}
