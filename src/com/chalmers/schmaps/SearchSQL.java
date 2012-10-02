@@ -104,7 +104,6 @@ public class SearchSQL {
 		Cursor cursor = ourDatabase.query(DATABASE_TABLE, columns, KEY_ROOM + " LIKE ?" , new String [] { "%" + query + "%"}, null, null, null);
 		
 		if(cursor != null){
-			Log.e(TAG, "inside if Lat");
 			cursor.moveToFirst();
 			int lat = cursor.getInt(2);
 			if (cursor != null && !cursor.isClosed()) {
@@ -127,7 +126,6 @@ public class SearchSQL {
 		Cursor cursor = ourDatabase.query(DATABASE_TABLE, columns, KEY_ROOM + " LIKE ?" , new String [] { "%" + query + "%"}, null, null, null);
 		
 		if(cursor != null){
-			Log.e(TAG, "inside if long");
 			cursor.moveToFirst();
 			int lon = cursor.getInt(3);
 			if (cursor != null && !cursor.isClosed()) {
@@ -149,7 +147,6 @@ public class SearchSQL {
 		Cursor cursor = ourDatabase.query(DATABASE_TABLE, columns, KEY_ROOM + " LIKE ?" , new String [] { "%" + query + "%"}, null, null, null);
 		
 		if(cursor != null){
-			Log.e(TAG, "inside if address");
 			cursor.moveToFirst();
 			String address = cursor.getString(4);
 			if (cursor != null && !cursor.isClosed()) {
@@ -171,7 +168,6 @@ public class SearchSQL {
 		Cursor cursor = ourDatabase.query(DATABASE_TABLE, columns, KEY_ROOM + " LIKE ?" , new String [] { "%" + query + "%"}, null, null, null);
 		
 		if(cursor != null){
-			Log.e(TAG, "inside if level");
 			cursor.moveToFirst();
 			String level = cursor.getString(5);
 			if (cursor != null && !cursor.isClosed()) {
@@ -191,36 +187,17 @@ public class SearchSQL {
 	public ArrayList<OverlayItem> getLocations(String tableName)
 	{
 		ArrayList<OverlayItem> locationList = new ArrayList<OverlayItem>();
-			Cursor cursor = ourDatabase.rawQuery("select * from " + tableName, null);
-			cursor.moveToFirst();
+		Cursor cursor = ourDatabase.rawQuery("select * from " + tableName, null);
+		cursor.moveToFirst();
 			while(!cursor.isAfterLast())
 			{
 				GeoPoint gp = new GeoPoint(cursor.getInt(2), cursor.getInt(3));
-				System.out.println(cursor.getInt(2));
 				OverlayItem item = new OverlayItem(gp, cursor.getString(4), cursor.getString(5));
 				locationList.add(item);
 				cursor.moveToNext();
 			}
 			cursor.close();
 			return locationList;
-
-//		ArrayList<OverlayItem> locationList = new ArrayList<OverlayItem>();
-//		switch (tableName) {
-//		case MICROWAVETABLE:
-//			Cursor cursor = ourDatabase.rawQuery("select * from " + DB_MICROWAVETABLE, null);
-//			cursor.moveToFirst();
-//			while(!cursor.isAfterLast())
-//			{
-//				GeoPoint gp = new GeoPoint(cursor.getInt(2), cursor.getInt(3));
-//				System.out.println(cursor.getInt(2));
-//				OverlayItem item = new OverlayItem(gp, cursor.getString(4), cursor.getString(5));
-//				locationList.add(item);
-//				cursor.moveToNext();
-//			}
-//			cursor.close();
-//			return locationList;
-//		}
-//		return null;
 	}
 	
 	private static class MySQLiteOpenHelper extends SQLiteOpenHelper{
@@ -246,7 +223,6 @@ public class SearchSQL {
 		public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 			// TODO Auto-generated method stub
 			if (newVersion > oldVersion){
-				Log.e(TAG, "Database version higher than old.");
 				myContext.deleteDatabase(DATABASE_NAME);
 				try{
 				createDataBase();
@@ -292,13 +268,11 @@ public class SearchSQL {
 	    	        this.getReadableDatabase(); 
 	    	        this.close();
 	    	        //Track the progress in LogCat
-	    	        Log.e(TAG, "empty database created"); 
 	    	        try  
 	    	        { 
 	    	            //Copy the database from assets 
 	    	            copyDataBase(); 
 	    	            //Track the progress in LogCat
-	    	            Log.e(TAG, "createDatabase: database created"); 
 	    	        }  
 	    	        catch (IOException dbIOException)  
 	    	        { 
@@ -337,8 +311,6 @@ public class SearchSQL {
 
 	    	//Open database in assets as the input stream
 	    	InputStream myInput = myContext.getAssets().open(DATABASE_NAME);
-	    	//To check progress in LogCat
-	    	Log.e(TAG, "inside copyDataBase");
 	    	// Path to the just created empty database
 	    	String outFileName = DATABASE_PATH + DATABASE_NAME;
 	 
