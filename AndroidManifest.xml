@@ -39,11 +39,11 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".GoogleMapActivity"
-            android:label="@string/title_activity_map"
+            android:name=".GoogleMapShowLocation"
+            android:label="@string/title_map_show_location"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
             <intent-filter>
-                <action android:name="android.intent.action.GOOGLEMAPACTIVITY" />
+                <action android:name="android.intent.action.GOOGLESHOWLOCATION" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
