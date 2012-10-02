@@ -30,8 +30,8 @@ import com.google.android.maps.ItemizedOverlay;
 import com.google.android.maps.OverlayItem;
 
 /**
- * class that creates MapItemizedOverlay and draws them and dialogs when user taps
- * @author dina
+ * class that creates MapItemizedOverlay and draws them on the googlemap, like a layot
+ * shows dialogs when user taps on figures in the picture
  *
  */
 public class MapItemizedOverlay extends ItemizedOverlay<OverlayItem> {
@@ -109,6 +109,8 @@ public class MapItemizedOverlay extends ItemizedOverlay<OverlayItem> {
 	  
 	  ImageView image = (ImageView) layout.findViewById(R.id.image);
 	  
+	  //if the taped geopoint is a classrum show the following dialog (including button for get directions)
+	  //if not do not show get directions
 	  if(index == 0){
 	  image.setImageResource(R.drawable.dot); //shows a picture in the dialog
 
