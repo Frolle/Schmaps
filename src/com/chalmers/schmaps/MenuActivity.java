@@ -51,7 +51,7 @@ public class MenuActivity extends Activity implements View.OnClickListener {
 			searchHall.getBackground().setColorFilter(new LightingColorFilter(0x000000, 0x4682b4)); //graphics for the button
 		}
 
-		Intent startMapActivity = new Intent("android.intent.action.GOOGLEMAPACTIVITY");
+		Intent startMapActivity = new Intent("android.intent.action.GOOGLEMAPSEARCHLOCATION");
 		startActivity(startMapActivity);	
 	}
 }
