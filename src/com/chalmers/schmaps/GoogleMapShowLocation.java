@@ -35,7 +35,7 @@ public class GoogleMapShowLocation extends MapActivity {
 	private static final String DATABASE_NAME = "SchmapsDB"; //namnet på vår databas
 	private static final String DATABASE_TABLE = "Salar"; //namnet på vår tabell (kan ha flera tabeller)
 	private static final String DB_MICROWAVETABLE = "Microwaves"; //Name of our microwave table
-	
+	private static final String DB_RESTAURANTTABLE = "Restaurants";
 	private static String TAG = "GoogleMapShowLocation";
 		
     private MapController mapcon;
@@ -66,6 +66,10 @@ public class GoogleMapShowLocation extends MapActivity {
 		switch(setView.getInt("Show locations")){
 		case MICROWAVEBUTTON:
 			drawLocationList(DB_MICROWAVETABLE);
+			break;
+		
+		case RESTAURANTBUTTON:
+			drawLocationList(DB_RESTAURANTTABLE);
 			break;
 		}
 
