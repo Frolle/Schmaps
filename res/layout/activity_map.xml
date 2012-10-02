@@ -20,7 +20,7 @@
 	        android:layout_height="wrap_content"
 	        android:layout_alignParentTop="true"
 	        android:hint="Touch to enter lecture hall!"
-	        tools:context=".GoogleMapActivity" />
+	        tools:context=".GoogleMapSearchLocation" />
 
 	    <Button
 	        android:id="@+id/edittextbutton"
@@ -28,7 +28,7 @@
 	        android:layout_height="wrap_content"
 	        android:layout_weight="70"
 	        android:text="@string/edit_button"
-	        tools:context=".GooleMapActivity" />
+	        tools:context=".GoogleMapSearchLocation" />
 	    </LinearLayout>
 		<com.google.android.maps.MapView 
     		xmlns:tools="http://schemas.android.com/tools"
@@ -37,7 +37,7 @@
     		android:layout_height="fill_parent"
     		android:apiKey="0LIGr976PR9ieBmFbnTRqglKcTUEtXIukD5Xv4g"
     		android:clickable="true"
-    		tools:context=".GoogleMapActivity"
+    		tools:context=".GoogleMapSearchLocation"
     		android:layout_below="@+id/lineLayETBT"
     		 />
     	
