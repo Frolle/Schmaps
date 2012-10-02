@@ -36,6 +36,7 @@ public class MenuActivity extends Activity implements View.OnClickListener {
 	private Intent startMapActivity;
 	private Button searchHall;
 	private Button microwaveButton;
+	private Button findRestaurantsButton;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -48,6 +49,8 @@ public class MenuActivity extends Activity implements View.OnClickListener {
 		searchHall.setOnClickListener(this);
 		microwaveButton = (Button) findViewById(R.id.microwaveButton);
 		microwaveButton.setOnClickListener(this);
+		findRestaurantsButton = (Button) findViewById(R.id.findRestaurantsButton);
+		findRestaurantsButton.setOnClickListener(this);
 	}
 
 	@Override
@@ -75,6 +78,13 @@ public class MenuActivity extends Activity implements View.OnClickListener {
 			startMapActivity = new Intent("android.intent.action.CAMPUSMENUACTIVITY");
 			startMapActivity.putExtra("Show locations", MICROWAVEBUTTON);
 			startActivity(startMapActivity);
+			
+		case R.id.findRestaurantsButton:
+			findRestaurantsButton.getBackground().setColorFilter(new LightingColorFilter(0x000000, 0x4682b4));
+			startMapActivity = new Intent("android.intent.action.CAMPUSMENUACTIVITY");
+			startMapActivity.putExtra("Show locations", RESTAURANTBUTTON);
+			startActivity(startMapActivity);
+
 
 		}
 	}
