@@ -37,4 +37,17 @@
         android:gravity="center"
         android:text="Sök sal"
         android:textSize="20dp" />
+    
+        <Button
+        android:id="@+id/findRestaurantsButton"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_below="@+id/microwaveButton"
+        android:background="@layout/shape"
+        android:gravity="center"
+        android:text="Find Restaurants"
+        android:textSize="20dp" />
+    
 </RelativeLayout>
