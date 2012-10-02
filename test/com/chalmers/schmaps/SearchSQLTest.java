@@ -12,7 +12,7 @@ import android.content.Context;
 
 public class SearchSQLTest {
 	GoogleMapActivity goolie = new GoogleMapActivity();
-	SearchSQL tester = new SearchSQL(goolie);
+	SearchSQL tester = new SearchSQL(null);
 	String theTestValue = new String("runan"); //"runan" exists within the database.
 	
 	@Test
