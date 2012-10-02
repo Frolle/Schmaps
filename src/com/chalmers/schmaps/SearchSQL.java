@@ -17,6 +17,11 @@
 package com.chalmers.schmaps;
 
 import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.google.android.maps.GeoPoint;
+import com.google.android.maps.OverlayItem;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -38,11 +43,18 @@ public class SearchSQL {
 	public static final String KEY_LEVEL = "level";
 	
 	private static String TAG = "SearchSQL";
+	
 	private static final String DATABASE_NAME = "SchmapsDB"; //namnet på vår databas
 	private static final String DATABASE_TABLE = "Salar"; //namnet på vår tabell (kan ha flera tabeller)
+	private static final String DB_MICROWAVETABLE = "Microwaves"; //Name of our microwave table
+	
 	private static String DATABASE_PATH = "";
 	private static final int DATABASE_VERSION = 2;
 	
+	private static final int MICROWAVETABLE = 1;
+	private static final int RESTAURANTTABLE = 2;
+	private static final int ATMTABLE = 3;
+
 	private MySQLiteOpenHelper ourHelper;
 	private final Context ourContext;
 	private SQLiteDatabase ourDatabase;
@@ -80,9 +92,10 @@ public class SearchSQL {
 	}
 	
 	/********************
-	 * 
-	 * @param query
-	 * @return
+	 * Checks the database if it contains the query from the user. It checks if the cursor
+	 * returns any rows from the ID, if it doesn't the entry does not exist.
+	 * @param query - a string with the entry from the user.
+	 * @return boolean - to determine if the entry exists or not.
 	 * 
 	 *******************/
 	public boolean exists(String query)
@@ -107,7 +120,6 @@ public class SearchSQL {
 		Cursor cursor = ourDatabase.query(DATABASE_TABLE, columns, KEY_ROOM + " LIKE ?" , new String [] { "%" + query + "%"}, null, null, null);
 		
 		if(cursor != null){
-			Log.e(TAG, "inside if Lat");
 			cursor.moveToFirst();
 			int lat = cursor.getInt(2);
 			if (cursor != null && !cursor.isClosed()) {
@@ -130,7 +142,6 @@ public class SearchSQL {
 		Cursor cursor = ourDatabase.query(DATABASE_TABLE, columns, KEY_ROOM + " LIKE ?" , new String [] { "%" + query + "%"}, null, null, null);
 		
 		if(cursor != null){
-			Log.e(TAG, "inside if long");
 			cursor.moveToFirst();
 			int lon = cursor.getInt(3);
 			if (cursor != null && !cursor.isClosed()) {
@@ -152,7 +163,6 @@ public class SearchSQL {
 		Cursor cursor = ourDatabase.query(DATABASE_TABLE, columns, KEY_ROOM + " LIKE ?" , new String [] { "%" + query + "%"}, null, null, null);
 		
 		if(cursor != null){
-			Log.e(TAG, "inside if address");
 			cursor.moveToFirst();
 			String address = cursor.getString(4);
 			if (cursor != null && !cursor.isClosed()) {
@@ -174,7 +184,6 @@ public class SearchSQL {
 		Cursor cursor = ourDatabase.query(DATABASE_TABLE, columns, KEY_ROOM + " LIKE ?" , new String [] { "%" + query + "%"}, null, null, null);
 		
 		if(cursor != null){
-			Log.e(TAG, "inside if level");
 			cursor.moveToFirst();
 			String level = cursor.getString(5);
 			if (cursor != null && !cursor.isClosed()) {
@@ -183,6 +192,28 @@ public class SearchSQL {
 			return level;
 		}
 		return null;
+	}
+	
+	/**
+	 * Method that returns an overlay item of geopoints according to what type of places the user
+	 * requests.
+	 * @param tableName - defines what table that should be searched.
+	 * @return List of geopoints for drawing them on the map.
+	 */
+	public ArrayList<OverlayItem> getLocations(String tableName)
+	{
+		ArrayList<OverlayItem> locationList = new ArrayList<OverlayItem>();
+		Cursor cursor = ourDatabase.rawQuery("select * from " + tableName, null);
+		cursor.moveToFirst();
+			while(!cursor.isAfterLast())
+			{
+				GeoPoint gp = new GeoPoint(cursor.getInt(2), cursor.getInt(3));
+				OverlayItem item = new OverlayItem(gp, cursor.getString(4), cursor.getString(5));
+				locationList.add(item);
+				cursor.moveToNext();
+			}
+			cursor.close();
+			return locationList;
 	}
 	
 	private static class MySQLiteOpenHelper extends SQLiteOpenHelper{
@@ -208,7 +239,6 @@ public class SearchSQL {
 		public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 			// TODO Auto-generated method stub
 			if (newVersion > oldVersion){
-				Log.e(TAG, "Database version higher than old.");
 				myContext.deleteDatabase(DATABASE_NAME);
 				try{
 				createDataBase();
@@ -254,13 +284,11 @@ public class SearchSQL {
 	    	        this.getReadableDatabase(); 
 	    	        this.close();
 	    	        //Track the progress in LogCat
-	    	        Log.e(TAG, "empty database created"); 
 	    	        try  
 	    	        { 
 	    	            //Copy the database from assets 
 	    	            copyDataBase(); 
 	    	            //Track the progress in LogCat
-	    	            Log.e(TAG, "createDatabase: database created"); 
 	    	        }  
 	    	        catch (IOException dbIOException)  
 	    	        { 
@@ -299,8 +327,6 @@ public class SearchSQL {
 
 	    	//Open database in assets as the input stream
 	    	InputStream myInput = myContext.getAssets().open(DATABASE_NAME);
-	    	//To check progress in LogCat
-	    	Log.e(TAG, "inside copyDataBase");
 	    	// Path to the just created empty database
 	    	String outFileName = DATABASE_PATH + DATABASE_NAME;
 	 

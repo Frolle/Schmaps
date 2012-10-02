@@ -78,5 +78,4 @@ public class Startup extends Activity {
 		finish();
 	}
     
-
 }

@@ -5,6 +5,9 @@
     <string name="menu_settings">Settings</string>
     <string name="title_activity_startup">Schmaps</string>
     <string name="title_activity_menu">MenuActivity</string>
-    <string name="title_activity_map">MapActivity</string>
+    <string name="title_map_show_location">ShowLocation</string>
+    <string name="title_map_search_location">SearchLocation</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="title_activity_campus_menu">CampusMenuActivity</string>
 
 </resources>
