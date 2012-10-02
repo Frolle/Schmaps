@@ -1,5 +1,5 @@
 /*
- * Copyright [2012] [Dina Zuko]
+ * Copyright [2012] [Dina Zuko, Simon Fransson]
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -54,6 +54,10 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 
+/**
+ * Class displays a google maps activity with a textfield and search button where user can search for classrooms.
+ * Displays users position, rooms position if found and get directions from google directions api if user wants directions.
+ */
 public class GoogleMapSearchLocation extends MapActivity implements View.OnClickListener{
 
 	private static String TAG = "GoogleMapActivity";
@@ -65,7 +69,7 @@ public class GoogleMapSearchLocation extends MapActivity implements View.OnClick
 	private LocationManager location_manager;
 	private LocationListener location_listener;
 	private List<Overlay> mapOverlays;
-	private MapItemizedOverlay overlay, overlay2;
+	private MapItemizedOverlay mapItemizedRoom, mapItemizedStudent;
 	private String roomToFind;
 	private MapView mapView;
 	private SearchSQL search;
@@ -85,50 +89,41 @@ public class GoogleMapSearchLocation extends MapActivity implements View.OnClick
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		setContentView(R.layout.activity_map); 
-		mapView = (MapView) findViewById(R.id.mapview);
-		mapView.setBuiltInZoomControls(true);
+		assignInstances(); //initiate the variables used in this class
 
-		mapOverlays = mapView.getOverlays();
-		room = this.getResources().getDrawable(R.drawable.dot); 
-		student = this.getResources().getDrawable(R.drawable.tomte);
-		overlay = new MapItemizedOverlay(room, this);
-		overlay2 = new MapItemizedOverlay(student, this);
+		if(location != null){ //if there is an provider that provides an location ->continue
+			latitude = (int) (location.getLatitude()*1E6); //get the latitude
+			longitude = (int) (location.getLongitude()*1E6); //get the longitude
+			
 
-		assignInstances();
-
-		location_manager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
-		criteria = new Criteria(); //deafult criteria
-		bestProvider = location_manager.getBestProvider(criteria, false); //best reception
-		location = location_manager.getLastKnownLocation(bestProvider);
-
-		if(location != null){
-			longitude = (int) (location.getLongitude()*1E6);
-			latitude = (int) (location.getLatitude()*1E6);
-
-			ourLocation = new GeoPoint(latitude, longitude);
-			getDir.add(0,ourLocation);
-			mapcon = mapView.getController();
+			ourLocation = new GeoPoint(latitude, longitude); //greates an geopoint with our location
+			getDir.add(0,ourLocation); //adds geopoint to the arraylist of geopoints
+			
+			mapcon = mapView.getController(); 
 			mapcon.animateTo(ourLocation);
 			mapcon.setZoom(18); //zoom level
-			overlayitemStudent = new OverlayItem(ourLocation, "Your position", "I'm in Mexico City!");
-			overlay2.addOverlay(overlayitemStudent);
-			mapOverlays.add(overlay2);
+			
+			//creates a MapItemizedOverlay-object and adds it to the list mapOverlays
+			overlayitemStudent = new OverlayItem(ourLocation, "Hey amigo", "This is your position!");
+			mapItemizedStudent.addOverlay(overlayitemStudent);
+			mapOverlays.add(mapItemizedStudent);
 		}
 
-
-
 		location_listener = new LocationListener(){
-			public void onLocationChanged(Location loc) { //gets your curent position by calling onResume	
-				longitude = (int) (location.getLongitude()*1E6);
-				latitude = (int) (location.getLatitude()*1E6);
+			/**
+			 * method is called when location is changed
+			 */
+			public void onLocationChanged(Location loc) { 
+				latitude = (int) (location.getLatitude()*1E6); //get the latitude
+				longitude = (int) (location.getLongitude()*1E6); //get the longitude
 
-				ourLocation = new GeoPoint(latitude, longitude);
-				getDir.add(0,ourLocation);
+				ourLocation = new GeoPoint(latitude, longitude); //greates an geopoint with our location
+				getDir.add(0,ourLocation); //adds geopoint to the arraylist of geopoints
 
-				OverlayItem overlayitem = new OverlayItem(ourLocation, "Hey amigo", "This is your position!");
-				overlay2.addOverlay(overlayitem);
-				mapOverlays.add(overlay2);
+				//creates a MapItemizedOverlay-object and adds it to the list mapOverlays
+				overlayitemStudent = new OverlayItem(ourLocation, "Hey amigo", "This is your position!");
+				mapItemizedStudent.addOverlay(overlayitemStudent);
+				mapOverlays.add(mapItemizedStudent);
 			}
 
 			public void onProviderDisabled(String provider) {
@@ -147,10 +142,8 @@ public class GoogleMapSearchLocation extends MapActivity implements View.OnClick
 			}	
 		};
 
-		search = new SearchSQL(GoogleMapSearchLocation.this);
-		search.createDatabase();
-
-
+		search = new SearchSQL(GoogleMapSearchLocation.this); //creates a SQLLite object
+		search.createDatabase(); //creates an database
 	}
 
 
@@ -162,9 +155,9 @@ public class GoogleMapSearchLocation extends MapActivity implements View.OnClick
 
 	@Override
 	protected boolean isRouteDisplayed() {
-		if(overlay.wantDirection() == true){;
+		if(mapItemizedRoom.wantDirection() == true){;
 		walkningDirections();
-		overlay.setDirections(false);
+		mapItemizedRoom.setDirections(false);
 		}
 		return true;
 	}
@@ -188,11 +181,31 @@ public class GoogleMapSearchLocation extends MapActivity implements View.OnClick
 		catch (Exception e) {
 		}
 	}
-
+	
+	/**
+	 *  method is called from onCreate() and it initiates the variables
+	 *  used in GoogleMapSearchLocation
+	 */
 	private void assignInstances() {
+		setContentView(R.layout.activity_map); 
+		mapView = (MapView) findViewById(R.id.mapview);
+		mapView.setBuiltInZoomControls(true);
+
+		mapOverlays = mapView.getOverlays();
+		room = this.getResources().getDrawable(R.drawable.dot); 
+		student = this.getResources().getDrawable(R.drawable.tomte);
+		mapItemizedRoom = new MapItemizedOverlay(room, this);
+		mapItemizedStudent = new MapItemizedOverlay(student, this);
+		
 		editButton = (Button) findViewById(R.id.edittextbutton);
 		lectureEdit = (EditText) findViewById(R.id.edittextlecture);
 		editButton.setOnClickListener(this);
+		
+		location_manager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+		criteria = new Criteria(); //deafult criteria
+		bestProvider = location_manager.getBestProvider(criteria, false); //best reception
+		location = location_manager.getLastKnownLocation(bestProvider); //gets last known location from chosen provider
+
 	}
 
 	public void onClick(View v) {
@@ -205,24 +218,26 @@ public class GoogleMapSearchLocation extends MapActivity implements View.OnClick
 		mapOverlays.remove(pathOverlay);
 		
 		//removes the dot that point to a previous room found
-		mapOverlays.remove(overlay);
+		mapOverlays.remove(mapItemizedRoom);
 		
 		roomToFind = lectureEdit.getText().toString();
 		roomToFind.toLowerCase().trim(); //removes white signs and converts to lower case
 		roomToFind = roomToFind.replaceAll("[^a-öA-Ö0-9]+",""); //Removes illegal characters to prevent sql injection
 		search.openRead(); //open database in read mode
+		
+		//if we find room show room on map, if not show dialog 
 		if(search.exists(roomToFind)){
 			roomLocation = new GeoPoint(search.getLat(roomToFind),search.getLong(roomToFind)); //create a geopoint
 			getDir.add(1,roomLocation);
 			mapcon = mapView.getController();
 			mapcon.animateTo(roomLocation);
 			mapcon.setZoom(18); //zoom level
-			overlayItemRoom = new OverlayItem(roomLocation, search.getAddress(roomToFind), search.getLevel(roomToFind)); //address and level is shown in the dialog
+			overlayItemRoom = new OverlayItem(roomLocation, search.getAddress(roomToFind), 
+					search.getLevel(roomToFind)); //address and level is shown in the dialog
 
-			search.close();
-			overlay.removeOverlay();
-			overlay.addOverlay(overlayItemRoom);
-			mapOverlays.add(overlay);
+			mapItemizedRoom.removeOverlay();
+			mapItemizedRoom.addOverlay(overlayItemRoom);
+			mapOverlays.add(mapItemizedRoom);
 			mapView.postInvalidate();
 
 		}else{
@@ -232,26 +247,30 @@ public class GoogleMapSearchLocation extends MapActivity implements View.OnClick
 			dialog.setCancelable(true);
 			dialog.show();
 		}
-
-		Log.e(TAG, "slut");
+		search.close(); //close database
 
 	}
-
-	private void walkningDirections (){
-
+	
+	/**
+	 * creates a new thread (from where we get the directions) and calls it
+	 * waits for the new thread to return a json object
+	 * when json object returned parse it and extract directions
+	 */
+private void walkningDirections (){
+		
+		JSONObject step,start_location,end_location;
+		int srcLat,srcLng,destLat,destLng;
+		GeoPoint geo;
+		ArrayList<GeoPoint> geoList = new ArrayList<GeoPoint>();
 		jsonObject = null;
-
-
+		
 		GetDirections directions = new GetDirections();
-		Log.e(TAG, "innan execute");
-		directions.execute();
-		Log.e(TAG, "ute");
+		directions.execute(); //the method doInBackground() in GetDirections is executed
 
-		while(jsonObject == null){
+		while(jsonObject == null){ //if json object not returned, sleep for 30 sec
 			try {
 				Thread.sleep(500);
 			} catch (InterruptedException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 		}
@@ -264,34 +283,34 @@ public class GoogleMapSearchLocation extends MapActivity implements View.OnClick
 			JSONArray legs = route.getJSONArray("legs");
 			// Grab first leg
 			JSONObject leg = legs.getJSONObject(0);
+			//Grab all the steps from the led
+			JSONArray steps = leg.getJSONArray("steps");;
 
-			JSONArray steps = leg.getJSONArray("steps");
-
-			JSONObject step,start_location,end_location;
-
-			int srcLat,srcLng,destLat,destLng;
-
-			GeoPoint geo;
-			ArrayList<GeoPoint> geoList = new ArrayList<GeoPoint>();
-
-			for(int count = 1;count<steps.length();count++){
-				step = steps.getJSONObject(count);
-				if(count == 1){
+			for(int count = 0;count<steps.length();count++){
+				//the json returns start and end for each step, we only want one geopoint of each position
+				//that is why we only get the start once and then get the end
+				// we add the geopoint to an array of geopoints
+				if(count == 0){
+					step = steps.getJSONObject(0);
 					start_location = step.getJSONObject("start_location");
 					srcLat = (int)(start_location.getDouble("lat")*1E6);
 					srcLng = (int)(start_location.getDouble("lng")*1E6);
 					geo = new GeoPoint(srcLat,srcLng);
 					geoList.add(0, geo);
 				}
+				step = steps.getJSONObject(count);
 				end_location = step.getJSONObject("end_location");
 				destLat = (int)(end_location.getDouble("lat")*1E6);
 				destLng = (int)(end_location.getDouble("lng")*1E6);
 				geo = new GeoPoint(destLat,destLng);
-				geoList.add(count, geo);
+				geoList.add(count+1, geo);
 			}
+			
+			//creata an overlay and canvas so we can draw the path
 			pathOverlay = new PathOverlay(geoList);
 			Canvas canvas = new Canvas();
 
+			//adds the overay to the list of overlays and calls the draw-method to dra it
 			mapOverlays.add(pathOverlay);
 			pathOverlay.draw(canvas, mapView, true);
 			mapView.postInvalidate();
@@ -299,16 +318,16 @@ public class GoogleMapSearchLocation extends MapActivity implements View.OnClick
 
 
 		} catch (JSONException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
 	}
 
-	/** this class creates a new thread 
-	 * 	inspired by
-	 *  http://www.vogella.com/articles/AndroidPerformance/article.html
-	 */
+/** this innerclass creates a new thread from where we can make a request
+ *  to google directions api - to get the directions
+ * 	inspired by
+ *  http://www.vogella.com/articles/AndroidPerformance/article.html
+ */
 	private class GetDirections extends AsyncTask<Void, Void, JSONObject> {
 		
  
@@ -326,12 +345,12 @@ public class GoogleMapSearchLocation extends MapActivity implements View.OnClick
 			String line = null;
 			String jsonResponse = "";
 
-			//Create a string with the right start and end possition
+			//Create a string with the right start and end position
 			urlString.append("http://maps.googleapis.com/maps/api/directions/json?origin=");
 			urlString.append(Double.toString((double) getDir.get(0).getLatitudeE6() / 1.0E6)); //from, your position, latitude
 			urlString.append(",");
 			urlString.append(Double.toString((double) getDir.get(0).getLongitudeE6() / 1.0E6));//longitude
-			urlString.append("&destination=");// to, where you are goint
+			urlString.append("&destination=");// to, where you are going
 			urlString.append(Double.toString((double) getDir.get(1).getLatitudeE6() / 1.0E6)); //latitude
 			urlString.append(",");
 			urlString.append(Double.toString((double) getDir.get(1).getLongitudeE6() / 1.0E6)); //ongitude
@@ -375,7 +394,7 @@ public class GoogleMapSearchLocation extends MapActivity implements View.OnClick
 			jsonResponse = response.toString();
 			//Log.e(TAG, jsonResponse); //print out jsonresponse
 
-			//convert string to jsonobject
+			//convert string to jsonobject and return the object
 			try{
 				jsonObject = new JSONObject(jsonResponse);
 			}catch(JSONException e){
