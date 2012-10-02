@@ -18,23 +18,23 @@ package com.chalmers.schmaps;
 
 import java.util.ArrayList;
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.maps.ItemizedOverlay;
 import com.google.android.maps.OverlayItem;
 
-public class MapItemizedOverlay extends ItemizedOverlay {
+/**
+ * class that creates MapItemizedOverlay and draws them and dialogs when user taps
+ * @author dina
+ *
+ */
+public class MapItemizedOverlay extends ItemizedOverlay<OverlayItem> {
 	
 	private ArrayList<OverlayItem> mOverlays = new ArrayList<OverlayItem>();
 	private Context mContext;
@@ -46,16 +46,23 @@ public class MapItemizedOverlay extends ItemizedOverlay {
 		getDirection = false;
 	}
 
-	
+	/**
+	 * adds a overlay to the arraylist mOverlays
+	 * @param overlay, created in GoogleMapActivity with a figure, text etc
+	 */
 	public void addOverlay(OverlayItem overlay) {
 	    mOverlays.add(overlay);
-	    populate(); //anropar createItem(int) och ItemizeOverlay
+	    populate(); //calls createItem(int) and ItemizeOverlay
 	}
 	
+	/**
+	 * clears the overlay from the arraylist mOverlays
+	 */
 	public void removeOverlay(){
 		mOverlays.clear();
 		populate();
 	}
+	
 	@Override
 	protected OverlayItem createItem(int i) {
 		return mOverlays.get(i);
@@ -66,28 +73,33 @@ public class MapItemizedOverlay extends ItemizedOverlay {
 		return mOverlays.size();
 	}
 	
+	/**
+	 * @return boolean, true if user wants directions, false if user does not want directions
+	 */
 	public boolean wantDirection(){
 		return getDirection;
 	}
-	
+	/**
+	 * sets the variable getDirections to true if user wants directions
+	 * and false if user does not wants directions
+	 * @param b, false or true
+	 */
 	public void setDirections(boolean b) {
 		getDirection = b;
 		
 	}
-	
+	/**
+	 * called when the user taps a figure on the screen, shows a dialog with information about the geopoint
+	 */
 	@Override
 	protected boolean onTap(int index) {
 	  OverlayItem item = mOverlays.get(index);
-	  Integer a = index;
-	  String s = a.toString();
-	  Log.e("onTAP", s);
-	  
 	  AlertDialog.Builder builder;
 	  AlertDialog alertDialog;
 	 
 	  LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-	  View layout = inflater.inflate(R.layout.room_dialog,
-	                                 null);
+	  View layout = inflater.inflate(R.layout.room_dialog, null);
+	  
 	  builder = new AlertDialog.Builder(mContext);
 	  builder.setCancelable(true);
 	  
@@ -98,32 +110,26 @@ public class MapItemizedOverlay extends ItemizedOverlay {
 	  ImageView image = (ImageView) layout.findViewById(R.id.image);
 	  
 	  if(index == 0){
-	  image.setImageResource(R.drawable.dot);
+	  image.setImageResource(R.drawable.dot); //shows a picture in the dialog
 
-	 
 	  // builder.setMessage(item.getSnippet());
       builder.setCancelable(true);
       
       builder.setNeutralButton("Get directions", new DialogInterface.OnClickListener() {
           public void onClick(DialogInterface dialog, int id) {
-        	  getDirection = true;
+        	  getDirection = true; //sets variable getDirections to truth if we click the button getdirections
           }
       });
       }else{
-    	  image.setImageResource(R.drawable.tomte); 
+    	  image.setImageResource(R.drawable.tomte); //shows a picture in the dialog
       }
+	  
 	  builder.setView(layout);
 	  alertDialog = builder.create();
 	  alertDialog.setTitle(item.getTitle());
 	  alertDialog.show();
-	  if(wantDirection() == true){
-		  Log.e("wantdirections", "true");
-	  }else{
-		  Log.e("wantdirections", "false"); 
-	  }
 	  
 	  return true;
 	}
 
 }
-

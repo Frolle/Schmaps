@@ -28,6 +28,9 @@ import com.google.android.maps.MapView;
 import com.google.android.maps.Overlay;
 import com.google.android.maps.Projection;
 
+/**
+ * class that draws path from our direction to room on a canvas
+ */
 public class PathOverlay extends Overlay {
 	
 	private ArrayList<GeoPoint> geoList;
@@ -44,35 +47,38 @@ public class PathOverlay extends Overlay {
 		
 	}
 	
+	/**
+	 * draws path from our direction to room on a canvas
+	 * @param canvas, to draw in, created in GoogleMapActivity 
+	 * @param mapview, created in GoogleMapActivity 
+	 */
 	private void drawPath (Canvas canvas, MapView mapview) {
-		
-		canvas.drawColor(Color.TRANSPARENT);
-		
 		Paint paint = new Paint();
+		Point startPoint = new Point();
+		Point endPoint = new Point();
+		GeoPoint startGeopoint, endGeopoint;
+		float startLat, startLong, destLat, destLong;
+		Projection projection = mapview.getProjection();
+		
+		//set colur etc to paint with
 		paint.setColor(Color.BLUE);
 		paint.setStyle(Paint.Style.FILL_AND_STROKE);
 		paint.setStrokeWidth(4);
 		paint.setAlpha(100);
 		
-		Point point1 = new Point();
-		Point point2 = new Point();
-		GeoPoint startpoint, endpoint;
-		float startLat, startLong, destLat, destLong;
-		Projection projection = mapview.getProjection();
-		
+		//loops through the geopoint, convert from lat,lng to pixels and draw path on canvas
 		for(int index = 0; index<(geoList.size()-1);index++){
-			startpoint = geoList.get(index);
-			projection.toPixels(startpoint, point1);
+			startGeopoint = geoList.get(index);
+			projection.toPixels(startGeopoint, startPoint);
 			
-			endpoint = geoList.get(index+1);
-			projection.toPixels(endpoint, point2);
+			endGeopoint = geoList.get(index+1);
+			projection.toPixels(endGeopoint, endPoint);
 			
-			startLat = point1.x;
-			startLong =point1.y;
-			destLat = point2.x;
-			destLong = point2.y;
-			canvas.drawLine(startLat, startLong, destLat, destLong, paint);
-			
+			startLat = startPoint.x;
+			startLong = startPoint.y;
+			destLat = endPoint.x;
+			destLong = endPoint.y;
+			canvas.drawLine(startLat, startLong, destLat, destLong, paint);	
 		}
 	}
 }
