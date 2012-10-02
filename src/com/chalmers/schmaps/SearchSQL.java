@@ -1,6 +1,9 @@
 package com.chalmers.schmaps;
 
 import java.io.*;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -19,7 +22,8 @@ public class SearchSQL {
 	public static final String KEY_LAT = "latitude";
 	public static final String KEY_LONG = "longitude";
 	public static final String KEY_STREET = "street_name";
-	public static final String KEY_LEVEL = "level";
+	public static final String KEY_LEVEL = "level/house";
+	public static final String KEY_MISC = "misc";
 	
 	private static String TAG = "SearchSQL";
 	private static final String DATABASE_NAME = "SchmapsDB"; //namnet på vår databas
@@ -32,6 +36,7 @@ public class SearchSQL {
 	private MySQLiteOpenHelper ourHelper;
 	private final Context ourContext;
 	private SQLiteDatabase ourDatabase;
+	private Cursor cursor;
 	
 	public SearchSQL(Context c){
 		ourContext = c;	
@@ -170,6 +175,12 @@ public class SearchSQL {
 		}
 		return null;
 	}
+	
+	public void getAllPositions(String tableName){
+		cursor = ourDatabase.rawQuery(tableName, new String[] {KEY_ROWID, KEY_ROOM, KEY_LAT, KEY_LONG, KEY_LEVEL, KEY_MISC});
+	
+	}
+	
 	
 	private static class MySQLiteOpenHelper extends SQLiteOpenHelper{
 
