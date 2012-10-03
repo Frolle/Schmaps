@@ -63,7 +63,7 @@ public class GoogleMapShowLocation extends MapActivity {
 		
 		else 
 			mapcon.animateTo(lindholmenLoc);
-		mapcon.setZoom(17);
+		mapcon.setZoom(16);
 
 		//Switch case to determine what series of locations to be drawn on map
 		switch(setView.getInt("Show locations")){
