@@ -2,39 +2,72 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/campusjohanneberg"
+    android:background="@drawable/chalmers"
+    android:gravity="center"
     >
-
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="18dp"
-        android:gravity="top"
-        android:text="@string/app_name"
-        tools:context=".StartingPoint" />
-
+    
     <Button
-        android:id="@+id/microwaveButton"
+        android:id="@+id/searchHallButton"
+        android:layout_margin="10dp"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
+        android:background="@layout/shape"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:text="Search lecture hall"
+        android:textSize="20dp" />
+    
+    <Button
+        android:id="@+id/microwaveButton"
+        android:layout_margin="10dp"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/searchHallButton"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         android:background="@layout/shape"
         android:gravity="center"
-        android:text=" Visa mikrovågsugnar"
+        android:text="Show microwaves"
         android:textSize="20dp" />
-
+    
     <Button
-        android:id="@+id/searchHallButton"
+        android:id="@+id/findRestaurantsButton"
+        android:layout_margin="10dp"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/microwaveButton"
-        android:layout_alignLeft="@+id/microwaveButton"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_below="@+id/microwaveButton"
         android:background="@layout/shape"
         android:gravity="center"
-        android:text="Sök sal"
+        android:text="Find Restaurants"
         android:textSize="20dp" />
+    
+    <Button
+        android:id="@+id/atmButton"
+        android:layout_margin="10dp"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/groupRoomButton"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:background="@layout/shape"
+        android:gravity="center"
+        android:text="ATMs"
+        android:textSize="20dp" />
+    
+    <Button
+        android:id="@+id/groupRoomButton"
+        android:layout_margin="10dp"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/findRestaurantsButton"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:background="@layout/shape"
+        android:gravity="center"
+        android:text="Boka grupprums"
+        android:textSize="20dp" />
+    
+
 </RelativeLayout>
