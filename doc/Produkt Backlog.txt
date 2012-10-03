@@ -1,0 +1,12 @@
+#         Features                            BV      ES
+------------------------------------------------------------------------
+
+1     Visa positioner på kartan            	100    25               
+2     Informationsdatabas               	100    60
+3     Lagring av anv. GPS-pos.            	10    100
+4.    Visa vägen till salen(GPS)            	50    40   
+5.    Personligt Schema(med klickbara tider)    20    86   
+6.    Boka grupprum                		75    20
+7.    Layout(utseende)                		80    65
+8.    Sökmotor                    		99    60               
+9.    Integrera 16-bussen                	10    71

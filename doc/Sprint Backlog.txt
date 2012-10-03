@@ -1,0 +1,65 @@
+User stories:
+
+Sprint 1 (läsvecka 3):
+Användaren ska kunna använda ett gränssnitt med knappar för att navigera i menyerna.
+Användaren ska kunna söka i databasen efter en sal och få den visad på kartan.
+
+Sprint 2 (läsvecka 4):
+Användaren ska kunna får en väg till önskad plats markerad på kartan
+Användaren ska kunna se var man kan köpa mat/microvågsugn
+Användaren ska kunna boka grupprum
+
+Sprint 3 (läsvecka 5):
+Användaren ska kunna se när bussen mellan campus Chalmers och Lindholmen går
+Användaren ska kunna se hur mycket folk det finns på respektive restaurang
+
+Sprint 4 (läsvecka 6):
+Användaren ska spara ett personligt schema
+Användaren ska kunna trycka på en lektion i sitt schema och få upp en karta med salens position.
+
+Sprint 5 (läsvecka 7):
+Dokumentation mm
+
+
+
+Sprint backlog 1
+#         Features                                    Timmar
+-------------------------------------------------------------------------------
+
+1     Meny - Layout                            		3           
+2     Databas                    			30
+3     Google Maps                    			10
+4.    Markera på karta                			3
+5     Söka i databas och hitta olika salar      	30   
+6.    Möte, handledning etc.            		24
+
+
+
+Sprint backlog 2
+#         Features                                    Timmar
+-------------------------------------------------------------------------------
+
+1     Göra klart databasen(Lägga till rum)              10
+2     Kommentera och testa förra veckan             	5
+3     Navigera till vald sal                    	15
+4.    Boka grupprum                    			0,5
+5     Visa micro på karta/göra databas            	20
+6.    Visa restauranger på karta/göra databas         	10
+7.    Visa Bankomater/göra databas            		6,5
+8.    Handledning och möten                		33
+
+
+
+Sprint backlog 3
+#         Features                                    Timmar
+-------------------------------------------------------------------------------
+
+1     Layout(alla menyer) helt klar             	3         
+2     Testning TDD                       		40
+3     Databaser(Salar,datasalar,micro,grupprum) 	13                   
+4.    Dokumentation i kod(javadoc)          		2
+5.    Check-in                               		22
+6.    Möte m.m    					20
+
+
+
