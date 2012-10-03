@@ -49,7 +49,7 @@ public class SearchSQL {
 	private static final String DB_MICROWAVETABLE = "Microwaves"; //Name of our microwave table
 	
 	private static String DATABASE_PATH = "";
-	private static final int DATABASE_VERSION = 2;
+	private static final int DATABASE_VERSION = 3;
 	
 	private static final int MICROWAVETABLE = 1;
 	private static final int RESTAURANTTABLE = 2;
