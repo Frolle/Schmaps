@@ -60,8 +60,11 @@ public class GoogleMapShowLocation extends MapActivity {
 		//If-check to see if it's Lindholmen or Johannesberg campus
 		if(setView.getInt("Campus")==JOHANNESBERG)
 			mapcon.animateTo(johannesbergLoc);
+		
 		else 
 			mapcon.animateTo(lindholmenLoc);
+		mapcon.setZoom(17);
+
 		//Switch case to determine what series of locations to be drawn on map
 		switch(setView.getInt("Show locations")){
 		case MICROWAVEBUTTON:
