@@ -20,7 +20,7 @@ public class CampusMenuActivity extends Activity implements View.OnClickListener
 	private static final int LINDHOLMEN = 42;			// -||- for Lindholmen
 	
 	private Intent startMapActivity;
-	private Button johannesbergButton;
+	private Button johannebergButton;
 	private Button lindholmenButton;
 	private Bundle menuActionChosen;
 
@@ -39,8 +39,8 @@ public class CampusMenuActivity extends Activity implements View.OnClickListener
     }
     
 	private void assignInstances() {
-		johannesbergButton = (Button) findViewById(R.id.johannebergButton);
-		johannesbergButton.setOnClickListener(this);
+		johannebergButton = (Button) findViewById(R.id.johannebergButton);
+		johannebergButton.setOnClickListener(this);
 		lindholmenButton = (Button) findViewById(R.id.lindholmenButton);
 		lindholmenButton.setOnClickListener(this);
 		menuActionChosen = getIntent().getExtras();
@@ -56,7 +56,7 @@ public class CampusMenuActivity extends Activity implements View.OnClickListener
 		switch (arg0.getId())
 		{
 		case R.id.johannebergButton:
-			atmButton.setBackgroundColor(Color.DKGRAY);
+			johannebergButton.setBackgroundColor(Color.DKGRAY);
 			startMapActivity = new Intent("android.intent.action.GOOGLEMAPSHOWLOCATION");
 			startMapActivity.putExtra("Campus", JOHANNESBERG);
 			//Transfer what kind of locations should be drawn
@@ -65,7 +65,7 @@ public class CampusMenuActivity extends Activity implements View.OnClickListener
 			break;
 			
 		case R.id.lindholmenButton:
-			atmButton.setBackgroundColor(Color.DKGRAY);
+			lindholmenButton.setBackgroundColor(Color.DKGRAY);
 			startMapActivity = new Intent("android.intent.action.GOOGLEMAPSHOWLOCATION");
 			startMapActivity.putExtra("Campus", LINDHOLMEN);
 			//Transfer what kind of locations should be drawn
