@@ -38,12 +38,10 @@ public class MapItemizedOverlay extends ItemizedOverlay<OverlayItem> {
 	
 	private ArrayList<OverlayItem> mOverlays = new ArrayList<OverlayItem>();
 	private Context mContext;
-	private boolean getDirection;
 	
 	public MapItemizedOverlay(Drawable defaultMarker, Context context) {
 		super(boundCenterBottom(defaultMarker));
 		mContext = context;	
-		getDirection = false;
 	}
 
 	/**
@@ -73,21 +71,7 @@ public class MapItemizedOverlay extends ItemizedOverlay<OverlayItem> {
 		return mOverlays.size();
 	}
 	
-	/**
-	 * @return boolean, true if user wants directions, false if user does not want directions
-	 */
-	public boolean wantDirection(){
-		return getDirection;
-	}
-	/**
-	 * sets the variable getDirections to true if user wants directions
-	 * and false if user does not wants directions
-	 * @param b, false or true
-	 */
-	public void setDirections(boolean b) {
-		getDirection = b;
-		
-	}
+
 	/**
 	 * called when the user taps a figure on the screen, shows a dialog with information about the geopoint
 	 */
@@ -117,11 +101,6 @@ public class MapItemizedOverlay extends ItemizedOverlay<OverlayItem> {
 	  // builder.setMessage(item.getSnippet());
       builder.setCancelable(true);
       
-      builder.setNeutralButton("Get directions", new DialogInterface.OnClickListener() {
-          public void onClick(DialogInterface dialog, int id) {
-        	  getDirection = true; //sets variable getDirections to truth if we click the button getdirections
-          }
-      });
       }else{
     	  image.setImageResource(R.drawable.tomte); //shows a picture in the dialog
       }

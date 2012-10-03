@@ -47,8 +47,11 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -149,17 +152,16 @@ public class GoogleMapSearchLocation extends MapActivity implements View.OnClick
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.activity_map, menu);
+		super.onCreateOptionsMenu(menu);
+		MenuInflater showMenu = getMenuInflater();
+		showMenu.inflate(R.menu.searchmenu, menu);
 		return true;
+		
 	}
 
 	@Override
 	protected boolean isRouteDisplayed() {
-		if(mapItemizedRoom.wantDirection() == true){;
-		walkningDirections();
-		mapItemizedRoom.setDirections(false);
-		}
-		return true;
+		return false;
 	}
 
 	@Override
@@ -249,6 +251,18 @@ public class GoogleMapSearchLocation extends MapActivity implements View.OnClick
 		}
 		search.close(); //close database
 
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		
+		switch(item.getItemId()){
+		
+		case R.id.getdir:
+			walkningDirections ();
+		}
+		
+		return false;
 	}
 	
 	/**
