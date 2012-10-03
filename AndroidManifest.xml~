@@ -33,10 +33,11 @@
             android:label="@string/title_activity_map" >
             <intent-filter>
                 <action android:name="android.intent.action.MAPACTIVITY" />
-
+				 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+            <activity android:name="android.intent.action.GroupRoomActivity"></activity>
     </application>
 
 </manifest>

@@ -29,13 +29,13 @@ public class GoogleMapShowLocation extends MapActivity {
 	private static final int BOOKINGKEY = 5;
 	private static final int BUSKEY = 6;
 	private static final int JOHANNESBERG = 40;
-	private static final int LINDHOLMEN = 42;
-	
+	private static final int LINDHOLMEN = 42;	
 
 	private static final String DATABASE_NAME = "SchmapsDB"; //namnet på vår databas
 	private static final String DATABASE_TABLE = "Salar"; //namnet på vår tabell (kan ha flera tabeller)
 	private static final String DB_MICROWAVETABLE = "Microwaves"; //Name of our microwave table
-	private static final String DB_RESTAURANTTABLE = "Restaurants";
+	private static final String DB_RESTAURANTTABLE = "Restaurants"; //Name of our restaurants table
+	private static final String DB_ATMTABLE = "Atm";				//Name of our ATM table
 	private static String TAG = "GoogleMapShowLocation";
 		
     private MapController mapcon;
@@ -73,6 +73,10 @@ public class GoogleMapShowLocation extends MapActivity {
 		
 		case RESTAURANTBUTTON:
 			drawLocationList(DB_RESTAURANTTABLE);
+			break;
+			
+		case ATMBUTTON:
+			drawLocationList(DB_ATMTABLE);
 			break;
 		}
 
@@ -183,5 +187,4 @@ public class GoogleMapShowLocation extends MapActivity {
 		search = new SearchSQL(GoogleMapShowLocation.this);
 		search.createDatabase();
 	}
-
 }
