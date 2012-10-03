@@ -31,7 +31,7 @@ public class CampusMenuActivity extends Activity implements View.OnClickListener
     }
     
 	private void assignInstances() {
-		johannesbergButton = (Button) findViewById(R.id.johannesbergButton);
+		johannesbergButton = (Button) findViewById(R.id.johannebergButton);
 		johannesbergButton.setOnClickListener(this);
 		lindholmenButton = (Button) findViewById(R.id.lindholmenButton);
 		lindholmenButton.setOnClickListener(this);
@@ -45,7 +45,7 @@ public class CampusMenuActivity extends Activity implements View.OnClickListener
 	public void onClick(View arg0) {
 		switch (arg0.getId())
 		{
-		case R.id.johannesbergButton:
+		case R.id.johannebergButton:
 			startMapActivity = new Intent("android.intent.action.GOOGLEMAPSHOWLOCATION");
 			startMapActivity.putExtra("Campus", JOHANNESBERG);
 			//Transfer what kind of locations should be drawn
