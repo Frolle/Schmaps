@@ -78,14 +78,14 @@ public class MenuActivity extends Activity implements View.OnClickListener {
 			startMapActivity = new Intent("android.intent.action.CAMPUSMENUACTIVITY");
 			startMapActivity.putExtra("Show locations", MICROWAVEBUTTON);
 			startActivity(startMapActivity);
+			break;
 			
 		case R.id.findRestaurantsButton:
 			findRestaurantsButton.getBackground().setColorFilter(new LightingColorFilter(0x000000, 0x4682b4));
 			startMapActivity = new Intent("android.intent.action.CAMPUSMENUACTIVITY");
 			startMapActivity.putExtra("Show locations", RESTAURANTBUTTON);
 			startActivity(startMapActivity);
-
-
+			break;
 		}
 	}
 }
