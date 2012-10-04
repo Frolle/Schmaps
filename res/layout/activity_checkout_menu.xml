@@ -2,40 +2,32 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/chalmers6" > 
+    android:background="@drawable/chalmers6" >
 
-        <EditText
-            android:id="@+id/lastnametext"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/nametext"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:layout_marginTop="20dp"
-            android:ems="10"
-            android:hint="LastName"
-            tools:context=".CheckoutMenu" />
+    <Button
+        android:id="@+id/checkoutButton"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="5dp"
+        android:layout_toRightOf="@+id/nametext"
+        android:background="@layout/shape"
+        android:text="Enter"
+        android:textSize="30dp" />
 
-        <EditText
-            android:id="@+id/nametext"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="60dp"
-            android:ems="10"
-            android:hint="FirstName"
-            tools:context=".CheckoutMenu"/>
-        
-        <Button 
-            android:id="@+id/checkoutButton"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/lastnametext"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="20dp"
-            android:layout_width="200dp"
-            android:text="Enter" 
-            android:textSize="30dp"  
-            android:background="@layout/shape"       
-            />
+    <EditText
+        android:id="@+id/nametext"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:ems="10"
+        android:gravity="top"
+        android:hint="Name"
+        tools:context=".CheckoutMenu" >
+
+        <requestFocus />
+    </EditText>
+    
 
 </RelativeLayout>
