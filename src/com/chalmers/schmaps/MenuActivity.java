@@ -106,7 +106,7 @@ public class MenuActivity extends Activity implements View.OnClickListener {
 		case R.id.groupRoomButton:
 			groupRoom.setBackgroundColor(Color.DKGRAY); //change button color when button is clicked
 			//Start the group room activity
-			Intent startGroupRoomActivity = new Intent(this,GroupRoomActivity.class);
+			Intent startGroupRoomActivity = new Intent(this,CheckInActivity.class); //test
 			startActivity(startGroupRoomActivity);	
 			break;
 			

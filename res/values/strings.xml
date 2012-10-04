@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <resources>
 
     <string name="app_name">Schmaps</string>
@@ -9,5 +10,8 @@
     <string name="title_map_search_location">SearchLocation</string>
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_campus_menu">CampusMenuActivity</string>
+    <string name="checkin_button">Check in!</string>
+    <string name="write_name">Write your name here</string>
+    
 
 </resources>
