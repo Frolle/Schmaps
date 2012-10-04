@@ -67,6 +67,16 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+         <activity
+            android:name=".CheckInActivity"
+            android:label="@string/title_map_search_location"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
+            <intent-filter>
+                <action android:name="android.intent.action.CHECKINACTIVITY" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
             <activity 
         		android:name=".GroupRoomActivity"
         		android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
