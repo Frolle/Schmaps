@@ -60,8 +60,6 @@ public class CheckInActivity extends MapActivity implements View.OnClickListener
 	private GeoPoint ourLocation;
 	private LocationManager location_manager;
 	private LocationListener location_listener;
-	private Button checkIn;
-	private EditText myName;
 	private JSONObject returnedJsonObject;
 
 	private Criteria criteria;
@@ -73,25 +71,25 @@ public class CheckInActivity extends MapActivity implements View.OnClickListener
 	private boolean checkin;
 	private MapController mapcon;
 	private MapView mapview;
+	private Button checkInButton;
+	private EditText enterName;
 	
-	
-
-
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_checkin);
 		returnedJsonObject = null;
+		username = "";
 		checkin = false;
 		
 		mapview = (MapView) findViewById(R.id.mapview);
 		mapview.setBuiltInZoomControls(true);
 		mapcon = mapview.getController(); 
 
-		/*
-		editButton = (Button) findViewById(R.id.edittextbutton);
-		lectureEdit = (EditText) findViewById(R.id.edittextlecture);
-		editButton.setOnClickListener(this);*/
+		
+		checkInButton = (Button) findViewById(R.id.checkinbutton);
+		enterName = (EditText) findViewById(R.id.entername);
+		checkInButton.setOnClickListener(this);
 		
 		location_manager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
 		criteria = new Criteria(); //deafult criteria
@@ -136,11 +134,14 @@ public class CheckInActivity extends MapActivity implements View.OnClickListener
 			}	
 		};
 
-
-		username = "kalle";
-		longitude = 5771505;
-		latitude = 12000436;
-
+		connectExternalDatabase();
+		
+		
+		//overlayitemStudent = new OverlayItem(ourLocation,"" , ""); if we want name to be shown
+	}
+	
+	private void connectExternalDatabase(){
+		returnedJsonObject = null;
 		GetCheckIn getCheckIn = new GetCheckIn();
 		getCheckIn.execute(); //the method doInBackground() is executed
 
@@ -152,9 +153,9 @@ public class CheckInActivity extends MapActivity implements View.OnClickListener
 			}
 		}	
 		
-		//ArrayList <GeoPoint> list = parseJson(returnedJsonObject);
+		ArrayList <GeoPoint> listGeoPoint = parseJson(returnedJsonObject);
+		Log.e("heckIN", "parsat");
 		
-		//overlayitemStudent = new OverlayItem(ourLocation,"" , ""); if we want name to be shown
 	}
 	
 	/**
@@ -193,10 +194,9 @@ public class CheckInActivity extends MapActivity implements View.OnClickListener
 	 *   Start new activity that will show the information on a map
 	 */
 	public void onClick(View v) {
-		/*
-		String username;
+		checkin = true;
 
-		username = myName.getText().toString();
+		username = enterName.getText().toString();
 		username.trim(); //removes white signs
 		username = username.replaceAll("[^a-öA-Ö0-9]+",""); //Removes illegal characters to prevent sql injection
 
@@ -204,35 +204,11 @@ public class CheckInActivity extends MapActivity implements View.OnClickListener
 		if(username.equals("")){
 			username = "Unknown";
 		}
+		
+		connectExternalDatabase();
+		
+		checkin =false;
 
-		ArrayList<GeoPoint> returnedGeoPoints = new ArrayList<GeoPoint>();
-
-		returnedJsonObject = null;
-
-		GetCheckIn getCheckIn = new GetCheckIn();
-		getCheckIn.execute(); //the method doInBackground() is executed
-
-		while(returnedJsonObject == null){ //if json object not returned, sleep for 30 sec
-			try {
-				Thread.sleep(500);
-			} catch (InterruptedException e1) {
-				e1.printStackTrace();
-			}
-		}	
-
-		//parse returendJSONObject
-
-		//create a arraylist with geopoints
-		//overlayitemStudent = new OverlayItem(ourLocation,"" , ""); if we want name to be shown
-
-		/*
-			ShowCheckIn show = new ShowCheckIn(returnedGeoPoints);
-
-
-			Intent showAllCheckedIN = new Intent(show);
-			//showAllCheckedIN.putParcelableArrayListExtra("key", (ArrayList<? extends Parcelable>) returnedGeoPoints);
-			//showAllCheckedIN.putExtra("hej",returnedGeoPoints);
-			startActivity(showAllCheckedIN);	*/
 	}
 
 
@@ -259,7 +235,6 @@ public class CheckInActivity extends MapActivity implements View.OnClickListener
 			String jsonResponse = "";
 			
 			Log.e("CheckIN", "inside doInBackgound"); //print out jsonresponse
-
 			
 			//Create a string with the right start and end position
 			urlString.append("http://schmaps.scarleo.se/schmaps.php?name=");
