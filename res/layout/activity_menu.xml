@@ -40,7 +40,7 @@
         android:layout_below="@+id/microwaveButton"
         android:background="@layout/shape"
         android:gravity="center"
-        android:text="Find Restaurants"
+        android:text="Show Restaurants"
         android:textSize="20dp" />
     
     <Button
@@ -53,7 +53,7 @@
         android:layout_centerVertical="true"
         android:background="@layout/shape"
         android:gravity="center"
-        android:text="ATMs"
+        android:text="Show ATMs"
         android:textSize="20dp" />
     
     <Button
@@ -66,7 +66,7 @@
         android:layout_centerVertical="true"
         android:background="@layout/shape"
         android:gravity="center"
-        android:text="Book grouproom"
+        android:text="Book studyroom"
         android:textSize="20dp" />
     
       <Button
@@ -81,7 +81,7 @@
         android:gravity="center"
         android:text="Check in"
         android:textSize="20dp" />
-      
+            
       <Button
         android:id="@+id/checkbusButton"
         android:layout_margin="8dp"
@@ -93,6 +93,19 @@
         android:background="@layout/shape"
         android:gravity="center"
         android:text="Check buses"
+        android:textSize="20dp" />
+      
+      <Button
+        android:id="@+id/scheduleButton"
+        android:layout_margin="8dp"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/checkbusButton"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:background="@layout/shape"
+        android:gravity="center"
+        android:text="My Schedule"
         android:textSize="20dp" />
     
 
