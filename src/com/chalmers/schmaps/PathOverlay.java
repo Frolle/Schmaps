@@ -80,11 +80,8 @@ public class PathOverlay extends Overlay {
 			destLat = endPoint.x;
 			destLong = endPoint.y;
 			
-			Log.e("pathoverlay", "drwaPath");
-			
 			//draws lines from geopoint to geopoint
 			canvas.drawLine(startLat, startLong, destLat, destLong, paint);	
-			Log.e("pathoverlay", "drwaPath2");
 		}
 	}
 }
