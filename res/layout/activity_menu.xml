@@ -15,7 +15,7 @@
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         android:text="Search lecture hall"
-        android:textSize="20dp" />
+        android:textSize="15dp" />
     
     <Button
         android:id="@+id/microwaveButton"
@@ -28,7 +28,7 @@
         android:background="@layout/shape"
         android:gravity="center"
         android:text="Show micros"
-        android:textSize="20dp" />
+        android:textSize="15dp" />
     
     <Button
         android:id="@+id/findRestaurantsButton"
@@ -41,7 +41,7 @@
         android:background="@layout/shape"
         android:gravity="center"
         android:text="Show Restaurants"
-        android:textSize="20dp" />
+        android:textSize="15dp" />
     
     <Button
         android:id="@+id/atmButton"
@@ -54,7 +54,7 @@
         android:background="@layout/shape"
         android:gravity="center"
         android:text="Show ATMs"
-        android:textSize="20dp" />
+        android:textSize="15dp" />
     
     <Button
         android:id="@+id/groupRoomButton"
@@ -67,7 +67,7 @@
         android:background="@layout/shape"
         android:gravity="center"
         android:text="Book studyroom"
-        android:textSize="20dp" />
+        android:textSize="15dp" />
     
       <Button
         android:id="@+id/checkinButton"
@@ -80,7 +80,7 @@
         android:background="@layout/shape"
         android:gravity="center"
         android:text="Check in"
-        android:textSize="20dp" />
+        android:textSize="15dp" />
             
       <Button
         android:id="@+id/checkbusButton"
@@ -93,7 +93,7 @@
         android:background="@layout/shape"
         android:gravity="center"
         android:text="Check buses"
-        android:textSize="20dp" />
+        android:textSize="15dp" />
       
       <Button
         android:id="@+id/scheduleButton"
@@ -106,7 +106,7 @@
         android:background="@layout/shape"
         android:gravity="center"
         android:text="My Schedule"
-        android:textSize="20dp" />
+        android:textSize="15dp" />
     
 
 </RelativeLayout>
