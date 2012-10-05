@@ -35,9 +35,10 @@ public class MenuActivity extends Activity implements View.OnClickListener {
 	private static final int BOOKINGKEY = 5;
 	private static final int BUSKEY = 6;
 	private static final int CHECKIN = 7;
+	private static final int SCHEDULE = 8;
 
 	private Intent startMapActivity;
-	private Button searchHall, groupRoom,atmButton,microwaveButton,findRestaurantsButton, checkin, bus;
+	private Button searchHall, groupRoom,atmButton,microwaveButton,findRestaurantsButton, checkin, bus, mySchedule;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -51,6 +52,9 @@ public class MenuActivity extends Activity implements View.OnClickListener {
 		microwaveButton = (Button) findViewById(R.id.microwaveButton);
 		checkin = (Button) findViewById(R.id.checkinButton);
 		bus = (Button) findViewById(R.id.checkbusButton);
+		mySchedule = (Button) findViewById(R.id.scheduleButton);
+		mySchedule.setOnClickListener(this);
+		
 		checkin.setOnClickListener(this);
 		bus.setOnClickListener(this);
 		microwaveButton.setOnClickListener(this);
