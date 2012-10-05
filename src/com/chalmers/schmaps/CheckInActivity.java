@@ -234,8 +234,6 @@ public class CheckInActivity extends MapActivity implements View.OnClickListener
 			String line = null;
 			String jsonResponse = "";
 			
-			Log.e("CheckIN", "inside doInBackgound"); //print out jsonresponse
-			
 			//Create a string with the right start and end position
 			urlString.append("http://schmaps.scarleo.se/schmaps.php?name=");
 			urlString.append(username); //from, your position, latitude
