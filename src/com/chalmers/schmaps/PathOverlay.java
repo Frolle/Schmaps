@@ -22,6 +22,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
+import android.util.Log;
 
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapView;
@@ -79,8 +80,11 @@ public class PathOverlay extends Overlay {
 			destLat = endPoint.x;
 			destLong = endPoint.y;
 			
+			Log.e("pathoverlay", "drwaPath");
+			
 			//draws lines from geopoint to geopoint
 			canvas.drawLine(startLat, startLong, destLat, destLong, paint);	
+			Log.e("pathoverlay", "drwaPath2");
 		}
 	}
 }

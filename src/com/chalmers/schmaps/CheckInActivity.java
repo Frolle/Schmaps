@@ -24,6 +24,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -33,6 +34,7 @@ import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
+import com.google.android.maps.Overlay;
 
 import com.google.android.maps.OverlayItem;
 
@@ -61,6 +63,8 @@ public class CheckInActivity extends MapActivity implements View.OnClickListener
 	private LocationManager location_manager;
 	private LocationListener location_listener;
 	private JSONObject returnedJsonObject;
+	private List<Overlay> overlayList;
+	private MapItemizedOverlay mapItemizedCheckIn;
 
 	private Criteria criteria;
 	private String bestProvider;
@@ -73,6 +77,8 @@ public class CheckInActivity extends MapActivity implements View.OnClickListener
 	private MapView mapview;
 	private Button checkInButton;
 	private EditText enterName;
+	private Drawable checkInDot;
+	private OverlayItem overlayitem;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -153,8 +159,8 @@ public class CheckInActivity extends MapActivity implements View.OnClickListener
 			}
 		}	
 		
-		ArrayList <GeoPoint> listGeoPoint = parseJson(returnedJsonObject);
-		Log.e("heckIN", "parsat");
+		parseJsonAndDraw(returnedJsonObject);
+		
 		
 	}
 	
@@ -164,11 +170,17 @@ public class CheckInActivity extends MapActivity implements View.OnClickListener
 	 * @param jsonObject
 	 * @return arraylist of geopoints
 	 */
-	private ArrayList<GeoPoint> parseJson(JSONObject jsonObject){
-		ArrayList<GeoPoint> returnedGeoPoints = new ArrayList<GeoPoint>();
-		GeoPoint geopoint;
+	private void parseJsonAndDraw(JSONObject jsonObject){
+		GeoPoint geopoint; //greates an geopoint with our location
 		int lat, lng;
 		String name;
+		
+		overlayList = mapview.getOverlays();
+		checkInDot = this.getResources().getDrawable(R.drawable.dot); //drawable
+		mapItemizedCheckIn = new MapItemizedOverlay(checkInDot, this); //mapitemizedoverlay with drawable
+		
+		ArrayList<OverlayItem> locationList = new ArrayList<OverlayItem>();
+		
 		try {
 			JSONArray result = jsonObject.getJSONArray("result");
 			JSONObject checkedInPerson;
@@ -181,12 +193,40 @@ public class CheckInActivity extends MapActivity implements View.OnClickListener
 				lat = (int)checkedInPerson.getInt("lat");
 				lng = (int)checkedInPerson.getInt("lng");
 				geopoint = new GeoPoint(lat,lng);
-				returnedGeoPoints.add(count, geopoint);
+
+				overlayitem = new OverlayItem(geopoint, "Check-In", name);
+				locationList.add(overlayitem);	
 			}
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
-		return returnedGeoPoints;
+		
+		//git tag -a namn (7commitid) -m "", git push --tags eller git push:namn
+		//git log --pretty=oneline
+		for(OverlayItem item : locationList)
+		{
+			mapItemizedCheckIn.addOverlay(item);
+			overlayList.add(mapItemizedCheckIn);
+		}
+		
+		mapview.postInvalidate();
+		
+		/*
+		mapItemizedCheckIn.addOverlay(overlayitem);
+		overlayList.add(mapItemizedCheckIn);*/
+		
+		mapview.postInvalidate();
+		
+		
+		
+		
+		
+		Integer i= overlayList.size();
+		String s = i.toString();
+		
+		Log.e("CheckIN", "parsat");
+		
+		Log.e("CheckIN",s);
 	}
 
 	/**  When user enters her/his name and presses check-in the information is sent to an external server

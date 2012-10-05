@@ -95,15 +95,11 @@ public class MapItemizedOverlay extends ItemizedOverlay<OverlayItem> {
 	  
 	  //if the taped geopoint is a classrum show the following dialog (including button for get directions)
 	  //if not do not show get directions
-	  if(index == 0){
+	  
 	  image.setImageResource(R.drawable.dot); //shows a picture in the dialog
 
 	  // builder.setMessage(item.getSnippet());
       builder.setCancelable(true);
-      
-      }else{
-    	  image.setImageResource(R.drawable.tomte); //shows a picture in the dialog
-      }
 	  
 	  builder.setView(layout);
 	  alertDialog = builder.create();

@@ -99,7 +99,7 @@ public class GoogleMapSearchLocation extends MapActivity implements View.OnClick
 			
 
 			ourLocation = new GeoPoint(latitude, longitude); //greates an geopoint with our location
-			getDir.add(0,ourLocation); //adds geopoint to the arraylist of geopoints
+			getDir.add(ourLocation); //adds geopoint to the arraylist of geopoints
 			
 			mapcon = mapView.getController(); 
 			mapcon.animateTo(ourLocation);
@@ -120,7 +120,7 @@ public class GoogleMapSearchLocation extends MapActivity implements View.OnClick
 				longitude = (int) (location.getLongitude()*1E6); //get the longitude
 
 				ourLocation = new GeoPoint(latitude, longitude); //greates an geopoint with our location
-				getDir.add(0,ourLocation); //adds geopoint to the arraylist of geopoints
+				getDir.add(ourLocation); //adds geopoint to the arraylist of geopoints
 
 				//creates a MapItemizedOverlay-object and adds it to the list mapOverlays
 				overlayitemStudent = new OverlayItem(ourLocation, "Hey amigo", "This is your position!");
@@ -193,9 +193,9 @@ public class GoogleMapSearchLocation extends MapActivity implements View.OnClick
 		mapView.setBuiltInZoomControls(true);
 
 		mapOverlays = mapView.getOverlays();
-		room = this.getResources().getDrawable(R.drawable.dot); 
-		student = this.getResources().getDrawable(R.drawable.tomte);
-		mapItemizedRoom = new MapItemizedOverlay(room, this);
+		room = this.getResources().getDrawable(R.drawable.dot); //drawable
+		student = this.getResources().getDrawable(R.drawable.tomte); //drawable
+		mapItemizedRoom = new MapItemizedOverlay(room, this); //mapitemizedoverlay with drawable
 		mapItemizedStudent = new MapItemizedOverlay(student, this);
 		
 		editButton = (Button) findViewById(R.id.edittextbutton);
@@ -229,7 +229,7 @@ public class GoogleMapSearchLocation extends MapActivity implements View.OnClick
 		//if we find room show room on map, if not show dialog 
 		if(search.exists(roomToFind)){
 			roomLocation = new GeoPoint(search.getLat(roomToFind),search.getLong(roomToFind)); //create a geopoint
-			getDir.add(1,roomLocation);
+			getDir.add(roomLocation);
 			mapcon = mapView.getController();
 			mapcon.animateTo(roomLocation);
 			mapcon.setZoom(18); //zoom level
@@ -258,8 +258,10 @@ public class GoogleMapSearchLocation extends MapActivity implements View.OnClick
 		switch(item.getItemId()){
 		
 		case R.id.getdir:
+			Log.e(TAG, "pressed");
 			walkningDirections ();
 		}
+		Log.e(TAG, "finished walking directions");
 		
 		return false;
 	}
@@ -279,7 +281,8 @@ private void walkningDirections (){
 		
 		GetDirections directions = new GetDirections();
 		directions.execute(); //the method doInBackground() in GetDirections is executed
-
+		
+		Log.e(TAG, "innan sleep");
 		while(jsonObject == null){ //if json object not returned, sleep for 30 sec
 			try {
 				Thread.sleep(500);
@@ -287,6 +290,7 @@ private void walkningDirections (){
 				e1.printStackTrace();
 			}
 		}
+		Log.e(TAG, "efter sleep");
 
 
 		try {
