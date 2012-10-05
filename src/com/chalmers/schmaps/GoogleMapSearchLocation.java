@@ -47,7 +47,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.Intent;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -62,8 +61,6 @@ import android.widget.EditText;
  * Displays users position, rooms position if found and get directions from google directions api if user wants directions.
  */
 public class GoogleMapSearchLocation extends MapActivity implements View.OnClickListener{
-
-	private static String TAG = "GoogleMapActivity";
 
 	private Button editButton;
 	private EditText lectureEdit;
@@ -82,11 +79,12 @@ public class GoogleMapSearchLocation extends MapActivity implements View.OnClick
 	private int longitude;
 	private int latitude;
 	private JSONObject jsonObject;
-	private ArrayList<GeoPoint> getDir = new ArrayList<GeoPoint>();
+	
 	private OverlayItem overlayitemStudent, overlayItemRoom;
 	private Drawable room, student;
 	private MapController mapcon;
 	private PathOverlay pathOverlay;
+	private boolean roomSearched;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -100,7 +98,6 @@ public class GoogleMapSearchLocation extends MapActivity implements View.OnClick
 			
 
 			ourLocation = new GeoPoint(latitude, longitude); //greates an geopoint with our location
-			getDir.add(0,ourLocation); //adds geopoint to the arraylist of geopoints
 			
 			mapcon = mapView.getController(); 
 			mapcon.animateTo(ourLocation);
@@ -121,7 +118,6 @@ public class GoogleMapSearchLocation extends MapActivity implements View.OnClick
 				longitude = (int) (location.getLongitude()*1E6); //get the longitude
 
 				ourLocation = new GeoPoint(latitude, longitude); //greates an geopoint with our location
-				getDir.add(0,ourLocation); //adds geopoint to the arraylist of geopoints
 
 				//creates a MapItemizedOverlay-object and adds it to the list mapOverlays
 				overlayitemStudent = new OverlayItem(ourLocation, "Hey amigo", "This is your position!");
@@ -149,7 +145,6 @@ public class GoogleMapSearchLocation extends MapActivity implements View.OnClick
 		search.createDatabase(); //creates an database
 	}
 
-
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		super.onCreateOptionsMenu(menu);
@@ -174,7 +169,6 @@ public class GoogleMapSearchLocation extends MapActivity implements View.OnClick
 	protected void onResume() {
 		super.onResume();
 		try {
-			Log.e(TAG, "onrsume");
 			// Register the listener with the Location Manager to receive
 			// location updates
 			//location_manager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 10, location_listener);
@@ -208,6 +202,8 @@ public class GoogleMapSearchLocation extends MapActivity implements View.OnClick
 		bestProvider = location_manager.getBestProvider(criteria, false); //best reception
 		location = location_manager.getLastKnownLocation(bestProvider); //gets last known location from chosen provider
 
+		roomSearched = false;
+
 	}
 
 	public void onClick(View v) {
@@ -230,7 +226,6 @@ public class GoogleMapSearchLocation extends MapActivity implements View.OnClick
 		//if we find room show room on map, if not show dialog 
 		if(search.exists(roomToFind)){
 			roomLocation = new GeoPoint(search.getLat(roomToFind),search.getLong(roomToFind)); //create a geopoint
-			getDir.add(1,roomLocation);
 			mapcon = mapView.getController();
 			mapcon.animateTo(roomLocation);
 			mapcon.setZoom(18); //zoom level
@@ -241,6 +236,7 @@ public class GoogleMapSearchLocation extends MapActivity implements View.OnClick
 			mapItemizedRoom.addOverlay(overlayItemRoom);
 			mapOverlays.add(mapItemizedRoom);
 			mapView.postInvalidate();
+			roomSearched = true; //now someone has searched for a room, set the boolean to true
 
 		}else{
 			//dilaog pops up if room not found
@@ -252,14 +248,21 @@ public class GoogleMapSearchLocation extends MapActivity implements View.OnClick
 		search.close(); //close database
 
 	}
-	
+	/**
+	 * Called when user presses the get directions button
+	 */
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		
 		switch(item.getItemId()){
 		
 		case R.id.getdir:
-			walkningDirections ();
+			//if there there is roomLocation then search for a path
+			//if not a roomLocation then the user has not searched for a room, do not give directions
+			if(roomSearched){ 
+				walkningDirections ();
+				roomSearched = false;
+			}	
 		}
 		
 		return false;
@@ -361,13 +364,13 @@ private void walkningDirections (){
 
 			//Create a string with the right start and end position
 			urlString.append("http://maps.googleapis.com/maps/api/directions/json?origin=");
-			urlString.append(Double.toString((double) getDir.get(0).getLatitudeE6() / 1.0E6)); //from, your position, latitude
+			urlString.append(Double.toString((double) ourLocation.getLatitudeE6() / 1.0E6)); //from, your position, latitude
 			urlString.append(",");
-			urlString.append(Double.toString((double) getDir.get(0).getLongitudeE6() / 1.0E6));//longitude
+			urlString.append(Double.toString((double) ourLocation.getLongitudeE6() / 1.0E6));//longitude
 			urlString.append("&destination=");// to, where you are going
-			urlString.append(Double.toString((double) getDir.get(1).getLatitudeE6() / 1.0E6)); //latitude
+			urlString.append(Double.toString((double) roomLocation.getLatitudeE6() / 1.0E6)); //latitude
 			urlString.append(",");
-			urlString.append(Double.toString((double) getDir.get(1).getLongitudeE6() / 1.0E6)); //ongitude
+			urlString.append(Double.toString((double) roomLocation.getLongitudeE6() / 1.0E6)); //ongitude
 			urlString.append("&sensor=false&avoid=highways&mode=walking"); //we want the walking directions
 
 
