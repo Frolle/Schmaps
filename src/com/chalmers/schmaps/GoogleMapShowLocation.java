@@ -32,7 +32,7 @@ public class GoogleMapShowLocation extends MapActivity {
 	private static final int LINDHOLMEN = 42;	
 
 	private static final String DATABASE_NAME = "SchmapsDB"; //namnet på vår databas
-	private static final String DATABASE_TABLE = "Salar"; //namnet på vår tabell (kan ha flera tabeller)
+	private static final String DATABASE_TABLE = "Salar"; //name of our new database table
 	private static final String DB_MICROWAVETABLE = "Microwaves"; //Name of our microwave table
 	private static final String DB_RESTAURANTTABLE = "Restaurants"; //Name of our restaurants table
 	private static final String DB_ATMTABLE = "Atm";				//Name of our ATM table
