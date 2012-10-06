@@ -19,6 +19,7 @@
         <uses-library android:name="com.google.android.maps" />
 
         <activity
+            android:screenOrientation="fullSensor"
             android:name=".Startup"
             android:label="@string/title_activity_startup"
          >
@@ -29,6 +30,7 @@
             </intent-filter>
         </activity>
         <activity
+            android:screenOrientation="fullSensor"
             android:name=".MenuActivity"
             android:label="@string/title_activity_menu"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
