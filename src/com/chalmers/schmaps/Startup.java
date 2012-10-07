@@ -34,6 +34,7 @@ public class Startup extends Activity {
 
     private ImageView myView;
 	private Animation fadeInAnimation;
+    private Intent startMenuActivity;
 
 	@Override
     public void onCreate(Bundle savedInstanceState) {
@@ -43,10 +44,11 @@ public class Startup extends Activity {
         //Use a thread for the splash screen to assign its lifetime.
         assignInstances();
         Thread timer = new Thread(){
-            public void run (){
+
+			public void run (){
             	try{
             		sleep(5000);
-            		Intent startMenuActivity = new Intent("android.intent.action.MENUACTIVITY");
+            		startMenuActivity = new Intent("android.intent.action.MENUACTIVITY");
             		startActivity(startMenuActivity);
             	}
             	catch(InterruptedException e){
@@ -76,6 +78,10 @@ public class Startup extends Activity {
 	protected void onPause() {
 		super.onPause();
 		finish();
+	}
+	
+	public Intent getIntentForMenuActivity(){
+		return startMenuActivity;
 	}
     
 }
