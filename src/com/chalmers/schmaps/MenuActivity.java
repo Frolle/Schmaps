@@ -37,6 +37,7 @@ public class MenuActivity extends Activity implements View.OnClickListener {
 
 	private Intent startMapActivity;
 	private Button searchHall, groupRoom,atmButton,microwaveButton,findRestaurantsButton;
+	private String activityString;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -73,13 +74,15 @@ public class MenuActivity extends Activity implements View.OnClickListener {
 		case R.id.searchHallButton:
 			searchHall.setBackgroundColor(Color.DKGRAY); //graphics for the button
 			startMapActivity = new Intent("android.intent.action.GOOGLEMAPSEARCHLOCATION");
-			startActivity(startMapActivity);	
+			setActivityString(startMapActivity.getAction());
+			startActivity(startMapActivity);
 			break;
 		
 		case R.id.microwaveButton:
 			microwaveButton.setBackgroundColor(Color.DKGRAY); //graphics for the button
 			startMapActivity = new Intent("android.intent.action.CAMPUSMENUACTIVITY");
 			startMapActivity.putExtra("Show locations", MICROWAVEBUTTON);
+			setActivityString(startMapActivity.getAction());
 			startActivity(startMapActivity);
 			break;
 			
@@ -87,23 +90,37 @@ public class MenuActivity extends Activity implements View.OnClickListener {
 			findRestaurantsButton.setBackgroundColor(Color.DKGRAY);
 			startMapActivity = new Intent("android.intent.action.CAMPUSMENUACTIVITY");
 			startMapActivity.putExtra("Show locations", RESTAURANTBUTTON);
+			setActivityString(startMapActivity.getAction());
 			startActivity(startMapActivity);
 			break;
 			
 		case R.id.atmButton:
 			atmButton.setBackgroundColor(Color.DKGRAY); //change button color when button is clicked
 			//Start the group room activity
-			Intent startAtm = new Intent("android.intent.action.CAMPUSMENUACTIVITY");
-			startAtm.putExtra("Show locations", ATMBUTTON);
-			startActivity(startAtm);	
+			startMapActivity = new Intent("android.intent.action.CAMPUSMENUACTIVITY");
+			startMapActivity.putExtra("Show locations", ATMBUTTON);
+			setActivityString(startMapActivity.getAction());
+			startActivity(startMapActivity);	
 			break;
 			
 		case R.id.groupRoomButton:
 			groupRoom.setBackgroundColor(Color.DKGRAY); //change button color when button is clicked
 			//Start the group room activity
-			Intent startGroupRoomActivity = new Intent(this,GroupRoomActivity.class);
-			startActivity(startGroupRoomActivity);	
+			startMapActivity = new Intent(this,GroupRoomActivity.class);
+			setActivityString("GroupRoomButton");
+			startActivity(startMapActivity);	
 			break;
 		}
 	}
+	public String getActivityString() {
+		return activityString;
+	}
+
+	public void setActivityString(String activityString) {
+		this.activityString = activityString;
+	}
+
+
+
+
 }
