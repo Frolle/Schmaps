@@ -50,7 +50,10 @@ public class SearchSQL {
 	private static final String DATABASE_ATMTABLE = "Bankomater";
 
 	private static String DATABASE_PATH = "";
+
 	private static final int DATABASE_VERSION = 7;
+
+
 	
 	private static final int MICROWAVETABLE = 1;
 	private static final int RESTAURANTTABLE = 2;
