@@ -51,6 +51,7 @@ public class SearchSQL {
 
 	private static String DATABASE_PATH = "";
 	private static final int DATABASE_VERSION =5;
+
 	
 	private static final int MICROWAVETABLE = 1;
 	private static final int RESTAURANTTABLE = 2;
@@ -261,7 +262,7 @@ public class SearchSQL {
 		
 		public MySQLiteOpenHelper(Context context) {
 			super(context, DATABASE_NAME, null, DATABASE_VERSION);
-			DATABASE_PATH = "/data/data/" + context.getPackageName() + "/databases/";
+//			DATABASE_PATH = "/data/data/" + context.getPackageName() + "/databases/";
 			this.myContext = context;
 			// TODO Auto-generated constructor stub
 		}
