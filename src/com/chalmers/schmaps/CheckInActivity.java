@@ -23,7 +23,6 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.json.JSONArray;
@@ -38,10 +37,7 @@ import com.google.android.maps.Overlay;
 
 import com.google.android.maps.OverlayItem;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
-import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 import android.location.Criteria;
 import android.location.Location;
@@ -49,14 +45,20 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 
-
-
+/*******************************************************
+ * CheckInActivity shows a MapView zoomed into your position and shows people that are checked in
+ * It connects an external database and collects info about people who have checked in i the last two hours
+ * User can check in by entering your name and clicking check-in, if user does not enter the name it will still
+ * check in but it will state "Unknown" as name
+ * By clicking on the figures on the map you can see the name and when they have checked in
+ * WARNING: This application will probably crash on an emulator since it can not get your position
+ **************************************************************/
 public class CheckInActivity extends MapActivity implements View.OnClickListener{
 
 	private GeoPoint ourLocation;
@@ -92,7 +94,6 @@ public class CheckInActivity extends MapActivity implements View.OnClickListener
 		mapview.setBuiltInZoomControls(true);
 		mapcon = mapview.getController(); 
 
-		
 		checkInButton = (Button) findViewById(R.id.checkinbutton);
 		enterName = (EditText) findViewById(R.id.entername);
 		checkInButton.setOnClickListener(this);
@@ -114,7 +115,7 @@ public class CheckInActivity extends MapActivity implements View.OnClickListener
 
 		location_listener = new LocationListener(){
 			/**
-			 * method is called when location is changed
+			 * method is called when location is changed, when onResumed() is called
 			 */
 			public void onLocationChanged(Location loc) { 
 				latitude = (int) (location.getLatitude()*1E6); //get the latitude
@@ -139,13 +140,14 @@ public class CheckInActivity extends MapActivity implements View.OnClickListener
 
 			}	
 		};
-
 		connectExternalDatabase();
-		
-		
-		//overlayitemStudent = new OverlayItem(ourLocation,"" , ""); if we want name to be shown
 	}
 	
+	/*********************************************************************
+	 * Creates the object of a new thread and executes it
+	 * Waits the thread to return an jsonobject, sleeps main thread if json object not returned
+	 * Calls method parseJsonAndDraw() when jsonobject returned
+	 ********************************************************************/
 	private void connectExternalDatabase(){
 		returnedJsonObject = null;
 		GetCheckIn getCheckIn = new GetCheckIn();
@@ -160,80 +162,62 @@ public class CheckInActivity extends MapActivity implements View.OnClickListener
 		}	
 		
 		parseJsonAndDraw(returnedJsonObject);
-		
-		
 	}
 	
-	/**
+	/*******************************************************************
 	 * Method parses through in parameter jsonObject and creates an array of geopoints
 	 * each geopoint representing an checked-in person
 	 * @param jsonObject
 	 * @return arraylist of geopoints
-	 */
+	 **********************************************************************/
 	private void parseJsonAndDraw(JSONObject jsonObject){
 		GeoPoint geopoint; //greates an geopoint with our location
 		int lat, lng;
-		String name;
+		String name,time;
+		StringBuffer timebuffer = new StringBuffer();
 		
 		overlayList = mapview.getOverlays();
-		checkInDot = this.getResources().getDrawable(R.drawable.dot); //drawable
+		checkInDot = this.getResources().getDrawable(R.drawable.androidlogomini); //drawable
 		mapItemizedCheckIn = new MapItemizedOverlay(checkInDot, this); //mapitemizedoverlay with drawable
-		
-		ArrayList<OverlayItem> locationList = new ArrayList<OverlayItem>();
 		
 		try {
 			JSONArray result = jsonObject.getJSONArray("result");
 			JSONObject checkedInPerson;
 
-			//loop through the array and extract all checked-in points
-			//create an geopoint and and to the array of geopoints
+			//loop through the jsonarray and extract all checked-in points
+			//collect data, create geopoint and add to list of overlays that will be drawn on map
 			for(int count = 0;count<result.length();count++){
 				checkedInPerson = result.getJSONObject(count);
+				time = checkedInPerson.getString("time");//extract time
+				timebuffer.insert(0,time); //insert in stringbuffer
+				timebuffer.delete(16, timebuffer.length()); //delete seconds
+				timebuffer.delete(0, 11); //delete date
+				time = timebuffer.toString(); //convert back to string
+				timebuffer.delete(0,timebuffer.length()); //clear buffer
 				name = checkedInPerson.getString("name");
 				lat = (int)checkedInPerson.getInt("lat");
 				lng = (int)checkedInPerson.getInt("lng");
 				geopoint = new GeoPoint(lat,lng);
-
-				overlayitem = new OverlayItem(geopoint, "Check-In", name);
-				locationList.add(overlayitem);	
+				overlayitem = new OverlayItem(geopoint, name, "Checked in at " + time);
+				mapItemizedCheckIn.addOverlay(overlayitem);
+				overlayList.add(mapItemizedCheckIn);
 			}
 		} catch (JSONException e) {
 			e.printStackTrace();
-		}
-		
-		//git tag -a namn (7commitid) -m "", git push --tags eller git push:namn
-		//git log --pretty=oneline
-		for(OverlayItem item : locationList)
-		{
-			mapItemizedCheckIn.addOverlay(item);
-			overlayList.add(mapItemizedCheckIn);
-		}
-		
+		}		
+
 		mapview.postInvalidate();
-		
-		/*
-		mapItemizedCheckIn.addOverlay(overlayitem);
-		overlayList.add(mapItemizedCheckIn);*/
-		
-		mapview.postInvalidate();
-		
-		
-		
-		
-		
-		Integer i= overlayList.size();
-		String s = i.toString();
-		
-		Log.e("CheckIN", "parsat");
-		
-		Log.e("CheckIN",s);
+
 	}
 
-	/**  When user enters her/his name and presses check-in the information is sent to an external server
+	/***************************************************************************
+	 * 	 When user enters her/his name and presses check-in the information is sent to an external server
 	 *   Returened is a jsonobject with all postions where people have checked in the last hour
 	 *   Start new activity that will show the information on a map
-	 */
+	 *************************************************************************/
 	public void onClick(View v) {
+		InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+		imm.hideSoftInputFromWindow(enterName.getWindowToken(), 0);
 		checkin = true;
 
 		username = enterName.getText().toString();
@@ -241,22 +225,20 @@ public class CheckInActivity extends MapActivity implements View.OnClickListener
 		username = username.replaceAll("[^a-öA-Ö0-9]+",""); //Removes illegal characters to prevent sql injection
 
 		//if the user have not entered a name the name is set to unknown
-		if(username.equals("")){
+		if(username.equals(""))
 			username = "Unknown";
-		}
 		
 		connectExternalDatabase();
-		
 		checkin =false;
-
 	}
 
 
-	/** this innerclass creates a new thread from where we can make a request
+	/****************************************************************************
+	 * this innerclass creates a new thread from where we can make a request
 	 *  to google directions api - to get the directions
 	 * 	inspired by
 	 *  http://www.vogella.com/articles/AndroidPerformance/article.html
-	 */
+	 ********************************************************************************/
 	private class GetCheckIn extends AsyncTask<Void, Void, JSONObject> {
 
 
@@ -281,11 +263,9 @@ public class CheckInActivity extends MapActivity implements View.OnClickListener
 			urlString.append(Integer.toString((int) latitude)); //latitude
 			urlString.append("&lng=");
 			urlString.append(Integer.toString((int) longitude)); //longitude
-			if(checkin){
+			if(checkin)
 				urlString.append("&insert=1");
-			}
 			
-
 			//establish a connection with google directions api
 			try {
 				url = new URL(urlString.toString());
@@ -303,10 +283,8 @@ public class CheckInActivity extends MapActivity implements View.OnClickListener
 				e.printStackTrace();
 			}
 
-			Log.e("CheckIN", "url done"); //print out jsonresponse
 			InputStreamReader inputStream = new InputStreamReader(is);
 			BufferedReader reader = new BufferedReader(inputStream);
-
 
 			//read from the buffer line by line and save in response (a stringbuider)
 			try{
@@ -322,7 +300,6 @@ public class CheckInActivity extends MapActivity implements View.OnClickListener
 			}
 
 			jsonResponse = response.toString();
-			Log.e("CheckIN", jsonResponse); //print out jsonresponse
 
 			//convert string to jsonobject and return the object
 			try{
@@ -342,5 +319,22 @@ public class CheckInActivity extends MapActivity implements View.OnClickListener
 		// TODO Auto-generated method stub
 		return false;
 	}
+	
+	@Override
+	protected void onPause() {
+		super.onPause();
+		location_manager.removeUpdates(location_listener);
+	}
 
+	@Override
+	protected void onResume() {
+		super.onResume();
+		try {
+			// Register the listener with the Location Manager to receive
+			// location updates
+			location_manager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000, 10, location_listener);
+		}
+		catch (Exception e) {
+		}
+	}
 }
