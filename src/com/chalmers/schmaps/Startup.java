@@ -48,7 +48,6 @@ public class Startup extends Activity {
 			public void run (){
             	try{
             		sleep(5000);
-            		startMenuActivity = new Intent("android.intent.action.MENUACTIVITY");
             		startActivity(startMenuActivity);
             	}
             	catch(InterruptedException e){
@@ -66,6 +65,7 @@ public class Startup extends Activity {
                myView = (ImageView) findViewById(R.id.imageView1);
                fadeInAnimation = AnimationUtils.loadAnimation(this, R.anim.appear);
                myView.startAnimation(fadeInAnimation);
+               startMenuActivity = new Intent("android.intent.action.MENUACTIVITY");
 	}
 
 	@Override

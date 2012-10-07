@@ -19,7 +19,7 @@ public class StartupTest extends ActivityInstrumentationTestCase2<Startup> {
 		setActivityInitialTouchMode(false);
 		this.startupActivity = super.getActivity();
 		this.startupIntent = startupActivity.getIntentForMenuActivity();
-		this.stringIntentActivity = startupIntent.getAction();	
+		stringIntentActivity = startupIntent.getAction();	
 		}
 	
 	@Override
