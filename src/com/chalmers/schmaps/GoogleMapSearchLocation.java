@@ -56,10 +56,10 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 
-/**
+/*****************************************************
  * Class displays a google maps activity with a textfield and search button where user can search for classrooms.
  * Displays users position, rooms position if found and get directions from google directions api if user wants directions.
- */
+ *********************************************************/
 public class GoogleMapSearchLocation extends MapActivity implements View.OnClickListener{
 
 	private Button editButton;
@@ -248,9 +248,10 @@ public class GoogleMapSearchLocation extends MapActivity implements View.OnClick
 		search.close(); //close database
 
 	}
-	/**
+
+	/*******************************
 	 * Called when user presses the get directions button
-	 */
+	 ***********************************/
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		
@@ -268,11 +269,11 @@ public class GoogleMapSearchLocation extends MapActivity implements View.OnClick
 		return false;
 	}
 	
-	/**
+	/***********************************************
 	 * creates a new thread (from where we get the directions) and calls it
 	 * waits for the new thread to return a json object
 	 * when json object returned parse it and extract directions
-	 */
+	 ********************************************/
 private void walkningDirections (){
 		
 		JSONObject step,start_location,end_location;

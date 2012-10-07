@@ -1,0 +1,10 @@
+To develop this application you will need the google maps api library: biblioteket:com.google.android.maps and a Maps API Key. You also need to access the internet so you need to set the permission. This is already included in the manifest.
+
+This application is developed for Android 4.0.3 but is backward compatible with version 2.2. If you use Eclipse you need to download API 15 (Android 4.0.3), including SDK Platform and Google APIs. 
+
+Your also need a special AVD Manager to run the applications, the target needs to be Google APIs. So click Window-> AVD Manager -> New, choose target Google API level 8 or 10. 
+
+
+
+
+
