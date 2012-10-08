@@ -87,15 +87,6 @@
             <action android:name="android.intent.action.ACTIONVIEW" />
             
         </intent-filter>
-    </activity>
-            <activity
-            android:name=".CheckoutMenu"
-            android:label="CheckoutMenu" >
-            <intent-filter>
-                <action android:name="android.intent.action.CHECKOUTMENU" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
         </activity>
     </application>
 

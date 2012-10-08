@@ -116,8 +116,6 @@ public class MenuActivity extends Activity implements View.OnClickListener {
 			
 		case R.id.checkinButton:
 			checkin.setBackgroundColor(Color.DKGRAY); //change button color when button is clicked
-			Intent checkinActivity = new Intent("android.intent.action.CHECKOUTMENU");
-			startActivity(checkinActivity);	
 			break;
 		}
 	}
