@@ -207,7 +207,6 @@ public class CheckInActivity extends MapActivity implements View.OnClickListener
 		}		
 
 		mapview.postInvalidate();
-
 	}
 
 	/***************************************************************************
