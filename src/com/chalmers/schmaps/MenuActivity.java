@@ -41,8 +41,12 @@ public class MenuActivity extends Activity implements View.OnClickListener {
 	private static final int BUSKEY = 6;
 
 	private Intent startMapActivity;
-	private Button searchHall, groupRoom,atmButton,microwaveButton,findRestaurantsButton;
+
+	private Button searchHall, groupRoom,atmButton,microwaveButton,findRestaurantsButton, checkInButton;
+
+
 	private String activityString;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -61,6 +65,8 @@ public class MenuActivity extends Activity implements View.OnClickListener {
 		groupRoom.setOnClickListener(this);
 		atmButton = (Button) findViewById(R.id.atmButton);
 		atmButton.setOnClickListener(this);
+		checkInButton = (Button) findViewById(R.id.CheckInButton);
+		checkInButton.setOnClickListener(this);
 	}
 
 	@Override
@@ -115,6 +121,13 @@ public class MenuActivity extends Activity implements View.OnClickListener {
 			setActivityString("GroupRoomButton");
 			startActivity(startMapActivity);	
 			break;
+			
+		case R.id.CheckInButton:
+			checkInButton.setBackgroundColor(Color.DKGRAY);
+			Intent startCheckIn = new Intent("android.intent.action.CHECKINACTIVITY");
+			startActivity(startCheckIn);
+			break;
+			
 		}
 	}
 	public String getActivityString() {
