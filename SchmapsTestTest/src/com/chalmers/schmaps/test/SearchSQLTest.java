@@ -51,24 +51,24 @@ public class SearchSQLTest extends ActivityInstrumentationTestCase2<GoogleMapSea
 
 
 	public void testGetLat() {
-		assertEquals(57689329, tester.getLat(theTestValue));
+		assertEquals(57689111, tester.getLat(theTestValue));
 	}
 
 
 	public void testGetLong() {
-		assertEquals(11973824, tester.getLong(theTestValue));
+		assertEquals(11973517, tester.getLong(theTestValue));
 	}
 
 
 	public void testGetAddress() {
 		
-		assertEquals("Sven Hultins Gata 2", tester.getAddress(theTestValue));
+		assertEquals("Sven Hultins gata 2", tester.getAddress(theTestValue));
 	}
 
 
 	public void testGetLevel() {
 		
-		assertEquals("Plan 2", tester.getLevel(theTestValue));
+		assertEquals("", tester.getLevel(theTestValue));
 	}
 
 
