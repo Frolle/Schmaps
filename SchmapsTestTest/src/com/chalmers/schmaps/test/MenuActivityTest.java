@@ -10,7 +10,6 @@ import android.view.KeyEvent;
 import android.widget.Button;
 
 public class MenuActivityTest extends ActivityInstrumentationTestCase2<MenuActivity> {
-	private Intent startMapActivity;
 	private Button searchHall, groupRoom,atmButton,microwaveButton,findRestaurantsButton;
 	private MenuActivity menuActivity;
 
