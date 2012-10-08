@@ -23,9 +23,9 @@ public class CampusMenuActivity extends Activity implements View.OnClickListener
 	private Button johannebergButton;
 	private Button lindholmenButton;
 	private Bundle menuActionChosen;
+	private String actionString;
 
-
-    @Override
+	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_campus_menu);
@@ -58,6 +58,7 @@ public class CampusMenuActivity extends Activity implements View.OnClickListener
 		case R.id.johannebergButton:
 			johannebergButton.setBackgroundColor(Color.DKGRAY);
 			startMapActivity = new Intent("android.intent.action.GOOGLEMAPSHOWLOCATION");
+			setActionString(startMapActivity.getAction());
 			startMapActivity.putExtra("Campus", JOHANNESBERG);
 			//Transfer what kind of locations should be drawn
 			startMapActivity.putExtra("Show locations", menuActionChosen.getInt("Show locations"));
@@ -67,6 +68,7 @@ public class CampusMenuActivity extends Activity implements View.OnClickListener
 		case R.id.lindholmenButton:
 			lindholmenButton.setBackgroundColor(Color.DKGRAY);
 			startMapActivity = new Intent("android.intent.action.GOOGLEMAPSHOWLOCATION");
+			setActionString(startMapActivity.getAction());
 			startMapActivity.putExtra("Campus", LINDHOLMEN);
 			//Transfer what kind of locations should be drawn
 			startMapActivity.putExtra("Show locations", menuActionChosen.getInt("Show locations"));
@@ -74,4 +76,14 @@ public class CampusMenuActivity extends Activity implements View.OnClickListener
 			break;
 		}
 	}
+	
+    public String getActionString() {
+		return actionString;
+	}
+
+	public void setActionString(String actionString) {
+		this.actionString = actionString;
+	}
+
+
 }
