@@ -1,5 +1,5 @@
 /*
- * Copyright [2012] []
+ * Copyright [2012] [Mei Ha, Martin Augustsson, Simon Fransson]
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -17,6 +17,7 @@
 package com.chalmers.schmaps;
 
 import android.R.color;
+
 import android.os.Bundle;
 
 import android.app.Activity;
@@ -26,6 +27,10 @@ import android.graphics.LightingColorFilter;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
+/**
+ * MenuActivity contains buttons on the menu and determine which activity will start
+ * when the buttons are pressed.
+ */
 
 public class MenuActivity extends Activity implements View.OnClickListener {
 	private static final int MICROWAVEBUTTON = 1;
@@ -36,7 +41,12 @@ public class MenuActivity extends Activity implements View.OnClickListener {
 	private static final int BUSKEY = 6;
 
 	private Intent startMapActivity;
+
 	private Button searchHall, groupRoom,atmButton,microwaveButton,findRestaurantsButton, checkInButton;
+
+
+	private String activityString;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -73,15 +83,17 @@ public class MenuActivity extends Activity implements View.OnClickListener {
 		switch(v.getId()){
 		
 		case R.id.searchHallButton:
-			searchHall.setBackgroundColor(Color.DKGRAY); //graphics for the button
+			searchHall.setBackgroundColor(Color.DKGRAY); //change button color when button is clicked
 			startMapActivity = new Intent("android.intent.action.GOOGLEMAPSEARCHLOCATION");
-			startActivity(startMapActivity);	
+			setActivityString(startMapActivity.getAction());
+			startActivity(startMapActivity);
 			break;
 		
 		case R.id.microwaveButton:
-			microwaveButton.setBackgroundColor(Color.DKGRAY); //graphics for the button
+			microwaveButton.setBackgroundColor(Color.DKGRAY); //change button color when button is clicked
 			startMapActivity = new Intent("android.intent.action.CAMPUSMENUACTIVITY");
 			startMapActivity.putExtra("Show locations", MICROWAVEBUTTON);
+			setActivityString(startMapActivity.getAction());
 			startActivity(startMapActivity);
 			break;
 			
@@ -89,22 +101,25 @@ public class MenuActivity extends Activity implements View.OnClickListener {
 			findRestaurantsButton.setBackgroundColor(Color.DKGRAY);
 			startMapActivity = new Intent("android.intent.action.CAMPUSMENUACTIVITY");
 			startMapActivity.putExtra("Show locations", RESTAURANTBUTTON);
+			setActivityString(startMapActivity.getAction());
 			startActivity(startMapActivity);
 			break;
 			
 		case R.id.atmButton:
 			atmButton.setBackgroundColor(Color.DKGRAY); //change button color when button is clicked
 			//Start the group room activity
-			Intent startAtm = new Intent("android.intent.action.CAMPUSMENUACTIVITY");
-			startAtm.putExtra("Show locations", ATMBUTTON);
-			startActivity(startAtm);	
+			startMapActivity = new Intent("android.intent.action.CAMPUSMENUACTIVITY");
+			startMapActivity.putExtra("Show locations", ATMBUTTON);
+			setActivityString(startMapActivity.getAction());
+			startActivity(startMapActivity);	
 			break;
 			
 		case R.id.groupRoomButton:
 			groupRoom.setBackgroundColor(Color.DKGRAY); //change button color when button is clicked
 			//Start the group room activity
-			Intent startGroupRoomActivity = new Intent(this,GroupRoomActivity.class); 
-			startActivity(startGroupRoomActivity);	
+			startMapActivity = new Intent(this,GroupRoomActivity.class);
+			setActivityString("GroupRoomButton");
+			startActivity(startMapActivity);	
 			break;
 			
 		case R.id.CheckInButton:
@@ -115,4 +130,15 @@ public class MenuActivity extends Activity implements View.OnClickListener {
 			
 		}
 	}
+	public String getActivityString() {
+		return activityString;
+	}
+
+	public void setActivityString(String activityString) {
+		this.activityString = activityString;
+	}
+
+
+
+
 }

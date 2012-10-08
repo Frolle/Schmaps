@@ -45,13 +45,13 @@ public class SearchSQL {
 	private static String TAG = "SearchSQL";
 	
 	private static final String DATABASE_NAME = "SchmapsDB"; //namnet på vår databas
-	private static final String DATABASE_TABLE = "Salar"; //namnet på vår tabell (kan ha flera tabeller)
+	private static final String DATABASE_TABLE = "Rooms"; //namnet på vår tabell (kan ha flera tabeller)
 	private static final String DB_MICROWAVETABLE = "Microwaves"; //Name of our microwave table
 	private static final String DATABASE_ATMTABLE = "Bankomater";
 
-	private static String DATABASE_PATH = "";
+	private static String DATABASE_PATH = "/data/data/com.chalmers.schmaps/databases/";
+	private static final int DATABASE_VERSION =7;
 
-	private static final int DATABASE_VERSION =6;
 
 	
 	private static final int MICROWAVETABLE = 1;
@@ -263,7 +263,6 @@ public class SearchSQL {
 		
 		public MySQLiteOpenHelper(Context context) {
 			super(context, DATABASE_NAME, null, DATABASE_VERSION);
-			DATABASE_PATH = "/data/data/" + context.getPackageName() + "/databases/";
 			this.myContext = context;
 			// TODO Auto-generated constructor stub
 		}
