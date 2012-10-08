@@ -58,15 +58,20 @@ public class GoogleMapSearchLocationTest extends ActivityInstrumentationTestCase
 		super.sendKeys("R U N A N");
 		super.getInstrumentation().waitForIdleSync();
 		TouchUtils.clickView(this, this.editButton);
-		
+		super.getInstrumentation().waitForIdleSync();
 		List<Overlay> overlays = mapview.getOverlays();
-		MapItemizedOverlay tempTestOverlay = (MapItemizedOverlay) overlays.get(0);
+		
+		//Test case for when u dont have a position from user
+		//MapItemizedOverlay tempTestOverlay = (MapItemizedOverlay) overlays.get(0);
+		
+		//Test case for when u get a position for the user
+		MapItemizedOverlay tempTestOverlay = (MapItemizedOverlay) overlays.get(1);
 		
 		GeoPoint roomGP = new GeoPoint(57689329, 11973824);
 		
-		assertEquals(tempTestOverlay.getItem(0).getPoint(),roomGP);
-		assertEquals(tempTestOverlay.getItem(0).getTitle(),"Sven Hultins Gata 2");
-		assertEquals(tempTestOverlay.getItem(0).getSnippet(),"Plan 2");
+		assertEquals(roomGP,tempTestOverlay.getItem(0).getPoint());
+		assertEquals("Sven Hultins Gata 2",tempTestOverlay.getItem(0).getTitle());
+		assertEquals("Plan 2",tempTestOverlay.getItem(0).getSnippet());
 		
 		
 	}
