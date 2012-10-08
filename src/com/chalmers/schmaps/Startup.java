@@ -1,5 +1,5 @@
 /*
- * Copyright [2012] []
+ * Copyright [2012] [Simon]
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -36,13 +36,15 @@ public class Startup extends Activity {
 	private Animation fadeInAnimation;
     private Intent startMenuActivity;
 
+	/**
+	 * onCreate method that assign the instance variables and create an anonymous Thread which is used as a timer for the splash screen.
+	 */
 	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_startup);
-        
-        //Use a thread for the splash screen to assign its lifetime.
         assignInstances();
+        //Use a thread for the splash screen to assign its lifetime.
         Thread timer = new Thread(){
 
 			public void run (){

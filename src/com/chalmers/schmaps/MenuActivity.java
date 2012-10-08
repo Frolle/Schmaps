@@ -1,5 +1,5 @@
 /*
- * Copyright [2012] []
+ * Copyright [2012] [Mei Ha, Martin Augustsson, Simon Fransson]
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -17,6 +17,7 @@
 package com.chalmers.schmaps;
 
 import android.R.color;
+
 import android.os.Bundle;
 
 import android.app.Activity;
@@ -26,6 +27,10 @@ import android.graphics.LightingColorFilter;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
+/**
+ * MenuActivity contains buttons on the menu and determine which activity will start
+ * when the buttons are pressed.
+ */
 
 public class MenuActivity extends Activity implements View.OnClickListener {
 	private static final int MICROWAVEBUTTON = 1;
@@ -72,14 +77,14 @@ public class MenuActivity extends Activity implements View.OnClickListener {
 		switch(v.getId()){
 		
 		case R.id.searchHallButton:
-			searchHall.setBackgroundColor(Color.DKGRAY); //graphics for the button
+			searchHall.setBackgroundColor(Color.DKGRAY); //change button color when button is clicked
 			startMapActivity = new Intent("android.intent.action.GOOGLEMAPSEARCHLOCATION");
 			setActivityString(startMapActivity.getAction());
 			startActivity(startMapActivity);
 			break;
 		
 		case R.id.microwaveButton:
-			microwaveButton.setBackgroundColor(Color.DKGRAY); //graphics for the button
+			microwaveButton.setBackgroundColor(Color.DKGRAY); //change button color when button is clicked
 			startMapActivity = new Intent("android.intent.action.CAMPUSMENUACTIVITY");
 			startMapActivity.putExtra("Show locations", MICROWAVEBUTTON);
 			setActivityString(startMapActivity.getAction());
