@@ -29,23 +29,19 @@ public class GPSPoint extends Activity {
 	
 	private void assignInstances() {
 		manager = (LocationManager)this.getSystemService(Context.LOCATION_SERVICE);
-		LocationProvider provider = manager.getProvider(LocationManager.GPS_PROVIDER);
+		LocationProvider provider = manager.getProvider(LocationManager.NETWORK_PROVIDER);
 		LocationListener listener = new myLocationListener();
-		manager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, listener);
+		manager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, listener);
 
 	}
 	
-	private void setGPSPoints(String table){
-		db.openRead();
-		ArrayList<OverlayItem> locationList = db.getLocations(table);
-		db.close();
-		for(OverlayItem item : locationList)
-		{
-		//	manager.addProximityAlert(item.getLat(), item.getLong(), 5000.000, PendingIntent intent );
+	private void setGPSPoints(){
+
+		manager.addProximityAlert(item.getLat(), item.getLong(), 5000.000, PendingIntent intent );
 
 	
 
-		}
+		
 
 	}
 	
