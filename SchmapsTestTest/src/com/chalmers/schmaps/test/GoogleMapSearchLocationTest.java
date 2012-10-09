@@ -72,7 +72,15 @@ public class GoogleMapSearchLocationTest extends ActivityInstrumentationTestCase
 		assertEquals(roomGP,tempTestOverlay.getItem(0).getPoint());
 		assertEquals("Sven Hultins gata 2",tempTestOverlay.getItem(0).getTitle());
 		assertEquals("",tempTestOverlay.getItem(0).getSnippet());
-		
-		
+
+	}
+	
+	public void testRegexForRoom(){
+		TouchUtils.tapView(this, this.lectureEdit);
+		super.sendKeys("R U N A N");
+		super.getInstrumentation().waitForIdleSync();
+		TouchUtils.clickView(this, this.editButton);
+		super.getInstrumentation().waitForIdleSync();
+		assertEquals("runan", lectureEdit.getText().toString());
 	}
 }
