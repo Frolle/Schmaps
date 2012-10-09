@@ -220,7 +220,7 @@ public class GoogleMapSearchLocation extends MapActivity implements View.OnClick
 		
 		roomToFind = lectureEdit.getText().toString();
 		roomToFind.toLowerCase().trim(); //removes white signs and converts to lower case
-		roomToFind = roomToFind.replaceAll("[^a-Ã¶A-Ã–0-9]+",""); //Removes illegal characters to prevent sql injection
+		roomToFind = roomToFind.replaceAll("[^[a-zåäö][A-ZÅÄÖ][0-9]]+",""); //Removes illegal characters to prevent sql injection
 		search.openRead(); //open database in read mode
 		
 		//if we find room show room on map, if not show dialog 

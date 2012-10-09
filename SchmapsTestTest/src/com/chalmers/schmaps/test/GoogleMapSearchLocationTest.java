@@ -1,5 +1,6 @@
 package com.chalmers.schmaps.test;
 
+import java.lang.reflect.Field;
 import java.util.*;
 
 import junit.framework.Assert;
@@ -10,7 +11,8 @@ import com.chalmers.schmaps.R;
 
 import com.google.android.maps.*;
 
-//import android.sax.RootElement;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.TouchUtils;
 import android.test.ViewAsserts;
@@ -25,6 +27,7 @@ public class GoogleMapSearchLocationTest extends ActivityInstrumentationTestCase
 	private Button editButton;
 	private EditText lectureEdit;
 	private MapView mapview;
+	private String roomToFindString;
 	
 	public GoogleMapSearchLocationTest()
 	{
@@ -77,10 +80,20 @@ public class GoogleMapSearchLocationTest extends ActivityInstrumentationTestCase
 	
 	public void testRegexForRoom(){
 		TouchUtils.tapView(this, this.lectureEdit);
-		super.sendKeys("R U N A N");
+		super.sendKeys(KeyEvent.KEYCODE_BACKSLASH);
+		super.sendKeys("R U N A N ");
+		super.sendKeys(KeyEvent.KEYCODE_POUND);
 		super.getInstrumentation().waitForIdleSync();
 		TouchUtils.clickView(this, this.editButton);
 		super.getInstrumentation().waitForIdleSync();
-		assertEquals("runan", lectureEdit.getText().toString());
+		try {
+			Field roomToFindField = activity.getClass().getDeclaredField("roomToFind");
+			roomToFindField.setAccessible(true);
+			roomToFindString = (String) roomToFindField.get(this.activity);
+			Log.e("GMSLtest", roomToFindString);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		assertEquals("runan", roomToFindString);
 	}
 }
