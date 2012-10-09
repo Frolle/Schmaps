@@ -14,7 +14,6 @@
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         android:background="@layout/shape"
-        android:gravity="center"
         android:text="Johanneberg"
         android:textSize="20dp" />
 
@@ -24,9 +23,9 @@
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_above="@+id/johannebergButton"
-        android:layout_alignLeft="@+id/johannebergButton"
         android:background="@layout/shape"
-        android:gravity="center"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
         android:text="Lindholmen"
         android:textSize="20dp" />
 </RelativeLayout>
