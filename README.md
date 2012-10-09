@@ -3,4 +3,4 @@ Schmaps
 
 Epic Android project.
 
-The database in not yet complete. If you want to text you can try with runan, ha1 or hb2.
+The database in not yet complete. All rooms exists. Microwaveovens and some resturants to come.
