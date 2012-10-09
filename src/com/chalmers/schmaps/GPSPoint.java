@@ -7,7 +7,9 @@ import com.google.android.maps.MapView;
 import com.google.android.maps.OverlayItem;
 
 import android.app.Activity;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.location.LocationListener;
@@ -15,10 +17,12 @@ import android.location.LocationManager;
 import android.location.LocationProvider;
 import android.os.Bundle;
 
-public class GPSPoint extends Activity {
+public class GPSPoint extends Activity {	
 	private SearchSQL db;
 	private MapItemizedOverlay overlay;
 	private LocationManager manager;
+	private PendingIntent intent;
+	private OverlayItem item;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState){
@@ -36,8 +40,9 @@ public class GPSPoint extends Activity {
 	}
 	
 	private void setGPSPoints(){
-
-		manager.addProximityAlert(item.getLat(), item.getLong(), 5000.000, PendingIntent intent );
+		Intent intDB = new Intent(this, SendToDB.class);
+		intent.getActivity(this, 0, intDB, Intent.FLAG_ACTIVITY_NEW_TASK);
+		manager.addProximityAlert(57688771, 11979179, 50, -1, intent);
 
 	
 
