@@ -3,6 +3,8 @@ package com.chalmers.schmaps.test;
 import com.chalmers.schmaps.CampusMenuActivity;
 import com.chalmers.schmaps.R;
 
+import android.content.Intent;
+import android.os.Bundle;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.TouchUtils;
 import android.view.KeyEvent;
@@ -10,9 +12,11 @@ import android.widget.Button;
 
 public class CampusMenuActivityTest extends ActivityInstrumentationTestCase2<CampusMenuActivity> {
 
+	private static final int MICROWAVEBUTTON = 1;
 	private CampusMenuActivity campusMenuActivity;
 	private Button johannebergButton;
 	private Button lindholmenButton;
+	private Bundle extras;
 
 	public CampusMenuActivityTest() {
 		super(CampusMenuActivity.class);
@@ -21,6 +25,7 @@ public class CampusMenuActivityTest extends ActivityInstrumentationTestCase2<Cam
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
+		setActivityIntent(new Intent("android.intent.action.CAMPUSMENUACTIVITY").putExtra("Show locations", MICROWAVEBUTTON));
 		setActivityInitialTouchMode(false);
 		this.campusMenuActivity = super.getActivity();
 		johannebergButton = (Button) campusMenuActivity.findViewById(R.id.johannebergButton);
@@ -33,6 +38,7 @@ public class CampusMenuActivityTest extends ActivityInstrumentationTestCase2<Cam
 	}
 		
 	public void testLindholmenButton(){
+		
 		TouchUtils.clickView(this, this.lindholmenButton);
 		super.getInstrumentation().waitForIdleSync();
 		assertEquals("android.intent.action.GOOGLEMAPSHOWLOCATION", campusMenuActivity.getActionString());
