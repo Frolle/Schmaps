@@ -70,6 +70,9 @@ public class MenuActivityTest extends ActivityInstrumentationTestCase2<MenuActiv
 		assertEquals("android.intent.action.CAMPUSMENUACTIVITY", menuActivity.getActivityString());
 		this.sendKeys(KeyEvent.KEYCODE_BACK);
 	}
-	
+	@Override
+	public void tearDown() throws Exception{
+		super.tearDown();
+	}
 	
 }
