@@ -56,7 +56,6 @@ public class CampusMenuActivity extends Activity implements View.OnClickListener
 		switch (arg0.getId())
 		{
 		case R.id.johannebergButton:
-			johannebergButton.setBackgroundColor(Color.DKGRAY);
 			startMapActivity = new Intent("android.intent.action.GOOGLEMAPSHOWLOCATION");
 			startMapActivity.putExtra("Campus", JOHANNESBERG);
 			//Transfer what kind of locations should be drawn
@@ -65,7 +64,6 @@ public class CampusMenuActivity extends Activity implements View.OnClickListener
 			break;
 			
 		case R.id.lindholmenButton:
-			lindholmenButton.setBackgroundColor(Color.DKGRAY);
 			startMapActivity = new Intent("android.intent.action.GOOGLEMAPSHOWLOCATION");
 			startMapActivity.putExtra("Campus", LINDHOLMEN);
 			//Transfer what kind of locations should be drawn

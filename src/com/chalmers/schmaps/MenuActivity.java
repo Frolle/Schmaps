@@ -26,6 +26,7 @@ import android.graphics.Color;
 import android.graphics.LightingColorFilter;
 import android.view.Menu;
 import android.view.View;
+import android.view.View.OnFocusChangeListener;
 import android.widget.Button;
 /**
  * MenuActivity contains buttons on the menu and determine which activity will start
@@ -89,20 +90,12 @@ public class MenuActivity extends Activity implements View.OnClickListener {
 		switch(v.getId()){
 		
 		case R.id.searchHallButton:
-			searchHall.setPressed(true);
-			if(searchHall.isPressed())
-				searchHall.setBackgroundColor(Color.DKGRAY); //change button color when button is clicked
 			startMapActivity = new Intent("android.intent.action.GOOGLEMAPSEARCHLOCATION");
 			setActivityString(startMapActivity.getAction());
 			startActivity(startMapActivity);
-			searchHall.setPressed(false);
-			if(searchHall.isPressed()==false){
-				searchHall.setBackgroundColor(LECTUREHALLBUTTON);
-			}
 			break;
 		
 		case R.id.microwaveButton:
-			microwaveButton.setBackgroundColor(Color.DKGRAY); //change button color when button is clicked
 			startMapActivity = new Intent("android.intent.action.CAMPUSMENUACTIVITY");
 			startMapActivity.putExtra("Show locations", MICROWAVEBUTTON);
 			setActivityString(startMapActivity.getAction());
@@ -110,7 +103,6 @@ public class MenuActivity extends Activity implements View.OnClickListener {
 			break;
 			
 		case R.id.findRestaurantsButton:
-			findRestaurantsButton.setBackgroundColor(Color.DKGRAY);
 			startMapActivity = new Intent("android.intent.action.CAMPUSMENUACTIVITY");
 			startMapActivity.putExtra("Show locations", RESTAURANTBUTTON);
 			setActivityString(startMapActivity.getAction());
@@ -118,8 +110,6 @@ public class MenuActivity extends Activity implements View.OnClickListener {
 			break;
 			
 		case R.id.atmButton:
-			atmButton.setBackgroundColor(Color.DKGRAY); //change button color when button is clicked
-			//Start the group room activity
 			startMapActivity = new Intent("android.intent.action.CAMPUSMENUACTIVITY");
 			startMapActivity.putExtra("Show locations", ATMBUTTON);
 			setActivityString(startMapActivity.getAction());
@@ -127,7 +117,6 @@ public class MenuActivity extends Activity implements View.OnClickListener {
 			break;
 			
 		case R.id.groupRoomButton:
-			groupRoom.setBackgroundColor(Color.DKGRAY); //change button color when button is clicked
 			//Start the group room activity
 			startMapActivity = new Intent(this,GroupRoomActivity.class);
 			setActivityString("GroupRoomButton");
@@ -136,7 +125,6 @@ public class MenuActivity extends Activity implements View.OnClickListener {
 			
 
 		case R.id.checkinButton:
-			checkin.setBackgroundColor(Color.DKGRAY);
 			Intent startCheckIn = new Intent("android.intent.action.CHECKINACTIVITY");
 			startActivity(startCheckIn);
 			break;
