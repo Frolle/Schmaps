@@ -39,10 +39,12 @@ public class MenuActivity extends Activity implements View.OnClickListener {
 	private static final int LECTUREHALLBUTTON = 4;
 	private static final int BOOKINGKEY = 5;
 	private static final int BUSKEY = 6;
+	private static final int CHECKIN = 7;
+	private static final int SCHEDULE = 8;
 
 	private Intent startMapActivity;
 
-	private Button searchHall, groupRoom,atmButton,microwaveButton,findRestaurantsButton, checkInButton;
+	private Button searchHall, groupRoom,atmButton,microwaveButton,findRestaurantsButton, checkin, bus, mySchedule;
 
 
 	private String activityString;
@@ -65,8 +67,12 @@ public class MenuActivity extends Activity implements View.OnClickListener {
 		groupRoom.setOnClickListener(this);
 		atmButton = (Button) findViewById(R.id.atmButton);
 		atmButton.setOnClickListener(this);
-		checkInButton = (Button) findViewById(R.id.CheckInButton);
-		checkInButton.setOnClickListener(this);
+		mySchedule = (Button) findViewById(R.id.scheduleButton);
+		mySchedule.setOnClickListener(this);
+		checkin = (Button) findViewById(R.id.checkinButton);
+		checkin.setOnClickListener(this);
+		bus = (Button) findViewById(R.id.checkbusButton);
+		bus.setOnClickListener(this);
 	}
 
 	@Override
@@ -122,11 +128,13 @@ public class MenuActivity extends Activity implements View.OnClickListener {
 			startActivity(startMapActivity);	
 			break;
 			
-		case R.id.CheckInButton:
-			checkInButton.setBackgroundColor(Color.DKGRAY);
+
+		case R.id.checkinButton:
+			checkin.setBackgroundColor(Color.DKGRAY);
 			Intent startCheckIn = new Intent("android.intent.action.CHECKINACTIVITY");
 			startActivity(startCheckIn);
 			break;
+			
 			
 		}
 	}
