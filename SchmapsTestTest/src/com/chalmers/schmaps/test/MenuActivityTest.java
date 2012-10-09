@@ -9,6 +9,12 @@ import android.test.TouchUtils;
 import android.view.KeyEvent;
 import android.widget.Button;
 
+/**
+ * Test case to see that all the menu buttons in MenuActivity starts the
+ * correct intent when user touches a button.
+ * @author Froll
+ *
+ */
 public class MenuActivityTest extends ActivityInstrumentationTestCase2<MenuActivity> {
 	private Button searchHall, groupRoom,atmButton,microwaveButton,findRestaurantsButton;
 	private MenuActivity menuActivity;
@@ -16,6 +22,10 @@ public class MenuActivityTest extends ActivityInstrumentationTestCase2<MenuActiv
 	public MenuActivityTest() {
 		super(MenuActivity.class);
 	}
+	
+	/**
+	 * Setup method for instantiating the variables.
+	 */
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
@@ -36,13 +46,19 @@ public class MenuActivityTest extends ActivityInstrumentationTestCase2<MenuActiv
 		super.assertNotNull(findRestaurantsButton);
 	}
 	
+	/**
+	 * Tests the "Search hall" button to start the correct activity by comparing the intent.
+	 * Tests below works in the same manner but for different buttons and different intents.
+	 */
 	public void testSearchHallButton(){
 		TouchUtils.clickView(this, this.searchHall);
 		super.getInstrumentation().waitForIdleSync();
 		assertEquals("android.intent.action.GOOGLEMAPSEARCHLOCATION", menuActivity.getActivityString());
 		this.sendKeys(KeyEvent.KEYCODE_BACK);
 	}
-	
+	/**
+	 * See test comments for test above.
+	 */
 	public void testGroupRoomButton(){
 		TouchUtils.clickView(this, this.groupRoom);
 		super.getInstrumentation().waitForIdleSync();
@@ -50,6 +66,9 @@ public class MenuActivityTest extends ActivityInstrumentationTestCase2<MenuActiv
 		this.sendKeys(KeyEvent.KEYCODE_BACK);
 	}
 	
+	/**
+	 * See test comments for test above.
+	 */
 	public void testAtmButton(){
 		TouchUtils.clickView(this, this.atmButton);
 		super.getInstrumentation().waitForIdleSync();
@@ -57,6 +76,9 @@ public class MenuActivityTest extends ActivityInstrumentationTestCase2<MenuActiv
 		this.sendKeys(KeyEvent.KEYCODE_BACK);
 	}
 	
+	/**
+	 * See test comments for test above.
+	 */
 	public void testMicrowaveButton(){
 		TouchUtils.clickView(this, this.microwaveButton);
 		super.getInstrumentation().waitForIdleSync();
@@ -64,6 +86,9 @@ public class MenuActivityTest extends ActivityInstrumentationTestCase2<MenuActiv
 		this.sendKeys(KeyEvent.KEYCODE_BACK);
 	}
 	
+	/**
+	 * See test comments for test above.
+	 */
 	public void testFindRestaurantsButton(){
 		TouchUtils.clickView(this, this.findRestaurantsButton);
 		super.getInstrumentation().waitForIdleSync();

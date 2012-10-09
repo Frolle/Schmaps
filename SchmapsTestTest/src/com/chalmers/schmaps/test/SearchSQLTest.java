@@ -14,6 +14,12 @@ import android.test.InstrumentationTestCase;
 import android.widget.Button;
 import android.widget.EditText;
 
+/**
+ * Test class for testing the SQL class. Different test cases tests so that the
+ * get methods get the proper data from the database given an already known query.
+ * @author Froll
+ *
+ */
 public class SearchSQLTest extends ActivityInstrumentationTestCase2<GoogleMapSearchLocation> {
 	
 	private SearchSQL tester;
@@ -25,6 +31,9 @@ public class SearchSQLTest extends ActivityInstrumentationTestCase2<GoogleMapSea
 		super(GoogleMapSearchLocation.class);
 	}
 	
+	/**
+	 * Setup method for instantiating the variables.
+	 */
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
@@ -43,13 +52,12 @@ public class SearchSQLTest extends ActivityInstrumentationTestCase2<GoogleMapSea
 		super.tearDown();
 	}
 
-	
+
 	public void testExists() {
 		assertTrue(tester.exists(theTestValue));
 
 	}
-
-
+	
 	public void testGetLat() {
 		assertEquals(57689111, tester.getLat(theTestValue));
 	}

@@ -4,6 +4,11 @@ import com.chalmers.schmaps.Startup;
 import android.content.Intent;
 import android.test.ActivityInstrumentationTestCase2;
 
+/**
+ * Test class for testing the splash screen and that it starts the correct activity
+ * @author Froll
+ *
+ */
 public class StartupTest extends ActivityInstrumentationTestCase2<Startup> {
 
 	private Startup startupActivity;
@@ -26,6 +31,9 @@ public class StartupTest extends ActivityInstrumentationTestCase2<Startup> {
 	protected void tearDown() throws Exception {
 		super.tearDown();
 	}
+	/**
+	 * Test so that the correct activity is started.
+	 */
 	public void testForStartingMenuActivity(){
 		assertEquals("android.intent.action.MENUACTIVITY", stringIntentActivity);
 	}

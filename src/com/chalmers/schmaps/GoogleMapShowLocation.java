@@ -86,7 +86,7 @@ public class GoogleMapShowLocation extends MapActivity {
  * Draws locations (overlayitems) from specified table.
  * @param table - table containing the locations to be drawn.
  */
-	private void drawLocationList(String table) {
+	public void drawLocationList(String table) {
 		search.openRead();
 		ArrayList<OverlayItem> locationList = search.getLocations(table);
 		search.close();
