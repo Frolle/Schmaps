@@ -89,10 +89,16 @@ public class MenuActivity extends Activity implements View.OnClickListener {
 		switch(v.getId()){
 		
 		case R.id.searchHallButton:
-			searchHall.setBackgroundColor(Color.DKGRAY); //change button color when button is clicked
+			searchHall.setPressed(true);
+			if(searchHall.isPressed())
+				searchHall.setBackgroundColor(Color.DKGRAY); //change button color when button is clicked
 			startMapActivity = new Intent("android.intent.action.GOOGLEMAPSEARCHLOCATION");
 			setActivityString(startMapActivity.getAction());
 			startActivity(startMapActivity);
+			searchHall.setPressed(false);
+			if(searchHall.isPressed()==false){
+				searchHall.setBackgroundColor(LECTUREHALLBUTTON);
+			}
 			break;
 		
 		case R.id.microwaveButton:
