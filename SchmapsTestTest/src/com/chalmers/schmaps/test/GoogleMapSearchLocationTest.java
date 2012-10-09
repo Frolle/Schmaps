@@ -25,6 +25,7 @@ public class GoogleMapSearchLocationTest extends ActivityInstrumentationTestCase
 	private Button editButton;
 	private EditText lectureEdit;
 	private MapView mapview;
+	private String input;
 	
 	public GoogleMapSearchLocationTest()
 	{
@@ -72,7 +73,14 @@ public class GoogleMapSearchLocationTest extends ActivityInstrumentationTestCase
 		assertEquals(roomGP,tempTestOverlay.getItem(0).getPoint());
 		assertEquals("Sven Hultins gata 2",tempTestOverlay.getItem(0).getTitle());
 		assertEquals("",tempTestOverlay.getItem(0).getSnippet());
-		
-		
+	}
+	
+	public void testWeirdInput(){
+		TouchUtils.tapView(this, this.lectureEdit);
+		super.sendKeys("runan");
+		super.getInstrumentation().waitForIdleSync();
+		input = lectureEdit.getText().toString();
+		assertEquals("runan", input);
+
 	}
 }
