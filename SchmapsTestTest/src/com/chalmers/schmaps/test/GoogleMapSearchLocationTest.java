@@ -68,7 +68,7 @@ public class GoogleMapSearchLocationTest extends ActivityInstrumentationTestCase
 		//MapItemizedOverlay tempTestOverlay = (MapItemizedOverlay) overlays.get(0);
 		
 		//Test case for when u get a position for the user
-		MapItemizedOverlay tempTestOverlay = (MapItemizedOverlay) overlays.get(1);
+		MapItemizedOverlay tempTestOverlay = (MapItemizedOverlay) overlays.get(2);
 		
 		GeoPoint roomGP = new GeoPoint(57689111, 11973517);
 		
