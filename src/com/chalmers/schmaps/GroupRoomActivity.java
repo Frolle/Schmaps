@@ -31,7 +31,8 @@ import android.widget.Button;
  */
 public class GroupRoomActivity extends Activity{
 	   
-	 @Override
+	 private Uri uri;
+	@Override
 	  public void onCreate(Bundle savedInstanceState) {
 	    super.onCreate(savedInstanceState);
 	    setContentView(R.layout.activity_menu);
@@ -47,7 +48,7 @@ public class GroupRoomActivity extends Activity{
  * Start the URL-link 
  */
 		private void getUrlLink() {
-			 Uri uri = Uri.parse("https://web.timeedit.se/chalmers_se/db1/b1/"); 
+			 uri = Uri.parse("https://web.timeedit.se/chalmers_se/db1/b1/"); 
 			 Intent intent = new Intent(Intent.ACTION_VIEW, uri);
 			 startActivity(intent);
 			 finish();//take back to previous activity
