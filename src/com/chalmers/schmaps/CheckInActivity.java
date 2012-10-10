@@ -81,6 +81,7 @@ public class CheckInActivity extends MapActivity implements View.OnClickListener
 	private EditText enterName;
 	private Drawable checkInDot;
 	private OverlayItem overlayitem;
+	private JSONArray result;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -170,7 +171,7 @@ public class CheckInActivity extends MapActivity implements View.OnClickListener
 	 * @param jsonObject
 	 * @return arraylist of geopoints
 	 **********************************************************************/
-	private void parseJsonAndDraw(JSONObject jsonObject){
+	public void parseJsonAndDraw(JSONObject jsonObject){
 		GeoPoint geopoint; //greates an geopoint with our location
 		int lat, lng;
 		String name,time;
@@ -180,8 +181,10 @@ public class CheckInActivity extends MapActivity implements View.OnClickListener
 		checkInDot = this.getResources().getDrawable(R.drawable.androidlogomini); //drawable
 		mapItemizedCheckIn = new MapItemizedOverlay(checkInDot, this); //mapitemizedoverlay with drawable
 		
+		result =null;
+		
 		try {
-			JSONArray result = jsonObject.getJSONArray("result");
+			result = jsonObject.getJSONArray("result");
 			JSONObject checkedInPerson;
 
 			//loop through the jsonarray and extract all checked-in points
@@ -221,7 +224,7 @@ public class CheckInActivity extends MapActivity implements View.OnClickListener
 
 		username = enterName.getText().toString();
 		username.trim(); //removes white signs
-		username = username.replaceAll("[^a-öA-Ö0-9]+",""); //Removes illegal characters to prevent sql injection
+		username = username.replaceAll("[^[a-zåäö][A-ZÅÄÖ][0-9]]",""); //Removes illegal characters to prevent sql injection
 
 		//if the user have not entered a name the name is set to unknown
 		if(username.equals(""))
@@ -229,6 +232,20 @@ public class CheckInActivity extends MapActivity implements View.OnClickListener
 		
 		connectExternalDatabase();
 		checkin =false;
+	}
+
+	/**
+	 * @return the username that user enters
+	 */
+	public String getInputName(){
+		return username;
+	}
+	
+	/**
+	 * @return the size of jsonarray returned from string
+	 */
+	public int getSizeOfJsonArray(){
+		return result.length();
 	}
 
 
@@ -302,12 +319,10 @@ public class CheckInActivity extends MapActivity implements View.OnClickListener
 
 			//convert string to jsonobject and return the object
 			try{
-				Log.e("CheckIN", "hej");
 				returnedJsonObject = new JSONObject(jsonResponse);
 			}catch(JSONException e){
 
 			}
-			Log.e("CheckIN", "almost finished");
 			return returnedJsonObject;
 		}
 	}
