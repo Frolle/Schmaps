@@ -1,5 +1,6 @@
 package com.chalmers.schmaps.test;
 
+import java.lang.reflect.Field;
 import java.util.*;
 
 import junit.framework.Assert;
@@ -10,7 +11,8 @@ import com.chalmers.schmaps.R;
 
 import com.google.android.maps.*;
 
-//import android.sax.RootElement;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.TouchUtils;
 import android.test.ViewAsserts;
@@ -25,7 +27,7 @@ public class GoogleMapSearchLocationTest extends ActivityInstrumentationTestCase
 	private Button editButton;
 	private EditText lectureEdit;
 	private MapView mapview;
-	private String input;
+	private String roomToFindString;
 	
 	public GoogleMapSearchLocationTest()
 	{
@@ -66,7 +68,7 @@ public class GoogleMapSearchLocationTest extends ActivityInstrumentationTestCase
 		//MapItemizedOverlay tempTestOverlay = (MapItemizedOverlay) overlays.get(0);
 		
 		//Test case for when u get a position for the user
-		MapItemizedOverlay tempTestOverlay = (MapItemizedOverlay) overlays.get(1);
+		MapItemizedOverlay tempTestOverlay = (MapItemizedOverlay) overlays.get(2);
 		
 		GeoPoint roomGP = new GeoPoint(57689111, 11973517);
 		
@@ -75,12 +77,22 @@ public class GoogleMapSearchLocationTest extends ActivityInstrumentationTestCase
 		assertEquals("",tempTestOverlay.getItem(0).getSnippet());
 	}
 	
-	public void testWeirdInput(){
+	public void testRegexForRoom(){
 		TouchUtils.tapView(this, this.lectureEdit);
-		super.sendKeys("runan");
+		super.sendKeys(KeyEvent.KEYCODE_BACKSLASH);
+		super.sendKeys("R U N A N ");
+		super.sendKeys(KeyEvent.KEYCODE_POUND);
 		super.getInstrumentation().waitForIdleSync();
-		input = lectureEdit.getText().toString();
-		assertEquals("runan", input);
-
+		TouchUtils.clickView(this, this.editButton);
+		super.getInstrumentation().waitForIdleSync();
+		try {
+			Field roomToFindField = activity.getClass().getDeclaredField("roomToFind");
+			roomToFindField.setAccessible(true);
+			roomToFindString = (String) roomToFindField.get(this.activity);
+			Log.e("GMSLtest", roomToFindString);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		assertEquals("runan", roomToFindString);
 	}
 }
