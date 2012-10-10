@@ -6,6 +6,12 @@ import com.chalmers.schmaps.GroupRoomActivity;
 
 import android.test.ActivityInstrumentationTestCase2;
 
+/**
+ * Test class for GroupRoomActivity, contains just one test that it starts and uses
+ * the correct url-link.
+ * @author Froll
+ *
+ */
 public class GroupRoomActivityTest extends ActivityInstrumentationTestCase2<GroupRoomActivity> {
 
 	private static final String URLTOBESTARTED = "https://web.timeedit.se/chalmers_se/db1/b1/";
@@ -31,6 +37,10 @@ public class GroupRoomActivityTest extends ActivityInstrumentationTestCase2<Grou
 	public void testPreConditions(){
 		assertNotNull(groupRoomActivity);
 	}
+	/**
+	 * Tests that it starts the correct URL, gets the field containing the url in run time
+	 * and compares it to what it should be.
+	 */
 	public void testCorrectUrlString(){
 		Field urlStringField;
 		try {
