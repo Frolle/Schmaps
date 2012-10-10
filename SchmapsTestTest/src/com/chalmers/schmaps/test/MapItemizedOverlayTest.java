@@ -18,26 +18,26 @@ import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 
-public class MapItemizedOverlayTest extends AndroidTestCase {
+public class MapItemizedOverlayTest extends ActivityInstrumentationTestCase2<GoogleMapSearchLocation> {
 	
 	ArrayList<OverlayItem> arrayOverlays;
 	
-	MapItemizedOverlay activity;
-	GoogleMapSearchLocation searchLocation;
+	GoogleMapSearchLocation activity;
+	MapItemizedOverlay mapOverlay;
 	Drawable drawable;
 	
 	
 	public MapItemizedOverlayTest(){
-		super();
+		super(GoogleMapSearchLocation.class);
 	}
 	
 	@Override
-	protected void setUp() throws Exception {
+	protected void setUp() 	throws Exception {
 		super.setUp();
-		searchLocation = new GoogleMapSearchLocation();
-		drawable = searchLocation.getResources().getDrawable(R.drawable.ic_launcher);
+		this.activity = super.getActivity();
+		drawable = activity.getResources().getDrawable(R.drawable.androidgubbemini);
 		
-		activity = new MapItemizedOverlay(drawable,searchLocation);
+		mapOverlay = new MapItemizedOverlay(drawable,activity);
 		arrayOverlays = new ArrayList<OverlayItem>();
 		
 
@@ -52,10 +52,10 @@ public class MapItemizedOverlayTest extends AndroidTestCase {
 	public void testAddOverlay(){
 		GeoPoint p = new GeoPoint(67854516,20215681);
 		OverlayItem item = new OverlayItem(p, "Hej Kiruna", "Här är det kallt");
-		activity.addOverlay(item);
-		Integer i = activity.size();
+		mapOverlay.addOverlay(item);
+		Integer i = mapOverlay.size();
 		String s = i.toString();
 		Log.e("testmapitomized", s);
-		assertEquals(1,activity.size());
+		assertEquals(1,mapOverlay.size());
 	}	
 }
