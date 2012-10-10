@@ -4,15 +4,24 @@
     android:versionName="1.0" >
 
     <uses-sdk
+        xmlns:android="http://schemas.android.com/apk/res/android"
         android:minSdkVersion="8"
         android:targetSdkVersion="15" />
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
     <application
-        android:icon="@drawable/logga"
-        android:label="@string/app_name" >
+        android:icon="@drawable/schmaps"
+        android:label="@string/app_name"
+        android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
+        <uses-library android:name="com.google.android.maps" />
+
         <activity
             android:name=".Startup"
-            android:label="@string/title_activity_startup" >
+            android:label="@string/title_activity_startup"
+         >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -21,7 +30,8 @@
         </activity>
         <activity
             android:name=".MenuActivity"
-            android:label="@string/title_activity_menu" >
+            android:label="@string/title_activity_menu"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
             <intent-filter>
                 <action android:name="android.intent.action.MENUACTIVITY" />
 
@@ -29,15 +39,44 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".MapActivity"
-            android:label="@string/title_activity_map" >
+            android:name=".GoogleMapShowLocation"
+            android:label="@string/title_map_show_location"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
             <intent-filter>
-                <action android:name="android.intent.action.MAPACTIVITY" />
-				 
+                <action android:name="android.intent.action.GOOGLEMAPSHOWLOCATION" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-            <activity android:name="android.intent.action.GroupRoomActivity"></activity>
+        <activity
+            android:name=".CampusMenuActivity"
+            android:label="@string/title_activity_campus_menu" >
+            <intent-filter>
+                <action android:name="android.intent.action.CAMPUSMENUACTIVITY" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".GoogleMapSearchLocation"
+            android:label="@string/title_map_search_location"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
+            <intent-filter>
+                <action android:name="android.intent.action.GOOGLEMAPSEARCHLOCATION" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+            <activity 
+        		android:name=".GroupRoomActivity"
+        		android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
+              
+        <intent-filter>
+            <action android:name="android.intent.action.ACTIONVIEW" />
+            
+        </intent-filter>
+    </activity>
     </application>
+
 
 </manifest>

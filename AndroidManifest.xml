@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.chalmers.schmaps"
-    android:versionCode="1"
-    android:versionName="1.0" >
+    	package="com.chalmers.schmaps"
+    	android:versionCode="1"
+    	android:versionName="1.0" >
 
     <uses-sdk
         xmlns:android="http://schemas.android.com/apk/res/android"
@@ -20,6 +20,7 @@
 
         <activity
             android:name=".Startup"
+            android:screenOrientation="fullSensor"
             android:label="@string/title_activity_startup"
          >
             <intent-filter>
@@ -30,6 +31,7 @@
         </activity>
         <activity
             android:name=".MenuActivity"
+            android:screenOrientation="fullSensor"
             android:label="@string/title_activity_menu"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
             <intent-filter>
@@ -50,6 +52,7 @@
         </activity>
         <activity
             android:name=".CampusMenuActivity"
+            android:screenOrientation="fullSensor"
             android:label="@string/title_activity_campus_menu" >
             <intent-filter>
                 <action android:name="android.intent.action.CAMPUSMENUACTIVITY" />
@@ -82,7 +85,7 @@
         		android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
               
         <intent-filter>
-            <action android:name="android.intent.action.GROUPROOMACTIVITY" />
+            <action android:name="android.intent.action.ACTIONVIEW" />
             
         </intent-filter>
     </activity>

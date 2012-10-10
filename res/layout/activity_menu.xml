@@ -5,21 +5,29 @@
     android:background="@drawable/chalmers"
     android:gravity="center"
     >
+	<LinearLayout 
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:orientation="vertical"
+		android:weightSum="1.0"
+		android:gravity="center">
     
     <Button
+        android:layout_weight="0.1"  
         android:id="@+id/searchHallButton"
-        android:layout_margin="10dp"
+        android:layout_margin="3dp"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:background="@layout/shape"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:text="Search lecture hall"
-        android:textSize="20dp" />
+        android:text="Search Lecture Hall"
+        android:textSize="15dp" />
     
     <Button
+        android:layout_weight="0.1"
         android:id="@+id/microwaveButton"
-        android:layout_margin="10dp"
+        android:layout_margin="3dp"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/searchHallButton"
@@ -27,12 +35,13 @@
         android:layout_centerVertical="true"
         android:background="@layout/shape"
         android:gravity="center"
-        android:text="Show microwaves"
-        android:textSize="20dp" />
+        android:text="Show Micros"
+        android:textSize="15dp" />
     
     <Button
+        android:layout_weight="0.1"
         android:id="@+id/findRestaurantsButton"
-        android:layout_margin="10dp"
+        android:layout_margin="3dp"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
@@ -40,12 +49,13 @@
         android:layout_below="@+id/microwaveButton"
         android:background="@layout/shape"
         android:gravity="center"
-        android:text="Find Restaurants"
-        android:textSize="20dp" />
+        android:text="Show Restaurants"
+        android:textSize="15dp" />
     
     <Button
+        android:layout_weight="0.1" 
         android:id="@+id/atmButton"
-        android:layout_margin="10dp"
+        android:layout_margin="3dp"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/groupRoomButton"
@@ -53,12 +63,13 @@
         android:layout_centerVertical="true"
         android:background="@layout/shape"
         android:gravity="center"
-        android:text="ATMs"
-        android:textSize="20dp" />
+        android:text="Show ATMs"
+        android:textSize="15dp" />
     
     <Button
+        android:layout_weight="0.1" 
         android:id="@+id/groupRoomButton"
-        android:layout_margin="10dp"
+        android:layout_margin="3dp"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/findRestaurantsButton"
@@ -66,8 +77,39 @@
         android:layout_centerVertical="true"
         android:background="@layout/shape"
         android:gravity="center"
-        android:text="Boka grupprums"
-        android:textSize="20dp" />
+        android:text="Book Studyroom"
+        android:textSize="15dp" />
+    
+      <Button 
+        android:layout_weight="0.1"
+        android:id="@+id/checkinButton"
+        android:layout_margin="3dp"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/atmButton"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:background="@layout/shape"
+        android:gravity="center"
+        android:text="Check In"
+        android:textSize="15dp" />
+            
+      <Button            
+        android:layout_weight="0.1"
+        android:id="@+id/checkbusButton"
+        android:layout_margin="3dp"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/checkinButton"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:background="@layout/shape"
+        android:gravity="center"
+        android:text="Check Buses"
+        android:textSize="15dp" />
+      
+      </LinearLayout>
+      
     
 
 </RelativeLayout>
