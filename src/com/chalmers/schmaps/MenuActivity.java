@@ -41,11 +41,11 @@ public class MenuActivity extends Activity implements View.OnClickListener {
 	private static final int BOOKINGKEY = 5;
 	private static final int BUSKEY = 6;
 	private static final int CHECKIN = 7;
-	private static final int SCHEDULE = 8;
+
 
 	private Intent startMapActivity;
 
-	private Button searchHall, groupRoom,atmButton,microwaveButton,findRestaurantsButton, checkin, bus, mySchedule;
+	private Button searchHall, groupRoom,atmButton,microwaveButton,findRestaurantsButton, checkin, bus;
 
 
 	private String activityString;
@@ -68,8 +68,6 @@ public class MenuActivity extends Activity implements View.OnClickListener {
 		groupRoom.setOnClickListener(this);
 		atmButton = (Button) findViewById(R.id.atmButton);
 		atmButton.setOnClickListener(this);
-		mySchedule = (Button) findViewById(R.id.scheduleButton);
-		mySchedule.setOnClickListener(this);
 		checkin = (Button) findViewById(R.id.checkinButton);
 		checkin.setOnClickListener(this);
 		bus = (Button) findViewById(R.id.checkbusButton);
