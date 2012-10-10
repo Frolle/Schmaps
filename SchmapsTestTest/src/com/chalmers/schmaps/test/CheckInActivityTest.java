@@ -1,3 +1,19 @@
+/*
+ * Copyright [2012] [Dina Zuko]
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License. 
+ */
+
 package com.chalmers.schmaps.test;
 
 import java.util.List;
@@ -91,6 +107,16 @@ public class CheckInActivityTest extends ActivityInstrumentationTestCase2<CheckI
 		activity.getInputName();
 		assertEquals("rune", activity.getInputName());
 		
+	}
+	
+	/**
+	 * Tests that the database is connected and that a response from the database is recieved
+	 * If the jsonobject is received the boolean running is set to true
+	 */
+	public void testConnectionToDatabase(){
+		activity.connectExternalDatabase();
+		
+		assertEquals(true,activity.getIsAsyncTaskRunning());
 	}
 	
 	

@@ -82,6 +82,7 @@ public class CheckInActivity extends MapActivity implements View.OnClickListener
 	private Drawable checkInDot;
 	private OverlayItem overlayitem;
 	private JSONArray result;
+	private boolean running;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -90,6 +91,7 @@ public class CheckInActivity extends MapActivity implements View.OnClickListener
 		returnedJsonObject = null;
 		username = "";
 		checkin = false;
+		running = false;
 		
 		mapview = (MapView) findViewById(R.id.mapview);
 		mapview.setBuiltInZoomControls(true);
@@ -149,7 +151,7 @@ public class CheckInActivity extends MapActivity implements View.OnClickListener
 	 * Waits the thread to return an jsonobject, sleeps main thread if json object not returned
 	 * Calls method parseJsonAndDraw() when jsonobject returned
 	 ********************************************************************/
-	private void connectExternalDatabase(){
+	public void connectExternalDatabase(){
 		returnedJsonObject = null;
 		GetCheckIn getCheckIn = new GetCheckIn();
 		getCheckIn.execute(); //the method doInBackground() is executed
@@ -160,7 +162,9 @@ public class CheckInActivity extends MapActivity implements View.OnClickListener
 			} catch (InterruptedException e1) {
 				e1.printStackTrace();
 			}
-		}	
+		}
+		
+		running = true;
 		
 		parseJsonAndDraw(returnedJsonObject);
 	}
@@ -247,6 +251,14 @@ public class CheckInActivity extends MapActivity implements View.OnClickListener
 	public int getSizeOfJsonArray(){
 		return result.length();
 	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public boolean getIsAsyncTaskRunning(){
+		return running;
+	}
 
 
 	/****************************************************************************
@@ -256,6 +268,7 @@ public class CheckInActivity extends MapActivity implements View.OnClickListener
 	 *  http://www.vogella.com/articles/AndroidPerformance/article.html
 	 ********************************************************************************/
 	private class GetCheckIn extends AsyncTask<Void, Void, JSONObject> {
+		
 
 
 		/** when called makes a request to google directions api (json format) 
@@ -264,6 +277,7 @@ public class CheckInActivity extends MapActivity implements View.OnClickListener
 		 */
 		@Override
 		protected JSONObject doInBackground(Void... params) {
+			
 			StringBuilder urlString = new StringBuilder();
 			StringBuilder response = new StringBuilder();
 			InputStream is = null;
@@ -323,8 +337,10 @@ public class CheckInActivity extends MapActivity implements View.OnClickListener
 			}catch(JSONException e){
 
 			}
+			
 			return returnedJsonObject;
 		}
+		
 	}
 
 
