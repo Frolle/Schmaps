@@ -93,5 +93,15 @@ public class CheckInActivityTest extends ActivityInstrumentationTestCase2<CheckI
 		
 	}
 	
+	/**
+	 * Tests that the database is connected and that a response from the database is recieved
+	 * If the jsonobject is received the boolean running is set to true
+	 */
+	public void testConnectionToDatabase(){
+		activity.connectExternalDatabase();
+		
+		assertEquals(true,activity.getIsAsyncTaskRunning());
+	}
+	
 	
 }
