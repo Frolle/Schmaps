@@ -1,5 +1,7 @@
 package com.chalmers.schmaps;
 
-public class SendToDB {
+import android.app.Activity;
+
+public class SendToDB extends Activity {
 
 }
