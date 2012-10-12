@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <ScrollView
+        android:id="@+id/scrollView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <TableLayout
+                android:id="@+id/Table1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+
+                <TableRow
+                    android:id="@+id/tableRow1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="5dip"
+                    android:weightSum="100"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/bus"
+                        android:text="Bus"
+                        android:textSize="18sp"                        
+                   		android:layout_marginRight="5sp"/>
+                                        
+                    <TextView
+                        android:id="@+id/dest"
+                        android:text="Destiantion"
+                        android:textSize="18sp" 
+                        android:layout_marginRight="5sp"/>
+                    
+                    <TextView
+                        android:id="@+id/depature"
+                        android:text="Depature Time"
+                        android:textSize="18sp" 
+                        android:layout_marginRight="5sp"/>
+                    
+                    <TextView
+                        android:id="@+id/lage"
+                        android:text="Läge"
+                        android:textSize="18sp" 
+                        android:layout_marginRight="5sp"/>
+
+                    
+                </TableRow>
+            </TableLayout>
+        </LinearLayout>
+    </ScrollView>
+
+</RelativeLayout>
