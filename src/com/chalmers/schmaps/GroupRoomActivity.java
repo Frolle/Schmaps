@@ -39,11 +39,6 @@ public class GroupRoomActivity extends Activity{
 	    getUrlLink();
 	  }
 	 
-		@Override
-		public boolean onCreateOptionsMenu(Menu menu) {
-			getMenuInflater().inflate(R.menu.activity_menu, menu);
-			return true;
-		}
 /**
  * Start the URL-link 
  */

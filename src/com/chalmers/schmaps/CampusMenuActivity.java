@@ -46,12 +46,6 @@ public class CampusMenuActivity extends Activity implements View.OnClickListener
         setContentView(R.layout.activity_campus_menu);
         assignInstances();
     }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.activity_campus_menu, menu);
-        return true;
-    }
     
 	private void assignInstances() {
 		johannebergButton = (Button) findViewById(R.id.johannebergButton);

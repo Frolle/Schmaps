@@ -69,12 +69,6 @@ public class Startup extends Activity {
                myView.startAnimation(fadeInAnimation);
                startMenuActivity = new Intent("android.intent.action.MENUACTIVITY");
 	}
-
-	@Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.activity_startup, menu);
-        return true;
-    }
     
 	@Override
 	protected void onPause() {

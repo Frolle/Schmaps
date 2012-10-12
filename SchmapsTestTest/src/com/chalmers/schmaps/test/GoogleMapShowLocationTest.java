@@ -99,12 +99,12 @@ public class GoogleMapShowLocationTest extends
 	/**
 	 * See the test comments above.
 	 */
-
-	public void testDrawLocationsRooms(){
-		this.showLocationActivity.drawLocationList("Rooms");
-		super.getInstrumentation().waitForIdleSync();
-		assertEquals(SIZEOFROOMSTABLE, overlay.size());
-	}
+//	Very long test, not used right now.
+//	public void testDrawLocationsRooms(){
+//		this.showLocationActivity.drawLocationList("Rooms");
+//		super.getInstrumentation().waitForIdleSync();
+//		assertEquals(SIZEOFROOMSTABLE, overlay.size());
+//	}
 	
 	@Override
 	public void tearDown() throws Exception{

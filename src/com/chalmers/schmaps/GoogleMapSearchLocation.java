@@ -125,20 +125,22 @@ public class GoogleMapSearchLocation extends MapActivity implements View.OnClick
 				mapOverlays.add(mapItemizedStudent);
 			}
 
-			public void onProviderDisabled(String provider) {
+			public void onProviderDisabled(String arg0) {
 				// TODO Auto-generated method stub
-
+				
 			}
 
 			public void onProviderEnabled(String provider) {
 				// TODO Auto-generated method stub
-
+				
 			}
 
 			public void onStatusChanged(String provider, int status,
 					Bundle extras) {
+				// TODO Auto-generated method stub
+				
+			}
 
-			}	
 		};
 
 		search = new SearchSQL(GoogleMapSearchLocation.this); //creates a SQLLite object

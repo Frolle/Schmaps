@@ -74,12 +74,6 @@ public class MenuActivity extends Activity implements View.OnClickListener {
 		bus.setOnClickListener(this);
 	}
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.activity_menu, menu);
-		return true;
-	}
-
 	/**
 	 * onClick method for determining which activity will start through the use of view ID's and
 	 * a switch case to start correct activity with correct variables.

@@ -23,21 +23,25 @@ import com.chalmers.schmaps.GoogleMapSearchLocation;
 import com.chalmers.schmaps.MapItemizedOverlay;
 import com.chalmers.schmaps.R;
 import com.google.android.maps.GeoPoint;
+import com.google.android.maps.MapView;
 import com.google.android.maps.OverlayItem;
+import com.jayway.android.robotium.solo.Solo;
 
+import android.app.Dialog;
 import android.graphics.drawable.Drawable;
 import android.test.ActivityInstrumentationTestCase2;
 import android.util.Log;
-
+import android.view.View;
 
 public class MapItemizedOverlayTest extends ActivityInstrumentationTestCase2<GoogleMapSearchLocation> {
-	
-	ArrayList<OverlayItem> arrayOverlays;
-	
-	GoogleMapSearchLocation activity;
-	MapItemizedOverlay mapOverlay;
-	Drawable drawable;
-	
+	private static final int THEOVERLAYITEMONMAP = 0;
+	private static final int THEDIALOGOKBUTTON = 0;
+
+	private GoogleMapSearchLocation activity;
+	private MapItemizedOverlay mapOverlay;
+	private Drawable drawable;
+	private Solo solo;
+
 	
 	public MapItemizedOverlayTest(){
 		super(GoogleMapSearchLocation.class);
@@ -46,13 +50,10 @@ public class MapItemizedOverlayTest extends ActivityInstrumentationTestCase2<Goo
 	@Override
 	protected void setUp() 	throws Exception {
 		super.setUp();
+		solo = new Solo(getInstrumentation(), getActivity());
 		this.activity = super.getActivity();
 		drawable = activity.getResources().getDrawable(R.drawable.androidgubbemini);
-		
-		mapOverlay = new MapItemizedOverlay(drawable,activity);
-		arrayOverlays = new ArrayList<OverlayItem>();
-		
-
+		mapOverlay = new MapItemizedOverlay(drawable,activity);		
 	}
 	
 	@Override
@@ -82,4 +83,16 @@ public class MapItemizedOverlayTest extends ActivityInstrumentationTestCase2<Goo
 		assertEquals(0, mapOverlay.size());
 		
 	}
+	
+	public void testOnTap() throws InterruptedException{
+		GeoPoint p = new GeoPoint(67854516,20215681);
+		OverlayItem item = new OverlayItem(p, "RAWR", "TESTRAWR");
+		mapOverlay.addOverlay(item);
+		mapOverlay.onTap(THEOVERLAYITEMONMAP);
+		super.getInstrumentation().waitForIdleSync();
+		solo.clickOnButton(THEDIALOGOKBUTTON); 
+		//The test is done here, because we're testing that the dialog shows up if the user 
+		//taps on the overlay item. So if solo can click on the dialog "ok" button
+		//after a tap on the overlay item's been simulated, then it means that the dialog did show up
+		}
 }

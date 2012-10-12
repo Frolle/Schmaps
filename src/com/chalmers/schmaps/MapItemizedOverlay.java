@@ -34,7 +34,7 @@ import com.google.android.maps.OverlayItem;
  * shows dialogs when user taps on figures in the picture
  *
  */
-public class MapItemizedOverlay extends ItemizedOverlay<OverlayItem> {
+public class MapItemizedOverlay extends ItemizedOverlay<OverlayItem> implements DialogInterface.OnClickListener {
 	
 	private ArrayList<OverlayItem> mOverlays = new ArrayList<OverlayItem>();
 	private Context mContext;
@@ -76,7 +76,7 @@ public class MapItemizedOverlay extends ItemizedOverlay<OverlayItem> {
 	 * called when the user taps a figure on the screen, shows a dialog with information about the geopoint
 	 */
 	@Override
-	protected boolean onTap(int index) {
+	public boolean onTap(int index) {
 	  OverlayItem item = mOverlays.get(index);
 	  AlertDialog.Builder builder;
 	  AlertDialog alertDialog;
@@ -97,14 +97,20 @@ public class MapItemizedOverlay extends ItemizedOverlay<OverlayItem> {
 
 	  // builder.setMessage(item.getSnippet());
       builder.setCancelable(true);
-      
+      builder.setPositiveButton("Ok", this);
 	  
 	  builder.setView(layout);
 	  alertDialog = builder.create();
+	  alertDialog.setButton(-1,"Ok", this);
 	  alertDialog.setTitle(item.getTitle());
+	  
 	  alertDialog.show();
 	  
 	  return true;
+	}
+
+	public void onClick(DialogInterface dialog, int which) {
+		dialog.cancel();
 	}
 
 }
