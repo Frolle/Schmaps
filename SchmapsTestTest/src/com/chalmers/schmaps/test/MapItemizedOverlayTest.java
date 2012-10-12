@@ -1,5 +1,5 @@
 /*
- * Copyright [2012] []
+ * Copyright [2012] [Dina Zuko]
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -23,16 +23,12 @@ import com.chalmers.schmaps.GoogleMapSearchLocation;
 import com.chalmers.schmaps.MapItemizedOverlay;
 import com.chalmers.schmaps.R;
 import com.google.android.maps.GeoPoint;
-import com.google.android.maps.MapView;
 import com.google.android.maps.OverlayItem;
 
-import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.test.ActivityInstrumentationTestCase2;
-import android.test.AndroidTestCase;
 import android.util.Log;
-import android.widget.Button;
-import android.widget.EditText;
+
 
 public class MapItemizedOverlayTest extends ActivityInstrumentationTestCase2<GoogleMapSearchLocation> {
 	
@@ -64,7 +60,9 @@ public class MapItemizedOverlayTest extends ActivityInstrumentationTestCase2<Goo
 		super.tearDown();
 	}
 	
-	
+	/**
+	 * Tests that a overlay is added 
+	 */
 	public void testAddOverlay(){
 		GeoPoint p = new GeoPoint(67854516,20215681);
 		OverlayItem item = new OverlayItem(p, "Hej Kiruna", "Här är det kallt");

@@ -38,13 +38,11 @@ import android.widget.EditText;
 public class CheckInActivityTest extends ActivityInstrumentationTestCase2<CheckInActivity> {
 
 
-	
-	private static final Object String = null;
 	CheckInActivity activity;
 	private Button checkInButton;
 	private EditText nameEdit;
 	private MapView mapview;
-	private String name;
+
 	
 	public CheckInActivityTest()
 	{
