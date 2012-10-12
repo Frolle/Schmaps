@@ -1,4 +1,4 @@
-User stories:
+﻿User stories:
 
 Sprint 1 (läsvecka 3):
 Användaren ska kunna använda ett gränssnitt med knappar för att navigera i menyerna.
@@ -61,5 +61,17 @@ Sprint backlog 3
 5.    Check-in                               		22
 6.    Möte m.m    					20
 
+Sprint backlog 4
 
+#         Features                		      Timmar
+-------------------------------------------------------------------------------
 
+1	 Mikrovågsugn					8 	   
+2	 Restauranger (Johanneberg, LIndholmen)	        3   	
+3	 Testning (Junit, acceptancetester)		30		
+4.	 Layout						2					
+5.	 Västtrafik		 		        20	
+6.       Check-In					10	
+7.	 Jenkins					4	
+8. 	 APK signed keystore				3	
+9.  	 Möte, handledning mm	
