@@ -33,6 +33,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 
@@ -62,6 +63,7 @@ public class GoogleMapShowLocation extends MapActivity {
 	private SearchSQL search;
 	private GeoPoint johannesbergLoc;
 	private GeoPoint lindholmenLoc;
+	private GPSPoint gpsPoint;
 	@Override
 	/**
 	 * Method for determining on creation how the map view will be shown, what locations should be drawn
@@ -122,6 +124,7 @@ public class GoogleMapShowLocation extends MapActivity {
 		getMenuInflater().inflate(R.menu.activity_map, menu);
 		return true;
 	}
+	
 
 	@Override
 	protected boolean isRouteDisplayed() {
@@ -166,21 +169,18 @@ public class GoogleMapShowLocation extends MapActivity {
 		johannesbergLoc = new GeoPoint(57688678, 11977136);
 		Drawable drawable = this.getResources().getDrawable(R.drawable.dot); 
 		overlay = new MapItemizedOverlay(drawable, this);
+		gpsPoint= new GPSPoint(); 
 		
 		location_manager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
 		location_listener = new LocationListener(){
 
 			public void onLocationChanged(Location location) { //metod som hämtar din position genom att anropa onResume
 
-				/*
+				
 				int longitude = (int) (location.getLongitude() * 1E6);
 				int latitude = (int) (location.getLatitude() * 1E6);
 
 				GeoPoint point = new GeoPoint(latitude, longitude);
-				OverlayItem overlayitem = new OverlayItem(point, "Hola, Mundo!", "I'm in Mexico City!");
-				overlay.addOverlay(overlayitem);
-				mapOverlays.add(overlay);
-				 */
 
 			}
 
@@ -202,4 +202,23 @@ public class GoogleMapShowLocation extends MapActivity {
 		search = new SearchSQL(GoogleMapShowLocation.this);
 		search.createDatabase();
 	}
+    
+    @Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		
+		switch(item.getItemId()){
+		
+		case R.id.getqueue:
+				getQueue();
+		}
+		
+		return false;
+    }
+    
+    private void getQueue(){
+    	gpsPoint.setGPSPoints();
+    	
+    	
+    	
+    }
 }
