@@ -37,8 +37,7 @@ public class CampusMenuActivityTest extends ActivityInstrumentationTestCase2<Cam
 	private CampusMenuActivity campusMenuActivity;
 	private Button johannebergButton;
 	private Button lindholmenButton;
-	private Bundle extras;
-
+	
 	public CampusMenuActivityTest() {
 		super(CampusMenuActivity.class);
 	}
@@ -66,7 +65,6 @@ public class CampusMenuActivityTest extends ActivityInstrumentationTestCase2<Cam
 	 * by starting the correct intent.
 	 */
 	public void testLindholmenButton(){
-		
 		TouchUtils.clickView(this, this.lindholmenButton);
 		super.getInstrumentation().waitForIdleSync();
 		assertEquals("android.intent.action.GOOGLEMAPSHOWLOCATION", campusMenuActivity.getActionString());
