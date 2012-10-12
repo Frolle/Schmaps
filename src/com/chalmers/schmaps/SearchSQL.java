@@ -50,7 +50,7 @@ public class SearchSQL {
 	private static final String DATABASE_ATMTABLE = "Bankomater";
 
 	private static String DATABASE_PATH = "/data/data/com.chalmers.schmaps/databases/";
-	private static final int DATABASE_VERSION =7;
+	private static final int DATABASE_VERSION = 8;
 
 
 	
