@@ -19,10 +19,8 @@ import android.os.Bundle;
 
 public class GPSPoint extends Activity {	
 	private SearchSQL db;
-	private MapItemizedOverlay overlay;
 	private LocationManager manager;
 	private PendingIntent intent;
-	private OverlayItem item;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState){
@@ -39,14 +37,10 @@ public class GPSPoint extends Activity {
 
 	}
 	
-	private void setGPSPoints(){
+	public void setGPSPoints(){
 		Intent intDB = new Intent(this, SendToDB.class);
 		intent.getActivity(this, 0, intDB, Intent.FLAG_ACTIVITY_NEW_TASK);
-		manager.addProximityAlert(57688771, 11979179, 50, -1, intent);
-
-	
-
-		
+		manager.addProximityAlert(57688771, 11979179, 50, -1, intent);		
 
 	}
 	

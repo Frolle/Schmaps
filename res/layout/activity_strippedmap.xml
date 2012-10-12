@@ -6,11 +6,6 @@
     	android:layout_height="wrap_content"
     	android:orientation="vertical"
     	android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
-    	
- 	    <uses-permission 
- 	        android:name="android.permission.ACCESS_COARSE_LOCATION" 
- 	        android:name="android.permission.INTERNET"
- 	        />
 
 		<com.google.android.maps.MapView 
     		xmlns:tools="http://schemas.android.com/tools"

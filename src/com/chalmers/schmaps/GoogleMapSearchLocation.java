@@ -371,7 +371,7 @@ private void walkningDirections (){
 			urlString.append("&destination=");// to, where you are going
 			urlString.append(Double.toString((double) roomLocation.getLatitudeE6() / 1.0E6)); //latitude
 			urlString.append(",");
-			urlString.append(Double.toString((double) roomLocation.getLongitudeE6() / 1.0E6)); //ongitude
+			urlString.append(Double.toString((double) roomLocation.getLongitudeE6() / 1.0E6)); //longitude
 			urlString.append("&sensor=false&avoid=highways&mode=walking"); //we want the walking directions
 
 
