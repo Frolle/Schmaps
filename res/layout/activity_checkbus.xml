@@ -15,46 +15,98 @@
             android:layout_height="match_parent" >
 
             <TableLayout
-                android:id="@+id/Table1"
+                android:id="@+id/ChalmersTable"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" >
 
                 <TableRow
-                    android:id="@+id/tableRow1"
+                    android:id="@+id/ChalmersTopRow"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="5dip"
                     android:weightSum="100"
-                    android:orientation="vertical">
+                    android:orientation="horizontal"
+                    android:background="@color/white">
 
                     <TextView
-                        android:id="@+id/bus"
-                        android:text="Bus"
+                        android:id="@+id/busTitle"
+                        android:text="Buss"
                         android:textSize="18sp"                        
                    		android:layout_marginRight="5sp"/>
                                         
                     <TextView
-                        android:id="@+id/dest"
-                        android:text="Destiantion"
+                        android:id="@+id/destTitle"
+                        android:text="Destination"
                         android:textSize="18sp" 
                         android:layout_marginRight="5sp"/>
                     
                     <TextView
-                        android:id="@+id/depature"
-                        android:text="Depature Time"
+                        android:id="@+id/departureTitle"
+                        android:text="Departure Time"
                         android:textSize="18sp" 
                         android:layout_marginRight="5sp"/>
                     
                     <TextView
-                        android:id="@+id/lage"
+                        android:id="@+id/trakTitle"
                         android:text="Läge"
                         android:textSize="18sp" 
                         android:layout_marginRight="5sp"/>
 
-                    
                 </TableRow>
             </TableLayout>
         </LinearLayout>
     </ScrollView>
 
+    <ScrollView
+        android:id="@+id/scrollView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <TableLayout
+                android:id="@+id/LindholmenTable"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+
+                <TableRow
+                    android:id="@+id/LindholmenTopRow"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="5dip"
+                    android:weightSum="100"
+                    android:orientation="horizontal"
+                    android:background="@color/white">
+
+                    <TextView
+                        android:id="@+id/busTitle2"
+                        android:text="Buss"
+                        android:textSize="18sp"                        
+                   		android:layout_marginRight="5sp"/>
+                                        
+                    <TextView
+                        android:id="@+id/destTitle2"
+                        android:text="Destination"
+                        android:textSize="18sp" 
+                        android:layout_marginRight="5sp"/>
+                    
+                    <TextView
+                        android:id="@+id/departureTitle2"
+                        android:text="Departure Time"
+                        android:textSize="18sp" 
+                        android:layout_marginRight="5sp"/>
+                    
+                    <TextView
+                        android:id="@+id/trackTitle2"
+                        android:text="Läge"
+                        android:textSize="18sp" 
+                        android:layout_marginRight="5sp"/>
+
+                </TableRow>
+            </TableLayout>
+        </LinearLayout>
+    </ScrollView>
+    
 </RelativeLayout>
