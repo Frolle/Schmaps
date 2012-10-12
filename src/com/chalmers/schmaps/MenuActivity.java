@@ -127,6 +127,11 @@ public class MenuActivity extends Activity implements View.OnClickListener {
 			startActivity(startCheckIn);
 			break;
 			
+		case R.id.checkbusButton:
+			startMapActivity = new Intent("android.intent.action.CHECKBUSACTIVITY");
+			setActivityString(startMapActivity.getAction());
+			startActivity(startMapActivity);	
+			break;
 			
 		}
 	}
