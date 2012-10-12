@@ -67,9 +67,19 @@ public class MapItemizedOverlayTest extends ActivityInstrumentationTestCase2<Goo
 		GeoPoint p = new GeoPoint(67854516,20215681);
 		OverlayItem item = new OverlayItem(p, "Hej Kiruna", "Här är det kallt");
 		mapOverlay.addOverlay(item);
-		Integer i = mapOverlay.size();
-		String s = i.toString();
-		Log.e("testmapitomized", s);
 		assertEquals(1,mapOverlay.size());
 	}	
+	
+	public void testRemoveOverlay(){
+		GeoPoint p = new GeoPoint(67854516,20215681);
+		GeoPoint p2 = new GeoPoint(29385034,30482932);
+		OverlayItem item = new OverlayItem(p, "RAWR", "TESTRAWR");
+		OverlayItem item2 = new OverlayItem(p2, "RAWR2", "TESTRAWR");
+		mapOverlay.addOverlay(item);
+		mapOverlay.addOverlay(item2);
+		assertEquals(2,mapOverlay.size());
+		mapOverlay.removeOverlay();
+		assertEquals(0, mapOverlay.size());
+		
+	}
 }
