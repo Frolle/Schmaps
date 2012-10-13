@@ -39,9 +39,11 @@ public class GoogleMapShowLocationTest extends
 	private List<Overlay> overlay;
 	private static final int JOHANNESBERG = 40;
 	private static final int MICROWAVEBUTTON = 1;
-	private static final int SIZEOFMICROWAVETABLE = 4;
-	private static final int SIZEOFRESTAURANTTABLE = 24;
-	private static final int SIZEOFATMTABLE = 6;
+	private static final int RESTAURANTBUTTON = 2;
+	private static final int ATMBUTTON = 3;
+	private static final int SIZEOFMICROWAVETABLE = 2;
+	private static final int SIZEOFRESTAURANTTABLE = 22;
+	private static final int SIZEOFATMTABLE = 4;
 	private static final int SIZEOFROOMSTABLE = 263;
 	
 	
@@ -55,25 +57,23 @@ public class GoogleMapShowLocationTest extends
 	protected void setUp() throws Exception {
 		super.setUp();
 		//Simulate the intent from the previous activities which is usually rendered from the user's inputs in the app.
-		setActivityIntent(new Intent("android.intent.action.CAMPUSMENUACTIVITY").putExtra("Show locations", MICROWAVEBUTTON).putExtra("Campus", JOHANNESBERG));
 		setActivityInitialTouchMode(false);
-		this.showLocationActivity = super.getActivity();
-		this.mapView = (MapView) this.showLocationActivity.findViewById(R.id.mapview);
-		overlay = mapView.getOverlays();
 	}
 	
-	public void testPreConditions(){
-		super.assertNotNull(showLocationActivity);
-		super.assertNotNull(mapView);
-		super.assertNotNull(overlay);
-	}
-
 	/**
 	 * Test to see if all the locations for the microwaves were drawn out, by comparing
 	 * the size of all the items drawn out to the size of the data table. The other tests
 	 * works just like this except for different tables.
+	 * Reason to why the mapView and overlay variables are in all the tests and not in the
+ 	 * setUp is because the intent needs to be customized for every different test to be
+	 * customized for every different case to get coverage of all the code.
 	 */
 	public void testDrawLocationsMicrowaves(){
+		setActivityIntent(new Intent("android.intent.action.CAMPUSMENUACTIVITY").putExtra("Show locations", MICROWAVEBUTTON).putExtra("Campus", JOHANNESBERG));
+		this.showLocationActivity = super.getActivity();
+		this.mapView = (MapView) this.showLocationActivity.findViewById(R.id.mapview);
+		overlay = mapView.getOverlays();
+		overlay.clear();
 		this.showLocationActivity.drawLocationList("Microwaves");
 		super.getInstrumentation().waitForIdleSync();
 		assertEquals(SIZEOFMICROWAVETABLE,overlay.size());
@@ -83,6 +83,11 @@ public class GoogleMapShowLocationTest extends
 	 */
 
 	public void testDrawLocationsRestaurants(){
+		setActivityIntent(new Intent("android.intent.action.CAMPUSMENUACTIVITY").putExtra("Show locations", RESTAURANTBUTTON).putExtra("Campus", JOHANNESBERG));
+		this.showLocationActivity = super.getActivity();
+		this.mapView = (MapView) this.showLocationActivity.findViewById(R.id.mapview);
+		overlay = mapView.getOverlays();
+		overlay.clear();
 		this.showLocationActivity.drawLocationList("Restaurants");
 		super.getInstrumentation().waitForIdleSync();
 		assertEquals(SIZEOFRESTAURANTTABLE,overlay.size());
@@ -92,6 +97,11 @@ public class GoogleMapShowLocationTest extends
 	 */
 
 	public void testDrawLocationsAtms(){
+		setActivityIntent(new Intent("android.intent.action.CAMPUSMENUACTIVITY").putExtra("Show locations", ATMBUTTON).putExtra("Campus", JOHANNESBERG));
+		this.showLocationActivity = super.getActivity();
+		this.mapView = (MapView) this.showLocationActivity.findViewById(R.id.mapview);
+		overlay = mapView.getOverlays();
+		overlay.clear();
 		this.showLocationActivity.drawLocationList("Atm");
 		super.getInstrumentation().waitForIdleSync();
 		assertEquals(SIZEOFATMTABLE,overlay.size());
