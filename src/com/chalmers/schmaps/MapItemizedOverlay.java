@@ -101,6 +101,7 @@ public class MapItemizedOverlay extends ItemizedOverlay<OverlayItem>{
 	  builder.setView(layout);
 	  alertDialog = builder.create();
 	  alertDialog.setTitle(item.getTitle());
+	  alertDialog.setCanceledOnTouchOutside(true);
 	  alertDialog.show();
 	  
 	  return true;
