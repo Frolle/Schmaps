@@ -34,7 +34,13 @@ import android.graphics.drawable.Drawable;
 import android.test.ActivityInstrumentationTestCase2;
 import android.util.Log;
 import android.view.View;
-
+/**
+ * Test class for testing the MapItemizedOverlay by adding overlays,
+ * removing overlays and testing what happens when you tap on the 
+ * overlay items.
+ * @author Frolle
+ *
+ */
 public class MapItemizedOverlayTest extends ActivityInstrumentationTestCase2<GoogleMapSearchLocation> {
 	private static final int THEOVERLAYITEMONMAP = 0;
 
@@ -65,7 +71,8 @@ public class MapItemizedOverlayTest extends ActivityInstrumentationTestCase2<Goo
 	}
 	
 	/**
-	 * Tests that a overlay is added 
+	 * Tests that an overlay item is added by adding it to the the overlay
+	 * and checking the size of it.
 	 */
 	public void testAddOverlay(){
 		GeoPoint p = new GeoPoint(67854516,20215681);
@@ -74,6 +81,9 @@ public class MapItemizedOverlayTest extends ActivityInstrumentationTestCase2<Goo
 		assertEquals(1,mapOverlay.size());
 	}	
 	
+	/**
+	 * Works the same way as addOverlay but removes overlays instead.
+	 */
 	public void testRemoveOverlay(){
 		GeoPoint p = new GeoPoint(67854516,20215681);
 		GeoPoint p2 = new GeoPoint(29385034,30482932);
@@ -87,6 +97,11 @@ public class MapItemizedOverlayTest extends ActivityInstrumentationTestCase2<Goo
 		
 	}
 	
+	/**
+	 * Tests the onTap function by confirming that a dialog is shown
+	 * when the overlay item was tapped.
+	 * @throws InterruptedException
+	 */
 	public void testOnTap() throws InterruptedException{
 		GeoPoint p = new GeoPoint(67854516,20215681);
 		OverlayItem item = new OverlayItem(p, "RAWR", "TESTRAWR");
@@ -94,9 +109,9 @@ public class MapItemizedOverlayTest extends ActivityInstrumentationTestCase2<Goo
 		mapOverlay.onTap(THEOVERLAYITEMONMAP);
 		super.getInstrumentation().waitForIdleSync();
 		try {
-			Field dialogToShow = activity.getClass().getDeclaredField("alertDialog");
+			Field dialogToShow = mapOverlay.getClass().getDeclaredField("alertDialog");
 			dialogToShow.setAccessible(true);
-			dialogShowing = (AlertDialog) dialogToShow.get(this.activity);
+			dialogShowing = (AlertDialog) dialogToShow.get(this.mapOverlay);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
