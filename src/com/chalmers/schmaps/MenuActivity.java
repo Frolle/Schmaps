@@ -117,8 +117,9 @@ public class MenuActivity extends Activity implements View.OnClickListener {
 			
 
 		case R.id.checkinButton:
-			Intent startCheckIn = new Intent("android.intent.action.CHECKINACTIVITY");
-			startActivity(startCheckIn);
+			startMapActivity = new Intent("android.intent.action.CHECKINACTIVITY");
+			setActivityString(startMapActivity.getAction());
+			startActivity(startMapActivity);
 			break;
 			
 			
