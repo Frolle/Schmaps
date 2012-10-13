@@ -245,7 +245,7 @@ public class GoogleMapSearchLocation extends MapActivity implements View.OnClick
 			//dilaog pops up if room not found
 			dialog = new Dialog(GoogleMapSearchLocation.this);
 			dialog.setTitle("Sorry, can not find the room :(");
-			dialog.setCancelable(true);
+			dialog.setCanceledOnTouchOutside(true);
 			dialog.show();
 		}
 		search.close(); //close database
