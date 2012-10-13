@@ -28,6 +28,7 @@ import com.google.android.maps.*;
 
 import android.util.Log;
 import android.view.KeyEvent;
+import android.app.Dialog;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.TouchUtils;
 import android.test.ViewAsserts;
@@ -43,7 +44,7 @@ public class GoogleMapSearchLocationTest extends ActivityInstrumentationTestCase
 	private EditText lectureEdit;
 	private MapView mapview;
 	private String roomToFindString;
-	
+	private Dialog showingDialog;
 	public GoogleMapSearchLocationTest()
 	{
 		super(GoogleMapSearchLocation.class);
@@ -90,6 +91,21 @@ public class GoogleMapSearchLocationTest extends ActivityInstrumentationTestCase
 		assertEquals(roomGP,tempTestOverlay.getItem(0).getPoint());
 		assertEquals("Sven Hultins gata 2",tempTestOverlay.getItem(0).getTitle());
 		assertEquals("",tempTestOverlay.getItem(0).getSnippet());
+	}
+	
+	public void testDialogRoomNotFound(){
+		TouchUtils.tapView(this, this.lectureEdit);
+		super.sendKeys("RoomDoesNotExist");
+		super.getInstrumentation().waitForIdleSync();
+		try {
+			Field dialogRoomNotFound = activity.getClass().getDeclaredField("dialog");
+			dialogRoomNotFound.setAccessible(true);
+			showingDialog = (Dialog) dialogRoomNotFound.get(this.activity);
+		}
+		catch (Exception e) {
+				e.printStackTrace();
+		}
+		assertTrue(showingDialog.isShowing());
 	}
 	
 	public void testRegexForRoom(){
