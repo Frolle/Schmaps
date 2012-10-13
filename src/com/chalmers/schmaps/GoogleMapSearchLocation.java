@@ -85,6 +85,7 @@ public class GoogleMapSearchLocation extends MapActivity implements View.OnClick
 	private MapController mapcon;
 	private PathOverlay pathOverlay;
 	private boolean roomSearched;
+	private Dialog dialog;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -242,7 +243,7 @@ public class GoogleMapSearchLocation extends MapActivity implements View.OnClick
 
 		}else{
 			//dilaog pops up if room not found
-			Dialog dialog = new Dialog(GoogleMapSearchLocation.this);
+			dialog = new Dialog(GoogleMapSearchLocation.this);
 			dialog.setTitle("Sorry, can not find the room :(");
 			dialog.setCancelable(true);
 			dialog.show();
