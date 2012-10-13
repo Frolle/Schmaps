@@ -36,7 +36,7 @@ import android.widget.EditText;
  *
  */
 public class SearchSQLTest extends ActivityInstrumentationTestCase2<GoogleMapSearchLocation> {
-	
+	private static final int RETURNVALUEIFNOTFOUND = 0;
 	private SearchSQL tester;
 	GoogleMapSearchLocation activity;
 	String theTestValue = "runan";
@@ -70,28 +70,34 @@ public class SearchSQLTest extends ActivityInstrumentationTestCase2<GoogleMapSea
 
 	public void testExists() {
 		assertTrue(tester.exists(theTestValue));
-
+		assertFalse(tester.exists("ValueThatDoesNotExist"));
 	}
 	
 	public void testGetLat() {
 		assertEquals(57689111, tester.getLat(theTestValue));
+		assertEquals(RETURNVALUEIFNOTFOUND, tester.getLat("ValueThatDoesNotExist"));
 	}
 
 
 	public void testGetLong() {
 		assertEquals(11973517, tester.getLong(theTestValue));
+		assertEquals(RETURNVALUEIFNOTFOUND, tester.getLong("ValueThatDoesNotExist"));
+
 	}
 
 
 	public void testGetAddress() {
 		
 		assertEquals("Sven Hultins gata 2", tester.getAddress(theTestValue));
+		assertNull(tester.getAddress("ValueThatDoesNotExist"));
 	}
 
 
 	public void testGetLevel() {
 		
 		assertEquals("", tester.getLevel(theTestValue));
+		assertNull(tester.getLevel("ValueThatDoesNotExist"));
+
 	}
 
 
