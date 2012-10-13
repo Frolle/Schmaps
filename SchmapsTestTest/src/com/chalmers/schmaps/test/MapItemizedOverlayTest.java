@@ -16,6 +16,7 @@
 
 package com.chalmers.schmaps.test;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 
 
@@ -27,6 +28,7 @@ import com.google.android.maps.MapView;
 import com.google.android.maps.OverlayItem;
 import com.jayway.android.robotium.solo.Solo;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.graphics.drawable.Drawable;
 import android.test.ActivityInstrumentationTestCase2;
@@ -35,12 +37,13 @@ import android.view.View;
 
 public class MapItemizedOverlayTest extends ActivityInstrumentationTestCase2<GoogleMapSearchLocation> {
 	private static final int THEOVERLAYITEMONMAP = 0;
-	private static final int THEDIALOGOKBUTTON = 0;
 
 	private GoogleMapSearchLocation activity;
 	private MapItemizedOverlay mapOverlay;
 	private Drawable drawable;
 	private Solo solo;
+
+	private AlertDialog dialogShowing;
 
 	
 	public MapItemizedOverlayTest(){
@@ -90,9 +93,13 @@ public class MapItemizedOverlayTest extends ActivityInstrumentationTestCase2<Goo
 		mapOverlay.addOverlay(item);
 		mapOverlay.onTap(THEOVERLAYITEMONMAP);
 		super.getInstrumentation().waitForIdleSync();
-		solo.clickOnButton(THEDIALOGOKBUTTON); 
-		//The test is done here, because we're testing that the dialog shows up if the user 
-		//taps on the overlay item. So if solo can click on the dialog "ok" button
-		//after a tap on the overlay item's been simulated, then it means that the dialog did show up
+		try {
+			Field dialogToShow = activity.getClass().getDeclaredField("dialog");
+			dialogToShow.setAccessible(true);
+			dialogShowing = (AlertDialog) dialogToShow.get(this.activity);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		assertTrue(dialogShowing.isShowing());
 		}
 }
