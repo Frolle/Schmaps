@@ -122,8 +122,7 @@ public class SearchSQL {
 		String [] columns = new String []{ KEY_ROWID, KEY_ROOM, KEY_LAT, KEY_LONG, KEY_STREET, KEY_LEVEL};
 		Cursor cursor = ourDatabase.query(DATABASE_TABLE, columns, KEY_ROOM + " LIKE ?" , new String [] { "%" + query + "%"}, null, null, null);
 		
-		if(cursor != null){
-			cursor.moveToFirst();
+		if(cursor.moveToFirst()){
 			int lat = cursor.getInt(2);
 			if (cursor != null && !cursor.isClosed()) {
 	            cursor.close();
@@ -144,8 +143,7 @@ public class SearchSQL {
 		String [] columns = new String []{KEY_ROWID, KEY_ROOM, KEY_LAT, KEY_LONG, KEY_STREET, KEY_LEVEL };
 		Cursor cursor = ourDatabase.query(DATABASE_TABLE, columns, KEY_ROOM + " LIKE ?" , new String [] { "%" + query + "%"}, null, null, null);
 		
-		if(cursor != null){
-			cursor.moveToFirst();
+		if(cursor.moveToFirst()){
 			int lon = cursor.getInt(3);
 			if (cursor != null && !cursor.isClosed()) {
 	            cursor.close();
@@ -164,9 +162,7 @@ public class SearchSQL {
 	public String getAddress(String query) {
 		String [] columns = new String []{KEY_ROWID, KEY_ROOM, KEY_LAT, KEY_LONG, KEY_STREET, KEY_LEVEL };
 		Cursor cursor = ourDatabase.query(DATABASE_TABLE, columns, KEY_ROOM + " LIKE ?" , new String [] { "%" + query + "%"}, null, null, null);
-		
-		if(cursor != null){
-			cursor.moveToFirst();
+		if(cursor.moveToFirst()){
 			String address = cursor.getString(4);
 			if (cursor != null && !cursor.isClosed()) {
 	            cursor.close();
@@ -186,8 +182,7 @@ public class SearchSQL {
 		String [] columns = new String []{KEY_ROWID, KEY_ROOM, KEY_LAT, KEY_LONG, KEY_STREET, KEY_LEVEL };
 		Cursor cursor = ourDatabase.query(DATABASE_TABLE, columns, KEY_ROOM + " LIKE ?" , new String [] { "%" + query + "%"}, null, null, null);
 		
-		if(cursor != null){
-			cursor.moveToFirst();
+		if(cursor.moveToFirst()){
 			String level = cursor.getString(5);
 			if (cursor != null && !cursor.isClosed()) {
 	            cursor.close();
