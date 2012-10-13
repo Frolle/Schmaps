@@ -116,13 +116,6 @@ public class GoogleMapShowLocation extends MapActivity {
 		
 	}
 
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.activity_map, menu);
-		return true;
-	}
-
 	@Override
 	protected boolean isRouteDisplayed() {
 		// TODO Auto-generated method stub
