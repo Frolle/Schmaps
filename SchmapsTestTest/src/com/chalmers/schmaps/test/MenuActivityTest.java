@@ -22,6 +22,7 @@ import android.graphics.Color;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.TouchUtils;
 import android.view.KeyEvent;
+import android.view.View;
 import android.widget.Button;
 
 /**
@@ -31,7 +32,7 @@ import android.widget.Button;
  *
  */
 public class MenuActivityTest extends ActivityInstrumentationTestCase2<MenuActivity> {
-	private Button searchHall, groupRoom,atmButton,microwaveButton,findRestaurantsButton;
+	private Button searchHall, groupRoom,atmButton,microwaveButton,findRestaurantsButton, checkInButton;
 	private MenuActivity menuActivity;
 
 	public MenuActivityTest() {
@@ -51,6 +52,7 @@ public class MenuActivityTest extends ActivityInstrumentationTestCase2<MenuActiv
 		atmButton = (Button) menuActivity.findViewById(R.id.atmButton);
 		microwaveButton = (Button) menuActivity.findViewById(R.id.microwaveButton);
 		findRestaurantsButton = (Button) menuActivity.findViewById(R.id.findRestaurantsButton);
+		checkInButton = (Button) menuActivity.findViewById(R.id.checkinButton);
 	}
 	
 	public void testPreConditions(){
@@ -110,6 +112,17 @@ public class MenuActivityTest extends ActivityInstrumentationTestCase2<MenuActiv
 		assertEquals("android.intent.action.CAMPUSMENUACTIVITY", menuActivity.getActivityString());
 		this.sendKeys(KeyEvent.KEYCODE_BACK);
 	}
+	
+	/**
+	 * See test comments for test above.
+	 */
+	public void testCheckInButton(){
+		TouchUtils.clickView(this, this.checkInButton);
+		super.getInstrumentation().waitForIdleSync();
+		assertEquals("android.intent.action.CHECKINACTIVITY", menuActivity.getActivityString());
+		this.sendKeys(KeyEvent.KEYCODE_BACK);
+	}
+
 	@Override
 	public void tearDown() throws Exception{
 		super.tearDown();
