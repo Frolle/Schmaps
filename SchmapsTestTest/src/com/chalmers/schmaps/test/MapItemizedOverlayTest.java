@@ -94,7 +94,7 @@ public class MapItemizedOverlayTest extends ActivityInstrumentationTestCase2<Goo
 		mapOverlay.onTap(THEOVERLAYITEMONMAP);
 		super.getInstrumentation().waitForIdleSync();
 		try {
-			Field dialogToShow = activity.getClass().getDeclaredField("dialog");
+			Field dialogToShow = activity.getClass().getDeclaredField("alertDialog");
 			dialogToShow.setAccessible(true);
 			dialogShowing = (AlertDialog) dialogToShow.get(this.activity);
 		} catch (Exception e) {
