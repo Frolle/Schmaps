@@ -36,7 +36,12 @@ import android.text.style.SuperscriptSpan;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-
+/**
+ * Test class for testing GoogleMapSearchLocation, tests the function to search for rooms,
+ * regex and what happens if room is not found.
+ * @author Frolle
+ *
+ */
 public class GoogleMapSearchLocationTest extends ActivityInstrumentationTestCase2<GoogleMapSearchLocation> {
 	
 	GoogleMapSearchLocation activity;
@@ -49,7 +54,9 @@ public class GoogleMapSearchLocationTest extends ActivityInstrumentationTestCase
 	{
 		super(GoogleMapSearchLocation.class);
 	}
-	
+	/**
+	 * Set up instance variables
+	 */
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
@@ -70,8 +77,13 @@ public class GoogleMapSearchLocationTest extends ActivityInstrumentationTestCase
 		super.assertNotNull(editButton);
 		super.assertNotNull(mapview);
 		super.assertNotNull(lectureEdit);
+		super.assertNotNull(activity);
 	}
-	
+	/**
+	 * Searches for a room that is known to exist in the database and tests
+	 * that what is drawn on the map has the same attributes as the one that
+	 * was queried.
+	 */
 	public void testSearchForARoom(){
 		TouchUtils.tapView(this, this.lectureEdit);
 		super.sendKeys("R U N A N");
@@ -93,9 +105,18 @@ public class GoogleMapSearchLocationTest extends ActivityInstrumentationTestCase
 		assertEquals("",tempTestOverlay.getItem(0).getSnippet());
 	}
 	
+	/**
+	 * Tests that a dialog is shown if a room is not found by querying for
+	 * something that does not exist within the database and confirms that
+	 * a dialog is shown upon the query.
+	 */
 	public void testDialogRoomNotFound(){
 		TouchUtils.tapView(this, this.lectureEdit);
-		super.sendKeys("RoomDoesNotExist");
+		super.sendKeys(KeyEvent.KEYCODE_BACKSLASH);
+		super.sendKeys("R O O M THATDOESNOTEXIST");
+		super.sendKeys(KeyEvent.KEYCODE_POUND);
+		super.getInstrumentation().waitForIdleSync();
+		TouchUtils.clickView(this, this.editButton);
 		super.getInstrumentation().waitForIdleSync();
 		try {
 			Field dialogRoomNotFound = activity.getClass().getDeclaredField("dialog");
@@ -108,6 +129,11 @@ public class GoogleMapSearchLocationTest extends ActivityInstrumentationTestCase
 		assertTrue(showingDialog.isShowing());
 	}
 	
+	/**
+	 * Makes sure that the regex function works as intended by 
+	 * inserting spaces and special characters into the query
+	 * and confirming that still the right input was queried.
+	 */
 	public void testRegexForRoom(){
 		TouchUtils.tapView(this, this.lectureEdit);
 		super.sendKeys(KeyEvent.KEYCODE_BACKSLASH);
