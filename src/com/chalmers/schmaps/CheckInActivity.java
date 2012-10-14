@@ -94,9 +94,9 @@ public class CheckInActivity extends MapActivity implements View.OnClickListener
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_checkin);
+		setContentView(R.layout.queue_strippedmap);  //stripped map for restaurants queue
 		returnedJsonObject = null;
-		username = "";
+		//username = "";
 		checkin = false;
 		
 		mapview = (MapView) findViewById(R.id.mapview);
