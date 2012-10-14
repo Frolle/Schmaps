@@ -182,7 +182,7 @@ public class CheckInActivity extends MapActivity implements View.OnClickListener
 		StringBuffer timebuffer = new StringBuffer();
 		
 		overlayList = mapview.getOverlays();
-		checkInDot = this.getResources().getDrawable(R.drawable.androidlogomini); //drawable
+		checkInDot = this.getResources().getDrawable(R.drawable.chalmersandroid); //drawable
 		mapItemizedCheckIn = new MapItemizedOverlay(checkInDot, this); //mapitemizedoverlay with drawable
 		
 		result =null;
