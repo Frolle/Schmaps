@@ -33,12 +33,16 @@ import com.google.android.maps.GeoPoint;
 
 import android.app.Activity;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
+import android.view.View;
 import android.view.ViewGroup.LayoutParams;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -48,7 +52,7 @@ import android.widget.TextView;
  * Chalmers and Lindholmen
  *************************************************/
 
-public class CheckBusActivity extends Activity {
+public class CheckBusActivity extends Activity implements View.OnClickListener {
 
 	private static int NROFROWS = 5;
 	private static String TAG = "CheckBusActivity";
@@ -58,7 +62,6 @@ public class CheckBusActivity extends Activity {
 	private JSONObject[] returnedJsonObject;
 	private TableLayout lindholmenTable;
 	private TableLayout chalmersTable;
-	private GetDepatures getDepatures = new GetDepatures();
 	private ArrayList<String> chalmersLineArray;
 	private ArrayList<String> chalmersDestArray;
 	private ArrayList<String> chalmersTimeArray;
@@ -68,11 +71,14 @@ public class CheckBusActivity extends Activity {
 	private ArrayList<String> lindholmenDestArray;
 	private ArrayList<String> lindholmenTimeArray;
 	private ArrayList<String> lindholmenTrackArray;
+	private Button refreshButton;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_checkbus);
+		refreshButton = (Button) findViewById(R.id.refreshbutton);
+		refreshButton.setOnClickListener(this);
 
 		chalmersTable = (TableLayout) findViewById(R.id.ChalmersTable);
 		lindholmenTable = (TableLayout) findViewById(R.id.LindholmenTable);
@@ -89,7 +95,18 @@ public class CheckBusActivity extends Activity {
 	 * Delete all rows under the top row 
 	 **/
 	public void deleteRows(){
-		//ChalmersTable.getChildCount();
+		int chalmersRowsToDel = chalmersTable.getChildCount();
+		int lindholmenRowsToDel = lindholmenTable.getChildCount();
+
+		for (int i=chalmersRowsToDel-1;i>0;i--){
+			TableRow row = (TableRow) chalmersTable.getChildAt(i);
+			chalmersTable.removeView(row);
+		}
+
+		for (int j=lindholmenRowsToDel;j>0;j--){
+			TableRow row = (TableRow) lindholmenTable.getChildAt(j);
+			lindholmenTable.removeView(row);
+		}
 	}
 
 	/**
@@ -97,6 +114,7 @@ public class CheckBusActivity extends Activity {
 	 */
 	public void makeRows(){
 		returnedJsonObject = null;
+		GetDepatures getDepatures = new GetDepatures();
 		getDepatures.execute();
 		parseDataToArrays();
 
@@ -104,9 +122,10 @@ public class CheckBusActivity extends Activity {
 			for(int i = 0; i<NROFROWS; i++){ 
 				TableRow tempTableRow = new TableRow(this);
 				tempTableRow.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.WRAP_CONTENT));
-
+				tempTableRow.setBackgroundColor(Color.GRAY);
 				for(int j = 0; j<4; j++){
 					TextView textview = new TextView(this);
+					textview.setTextColor(Color.BLACK);
 					if(j == 0){
 						if(n == 0)
 							textview.setText(chalmersLineArray.get(i));
@@ -140,6 +159,13 @@ public class CheckBusActivity extends Activity {
 				}
 			}
 		}
+	}
+
+	/**
+	 * Refreshes the tables when clicking on the refresh button. 
+	 */
+	public void onClick(View v){
+		refreshTables();
 	}
 
 	/**
@@ -277,7 +303,6 @@ public class CheckBusActivity extends Activity {
 				}
 			}
 			returnedJsonObject = tempJsonObject;
-
 			return returnedJsonObject;
 		}
 	}
