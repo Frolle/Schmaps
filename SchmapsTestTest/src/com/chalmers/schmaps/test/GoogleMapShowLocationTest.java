@@ -41,8 +41,8 @@ public class GoogleMapShowLocationTest extends
 	private static final int MICROWAVEBUTTON = 1;
 	private static final int RESTAURANTBUTTON = 2;
 	private static final int ATMBUTTON = 3;
-	private static final int SIZEOFMICROWAVETABLE = 2;
-	private static final int SIZEOFRESTAURANTTABLE = 22;
+	private static final int SIZEOFMICROWAVETABLE = 9;
+	private static final int SIZEOFRESTAURANTTABLE = 34;
 	private static final int SIZEOFATMTABLE = 4;
 	private static final int SIZEOFROOMSTABLE = 263;
 	
