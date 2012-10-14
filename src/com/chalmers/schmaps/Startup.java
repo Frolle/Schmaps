@@ -19,6 +19,7 @@ package com.chalmers.schmaps;
 import android.os.Bundle;
 import android.app.Activity;
 import android.view.Menu;
+import android.view.MotionEvent;
 import android.content.Intent;
 import android.view.Menu;
 import android.view.animation.Animation;
@@ -35,6 +36,7 @@ public class Startup extends Activity {
     private ImageView myView;
 	private Animation fadeInAnimation;
     private Intent startMenuActivity;
+    private Thread threadForSplash;
 
 	/**
 	 * onCreate method that assign the instance variables and create an anonymous Thread which is used as a timer for the splash screen.
@@ -45,20 +47,23 @@ public class Startup extends Activity {
         setContentView(R.layout.activity_startup);
         assignInstances();
         //Use a thread for the splash screen to assign its lifetime.
-        Thread timer = new Thread(){
+        threadForSplash = new Thread(){
 
 			public void run (){
             	try{
-            		sleep(5000);
-            		startActivity(startMenuActivity);
+            		synchronized(this){
+            		wait(5000);
+            		}
             	}
             	catch(InterruptedException e){
             		e.printStackTrace();
             	}
+            	finish();
+        		startActivity(startMenuActivity);
             }
           };
 
-        timer.start();
+        threadForSplash.start();
     }
 	/**
 	 * Method to assign the instance variables.
@@ -76,8 +81,15 @@ public class Startup extends Activity {
 		finish();
 	}
 	
-	public Intent getIntentForMenuActivity(){
-		return startMenuActivity;
-	}
-    
+	
+	@Override
+	public boolean onTouchEvent(MotionEvent event) {
+		if(event.getAction()==MotionEvent.ACTION_DOWN){
+			synchronized(threadForSplash){
+				threadForSplash.notifyAll();
+			}
+			return true;
+		}
+		return false;
+	}    
 }
