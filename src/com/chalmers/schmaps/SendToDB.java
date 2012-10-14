@@ -1,6 +1,6 @@
 package com.chalmers.schmaps;
 
-import com.chalmers.schmaps.GPSPoint.myLocationListener;
+//import com.chalmers.schmaps.GPSPoint.myLocationListener;
 import com.google.android.maps.Overlay;
 
 import android.app.Activity;

@@ -64,6 +64,7 @@ public class GoogleMapShowLocation extends MapActivity {
 	private GeoPoint johannesbergLoc;
 	private GeoPoint lindholmenLoc;
 	private GPSPoint gpsPoint;
+	private boolean showRest;
 	@Override
 	/**
 	 * Method for determining on creation how the map view will be shown, what locations should be drawn
@@ -89,6 +90,7 @@ public class GoogleMapShowLocation extends MapActivity {
 			break;
 		
 		case RESTAURANTBUTTON:
+			showRest = true;
 			drawLocationList(DB_RESTAURANTTABLE);
 			break;
 			
@@ -202,14 +204,17 @@ public class GoogleMapShowLocation extends MapActivity {
 		search = new SearchSQL(GoogleMapShowLocation.this);
 		search.createDatabase();
 	}
-    
+/*
     @Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		
 		switch(item.getItemId()){
 		
 		case R.id.getqueue:
+			if(showRest){
 				getQueue();
+				showRest=false;
+			}
 		}
 		
 		return false;
@@ -218,7 +223,6 @@ public class GoogleMapShowLocation extends MapActivity {
     private void getQueue(){
     	gpsPoint.setGPSPoints();
     	
-    	
-    	
     }
+    */
 }

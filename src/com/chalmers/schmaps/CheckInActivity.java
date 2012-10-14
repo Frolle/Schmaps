@@ -23,6 +23,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.json.JSONArray;
@@ -37,6 +38,7 @@ import com.google.android.maps.Overlay;
 
 import com.google.android.maps.OverlayItem;
 
+import android.app.PendingIntent;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.location.Criteria;
@@ -81,6 +83,13 @@ public class CheckInActivity extends MapActivity implements View.OnClickListener
 	private EditText enterName;
 	private Drawable checkInDot;
 	private OverlayItem overlayitem;
+	
+	private SearchSQL search;
+	private LocationManager manager;
+	private PendingIntent intent;
+	
+	private static final String DB_RESTTABLE = "Restaurants";
+    private List<Integer> restaurants = new ArrayList<Integer>();
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -221,7 +230,7 @@ public class CheckInActivity extends MapActivity implements View.OnClickListener
 
 		username = enterName.getText().toString();
 		username.trim(); //removes white signs
-		username = username.replaceAll("[^a-Ã¶A-Ã–0-9]+",""); //Removes illegal characters to prevent sql injection
+		username = username.replaceAll("[^a-öA-Ö0-9]+",""); //Removes illegal characters to prevent sql injection
 
 		//if the user have not entered a name the name is set to unknown
 		if(username.equals(""))
@@ -337,3 +346,4 @@ public class CheckInActivity extends MapActivity implements View.OnClickListener
 		}
 	}
 }
+

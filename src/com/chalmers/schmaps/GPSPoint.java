@@ -1,6 +1,7 @@
 package com.chalmers.schmaps;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapView;
@@ -18,9 +19,12 @@ import android.location.LocationProvider;
 import android.os.Bundle;
 
 public class GPSPoint extends Activity {	
-	private SearchSQL db;
+	private SearchSQL search;
 	private LocationManager manager;
 	private PendingIntent intent;
+	private static final String DB_RESTTABLE = "Restaurants";
+
+    private List<Integer> restaurants = new ArrayList<Integer>();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState){
@@ -36,16 +40,32 @@ public class GPSPoint extends Activity {
 		manager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, listener);
 
 	}
-	
+/**
+ * läser in alla gps punkter i restaurant och kollar en float radius på dom och jämför med nån lista och 
+ */
 	public void setGPSPoints(){
 		Intent intDB = new Intent(this, SendToDB.class);
 		intent.getActivity(this, 0, intDB, Intent.FLAG_ACTIVITY_NEW_TASK);
-		manager.addProximityAlert(57688771, 11979179, 50, -1, intent);		
+		
+		//Sets a proximity alert for the location given by the position (latitude, longitude) and the given radius.
+		//(double latitude, double longitude, float radius, long expiration, PendingIntent intent)
+	
+		manager.addProximityAlert(57800628, 12031362, 10, -1, intent);	
+		}
 
 	}
 	
+	/*
+	private void getTab(){
+		search.openRead();
+		search.getLat(DB_RESTTABLE);
+		search.getLong(DB_RESTTABLE);
+	
+	}
+	*/
+	
 	class myLocationListener implements LocationListener{
-
+  
 		public void onLocationChanged(Location location) {
 			if(location != null){
 				double longitude = location.getLongitude();
@@ -73,7 +93,3 @@ public class GPSPoint extends Activity {
 		
 	}
 
-
-	
-
-}
