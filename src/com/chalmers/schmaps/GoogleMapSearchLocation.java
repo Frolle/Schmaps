@@ -86,6 +86,8 @@ public class GoogleMapSearchLocation extends MapActivity implements View.OnClick
 	private PathOverlay pathOverlay;
 	private boolean roomSearched;
 	
+	private Bundle bucket;
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -169,6 +171,9 @@ public class GoogleMapSearchLocation extends MapActivity implements View.OnClick
 	protected void onResume() {
 		super.onResume();
 		try {
+			//if(bucket.containsKey("saved")){
+				
+			//}
 			// Register the listener with the Location Manager to receive
 			// location updates
 			//location_manager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 10, location_listener);
@@ -189,13 +194,15 @@ public class GoogleMapSearchLocation extends MapActivity implements View.OnClick
 
 		mapOverlays = mapView.getOverlays();
 		room = this.getResources().getDrawable(R.drawable.dot); 
-		student = this.getResources().getDrawable(R.drawable.tomte);
+		student = this.getResources().getDrawable(R.drawable.chalmersandroid);
 		mapItemizedRoom = new MapItemizedOverlay(room, this);
 		mapItemizedStudent = new MapItemizedOverlay(student, this);
 		
 		editButton = (Button) findViewById(R.id.edittextbutton);
 		lectureEdit = (EditText) findViewById(R.id.edittextlecture);
 		editButton.setOnClickListener(this);
+		
+		bucket = new Bundle();
 		
 		location_manager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
 		criteria = new Criteria(); //deafult criteria
@@ -205,6 +212,39 @@ public class GoogleMapSearchLocation extends MapActivity implements View.OnClick
 		roomSearched = false;
 
 	}
+	
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		ArrayList<Integer> list = new ArrayList<Integer>(); 
+		
+		list.add(ourLocation.getLatitudeE6());
+		list.add(ourLocation.getLongitudeE6());
+
+		if(roomLocation!=null){
+		list.add(roomLocation.getLatitudeE6());
+		list.add(roomLocation.getLatitudeE6());
+		}
+		
+		outState.putIntegerArrayList("saved", list);
+		super.onSaveInstanceState(outState);
+	}
+	
+	@Override
+	protected void onRestoreInstanceState(Bundle savedInstanceState) {
+		super.onRestoreInstanceState(savedInstanceState);
+		bucket = savedInstanceState;
+		ArrayList<Integer> list =savedInstanceState.getIntegerArrayList("saved");
+		GeoPoint geo = new GeoPoint(list.get(0), list.get(1));
+		ourLocation = geo;
+		
+
+		geo = new GeoPoint(list.get(2), list.get(3));
+		roomLocation = geo;
+
+
+		
+	}
+
 
 	public void onClick(View v) {
 		//Removes the key when finish typing
@@ -220,7 +260,7 @@ public class GoogleMapSearchLocation extends MapActivity implements View.OnClick
 		
 		roomToFind = lectureEdit.getText().toString();
 		roomToFind.toLowerCase().trim(); //removes white signs and converts to lower case
-		roomToFind = roomToFind.replaceAll("[^a-öA-Ö0-9]+",""); //Removes illegal characters to prevent sql injection
+		roomToFind = roomToFind.replaceAll("[^[a-zåäö][A-ZÅÄÖ][0-9]]",""); //Removes illegal characters to prevent sql injection
 		search.openRead(); //open database in read mode
 		
 		//if we find room show room on map, if not show dialog 
@@ -410,7 +450,7 @@ private void walkningDirections (){
 			}
 
 			jsonResponse = response.toString();
-			//Log.e(TAG, jsonResponse); //print out jsonresponse
+			//Log.e("json", jsonResponse); //print out jsonresponse
 
 			//convert string to jsonobject and return the object
 			try{

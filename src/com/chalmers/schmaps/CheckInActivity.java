@@ -186,7 +186,7 @@ public class CheckInActivity extends MapActivity implements View.OnClickListener
 		StringBuffer timebuffer = new StringBuffer();
 		
 		overlayList = mapview.getOverlays();
-		checkInDot = this.getResources().getDrawable(R.drawable.androidlogomini); //drawable
+		checkInDot = this.getResources().getDrawable(R.drawable.chalmersandroid); //drawable
 		mapItemizedCheckIn = new MapItemizedOverlay(checkInDot, this); //mapitemizedoverlay with drawable
 		
 		try {
@@ -230,7 +230,9 @@ public class CheckInActivity extends MapActivity implements View.OnClickListener
 
 		username = enterName.getText().toString();
 		username.trim(); //removes white signs
+
 		username = username.replaceAll("[^a-öA-Ö0-9]+",""); //Removes illegal characters to prevent sql injection
+
 
 		//if the user have not entered a name the name is set to unknown
 		if(username.equals(""))
@@ -271,8 +273,10 @@ public class CheckInActivity extends MapActivity implements View.OnClickListener
 			urlString.append(Integer.toString((int) latitude)); //latitude
 			urlString.append("&lng=");
 			urlString.append(Integer.toString((int) longitude)); //longitude
+			urlString.append("&key=bSJ9B9CFn449QRsXL9qMxW-lc"); //authorization key
 			if(checkin)
 				urlString.append("&insert=1");
+			
 			
 			//establish a connection with google directions api
 			try {
