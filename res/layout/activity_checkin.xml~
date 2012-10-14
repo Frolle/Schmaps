@@ -1,0 +1,57 @@
+<!--   Copyright [2012] [] -->
+
+<!--    Licensed under the Apache License, Version 2.0 (the "License"); -->
+<!--    you may not use this file except in compliance with the License. -->
+<!--    You may obtain a copy of the License at -->
+
+<!--        http://www.apache.org/licenses/LICENSE-2.0 -->
+
+<!--    Unless required by applicable law or agreed to in writing, software -->
+<!--    distributed under the License is distributed on an "AS IS" BASIS, -->
+<!--    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. -->
+<!--    See the License for the specific language governing permissions and -->
+<!--    limitations under the License.  -->
+
+ 	<RelativeLayout 
+	    xmlns:android="http://schemas.android.com/apk/res/android"
+	    xmlns:tools="http://schemas.android.com/tools"
+	    android:id="@+id/relLayETBT"
+    	android:layout_width="match_parent"
+    	android:layout_height="wrap_content"
+    	android:orientation="vertical">
+    	
+    	<LinearLayout
+   			android:id="@+id/lineLayETBT"
+    		android:layout_width="match_parent"
+    		android:layout_height="wrap_content"
+    		android:orientation="horizontal"
+    		android:weightSum="100">
+    	    
+	    <EditText
+	        android:layout_weight="30"
+	        android:id="@+id/entername"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_alignParentTop="true"
+	        android:hint="@string/write_name"
+	        tools:context=".CheckInActivity" />
+
+	    <Button
+	        android:id="@+id/checkinbutton"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_weight="70"
+	        android:text="@string/checkin_button"
+	        tools:context=".CheckInActivity" />
+	    </LinearLayout>
+		<com.google.android.maps.MapView 
+    		xmlns:tools="http://schemas.android.com/tools"
+    		android:id="@+id/mapview"
+    		android:layout_width="fill_parent"
+    		android:layout_height="fill_parent"
+    		android:apiKey="0LIGr976PR9ieBmFbnTRqglKcTUEtXIukD5Xv4g"
+    		android:clickable="true"
+    		tools:context=".CheckInActivity"
+    		android:layout_below="@+id/lineLayETBT"
+    		 />  	
+	    </RelativeLayout>	
