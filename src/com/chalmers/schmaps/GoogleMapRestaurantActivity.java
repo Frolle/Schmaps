@@ -1,29 +1,26 @@
 package com.chalmers.schmaps;
 
-
 import java.util.ArrayList;
 import java.util.List;
-import com.google.android.maps.GeoPoint;
-import com.google.android.maps.MapActivity;
-import com.google.android.maps.MapController;
-import com.google.android.maps.MapView;
-import com.google.android.maps.Overlay;
-import com.google.android.maps.OverlayItem;
+
+import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.app.Dialog;
-import android.content.Context;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.Window;
 
-public class GoogleMapShowLocation extends MapActivity {
+import com.google.android.maps.GeoPoint;
+import com.google.android.maps.MapController;
+import com.google.android.maps.MapView;
+import com.google.android.maps.Overlay;
+import com.google.android.maps.OverlayItem;
+
+public class GoogleMapRestaurantActivity {
 	private static final int MICROWAVEBUTTON = 1;
+	private static final int RESTAURANTBUTTON = 2;
 	private static final int ATMBUTTON = 3;
 	private static final int LECTUREHALLBUTTON = 4;
 	private static final int BOOKINGKEY = 5;
@@ -70,6 +67,10 @@ public class GoogleMapShowLocation extends MapActivity {
 		switch(setView.getInt("Show locations")){
 		case MICROWAVEBUTTON:
 			drawLocationList(DB_MICROWAVETABLE);
+			break;
+		
+		case RESTAURANTBUTTON:
+			drawLocationList(DB_RESTAURANTTABLE);
 			break;
 			
 		case ATMBUTTON:
@@ -179,9 +180,26 @@ public class GoogleMapShowLocation extends MapActivity {
 
 			}	
 		};
-		search = new SearchSQL(GoogleMapShowLocation.this);
+		search = new SearchSQL(GoogleMapRestaurantActivity.this);
 		search.createDatabase();
 	}
     
+    public boolean onOptionsItemSelected(MenuItem item) {
+		
+		switch(item.getItemId()){
+		
+		case R.id.getqueue:
+				getQueue();
+		}
+		
+		return false;
+    }
+    
+    private void getQueue(){
+    	gpsPoint.setGPSPoints();
+    	
+    	
+    	
+    }
 
 }

@@ -1,0 +1,21 @@
+ 	<RelativeLayout 
+	    xmlns:android="http://schemas.android.com/apk/res/android"
+	    xmlns:tools="http://schemas.android.com/tools"
+	    android:id="@+id/relLayETBT"
+    	android:layout_width="match_parent"
+    	android:layout_height="wrap_content"
+    	android:orientation="vertical"
+    	android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
+
+		<com.google.android.maps.MapView 
+    		xmlns:tools="http://schemas.android.com/tools"
+    		android:id="@+id/mapview3"
+    		android:layout_width="fill_parent"
+    		android:layout_height="fill_parent"
+    		android:apiKey="0LIGr976PR9ieBmFbnTRqglKcTUEtXIukD5Xv4g"
+    		android:clickable="true"
+    		tools:context=".GoogleMapRestaurantActivity"
+    		android:layout_below="@+id/lineLayETBT"
+    		 />
+    	
+	    </RelativeLayout>	
