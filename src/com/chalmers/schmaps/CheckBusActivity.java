@@ -271,14 +271,11 @@ public class CheckBusActivity extends Activity {
 
 				//convert string to jsonobject and return the object
 				try{
-					Log.e(TAG, "Making Object");
 					tempJsonObject[i] = new JSONObject(jsonResponse);
-					Log.e(TAG, tempJsonObject[i].toString());
 				}catch(JSONException e){
 
 				}
 			}
-			Log.e("CheckIN", "Before return");
 			returnedJsonObject = tempJsonObject;
 
 			return returnedJsonObject;
