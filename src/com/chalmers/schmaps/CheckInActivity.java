@@ -262,8 +262,10 @@ public class CheckInActivity extends MapActivity implements View.OnClickListener
 			urlString.append(Integer.toString((int) latitude)); //latitude
 			urlString.append("&lng=");
 			urlString.append(Integer.toString((int) longitude)); //longitude
+			urlString.append("&key=bSJ9B9CFn449QRsXL9qMxW-lc"); //authorization key
 			if(checkin)
 				urlString.append("&insert=1");
+			
 			
 			//establish a connection with google directions api
 			try {
