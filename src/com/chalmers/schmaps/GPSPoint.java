@@ -37,6 +37,7 @@ public class GPSPoint extends Activity {
 	private SearchSQL db;
 	private LocationManager manager;
 	private PendingIntent intent;
+	private int id;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState){
@@ -55,6 +56,7 @@ public class GPSPoint extends Activity {
 	
 	public void setGPSPoints(){
 		Intent intDB = new Intent(this, SendToDB.class);
+		intDB.putExtra("restaurant", id);
 		intent.getActivity(this, 0, intDB, Intent.FLAG_ACTIVITY_NEW_TASK);
 		manager.addProximityAlert(57688771, 11979179, 50, -1, intent);		
 

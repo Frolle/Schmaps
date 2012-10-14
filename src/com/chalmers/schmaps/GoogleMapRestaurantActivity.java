@@ -13,27 +13,19 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.google.android.maps.GeoPoint;
+import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
 import com.google.android.maps.Overlay;
 import com.google.android.maps.OverlayItem;
 
-public class GoogleMapRestaurantActivity {
-	private static final int MICROWAVEBUTTON = 1;
-	private static final int RESTAURANTBUTTON = 2;
-	private static final int ATMBUTTON = 3;
-	private static final int LECTUREHALLBUTTON = 4;
-	private static final int BOOKINGKEY = 5;
-	private static final int BUSKEY = 6;
+public class GoogleMapRestaurantActivity extends MapActivity {
 	private static final int JOHANNESBERG = 40;
 	private static final int LINDHOLMEN = 42;	
 
 	private static final String DATABASE_NAME = "SchmapsDB"; //namnet på vår databas
-	private static final String DATABASE_TABLE = "Salar"; //name of our new database table
-	private static final String DB_MICROWAVETABLE = "Microwaves"; //Name of our microwave table
 	private static final String DB_RESTAURANTTABLE = "Restaurants"; //Name of our restaurants table
-	private static final String DB_ATMTABLE = "Atm";				//Name of our ATM table
-	private static String TAG = "GoogleMapShowLocation";
+
 		
     private MapController mapcon;
 	private LocationManager location_manager;
@@ -45,7 +37,7 @@ public class GoogleMapRestaurantActivity {
 	private GeoPoint johannesbergLoc;
 	private GeoPoint lindholmenLoc;
 	private GPSPoint gpsPoint;
-	@Override
+	
 	/**
 	 * Method for determining on creation how the map view will be shown, what locations should be drawn
 	 * and assign the instances accordingly.
@@ -53,7 +45,7 @@ public class GoogleMapRestaurantActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		Bundle setView = getIntent().getExtras();		
-		setContentView(R.layout.activity_strippedmap);
+		setContentView(R.layout.activity_restaurant_map);
 		assignInstances();
 		//If-check to see if it's Lindholmen or Johannesberg campus
 		if(setView.getInt("Campus")==JOHANNESBERG)
@@ -62,21 +54,8 @@ public class GoogleMapRestaurantActivity {
 		else 
 			mapcon.animateTo(lindholmenLoc);
 		mapcon.setZoom(16);
-
-		//Switch case to determine what series of locations to be drawn on map
-		switch(setView.getInt("Show locations")){
-		case MICROWAVEBUTTON:
-			drawLocationList(DB_MICROWAVETABLE);
-			break;
 		
-		case RESTAURANTBUTTON:
 			drawLocationList(DB_RESTAURANTTABLE);
-			break;
-			
-		case ATMBUTTON:
-			drawLocationList(DB_ATMTABLE);
-			break;
-		}
 
 	}
 
@@ -189,13 +168,13 @@ public class GoogleMapRestaurantActivity {
 		switch(item.getItemId()){
 		
 		case R.id.getqueue:
-				getQueue();
+				getQueue(DB_RESTAURANTTABLE);
 		}
 		
 		return false;
     }
     
-    private void getQueue(){
+    private void getQueue(String tablename){
     	gpsPoint.setGPSPoints();
     	
     	

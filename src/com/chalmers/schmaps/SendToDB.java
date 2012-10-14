@@ -49,10 +49,13 @@ public class SendToDB extends BroadcastReceiver {
 	private LocationManager manager;
 	private int people = 0, id;
 	private StringBuilder builder;
+	private Bundle bundle;
 	
 	
 	@Override
 	public void onReceive(Context context, Intent intent) {
+		bundle= intent.getExtras();
+		id = bundle.getInt("restaurant");
 		gps = true;
 		String intentKey = LocationManager.KEY_PROXIMITY_ENTERING;	//Taking the KEY_PROXMITY_ENTERING from GPSPoint and saving the boolean
 		Boolean entering = intent.getBooleanExtra(intentKey, false);
