@@ -61,7 +61,7 @@ public class MapItemizedOverlayTest extends ActivityInstrumentationTestCase2<Goo
 		super.setUp();
 		solo = new Solo(getInstrumentation(), getActivity());
 		this.activity = super.getActivity();
-		drawable = activity.getResources().getDrawable(R.drawable.androidgubbemini);
+		drawable = activity.getResources().getDrawable(R.drawable.chalmersandroid);
 		mapOverlay = new MapItemizedOverlay(drawable,activity);		
 	}
 	
