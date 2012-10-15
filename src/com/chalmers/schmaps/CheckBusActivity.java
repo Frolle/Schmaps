@@ -139,7 +139,7 @@ public class CheckBusActivity extends Activity implements View.OnClickListener {
 					}else if(j == 2){
 						if(n == 0)
 							textview.setText(chalmersTimeArray.get(i));
-						if(n == 1)
+			 			if(n == 1)
 							textview.setText(lindholmenTimeArray.get(i));
 					}else if(j == 3){
 						if(n == 0)
