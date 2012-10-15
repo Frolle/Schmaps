@@ -25,7 +25,7 @@
     		android:id="@+id/mapview"
     		android:layout_width="fill_parent"
     		android:layout_height="fill_parent"
-    		android:apiKey="0LIGr976PR9ieBmFbnTRqglKcTUEtXIukD5Xv4g"
+    		android:apiKey="03N-mnT3vcNEWHzw40BLVNrfFitLJcef3mPbSng"
     		android:clickable="true"
     		tools:context=".GoogleMapActivity"
     		android:layout_below="@+id/lineLayETBT"
