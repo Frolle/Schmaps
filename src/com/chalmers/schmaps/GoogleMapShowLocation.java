@@ -24,6 +24,7 @@ import android.view.Window;
 
 public class GoogleMapShowLocation extends MapActivity {
 	private static final int MICROWAVEBUTTON = 1;
+	private static final int RESTAURANTBUTTON = 2;
 	private static final int ATMBUTTON = 3;
 	private static final int LECTUREHALLBUTTON = 4;
 	private static final int BOOKINGKEY = 5;
@@ -68,6 +69,10 @@ public class GoogleMapShowLocation extends MapActivity {
 
 		//Switch case to determine what series of locations to be drawn on map
 		switch(setView.getInt("Show locations")){
+		
+		case RESTAURANTBUTTON:
+			drawLocationList(DB_RESTAURANTTABLE);
+		
 		case MICROWAVEBUTTON:
 			drawLocationList(DB_MICROWAVETABLE);
 			break;
@@ -182,6 +187,31 @@ public class GoogleMapShowLocation extends MapActivity {
 		search = new SearchSQL(GoogleMapShowLocation.this);
 		search.createDatabase();
 	}
+    /*
+     * Menu-button to select the option where you can see all people queueing atm.
+     *
+     */
+    public boolean onOptionsItemSelected(MenuItem item) {
+		
+		switch(item.getItemId()){
+		
+		case R.id.getqueue:
+				getQueue();
+		}
+		
+		return false;
+    }
+    /*
+     * Method to set the GPSPoints for the restaurants by calling the GPSPoint class
+     * where you set a proximity alert on each desired position.
+     */
+    private void getQueue(){
+    	int id = 0;
+    	for(OverlayItem item: locationList){
+    	gpsPoint.setGPSPoints(item.getPoint().getLongitudeE6(), item.getPoint().getLatitudeE6(), id++);	//set the proximity alert of the spot on the (long, lat) place
+    	}
+
+    }
     
 
 }

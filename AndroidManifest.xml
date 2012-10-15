@@ -88,16 +88,6 @@
             <action android:name="android.intent.action.ACTIONVIEW" />
             
         </intent-filter>
-    </activity>
-            <activity
-            android:name=".GoogleMapRestaurantActivity"
-            android:label="GoogleMap Restaurant"
-            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
-            <intent-filter>
-                <action android:name="android.intent.action.GOOGLEMAPRESTAURANTS" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
         </activity>
     </application>
 

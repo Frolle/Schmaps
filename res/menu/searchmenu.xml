@@ -5,6 +5,11 @@
         android:title = "Get Directions"
         android:id="@+id/getdir"   
         />    
+      <item 
+        android:title = "Get Queue"
+        android:id="@+id/getqueue"   
+        /> 
+    
     
 
 </menu>
