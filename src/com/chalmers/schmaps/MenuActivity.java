@@ -1,5 +1,5 @@
 /*
- * Copyright [2012] [Mei Ha, Martin Augustsson, Simon Fransson]
+ * Copyright [2012] [Mei Ha, Martin Augustsson, Simon Fransson, Emma Dirnberger]
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -121,9 +121,15 @@ public class MenuActivity extends Activity implements View.OnClickListener {
 
 
 		case R.id.checkinButton:
-			startMapActivity = new Intent("android.intent.action.CHECKINACTIVITY");
-			setActivityString(startMapActivity.getAction());
-			startActivity(startMapActivity);
+			if(gotInternetConnection()){
+				startMapActivity = new Intent("android.intent.action.CHECKINACTIVITY");
+				setActivityString(startMapActivity.getAction());
+				startActivity(startMapActivity);
+			}else{
+
+				Context context = getApplicationContext();
+				Toast.makeText(context, "Internet connection needed for this option", Toast.LENGTH_LONG).show();
+			}
 			break;
 
 		case R.id.checkbusButton:

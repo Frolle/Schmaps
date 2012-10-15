@@ -1,5 +1,5 @@
 /*
- * Copyright [2012] [Dina Zuko]
+ * Copyright [2012] [Martin Austustsson, Mei Ha, Emma Dirnberger, Simon Fransson, Dina Zuko]
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
