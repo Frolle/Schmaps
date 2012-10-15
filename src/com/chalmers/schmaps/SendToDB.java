@@ -96,7 +96,7 @@ public class SendToDB extends BroadcastReceiver {
 	
 	/**
 	 * @author Kya
-	 *Created a ned class to connect the program to the external database with the restaurant table and their id:s
+	 *Created a new class to connect the program to the external database with the restaurant table and their id:s
 	 *Not yet completed.
 	 */
 	
@@ -114,8 +114,6 @@ public class SendToDB extends BroadcastReceiver {
 			
 
 			urlString.append("http://schmaps.scarleo.se/schmaps.php?name=");
-			urlString.append("people");
-			urlString.append(Integer.toString((int) people));
 			
 			
 			try {

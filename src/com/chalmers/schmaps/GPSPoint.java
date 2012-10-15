@@ -16,12 +16,6 @@
 
 package com.chalmers.schmaps;
 
-import java.util.ArrayList;
-
-import com.google.android.maps.GeoPoint;
-import com.google.android.maps.MapView;
-import com.google.android.maps.OverlayItem;
-
 import android.app.Activity;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -34,10 +28,9 @@ import android.location.LocationProvider;
 import android.os.Bundle;
 
 public class GPSPoint extends Activity {	
-	private SearchSQL db;
 	private LocationManager manager;
 	private PendingIntent intent;
-	private int id;
+	int distance = 20;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState){
@@ -54,11 +47,11 @@ public class GPSPoint extends Activity {
 
 	}
 	
-	public void setGPSPoints(){
+	public void setGPSPoints(int lng, int lat, int id){
 		Intent intDB = new Intent(this, SendToDB.class);
 		intDB.putExtra("restaurant", id);
-		intent.getActivity(this, 0, intDB, Intent.FLAG_ACTIVITY_NEW_TASK);
-		manager.addProximityAlert(57688771, 11979179, 50, -1, intent);		
+		PendingIntent.getActivity(this, 0, intDB, Intent.FLAG_ACTIVITY_NEW_TASK);
+		manager.addProximityAlert(lng, lat, distance, -1, intent);		
 
 	}
 	
