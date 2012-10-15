@@ -95,7 +95,7 @@ public class SearchSQLTest extends ActivityInstrumentationTestCase2<GoogleMapSea
 
 	public void testGetLevel() {
 		
-		assertEquals("", tester.getLevel(theTestValue));
+		assertEquals("Floor 1", tester.getLevel(theTestValue));
 		assertNull(tester.getLevel("ValueThatDoesNotExist"));
 
 	}
@@ -103,7 +103,7 @@ public class SearchSQLTest extends ActivityInstrumentationTestCase2<GoogleMapSea
 
 	public void testGetLocations() {
 		
-		assertEquals(2, tester.getLocations("Microwaves").size());
+		assertEquals(9, tester.getLocations("Microwaves").size());
 	}
 
 }
