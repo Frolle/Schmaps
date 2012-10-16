@@ -18,6 +18,12 @@ package com.chalmers.schmaps;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import com.chalmers.schmaps.SendToDB.GetQueue;
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapController;
@@ -44,6 +50,7 @@ public class GoogleMapShowLocation extends MapActivity {
 	private static final int LECTUREHALLBUTTON = 4;
 	private static final int BOOKINGKEY = 5;
 	private static final int BUSKEY = 6;
+	private static final int SENDTODB = 7;
 	private static final int JOHANNESBERG = 40;
 	private static final int LINDHOLMEN = 42;	
 
@@ -65,6 +72,7 @@ public class GoogleMapShowLocation extends MapActivity {
 	private GeoPoint lindholmenLoc;
 	private GPSPoint gpsPoint;
 	private ArrayList<OverlayItem> locationList;
+	private JSONObject jsonObject, returnedJsonObject;
 	@Override
 	/**
 	 * Method for determining on creation how the map view will be shown, what locations should be drawn
@@ -74,6 +82,7 @@ public class GoogleMapShowLocation extends MapActivity {
 		super.onCreate(savedInstanceState);
 		Bundle setView = getIntent().getExtras();		
 		setContentView(R.layout.activity_strippedmap);
+		connectToDB();
 		assignInstances();
 		//If-check to see if it's Lindholmen or Johannesberg campus
 		if(setView.getInt("Campus")==JOHANNESBERG)
@@ -86,6 +95,10 @@ public class GoogleMapShowLocation extends MapActivity {
 		//Switch case to determine what series of locations to be drawn on map
 		switch(setView.getInt("Show locations")){
 		
+		case SENDTODB:
+			drawLocationList(DB_RESTAURANTTABLE);
+			drawQueue();
+			
 		case RESTAURANTBUTTON:
 			drawLocationList(DB_RESTAURANTTABLE);
 		
@@ -232,5 +245,49 @@ public class GoogleMapShowLocation extends MapActivity {
 
     }
     
+	/*
+	 * Checks how many are queueing by checking the database on the server and returning this in the screen as a dialouge.
+	 */
+	
+	private void drawQueue(){
+
+		int code, nrOfCheckedIn;
+
+		try {
+			JSONArray result = jsonObject.getJSONArray("result");
+			JSONObject numberOfCheckedInPeople;
+
+			//loop through the jsonarray and extract all checked-in points
+			//collect data, create geopoint and add to list of overlays that will be drawn on map
+			for(int count = 0;count<result.length();count++){
+				numberOfCheckedInPeople = result.getJSONObject(count);
+				
+				code = (int) numberOfCheckedInPeople.getInt("code");
+				nrOfCheckedIn = (int)numberOfCheckedInPeople.getInt("number");
+				//code and nrOfCheckedIn need to be saved and somehow send to a database
+
+			}
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	private void connectToDB(){
+		returnedJsonObject = null;
+		SendToDB sender = new SendToDB();
+		GetQueue getQueue = sender.new GetQueue();
+		getQueue.execute();
+		
+		while(returnedJsonObject == null){ //if json object not returned, sleep for 30 sec
+			try {
+				Thread.sleep(500);
+			} catch (InterruptedException e1) {
+				e1.printStackTrace();
+			}
+		}
+		
+		sender.parseQueue(returnedJsonObject);
+		
+	}
 
 }

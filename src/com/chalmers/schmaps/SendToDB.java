@@ -35,6 +35,7 @@ import com.google.android.maps.Overlay;
 import com.google.android.maps.OverlayItem;
 
 import android.app.Activity;
+import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -45,15 +46,21 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 
+/*
+ * Author: [Emma Dirnberger]
+ * Class which handles the request from the GPSPoint class, handling the information received and
+ * by doing so, showing the user how many person that are in the alerted areas.
+ */
+
 public class SendToDB extends BroadcastReceiver {
-	
-	private JSONObject returnedJsonObject;
-	private JSONObject returnedJSON;
-	private boolean flag, gps;
+
+
+	private JSONObject returnedJsonObject, returnedJSON;
 	private LocationManager manager;
-	private int people = 0, id;
+	private int id;
 	private StringBuilder builder;
 	private Bundle bundle;
+	private static final int thisid = 7;
 	private Boolean entering;
 
 
@@ -62,41 +69,32 @@ public class SendToDB extends BroadcastReceiver {
 	public void onReceive(Context context, Intent intent) {
 		bundle= intent.getExtras();
 		id = bundle.getInt("restaurant");
-		gps = true;
 		String intentKey = LocationManager.KEY_PROXIMITY_ENTERING;	//Taking the KEY_PROXMITY_ENTERING from GPSPoint and saving the boolean
-		entering = intent.getBooleanExtra(intentKey, false);
-		
+		entering = intent.getBooleanExtra(intentKey, false); //Saving the boolean from KEY_PROXIMITY_ENTERING for further use
 		connectToDB();
+		
+
+		Intent backtrack = new Intent("android.intent.action.GOOGLEMAPSHOWLOCATION");
+		backtrack.putExtra("Show locations", thisid);
+		PendingIntent pIntent = PendingIntent.getActivity(null, 0, backtrack, Intent.FLAG_ACTIVITY_NEW_TASK); //Send an intent back to GoogleMapShowLocation
+
 		
 	}
 
-	
-	private void parseQueue(JSONObject jsonObject){
-		
-		
-		int code, nrOfCheckedIn;
-		
-		try {
-			JSONArray result = jsonObject.getJSONArray("result");
-			JSONObject numberOfCheckedInPeople;
-
-			//loop through the jsonarray and extract all checked-in points
-			//collect data, create geopoint and add to list of overlays that will be drawn on map
-			for(int count = 0;count<result.length();count++){
-				numberOfCheckedInPeople = result.getJSONObject(count);
-				
-				code = (int) numberOfCheckedInPeople.getInt("code");
-				nrOfCheckedIn = (int)numberOfCheckedInPeople.getInt("number");
-				//code and nrOfCheckedIn need to be saved and somehow send to a database
-
+<<<<<<< HEAD
 			}
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}			
+=======
+	
+	public void parseQueue(JSONObject jsonObject){
+
+>>>>>>> 4ec93748dcc4d172a50059a5976fcf3c5d0f2a56
 	}
 	
 	/**
-	 * 
+	 * Connecting this class to the database on the server.
 	 */
 	private void connectToDB(){
 		returnedJsonObject = null;
@@ -114,78 +112,84 @@ public class SendToDB extends BroadcastReceiver {
 		parseQueue(returnedJsonObject);	
 	}
 	
-	/**
-	 * @author Kya
-	 *Created a new class to connect the program to the external database with the restaurant table and their id:s
-	 *Not yet completed.
-	 */
-	
-	private class GetQueue extends AsyncTask<Void, Void, JSONObject> {
 
-		@Override
-		protected JSONObject doInBackground(Void... params) {
-			StringBuilder urlString = new StringBuilder();
-			StringBuilder response = new StringBuilder();
-			InputStream is = null;
-			URL url = null;
-			HttpURLConnection urlConnection = null;
-			String line = null;
-			String jsonResponse = "";
-			
 
-			urlString.append("http://schmaps.scarleo.se/rest.php?");
-			if(entering){
-				urlString.append("&insert=1");
-			}else{
-				urlString.append("&delete=1");
-			}
-			urlString.append("&code=");
-			urlString.append(id);
-			
-			
-			try {
-				url = new URL(urlString.toString());
-				urlConnection = (HttpURLConnection) url.openConnection();
-				urlConnection.setRequestMethod("GET");
-				urlConnection.setDoOutput(true);
-				urlConnection.setDoInput(true);
-				is = urlConnection.getInputStream();
-				urlConnection.connect();
-			} catch (MalformedURLException e) {
-	
-				e.printStackTrace();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
 
-			InputStreamReader inputStream = new InputStreamReader(is);
-			BufferedReader reader = new BufferedReader(inputStream);
+/**
+ * @author Kya
+ *Created a new class to connect the program to the external database with the restaurant table and their id:s
+ *Not yet completed.
+ */
 
-			//read from the buffer line by line and save in response (a stringbuider)
-			try{
-				while((line = reader.readLine()) != null){
-					response.append(line);
-				}
-				//Close the reader, stream & connection
-				reader.close();
-				inputStream.close();
-				urlConnection.disconnect();
-			}catch(Exception e) {
-				Log.e("Buffer Error", "Error converting result " + e.toString());
-			}
+	class GetQueue extends AsyncTask<Void, Void, JSONObject> {
+		
 
-			jsonResponse = response.toString();
+	@Override
+	protected JSONObject doInBackground(Void... params) {
+		StringBuilder urlString = new StringBuilder();
+		StringBuilder response = new StringBuilder();
+		InputStream is = null;
+		URL url = null;
+		HttpURLConnection urlConnection = null;
+		String line = null;
+		String jsonResponse = "";
+		
 
-			//convert string to jsonobject and return the object
-			try{
-				returnedJSON = new JSONObject(jsonResponse);
-			}catch(JSONException e){
-
-			}
-
-			return returnedJSON;
+		urlString.append("http://schmaps.scarleo.se/rest.php?");
+		if(entering){
+			urlString.append("&insert=1");
+		}else{
+			urlString.append("&delete=1");
 		}
-	}
+		urlString.append("&code=");
+		urlString.append(id);
+		
+		
+		try {
+			url = new URL(urlString.toString());
+			urlConnection = (HttpURLConnection) url.openConnection();
+			urlConnection.setRequestMethod("GET");
+			urlConnection.setDoOutput(true);
+			urlConnection.setDoInput(true);
+			is = urlConnection.getInputStream();
+			urlConnection.connect();
+		} catch (MalformedURLException e) {
 
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		InputStreamReader inputStream = new InputStreamReader(is);
+		BufferedReader reader = new BufferedReader(inputStream);
+
+		//read from the buffer line by line and save in response (a stringbuider)
+		try{
+			while((line = reader.readLine()) != null){
+				response.append(line);
+			}
+			//Close the reader, stream & connection
+			reader.close();
+			inputStream.close();
+			urlConnection.disconnect();
+		}catch(Exception e) {
+			Log.e("Buffer Error", "Error converting result " + e.toString());
+		}
+
+		jsonResponse = response.toString();
+
+		//convert string to jsonobject and return the object
+		try{
+			returnedJSON = new JSONObject(jsonResponse);
+		}catch(JSONException e){
+
+		}
+
+		return returnedJSON;
+	}
+	}
 }
+
+
+
