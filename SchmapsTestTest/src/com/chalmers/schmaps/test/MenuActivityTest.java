@@ -22,11 +22,13 @@ import com.chalmers.schmaps.R;
 import com.jayway.android.robotium.solo.Solo;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.wifi.WifiManager;
+import android.provider.Settings;
+import android.telephony.TelephonyManager;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.TouchUtils;
 import android.view.KeyEvent;
-import android.view.View;
 import android.widget.Button;
 
 /**
@@ -39,8 +41,8 @@ public class MenuActivityTest extends ActivityInstrumentationTestCase2<MenuActiv
 	private Button searchHall, groupRoom,atmButton,microwaveButton,findRestaurantsButton;
 	private MenuActivity menuActivity;
 	private Solo solo;
-	private WifiManager wifimnger;
-
+	private Intent intentAirplaneOn;
+	private Intent intentAirplaneOff;
 	public MenuActivityTest() {
 		super(MenuActivity.class);
 	}
@@ -59,7 +61,6 @@ public class MenuActivityTest extends ActivityInstrumentationTestCase2<MenuActiv
 		atmButton = (Button) menuActivity.findViewById(R.id.atmButton);
 		microwaveButton = (Button) menuActivity.findViewById(R.id.microwaveButton);
 		findRestaurantsButton = (Button) menuActivity.findViewById(R.id.findRestaurantsButton);
-		
 	}
 	
 	public void testPreConditions(){
@@ -128,6 +129,13 @@ public class MenuActivityTest extends ActivityInstrumentationTestCase2<MenuActiv
 		super.getInstrumentation().waitForIdleSync();
 		solo.assertCurrentActivity("Wrong class", CheckInActivity.class);
 		this.sendKeys(KeyEvent.KEYCODE_BACK);
+		//Set to Airplane Mode for simulating no internet
+		super.getInstrumentation().waitForIdleSync();
+		solo.clickOnButton("Check In");
+		super.getInstrumentation().waitForIdleSync();
+		//If current activity still is MenuActivity then test was successful, since
+		//CheckinActivity shouldn't be started if internet connection is missing.
+		solo.assertCurrentActivity("Wrong class", MenuActivity.class);
 	}
 
 	/**
@@ -138,8 +146,29 @@ public class MenuActivityTest extends ActivityInstrumentationTestCase2<MenuActiv
 		super.getInstrumentation().waitForIdleSync();
 		solo.assertCurrentActivity("Wrong class", CheckBusActivity.class);
 		this.sendKeys(KeyEvent.KEYCODE_BACK);
+		//Set to Airplane Mode for simulating no internet
+		solo.clickOnButton("Check Buses");
+		super.getInstrumentation().waitForIdleSync();
+		//If current activity still is MenuActivity then test was successful, since
+		//CheckinActivity shouldn't be started if internet connection is missing.
+		solo.assertCurrentActivity("Wrong class", MenuActivity.class);
 	}
 
+	public void toggleInternetConnection(){
+		//First toggle wifi on or off.
+		WifiManager wifiManager = (WifiManager) menuActivity.getSystemService(Context.WIFI_SERVICE);
+		if(wifiManager.isWifiEnabled())
+			wifiManager.setWifiEnabled(false);
+		else
+			wifiManager.setWifiEnabled(true);
+		
+		//Then toggle mobile data on or off
+		TelephonyManager telephonyManager = (TelephonyManager) menuActivity.getSystemService(Context.TELEPHONY_SERVICE);
+		if(telephonyManager.getDataState()==TelephonyManager.DATA_CONNECTED){
+			//TODO method that disables mobile data
+			
+		}
+	}
 	public void tearDown() throws Exception{
 		super.tearDown();
 	}
