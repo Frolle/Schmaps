@@ -102,7 +102,7 @@ public class GoogleMapSearchLocationTest extends ActivityInstrumentationTestCase
 		
 		assertEquals(roomGP,tempTestOverlay.getItem(0).getPoint());
 		assertEquals("Sven Hultins gata 2",tempTestOverlay.getItem(0).getTitle());
-		assertEquals("",tempTestOverlay.getItem(0).getSnippet());
+		assertEquals("Floor 1",tempTestOverlay.getItem(0).getSnippet());
 	}
 	
 	/**
