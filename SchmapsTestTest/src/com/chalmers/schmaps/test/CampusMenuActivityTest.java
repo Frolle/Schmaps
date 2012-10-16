@@ -18,9 +18,7 @@ package com.chalmers.schmaps.test;
 
 import com.chalmers.schmaps.CampusMenuActivity;
 import com.chalmers.schmaps.R;
-
 import android.content.Intent;
-import android.os.Bundle;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.TouchUtils;
 import android.view.KeyEvent;

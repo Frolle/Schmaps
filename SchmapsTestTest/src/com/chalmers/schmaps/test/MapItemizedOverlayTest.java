@@ -17,23 +17,16 @@
 package com.chalmers.schmaps.test;
 
 import java.lang.reflect.Field;
-import java.util.ArrayList;
 
 
 import com.chalmers.schmaps.GoogleMapSearchLocation;
 import com.chalmers.schmaps.MapItemizedOverlay;
 import com.chalmers.schmaps.R;
 import com.google.android.maps.GeoPoint;
-import com.google.android.maps.MapView;
 import com.google.android.maps.OverlayItem;
-import com.jayway.android.robotium.solo.Solo;
-
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.graphics.drawable.Drawable;
 import android.test.ActivityInstrumentationTestCase2;
-import android.util.Log;
-import android.view.View;
 /**
  * Test class for testing the MapItemizedOverlay by adding overlays,
  * removing overlays and testing what happens when you tap on the 
@@ -47,7 +40,6 @@ public class MapItemizedOverlayTest extends ActivityInstrumentationTestCase2<Goo
 	private GoogleMapSearchLocation activity;
 	private MapItemizedOverlay mapOverlay;
 	private Drawable drawable;
-	private Solo solo;
 
 	private AlertDialog dialogShowing;
 
@@ -59,13 +51,11 @@ public class MapItemizedOverlayTest extends ActivityInstrumentationTestCase2<Goo
 	@Override
 	protected void setUp() 	throws Exception {
 		super.setUp();
-		solo = new Solo(getInstrumentation(), getActivity());
 		this.activity = super.getActivity();
 		drawable = activity.getResources().getDrawable(R.drawable.chalmersandroid);
 		mapOverlay = new MapItemizedOverlay(drawable,activity);		
 	}
 	
-	@Override
 	protected void tearDown() throws Exception {
 		super.tearDown();
 	}

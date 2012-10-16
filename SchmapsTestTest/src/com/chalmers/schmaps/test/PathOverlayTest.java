@@ -29,12 +29,12 @@ import android.test.ActivityInstrumentationTestCase2;
 
 public class PathOverlayTest extends ActivityInstrumentationTestCase2<GoogleMapSearchLocation> {
 	
-	GoogleMapSearchLocation activity;
+	private GoogleMapSearchLocation activity;
 	private MapView mapview;
-	PathOverlay pathoverlay;
-	GeoPoint p1, p2, p3, p4;
-	ArrayList<GeoPoint> geolist = new ArrayList<GeoPoint>();
-	Canvas canvas;
+	private PathOverlay pathoverlay;
+	private GeoPoint p1, p2, p3, p4;
+	private ArrayList<GeoPoint> geolist = new ArrayList<GeoPoint>();
+	private Canvas canvas;
 
 	public PathOverlayTest() {
 		super(GoogleMapSearchLocation.class);

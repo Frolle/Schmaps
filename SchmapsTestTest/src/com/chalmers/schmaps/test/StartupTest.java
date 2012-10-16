@@ -20,9 +20,6 @@ import java.lang.reflect.Field;
 import com.chalmers.schmaps.MenuActivity;
 import com.chalmers.schmaps.Startup;
 import com.jayway.android.robotium.solo.Solo;
-
-import android.app.Dialog;
-import android.content.Intent;
 import android.os.SystemClock;
 import android.test.ActivityInstrumentationTestCase2;
 import android.view.MotionEvent;
@@ -49,7 +46,6 @@ public class StartupTest extends ActivityInstrumentationTestCase2<Startup> {
 		this.startupActivity = super.getActivity();
 		}
 	
-	@Override
 	protected void tearDown() throws Exception {
 		super.tearDown();
 	}
