@@ -49,6 +49,7 @@ public class GoogleMapShowLocation extends MapActivity {
 	private GeoPoint johannesbergLoc;
 	private GeoPoint lindholmenLoc;
 	private GPSPoint gpsPoint;
+	private ArrayList<OverlayItem> locationList;
 	@Override
 	/**
 	 * Method for determining on creation how the map view will be shown, what locations should be drawn
@@ -90,7 +91,7 @@ public class GoogleMapShowLocation extends MapActivity {
  */
 	private void drawLocationList(String table) {
 		search.openRead();
-		ArrayList<OverlayItem> locationList = search.getLocations(table);
+		locationList = search.getLocations(table);
 		search.close();
 		overlay.removeOverlay();
 		for(OverlayItem item : locationList)
@@ -206,7 +207,7 @@ public class GoogleMapShowLocation extends MapActivity {
      * where you set a proximity alert on each desired position.
      */
     private void getQueue(){
-    	int id = 0;
+    	int id = 1;
     	for(OverlayItem item: locationList){
     	gpsPoint.setGPSPoints(item.getPoint().getLongitudeE6(), item.getPoint().getLatitudeE6(), id++);	//set the proximity alert of the spot on the (long, lat) place
     	}
