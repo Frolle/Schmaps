@@ -15,6 +15,10 @@
  */
 package com.chalmers.schmaps.test;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+
 import com.chalmers.schmaps.CheckBusActivity;
 import com.chalmers.schmaps.CheckInActivity;
 import com.chalmers.schmaps.MenuActivity;
@@ -22,10 +26,8 @@ import com.chalmers.schmaps.R;
 import com.jayway.android.robotium.solo.Solo;
 
 import android.content.Context;
-import android.content.Intent;
+import android.net.ConnectivityManager;
 import android.net.wifi.WifiManager;
-import android.provider.Settings;
-import android.telephony.TelephonyManager;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.TouchUtils;
 import android.view.KeyEvent;
@@ -40,9 +42,7 @@ import android.widget.Button;
 public class MenuActivityTest extends ActivityInstrumentationTestCase2<MenuActivity> {
 	private Button searchHall, groupRoom,atmButton,microwaveButton,findRestaurantsButton;
 	private MenuActivity menuActivity;
-	private Solo solo;
-	private Intent intentAirplaneOn;
-	private Intent intentAirplaneOff;
+	private Solo solo;	private WifiManager wifiManager;
 	public MenuActivityTest() {
 		super(MenuActivity.class);
 	}
@@ -130,12 +130,15 @@ public class MenuActivityTest extends ActivityInstrumentationTestCase2<MenuActiv
 		solo.assertCurrentActivity("Wrong class", CheckInActivity.class);
 		this.sendKeys(KeyEvent.KEYCODE_BACK);
 		//Set to Airplane Mode for simulating no internet
+		toggleInternetConnection(menuActivity, false);
 		super.getInstrumentation().waitForIdleSync();
 		solo.clickOnButton("Check In");
 		super.getInstrumentation().waitForIdleSync();
 		//If current activity still is MenuActivity then test was successful, since
 		//CheckinActivity shouldn't be started if internet connection is missing.
 		solo.assertCurrentActivity("Wrong class", MenuActivity.class);
+		toggleInternetConnection(menuActivity, true);
+		super.getInstrumentation().waitForIdleSync();
 	}
 
 	/**
@@ -147,27 +150,71 @@ public class MenuActivityTest extends ActivityInstrumentationTestCase2<MenuActiv
 		solo.assertCurrentActivity("Wrong class", CheckBusActivity.class);
 		this.sendKeys(KeyEvent.KEYCODE_BACK);
 		//Set to Airplane Mode for simulating no internet
+		toggleInternetConnection(menuActivity, false);
+		super.getInstrumentation().waitForIdleSync();
 		solo.clickOnButton("Check Buses");
 		super.getInstrumentation().waitForIdleSync();
 		//If current activity still is MenuActivity then test was successful, since
 		//CheckinActivity shouldn't be started if internet connection is missing.
 		solo.assertCurrentActivity("Wrong class", MenuActivity.class);
+		toggleInternetConnection(menuActivity, true);
+		super.getInstrumentation().waitForIdleSync();
+
 	}
 
-	public void toggleInternetConnection(){
-		//First toggle wifi on or off.
-		WifiManager wifiManager = (WifiManager) menuActivity.getSystemService(Context.WIFI_SERVICE);
-		if(wifiManager.isWifiEnabled())
-			wifiManager.setWifiEnabled(false);
-		else
-			wifiManager.setWifiEnabled(true);
-		
-		//Then toggle mobile data on or off
-		TelephonyManager telephonyManager = (TelephonyManager) menuActivity.getSystemService(Context.TELEPHONY_SERVICE);
-		if(telephonyManager.getDataState()==TelephonyManager.DATA_CONNECTED){
-			//TODO method that disables mobile data
-			
+	/**
+	 * Method to toggle both wifi and mobile data on/off. Uses reflection to access the
+	 * toggling for mobile data since it's hidden from the developer API, but still accessible
+	 * through reflection. Throws a variety of error because of the reflection, disclaimer found below.
+	 *  ClassNotFoundException - thrown if class for iConnectivitiyManager is not found.
+	 *  NoSuchFieldException  - thrown if the field of mobile service is not found.
+	 *  IllegalAccessException - thrown if it's not possible to gain access of iConnectivityManager.
+	 *  IllegalArgumentException - thrown if wrong argument is parsed to the method.
+	 *  NoSuchMethodException  - thrown if the method of setMobileDataEnabled is not found.
+	 *  InvocationTargetException - thrown if the target of the toggleMobileData is not found.
+
+	 * @param context - the test activity to use the function of toggling internet access.
+	 */
+	public void toggleInternetConnection(Context context, boolean toggle){
+		//Assert the iConnectivityManager to be able to access mobile data on/off toggling, reflection is used
+		//since it's a hidden class from the API.
+		try{
+		final ConnectivityManager connectvityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+		final Class connectvityManagerClass = Class.forName(connectvityManager.getClass().getName());
+		//Getting the field of iConnectivityManager that holds the mobile data service and setting it accessible.
+		final Field iConnectivityManagerField = connectvityManagerClass.getDeclaredField("mService");
+		iConnectivityManagerField.setAccessible(true);
+		//Getting the actual class to the iConnectivityManager.
+		final Object iConnectivityManager = iConnectivityManagerField.get(connectvityManager);
+		final Class iConnectivityManagerClass = Class.forName(iConnectivityManager.getClass().getName());
+		//Getting the method from iConnectivityManager to be able to toggle mobile data on/off.
+		final Method toggleMobileData = iConnectivityManagerClass.getDeclaredMethod("setMobileDataEnabled", Boolean.TYPE);
+		toggleMobileData.setAccessible(true);
+		toggleMobileData.invoke(iConnectivityManager, toggle);
 		}
+		
+		catch(ClassNotFoundException e){
+			e.printStackTrace();
+		}
+		catch(NoSuchFieldException e){
+			e.printStackTrace();
+		}
+		catch (IllegalAccessException e){
+			e.printStackTrace();
+		}
+		catch(IllegalArgumentException e){
+			e.printStackTrace();
+		}
+		catch(NoSuchMethodException e){
+			e.printStackTrace();
+		}
+		catch(InvocationTargetException e){
+			e.printStackTrace();
+		}
+		
+		//Then toggle wifi on or off.
+		wifiManager = (WifiManager) menuActivity.getSystemService(Context.WIFI_SERVICE);
+		wifiManager.setWifiEnabled(toggle);
 	}
 	public void tearDown() throws Exception{
 		super.tearDown();
