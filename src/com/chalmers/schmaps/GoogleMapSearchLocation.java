@@ -219,6 +219,7 @@ public class GoogleMapSearchLocation extends MapActivity implements View.OnClick
 
 	}
 	
+	/*
 	@Override
 	protected void onSaveInstanceState(Bundle outState) {
 		ArrayList<Integer> list = new ArrayList<Integer>(); 
@@ -250,7 +251,7 @@ public class GoogleMapSearchLocation extends MapActivity implements View.OnClick
 
 		
 	}
-
+	*/
 
 	public void onClick(View v) {
 		//Removes the key when finish typing
