@@ -171,4 +171,34 @@ public class GoogleMapSearchLocationTest extends ActivityInstrumentationTestCase
 
 		assertEquals(2,activity.returnNrOfGeopoints());
 	}
+	
+	/**
+	 * Tests that the database is connected and that a response from the google directions api is recieved
+	 * If the jsonobject is received the boolean running is set to true
+	 */
+	public void testConnectionToDirections(){
+		TouchUtils.tapView(this, this.lectureEdit);
+		super.sendKeys("R U N A N ");
+		super.getInstrumentation().waitForIdleSync();
+		TouchUtils.clickView(this, this.editButton);
+		super.getInstrumentation().waitForIdleSync();
+
+		activity.walkningDirections();
+		
+		assertEquals(true,activity.getIsAsyncTaskRunning());
+	}
+	
+	public void testa(){
+		TouchUtils.tapView(this, this.lectureEdit);
+		super.sendKeys("R U N A N ");
+		super.getInstrumentation().waitForIdleSync();
+		TouchUtils.clickView(this, this.editButton);
+		super.getInstrumentation().waitForIdleSync();
+		
+		getInstrumentation().sendKeyDownUpSync(KeyEvent.KEYCODE_MENU);
+		getInstrumentation().invokeMenuActionSync(activity, R.menu.searchmenu, 0);
+		super.getInstrumentation().waitForIdleSync();
+		
+		assertEquals(true,activity.getIsAsyncTaskRunning());
+	}
 }
