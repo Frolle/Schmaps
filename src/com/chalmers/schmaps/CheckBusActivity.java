@@ -50,10 +50,9 @@ import android.widget.TextView;
 
 public class CheckBusActivity extends Activity implements View.OnClickListener {
 
-	private static int NROFROWS = 5;
-	private static String TAG = "CheckBusActivity";
-	private static String chalmersURL = "http://api.vasttrafik.se/bin/rest.exe/v1/departureBoard?authKey=2443e74a-b1cd-466a-a4e2-72ac982a62df&format=json&id=9021014001960000&direction=9021014004490000";
-	private static String lindholmenURL= "http://api.vasttrafik.se/bin/rest.exe/v1/departureBoard?authKey=2443e74a-b1cd-466a-a4e2-72ac982a62df&format=json&id=9021014004490000&direction=9021014001960000";
+	private static final int NROFROWS = 5;
+	private static final String chalmersURL = "http://api.vasttrafik.se/bin/rest.exe/v1/departureBoard?authKey=2443e74a-b1cd-466a-a4e2-72ac982a62df&format=json&id=9021014001960000&direction=9021014004490000";
+	private static final String lindholmenURL= "http://api.vasttrafik.se/bin/rest.exe/v1/departureBoard?authKey=2443e74a-b1cd-466a-a4e2-72ac982a62df&format=json&id=9021014004490000&direction=9021014001960000";
 
 	private JSONObject[] returnedJsonObject;
 	private TableLayout lindholmenTable;

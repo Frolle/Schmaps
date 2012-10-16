@@ -18,8 +18,6 @@ package com.chalmers.schmaps;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Color;
-import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 
@@ -45,12 +43,6 @@ public class CampusMenuActivity extends Activity implements View.OnClickListener
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_campus_menu);
         assignInstances();
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.activity_campus_menu, menu);
-        return true;
     }
     
 	private void assignInstances() {

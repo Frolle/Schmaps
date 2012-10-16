@@ -81,6 +81,8 @@ public class CheckInActivity extends MapActivity implements View.OnClickListener
 	private EditText enterName;
 	private Drawable checkInDot;
 	private OverlayItem overlayitem;
+	private JSONArray result;
+	private boolean running;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -89,6 +91,7 @@ public class CheckInActivity extends MapActivity implements View.OnClickListener
 		returnedJsonObject = null;
 		username = "";
 		checkin = false;
+		running = false;
 		
 		mapview = (MapView) findViewById(R.id.mapview);
 		mapview.setBuiltInZoomControls(true);
@@ -148,7 +151,7 @@ public class CheckInActivity extends MapActivity implements View.OnClickListener
 	 * Waits the thread to return an jsonobject, sleeps main thread if json object not returned
 	 * Calls method parseJsonAndDraw() when jsonobject returned
 	 ********************************************************************/
-	private void connectExternalDatabase(){
+	public void connectExternalDatabase(){
 		returnedJsonObject = null;
 		GetCheckIn getCheckIn = new GetCheckIn();
 		getCheckIn.execute(); //the method doInBackground() is executed
@@ -159,7 +162,9 @@ public class CheckInActivity extends MapActivity implements View.OnClickListener
 			} catch (InterruptedException e1) {
 				e1.printStackTrace();
 			}
-		}	
+		}
+		
+		running = true;
 		
 		parseJsonAndDraw(returnedJsonObject);
 	}
@@ -170,7 +175,7 @@ public class CheckInActivity extends MapActivity implements View.OnClickListener
 	 * @param jsonObject
 	 * @return arraylist of geopoints
 	 **********************************************************************/
-	private void parseJsonAndDraw(JSONObject jsonObject){
+	public void parseJsonAndDraw(JSONObject jsonObject){
 		GeoPoint geopoint; //greates an geopoint with our location
 		int lat, lng;
 		String name,time;
@@ -180,8 +185,10 @@ public class CheckInActivity extends MapActivity implements View.OnClickListener
 		checkInDot = this.getResources().getDrawable(R.drawable.chalmersandroid); //drawable
 		mapItemizedCheckIn = new MapItemizedOverlay(checkInDot, this); //mapitemizedoverlay with drawable
 		
+		result =null;
+		
 		try {
-			JSONArray result = jsonObject.getJSONArray("result");
+			result = jsonObject.getJSONArray("result");
 			JSONObject checkedInPerson;
 
 			//loop through the jsonarray and extract all checked-in points
@@ -221,7 +228,7 @@ public class CheckInActivity extends MapActivity implements View.OnClickListener
 
 		username = enterName.getText().toString();
 		username.trim(); //removes white signs
-		username = username.replaceAll("[^[a-ö][A-Ö][0-9]]",""); //Removes illegal characters to prevent sql injection
+		username = username.replaceAll("[^[a-zåäö][A-ZÅÄÖ][0-9]]",""); //Removes illegal characters to prevent sql injection
 
 		//if the user have not entered a name the name is set to unknown
 		if(username.equals(""))
@@ -229,6 +236,28 @@ public class CheckInActivity extends MapActivity implements View.OnClickListener
 		
 		connectExternalDatabase();
 		checkin =false;
+	}
+
+	/**
+	 * @return the username that user enters
+	 */
+	public String getInputName(){
+		return username;
+	}
+	
+	/**
+	 * @return the size of jsonarray returned from string
+	 */
+	public int getSizeOfJsonArray(){
+		return result.length();
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public boolean getIsAsyncTaskRunning(){
+		return running;
 	}
 
 
@@ -239,6 +268,7 @@ public class CheckInActivity extends MapActivity implements View.OnClickListener
 	 *  http://www.vogella.com/articles/AndroidPerformance/article.html
 	 ********************************************************************************/
 	private class GetCheckIn extends AsyncTask<Void, Void, JSONObject> {
+		
 
 
 		/** when called makes a request to google directions api (json format) 
@@ -247,6 +277,7 @@ public class CheckInActivity extends MapActivity implements View.OnClickListener
 		 */
 		@Override
 		protected JSONObject doInBackground(Void... params) {
+			
 			StringBuilder urlString = new StringBuilder();
 			StringBuilder response = new StringBuilder();
 			InputStream is = null;
@@ -304,14 +335,14 @@ public class CheckInActivity extends MapActivity implements View.OnClickListener
 
 			//convert string to jsonobject and return the object
 			try{
-				Log.e("CheckIN", "hej");
 				returnedJsonObject = new JSONObject(jsonResponse);
 			}catch(JSONException e){
 
 			}
-			Log.e("CheckIN", "almost finished");
+			
 			return returnedJsonObject;
 		}
+		
 	}
 
 
