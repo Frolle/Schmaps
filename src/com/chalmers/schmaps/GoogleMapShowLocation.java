@@ -29,6 +29,7 @@ public class GoogleMapShowLocation extends MapActivity {
 	private static final int LECTUREHALLBUTTON = 4;
 	private static final int BOOKINGKEY = 5;
 	private static final int BUSKEY = 6;
+	private static final int SENDTODB = 7;
 	private static final int JOHANNESBERG = 40;
 	private static final int LINDHOLMEN = 42;	
 
@@ -71,6 +72,10 @@ public class GoogleMapShowLocation extends MapActivity {
 		//Switch case to determine what series of locations to be drawn on map
 		switch(setView.getInt("Show locations")){
 		
+		case SENDTODB:
+			drawLocationList(DB_RESTAURANTTABLE);
+			drawQueue();
+			
 		case RESTAURANTBUTTON:
 			drawLocationList(DB_RESTAURANTTABLE);
 		
@@ -212,6 +217,10 @@ public class GoogleMapShowLocation extends MapActivity {
     	gpsPoint.setGPSPoints(item.getPoint().getLongitudeE6(), item.getPoint().getLatitudeE6(), id++);	//set the proximity alert of the spot on the (long, lat) place
     	}
 
+    }
+    
+    private void drawQueue(){
+    	
     }
     
 

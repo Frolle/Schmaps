@@ -31,6 +31,7 @@ import com.chalmers.schmaps.GPSPoint.myLocationListener;
 import com.google.android.maps.Overlay;
 
 import android.app.Activity;
+import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -41,39 +42,48 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 
+/*
+ * Author: [Emma Dirnberger]
+ * Class which handles the request from the GPSPoint class, handling the information received and
+ * by doing so, showing the user how many person that are in the alerted areas.
+ */
+
 public class SendToDB extends BroadcastReceiver {
 	private GetQueue getQueue;
-	private Overlay overlay;
 	private JSONObject jsonobject, returnedJSON;
-	private boolean flag, gps;
 	private LocationManager manager;
-	private int people = 0, id;
+	private int id;
 	private StringBuilder builder;
 	private Bundle bundle;
+	private static final int thisid = 7;
+
 	
 	
 	@Override
 	public void onReceive(Context context, Intent intent) {
 		bundle= intent.getExtras();
 		id = bundle.getInt("restaurant");
-		gps = true;
 		String intentKey = LocationManager.KEY_PROXIMITY_ENTERING;	//Taking the KEY_PROXMITY_ENTERING from GPSPoint and saving the boolean
-		Boolean entering = intent.getBooleanExtra(intentKey, false);
+		Boolean entering = intent.getBooleanExtra(intentKey, false); //Saving the boolean from KEY_PROXIMITY_ENTERING for further use
+		connectToDB();
 		
-		if(entering==true){
+		if(entering==true){			//If the boolean is true ---> A person i inside the alerted area
 			if(id>=1&&id<=34){
-				builder.append("http://schmaps.scarleo.se/rest.php?insert=1&code=" + id); //here you add one to your restaurant-field. Must be XX after code
+				builder.append("http://schmaps.scarleo.se/rest.php?insert=1&code=" + id); //here you add one to your restaurant-field.
 			}else{
 				System.out.println("Error, not known id");		//Simple error msg
 			}
 			
-		}else{
+		}else{					//If false --> person is leaving the alerted area
 			if(id>=1&&id<=34){
 			builder.append("http://schmaps.scarleo.se/rest.php?delete=1&code=" + id); //here you remove one from your restaurant-field on the external database
 			}else{
 				System.out.println("Error, not known id");
 			}
 		}
+		Intent backtrack = new Intent("android.intent.action.GOOGLEMAPSHOWLOCATION");
+		backtrack.putExtra("Show locations", thisid);
+		PendingIntent pIntent = PendingIntent.getActivity(null, 0, backtrack, Intent.FLAG_ACTIVITY_NEW_TASK); //Send an intent back to GoogleMapShowLocation
 		
 	}
 
@@ -83,6 +93,10 @@ public class SendToDB extends BroadcastReceiver {
 		
 		
 	}
+	
+	/*
+	 * Checks how many are queueing by checking the database on the server and returning this in the screen as a dialouge.
+	 */
 	
 	private void drawQueue(){
 		

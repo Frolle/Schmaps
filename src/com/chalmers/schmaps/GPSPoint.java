@@ -26,6 +26,12 @@ import android.location.LocationManager;
 import android.location.LocationProvider;
 import android.os.Bundle;
 
+/*
+ * Authour [Emma Dirnberger]
+ * This is a class which receives an intent and after receiving this, adding a proximity alert
+ * on the desired area. Receives this request from the GoogleMapShowLocation class
+ */
+
 public class GPSPoint extends Activity {	
 	private LocationManager manager;
 	private PendingIntent intent;
@@ -40,12 +46,14 @@ public class GPSPoint extends Activity {
 	
 	private void assignInstances() {
 		manager = (LocationManager)this.getSystemService(Context.LOCATION_SERVICE);
-		LocationProvider provider = manager.getProvider(LocationManager.NETWORK_PROVIDER);
+		LocationProvider provider = manager.getProvider(LocationManager.NETWORK_PROVIDER);		//Using NETWORK_PROVIDER to save battery-time
 		LocationListener listener = new myLocationListener();
 		manager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, listener);
 
 	}
-	
+	/*
+	 * Add a proximity alert to the specified long and lat, adding an id for use in the database on our server.
+	 */
 	public void setGPSPoints(int lng, int lat, int id){
 		Intent intDB = new Intent(this, SendToDB.class);
 		intDB.putExtra("restaurant", id);
