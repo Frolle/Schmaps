@@ -43,6 +43,8 @@ import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Dialog;
@@ -55,12 +57,13 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 /*****************************************************
  * Class displays a google maps activity with a textfield and search button where user can search for classrooms.
  * Displays users position, rooms position if found and get directions from google directions api if user wants directions.
  *********************************************************/
-public class GoogleMapSearchLocation extends MapActivity implements View.OnClickListener{
+public class GoogleMapSearchLocation extends MapActivity implements View.OnClickListener {
 
 	private Button editButton;
 	private EditText lectureEdit;
@@ -85,6 +88,7 @@ public class GoogleMapSearchLocation extends MapActivity implements View.OnClick
 	private MapController mapcon;
 	private PathOverlay pathOverlay;
 	private boolean roomSearched;
+	private Dialog dialog;
 	
 	private Bundle bucket;
 	
@@ -127,20 +131,22 @@ public class GoogleMapSearchLocation extends MapActivity implements View.OnClick
 				mapOverlays.add(mapItemizedStudent);
 			}
 
-			public void onProviderDisabled(String provider) {
+			public void onProviderDisabled(String arg0) {
 				// TODO Auto-generated method stub
-
+				
 			}
 
 			public void onProviderEnabled(String provider) {
 				// TODO Auto-generated method stub
-
+				
 			}
 
 			public void onStatusChanged(String provider, int status,
 					Bundle extras) {
+				// TODO Auto-generated method stub
+				
+			}
 
-			}	
 		};
 
 		search = new SearchSQL(GoogleMapSearchLocation.this); //creates a SQLLite object
@@ -213,6 +219,7 @@ public class GoogleMapSearchLocation extends MapActivity implements View.OnClick
 
 	}
 	
+	/*
 	@Override
 	protected void onSaveInstanceState(Bundle outState) {
 		ArrayList<Integer> list = new ArrayList<Integer>(); 
@@ -244,7 +251,7 @@ public class GoogleMapSearchLocation extends MapActivity implements View.OnClick
 
 		
 	}
-
+	*/
 
 	public void onClick(View v) {
 		//Removes the key when finish typing
@@ -261,8 +268,10 @@ public class GoogleMapSearchLocation extends MapActivity implements View.OnClick
 		roomToFind = lectureEdit.getText().toString();
 		roomToFind.toLowerCase().trim(); //removes white signs and converts to lower case
 
-		roomToFind = roomToFind.replaceAll("[^[a-zåäö][A-ZÅÄÖ][0-9]]+",""); //Removes illegal characters to prevent sql injection
+		roomToFind = roomToFind.replaceAll("[^[a-zÃ¥Ã¤Ã¶][A-ZÃ…Ã„Ã–][0-9]]",""); //Removes illegal characters to prevent sql injection
 
+
+		
 		search.openRead(); //open database in read mode
 		
 		//if we find room show room on map, if not show dialog 
@@ -282,9 +291,9 @@ public class GoogleMapSearchLocation extends MapActivity implements View.OnClick
 
 		}else{
 			//dilaog pops up if room not found
-			Dialog dialog = new Dialog(GoogleMapSearchLocation.this);
+			dialog = new Dialog(GoogleMapSearchLocation.this);
 			dialog.setTitle("Sorry, can not find the room :(");
-			dialog.setCancelable(true);
+			dialog.setCanceledOnTouchOutside(true);
 			dialog.show();
 		}
 		search.close(); //close database
@@ -303,9 +312,15 @@ public class GoogleMapSearchLocation extends MapActivity implements View.OnClick
 			//if there there is roomLocation then search for a path
 			//if not a roomLocation then the user has not searched for a room, do not give directions
 			if(roomSearched){ 
+				if(gotInternetConnection()){
 				walkningDirections ();
 				roomSearched = false;
-			}	
+				}
+			}else
+			{
+				Context context = getApplicationContext();
+				Toast.makeText(context, "Internet connection needed for this option", Toast.LENGTH_LONG).show();
+			}
 		}
 		
 		return false;
@@ -463,4 +478,33 @@ private void walkningDirections (){
 			return jsonObject;
 		}
 	}
+	
+	/**
+	 * Check if the device is connected to internet.
+	 * Need three if-statements because getActiveNetworkInfo() may return null
+	 * and end up with a force close. So thats the last thing to check.
+	 * @return true if there is an internet connection
+	 */
+	public boolean gotInternetConnection()
+	{
+		ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+
+		NetworkInfo wifiNetwork = cm.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+		if (wifiNetwork != null && wifiNetwork.isConnected()) {
+			return true;
+		}
+
+		NetworkInfo mobileNetwork = cm.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+		if (mobileNetwork != null && mobileNetwork.isConnected()) {
+			return true;
+		}
+
+		NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+		if (activeNetwork != null && activeNetwork.isConnected()) {
+			return true;
+		}
+
+		return false;
+	}
+
 }

@@ -15,31 +15,29 @@
  */
 package com.chalmers.schmaps.test;
 
-import java.io.SequenceInputStream;
-
 import com.chalmers.schmaps.GoogleMapSearchLocation;
-import com.chalmers.schmaps.R;
 import com.chalmers.schmaps.SearchSQL;
-import com.google.android.maps.MapView;
-
-import android.content.Context;
 import android.test.ActivityInstrumentationTestCase2;
-import android.test.AndroidTestCase;
-import android.test.InstrumentationTestCase;
-import android.widget.Button;
-import android.widget.EditText;
-
+/**
+ * Test class for testing the SQL class. Different test cases tests so that the
+ * get methods get the proper data from the database given an already known query.
+ * @author Froll
+ *
+ */
 public class SearchSQLTest extends ActivityInstrumentationTestCase2<GoogleMapSearchLocation> {
-	
+	private static final int RETURNVALUEIFNOTFOUND = 0;
 	private SearchSQL tester;
-	GoogleMapSearchLocation activity;
-	String theTestValue = "runan";
+	private GoogleMapSearchLocation activity;
+	private String theTestValue = "runan";
 	
 	public SearchSQLTest()
 	{
 		super(GoogleMapSearchLocation.class);
 	}
 	
+	/**
+	 * Setup method for instantiating the variables.
+	 */
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
@@ -58,38 +56,43 @@ public class SearchSQLTest extends ActivityInstrumentationTestCase2<GoogleMapSea
 		super.tearDown();
 	}
 
-	
+
 	public void testExists() {
 		assertTrue(tester.exists(theTestValue));
-
+		assertFalse(tester.exists("ValueThatDoesNotExist"));
 	}
-
-
+	
 	public void testGetLat() {
 		assertEquals(57689111, tester.getLat(theTestValue));
+		assertEquals(RETURNVALUEIFNOTFOUND, tester.getLat("ValueThatDoesNotExist"));
 	}
 
 
 	public void testGetLong() {
 		assertEquals(11973517, tester.getLong(theTestValue));
+		assertEquals(RETURNVALUEIFNOTFOUND, tester.getLong("ValueThatDoesNotExist"));
+
 	}
 
 
 	public void testGetAddress() {
 		
 		assertEquals("Sven Hultins gata 2", tester.getAddress(theTestValue));
+		assertNull(tester.getAddress("ValueThatDoesNotExist"));
 	}
 
 
 	public void testGetLevel() {
 		
-		assertEquals("", tester.getLevel(theTestValue));
+		assertEquals("Floor 1", tester.getLevel(theTestValue));
+		assertNull(tester.getLevel("ValueThatDoesNotExist"));
+
 	}
 
 
 	public void testGetLocations() {
 		
-		assertEquals(2, tester.getLocations("Microwaves").size());
+		assertEquals(9, tester.getLocations("Microwaves").size());
 	}
 
 }

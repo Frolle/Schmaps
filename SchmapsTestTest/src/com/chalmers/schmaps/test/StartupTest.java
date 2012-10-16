@@ -15,16 +15,26 @@
  */
 package com.chalmers.schmaps.test;
 
-import com.chalmers.schmaps.Startup;
-import android.content.Intent;
-import android.test.ActivityInstrumentationTestCase2;
+import java.lang.reflect.Field;
 
+import com.chalmers.schmaps.MenuActivity;
+import com.chalmers.schmaps.Startup;
+import com.jayway.android.robotium.solo.Solo;
+import android.os.SystemClock;
+import android.test.ActivityInstrumentationTestCase2;
+import android.view.MotionEvent;
+
+/**
+ * Test class for testing the splash screen and that it starts the correct activity
+ * @author Froll
+ *
+ */
 public class StartupTest extends ActivityInstrumentationTestCase2<Startup> {
 
 	private Startup startupActivity;
-	private String stringIntentActivity;
-	private Intent startupIntent;
-
+	private Thread threadForSplash;
+	private Solo solo;
+	
 	public StartupTest() {
 		super(Startup.class);
 	}
@@ -32,16 +42,36 @@ public class StartupTest extends ActivityInstrumentationTestCase2<Startup> {
 	protected void setUp() throws Exception {
 		super.setUp();
 		setActivityInitialTouchMode(false);
+		solo = new Solo(getInstrumentation(), getActivity());
 		this.startupActivity = super.getActivity();
-		this.startupIntent = startupActivity.getIntentForMenuActivity();
-		stringIntentActivity = startupIntent.getAction();	
 		}
 	
-	@Override
 	protected void tearDown() throws Exception {
 		super.tearDown();
 	}
-	public void testForStartingMenuActivity(){
-		assertEquals("android.intent.action.MENUACTIVITY", stringIntentActivity);
+	/**
+	 * Test that the splash screen starts the correct activity and that it shuts down
+	 * when it's touched.
+	 */
+	public void testSplashThreadAndOnTouch(){
+		try {
+			Field splashThread = startupActivity.getClass().getDeclaredField("threadForSplash");
+			splashThread.setAccessible(true);
+			threadForSplash = (Thread) splashThread.get(this.startupActivity);
+		}
+		catch (Exception e) {
+				e.printStackTrace();
+		}
+		MotionEvent evtDown, evtUp;
+		evtDown = MotionEvent.obtain(SystemClock.uptimeMillis(), SystemClock.uptimeMillis()+100, MotionEvent.ACTION_DOWN , 0.0f, 0.0f, 0);
+		evtUp = MotionEvent.obtain(SystemClock.uptimeMillis(), SystemClock.uptimeMillis()+100, MotionEvent.ACTION_UP , 0.0f, 0.0f, 0);
+
+		assertTrue(startupActivity.onTouchEvent(evtDown));
+		assertFalse(startupActivity.onTouchEvent(evtUp));
+
+		threadForSplash.run();
+		solo.clickOnScreen(65, 65);
+		solo.assertCurrentActivity("Wrong class", MenuActivity.class);
 	}
+	
 }

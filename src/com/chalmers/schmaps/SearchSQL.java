@@ -1,5 +1,5 @@
 /*
- * Copyright [2012] [Dina Zuko]
+ * Copyright [2012] [Martin Austustsson, Mei Ha, Emma Dirnberger, Simon Fransson, Dina Zuko]
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -18,20 +18,15 @@ package com.chalmers.schmaps;
 
 import java.io.*;
 import java.util.ArrayList;
-import java.util.List;
 
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.OverlayItem;
 
-import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteDatabase.CursorFactory;
-import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
 public class SearchSQL {
 
@@ -42,22 +37,11 @@ public class SearchSQL {
 	public static final String KEY_STREET = "street_name";
 	public static final String KEY_LEVEL = "level";
 	
-	private static String TAG = "SearchSQL";
 	
 	private static final String DATABASE_NAME = "SchmapsDB"; //namnet på vår databas
 	private static final String DATABASE_TABLE = "Rooms"; //namnet på vår tabell (kan ha flera tabeller)
-	private static final String DB_MICROWAVETABLE = "Microwaves"; //Name of our microwave table
-	private static final String DATABASE_ATMTABLE = "Bankomater";
-
-	private static String DATABASE_PATH = "/data/data/com.chalmers.schmaps/databases/";
+	private static final String DATABASE_PATH = "/data/data/com.chalmers.schmaps/databases/";
 	private static final int DATABASE_VERSION = 8;
-
-
-	
-	private static final int MICROWAVETABLE = 1;
-	private static final int RESTAURANTTABLE = 2;
-	private static final int ATMTABLE = 3;
-
 	private MySQLiteOpenHelper ourHelper;
 	private final Context ourContext;
 	private SQLiteDatabase ourDatabase;
@@ -107,8 +91,7 @@ public class SearchSQL {
 		Cursor cursor = ourDatabase.query(DATABASE_TABLE, columns, KEY_ROOM + " LIKE ?" , new String [] { "%" + query + "%"}, null, null, null);
 		if(cursor.getCount()<=0)
 			return false;
-		else 
-			return true;
+		return true;
 
 	}
 
@@ -122,8 +105,7 @@ public class SearchSQL {
 		String [] columns = new String []{ KEY_ROWID, KEY_ROOM, KEY_LAT, KEY_LONG, KEY_STREET, KEY_LEVEL};
 		Cursor cursor = ourDatabase.query(DATABASE_TABLE, columns, KEY_ROOM + " LIKE ?" , new String [] { "%" + query + "%"}, null, null, null);
 		
-		if(cursor != null){
-			cursor.moveToFirst();
+		if(cursor.moveToFirst()){
 			int lat = cursor.getInt(2);
 			if (cursor != null && !cursor.isClosed()) {
 	            cursor.close();
@@ -144,8 +126,7 @@ public class SearchSQL {
 		String [] columns = new String []{KEY_ROWID, KEY_ROOM, KEY_LAT, KEY_LONG, KEY_STREET, KEY_LEVEL };
 		Cursor cursor = ourDatabase.query(DATABASE_TABLE, columns, KEY_ROOM + " LIKE ?" , new String [] { "%" + query + "%"}, null, null, null);
 		
-		if(cursor != null){
-			cursor.moveToFirst();
+		if(cursor.moveToFirst()){
 			int lon = cursor.getInt(3);
 			if (cursor != null && !cursor.isClosed()) {
 	            cursor.close();
@@ -164,9 +145,7 @@ public class SearchSQL {
 	public String getAddress(String query) {
 		String [] columns = new String []{KEY_ROWID, KEY_ROOM, KEY_LAT, KEY_LONG, KEY_STREET, KEY_LEVEL };
 		Cursor cursor = ourDatabase.query(DATABASE_TABLE, columns, KEY_ROOM + " LIKE ?" , new String [] { "%" + query + "%"}, null, null, null);
-		
-		if(cursor != null){
-			cursor.moveToFirst();
+		if(cursor.moveToFirst()){
 			String address = cursor.getString(4);
 			if (cursor != null && !cursor.isClosed()) {
 	            cursor.close();
@@ -186,8 +165,7 @@ public class SearchSQL {
 		String [] columns = new String []{KEY_ROWID, KEY_ROOM, KEY_LAT, KEY_LONG, KEY_STREET, KEY_LEVEL };
 		Cursor cursor = ourDatabase.query(DATABASE_TABLE, columns, KEY_ROOM + " LIKE ?" , new String [] { "%" + query + "%"}, null, null, null);
 		
-		if(cursor != null){
-			cursor.moveToFirst();
+		if(cursor.moveToFirst()){
 			String level = cursor.getString(5);
 			if (cursor != null && !cursor.isClosed()) {
 	            cursor.close();
@@ -223,7 +201,7 @@ public class SearchSQL {
 	private static class MySQLiteOpenHelper extends SQLiteOpenHelper{
 
 		private final Context myContext;
-		SQLiteDatabase internDatabase;
+		private SQLiteDatabase internDatabase;
 		
 		public MySQLiteOpenHelper(Context context) {
 			super(context, DATABASE_NAME, null, DATABASE_VERSION);
