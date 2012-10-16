@@ -218,6 +218,8 @@ public class GoogleMapShowLocation extends MapActivity {
 		
 		return false;
     }
+    
+    
     /*
      * Method to set the GPSPoints for the restaurants by calling the GPSPoint class
      * where you set a proximity alert on each desired position.

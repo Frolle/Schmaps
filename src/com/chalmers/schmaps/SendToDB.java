@@ -23,12 +23,16 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.chalmers.schmaps.GPSPoint.myLocationListener;
+import com.google.android.maps.GeoPoint;
 import com.google.android.maps.Overlay;
+import com.google.android.maps.OverlayItem;
 
 import android.app.Activity;
 import android.content.BroadcastReceiver;
@@ -42,15 +46,17 @@ import android.os.Bundle;
 import android.util.Log;
 
 public class SendToDB extends BroadcastReceiver {
-	private GetQueue getQueue;
-	private Overlay overlay;
-	private JSONObject jsonobject, returnedJSON;
+	
+	private JSONObject returnedJsonObject;
+	private JSONObject returnedJSON;
 	private boolean flag, gps;
 	private LocationManager manager;
 	private int people = 0, id;
 	private StringBuilder builder;
 	private Bundle bundle;
-	
+	private Boolean entering;
+
+
 	
 	@Override
 	public void onReceive(Context context, Intent intent) {
@@ -58,39 +64,56 @@ public class SendToDB extends BroadcastReceiver {
 		id = bundle.getInt("restaurant");
 		gps = true;
 		String intentKey = LocationManager.KEY_PROXIMITY_ENTERING;	//Taking the KEY_PROXMITY_ENTERING from GPSPoint and saving the boolean
-		Boolean entering = intent.getBooleanExtra(intentKey, false);
+		entering = intent.getBooleanExtra(intentKey, false);
 		
-		if(entering==true){
-			if(id>=1&&id<=34){
-				builder.append("http://schmaps.scarleo.se/rest.php?insert=1&code=" + id); //here you add one to your restaurant-field. Must be XX after code
-			}else{
-				System.out.println("Error, not known id");		//Simple error msg
-			}
-			
-		}else{
-			if(id>=1&&id<=34){
-			builder.append("http://schmaps.scarleo.se/rest.php?delete=1&code=" + id); //here you remove one from your restaurant-field on the external database
-			}else{
-				System.out.println("Error, not known id");
-			}
-		}
+		connectToDB();
 		
 	}
 
-	private void parseJSON(JSONObject jsonObject){
-		int i;
+	
+	private void parseQueue(JSONObject jsonObject){
 		
 		
+		int code, nrOfCheckedIn;
+		
+		try {
+			JSONArray result = jsonObject.getJSONArray("result");
+			JSONObject numberOfCheckedInPeople;
+
+			//loop through the jsonarray and extract all checked-in points
+			//collect data, create geopoint and add to list of overlays that will be drawn on map
+			for(int count = 0;count<result.length();count++){
+				numberOfCheckedInPeople = result.getJSONObject(count);
+				
+				code = (int) numberOfCheckedInPeople.getInt("code");
+				nrOfCheckedIn = (int)numberOfCheckedInPeople.getInt("number");
+				//code and nrOfCheckedIn need to be saved and somehow send to a database
+
+			}
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}		
+
 		
 	}
 	
-	private void drawQueue(){
-		
-		// http://schmaps.scarleo.se/rest.php kollar incheckade
-		
-	}
-	
+	/**
+	 * 
+	 */
 	private void connectToDB(){
+		returnedJsonObject = null;
+		GetQueue getQueue = new GetQueue();
+		getQueue.execute();
+		
+		while(returnedJsonObject == null){ //if json object not returned, sleep for 30 sec
+			try {
+				Thread.sleep(500);
+			} catch (InterruptedException e1) {
+				e1.printStackTrace();
+			}
+		}
+		
+		parseQueue(returnedJsonObject);
 		
 	}
 	
@@ -113,7 +136,14 @@ public class SendToDB extends BroadcastReceiver {
 			String jsonResponse = "";
 			
 
-			urlString.append("http://schmaps.scarleo.se/schmaps.php?name=");
+			urlString.append("http://schmaps.scarleo.se/rest.php?");
+			if(entering){
+				urlString.append("&insert=1");
+			}else{
+				urlString.append("&delete=1");
+			}
+			urlString.append("&code=");
+			urlString.append(id);
 			
 			
 			try {
@@ -125,7 +155,7 @@ public class SendToDB extends BroadcastReceiver {
 				is = urlConnection.getInputStream();
 				urlConnection.connect();
 			} catch (MalformedURLException e) {
-				// TODO Auto-generated catch block
+	
 				e.printStackTrace();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
@@ -152,18 +182,13 @@ public class SendToDB extends BroadcastReceiver {
 
 			//convert string to jsonobject and return the object
 			try{
-				Log.e("CheckIN", "hej");
 				returnedJSON = new JSONObject(jsonResponse);
 			}catch(JSONException e){
 
 			}
-			Log.e("CheckIN", "almost finished");
+
 			return returnedJSON;
 		}
 	}
-
-
-
-
 
 }
