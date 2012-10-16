@@ -163,11 +163,12 @@ public class GoogleMapSearchLocationTest extends ActivityInstrumentationTestCase
 	 */
 	public void testWalkingDirections() throws JSONException{
 
-		String jsonresponse = "{\"routes\" : [{\"legs\" : [{\"steps\" : [{\"end_location\" : {\"lat\" : 57.715350,\"lng\" : 11.999310},\"start_location\" : {\"lat\" : 57.715450,\"lng\" : 11.999690},},{\"end_location\" : {\"lat\" : 57.714780,\"lng\" : 11.999840},\"start_location\" : {\"lat\" : 57.715350,\"lng\" : 11.999310},},{\"end_location\" : {\"lat\" : 57.714380,\"lng\" : 11.996780},\"start_location\" : {\"lat\" : 57.714780,\"lng\" : 11.999840},},{\"end_location\" : {\"lat\" : 57.714220,\"lng\" : 11.996910},\"start_location\" : {\"lat\" : 57.714380,\"lng\" : 11.996780},}],}],}],}";
+		String jsonresponse = "{\"routes\":[{\"legs\":[{\"steps\":[{\"end_location\":{\"lat\":57.715350,\"lng\":11.999310},\"start_location\":{\"lat\":57.71545000000001,\"lng\":11.999690}}]}]}]}";
+				
 		JSONObject jsonobject = new JSONObject(jsonresponse);
 
-		activity.walkningDirections(jsonobject);
+		activity.parseJson(jsonobject);
 
-		assertEquals(4,activity.returnNrOfGeopoints());
+		assertEquals(2,activity.returnNrOfGeopoints());
 	}
 }

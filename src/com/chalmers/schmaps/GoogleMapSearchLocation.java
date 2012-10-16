@@ -314,7 +314,7 @@ public class GoogleMapSearchLocation extends MapActivity implements View.OnClick
 			//if not a roomLocation then the user has not searched for a room, do not give directions
 			if(roomSearched){ 
 				if(gotInternetConnection()){
-					walkningDirections (jsonObject);
+					walkningDirections ();
 					roomSearched = false;
 				}
 			}else
@@ -341,12 +341,8 @@ public class GoogleMapSearchLocation extends MapActivity implements View.OnClick
 	 * waits for the new thread to return a json object
 	 * when json object returned parse it and extract directions
 	 ********************************************/
-	public void walkningDirections (JSONObject returnedJson){
+	public void walkningDirections (){
 
-		JSONObject step,start_location,end_location;
-		int srcLat,srcLng,destLat,destLng;
-		GeoPoint geo;
-		geoList = new ArrayList<GeoPoint>();
 		jsonObject = null;
 
 		GetDirections directions = new GetDirections();
@@ -358,55 +354,76 @@ public class GoogleMapSearchLocation extends MapActivity implements View.OnClick
 			} catch (InterruptedException e1) {
 				e1.printStackTrace();
 			}
+
 		}
+		
+		parseJson(jsonObject);
+	}
+		
+		public void parseJson(JSONObject returnedJson){
+			
+			JSONObject step,start_location,end_location;
+			int srcLat,srcLng,destLat,destLng;
+			GeoPoint geo;
+			geoList = new ArrayList<GeoPoint>();
+			
+			
+			
+			try {
+				JSONArray routes = returnedJson.getJSONArray("routes");
+				Log.e("Json", "a");
+				JSONObject route = routes.getJSONObject(0);
+				Log.e("Json", "aa");
+				// Take all legs from the route
+				JSONArray legs = route.getJSONArray("legs");
+				Log.e("Json", "aaa");
+				// Grab first leg
+				JSONObject leg = legs.getJSONObject(0);
+				Log.e("Json", "aaaa");
+				//Grab all the steps from the led
+				JSONArray steps = leg.getJSONArray("steps");
+				Log.e("Json", "aaaaa");
 
-
-		try {
-			JSONArray routes = jsonObject.getJSONArray("routes");
-			JSONObject route = routes.getJSONObject(0);
-			// Take all legs from the route
-			JSONArray legs = route.getJSONArray("legs");
-			// Grab first leg
-			JSONObject leg = legs.getJSONObject(0);
-			//Grab all the steps from the led
-			JSONArray steps = leg.getJSONArray("steps");;
-
-			for(int count = 0;count<steps.length();count++){
-				//the json returns start and end for each step, we only want one geopoint of each position
-				//that is why we only get the start once and then get the end
-				// we add the geopoint to an array of geopoints
-				if(count == 0){
-					step = steps.getJSONObject(0);
-					start_location = step.getJSONObject("start_location");
-					srcLat = (int)(start_location.getDouble("lat")*1E6);
-					srcLng = (int)(start_location.getDouble("lng")*1E6);
-					geo = new GeoPoint(srcLat,srcLng);
-					geoList.add(0, geo);
+				for(int count = 0;count<steps.length();count++){
+					Log.e("Json", "b");
+					//the json returns start and end for each step, we only want one geopoint of each position
+					//that is why we only get the start once and then get the end
+					// we add the geopoint to an array of geopoints
+					if(count == 0){
+						step = steps.getJSONObject(0);
+						start_location = step.getJSONObject("start_location");
+						srcLat = (int)(start_location.getDouble("lat")*1E6);
+						srcLng = (int)(start_location.getDouble("lng")*1E6);
+						geo = new GeoPoint(srcLat,srcLng);
+						geoList.add(0, geo);
+					}
+					step = steps.getJSONObject(count);
+					end_location = step.getJSONObject("end_location");
+					destLat = (int)(end_location.getDouble("lat")*1E6);
+					destLng = (int)(end_location.getDouble("lng")*1E6);
+					geo = new GeoPoint(destLat,destLng);
+					geoList.add(count+1, geo);
 				}
-				step = steps.getJSONObject(count);
-				end_location = step.getJSONObject("end_location");
-				destLat = (int)(end_location.getDouble("lat")*1E6);
-				destLng = (int)(end_location.getDouble("lng")*1E6);
-				geo = new GeoPoint(destLat,destLng);
-				geoList.add(count+1, geo);
+
+				//creata an overlay and canvas so we can draw the path
+				pathOverlay = new PathOverlay(geoList);
+				Canvas canvas = new Canvas();
+
+				//adds the overay to the list of overlays and calls the draw-method to dra it
+				mapOverlays.add(pathOverlay);
+				pathOverlay.draw(canvas, mapView, true);
+				mapView.postInvalidate();
+
+
+
+			} catch (JSONException e) {
+				e.printStackTrace();
 			}
 
-			//creata an overlay and canvas so we can draw the path
-			pathOverlay = new PathOverlay(geoList);
-			Canvas canvas = new Canvas();
-
-			//adds the overay to the list of overlays and calls the draw-method to dra it
-			mapOverlays.add(pathOverlay);
-			pathOverlay.draw(canvas, mapView, true);
-			mapView.postInvalidate();
-
-
-
-		} catch (JSONException e) {
-			e.printStackTrace();
 		}
 
-	}
+
+		
 
 	/** this innerclass creates a new thread from where we can make a request
 	 *  to google directions api - to get the directions
