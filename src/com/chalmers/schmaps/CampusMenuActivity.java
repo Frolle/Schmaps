@@ -1,3 +1,18 @@
+/*
+ * Copyright [2012] [Simon Fransson]
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License. 
+ */
 package com.chalmers.schmaps;
 
 import android.os.Bundle;
@@ -23,19 +38,13 @@ public class CampusMenuActivity extends Activity implements View.OnClickListener
 	private Button johannebergButton;
 	private Button lindholmenButton;
 	private Bundle menuActionChosen;
+	private String actionString;
 
-
-    @Override
+	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_campus_menu);
         assignInstances();
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.activity_campus_menu, menu);
-        return true;
     }
     
 	private void assignInstances() {
@@ -57,6 +66,7 @@ public class CampusMenuActivity extends Activity implements View.OnClickListener
 		{
 		case R.id.johannebergButton:
 			startMapActivity = new Intent("android.intent.action.GOOGLEMAPSHOWLOCATION");
+			setActionString(startMapActivity.getAction());
 			startMapActivity.putExtra("Campus", JOHANNESBERG);
 			//Transfer what kind of locations should be drawn
 			startMapActivity.putExtra("Show locations", menuActionChosen.getInt("Show locations"));
@@ -65,6 +75,7 @@ public class CampusMenuActivity extends Activity implements View.OnClickListener
 			
 		case R.id.lindholmenButton:
 			startMapActivity = new Intent("android.intent.action.GOOGLEMAPSHOWLOCATION");
+			setActionString(startMapActivity.getAction());
 			startMapActivity.putExtra("Campus", LINDHOLMEN);
 			//Transfer what kind of locations should be drawn
 			startMapActivity.putExtra("Show locations", menuActionChosen.getInt("Show locations"));
@@ -72,4 +83,14 @@ public class CampusMenuActivity extends Activity implements View.OnClickListener
 			break;
 		}
 	}
+	
+    public String getActionString() {
+		return actionString;
+	}
+
+	public void setActionString(String actionString) {
+		this.actionString = actionString;
+	}
+
+
 }

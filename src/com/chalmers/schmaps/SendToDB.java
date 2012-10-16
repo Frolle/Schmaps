@@ -23,12 +23,16 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.chalmers.schmaps.GPSPoint.myLocationListener;
+import com.google.android.maps.GeoPoint;
 import com.google.android.maps.Overlay;
+import com.google.android.maps.OverlayItem;
 
 import android.app.Activity;
 import android.app.PendingIntent;
@@ -49,135 +53,137 @@ import android.util.Log;
  */
 
 public class SendToDB extends BroadcastReceiver {
-	private GetQueue getQueue;
-	private JSONObject jsonobject, returnedJSON;
+
+
+	private JSONObject returnedJsonObject, returnedJSON;
 	private LocationManager manager;
 	private int id;
 	private StringBuilder builder;
 	private Bundle bundle;
 	private static final int thisid = 7;
+	private Boolean entering;
 
-	
+
 	
 	@Override
 	public void onReceive(Context context, Intent intent) {
 		bundle= intent.getExtras();
 		id = bundle.getInt("restaurant");
 		String intentKey = LocationManager.KEY_PROXIMITY_ENTERING;	//Taking the KEY_PROXMITY_ENTERING from GPSPoint and saving the boolean
-		Boolean entering = intent.getBooleanExtra(intentKey, false); //Saving the boolean from KEY_PROXIMITY_ENTERING for further use
+		entering = intent.getBooleanExtra(intentKey, false); //Saving the boolean from KEY_PROXIMITY_ENTERING for further use
 		connectToDB();
 		
-		if(entering==true){			//If the boolean is true ---> A person i inside the alerted area
-			if(id>=1&&id<=34){
-				builder.append("http://schmaps.scarleo.se/rest.php?insert=1&code=" + id); //here you add one to your restaurant-field.
-			}else{
-				System.out.println("Error, not known id");		//Simple error msg
-			}
-			
-		}else{					//If false --> person is leaving the alerted area
-			if(id>=1&&id<=34){
-			builder.append("http://schmaps.scarleo.se/rest.php?delete=1&code=" + id); //here you remove one from your restaurant-field on the external database
-			}else{
-				System.out.println("Error, not known id");
-			}
-		}
+
 		Intent backtrack = new Intent("android.intent.action.GOOGLEMAPSHOWLOCATION");
 		backtrack.putExtra("Show locations", thisid);
 		PendingIntent pIntent = PendingIntent.getActivity(null, 0, backtrack, Intent.FLAG_ACTIVITY_NEW_TASK); //Send an intent back to GoogleMapShowLocation
+
 		
 	}
 
-	private void parseJSON(JSONObject jsonObject){
-		int i;
-		
-		
-		
-	}
 	
-	/*
-	 * Checks how many are queueing by checking the database on the server and returning this in the screen as a dialouge.
-	 */
-	
-	private void drawQueue(){
-		
-		// http://schmaps.scarleo.se/rest.php kollar incheckade
-		
-	}
-	
-	private void connectToDB(){
-		
+	public void parseQueue(JSONObject jsonObject){
+
 	}
 	
 	/**
-	 * @author Kya
-	 *Created a new class to connect the program to the external database with the restaurant table and their id:s
-	 *Not yet completed.
+	 * Connecting this class to the database on the server.
 	 */
-	
-	private class GetQueue extends AsyncTask<Void, Void, JSONObject> {
-
-		@Override
-		protected JSONObject doInBackground(Void... params) {
-			StringBuilder urlString = new StringBuilder();
-			StringBuilder response = new StringBuilder();
-			InputStream is = null;
-			URL url = null;
-			HttpURLConnection urlConnection = null;
-			String line = null;
-			String jsonResponse = "";
-			
-
-			urlString.append("http://schmaps.scarleo.se/schmaps.php?name=");
-			
-			
+	private void connectToDB(){
+		returnedJsonObject = null;
+		GetQueue getQueue = new GetQueue();
+		getQueue.execute();
+		
+		while(returnedJsonObject == null){ //if json object not returned, sleep for 30 sec
 			try {
-				url = new URL(urlString.toString());
-				urlConnection = (HttpURLConnection) url.openConnection();
-				urlConnection.setRequestMethod("GET");
-				urlConnection.setDoOutput(true);
-				urlConnection.setDoInput(true);
-				is = urlConnection.getInputStream();
-				urlConnection.connect();
-			} catch (MalformedURLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				Thread.sleep(500);
+			} catch (InterruptedException e1) {
+				e1.printStackTrace();
 			}
-
-			InputStreamReader inputStream = new InputStreamReader(is);
-			BufferedReader reader = new BufferedReader(inputStream);
-
-			//read from the buffer line by line and save in response (a stringbuider)
-			try{
-				while((line = reader.readLine()) != null){
-					response.append(line);
-				}
-				//Close the reader, stream & connection
-				reader.close();
-				inputStream.close();
-				urlConnection.disconnect();
-			}catch(Exception e) {
-				Log.e("Buffer Error", "Error converting result " + e.toString());
-			}
-
-			jsonResponse = response.toString();
-
-			//convert string to jsonobject and return the object
-			try{
-				Log.e("CheckIN", "hej");
-				returnedJSON = new JSONObject(jsonResponse);
-			}catch(JSONException e){
-
-			}
-			Log.e("CheckIN", "almost finished");
-			return returnedJSON;
 		}
+		
+		parseQueue(returnedJsonObject);
+		
 	}
+	
 
 
 
+/**
+ * @author Kya
+ *Created a new class to connect the program to the external database with the restaurant table and their id:s
+ *Not yet completed.
+ */
 
+	class GetQueue extends AsyncTask<Void, Void, JSONObject> {
+		
 
+	@Override
+	protected JSONObject doInBackground(Void... params) {
+		StringBuilder urlString = new StringBuilder();
+		StringBuilder response = new StringBuilder();
+		InputStream is = null;
+		URL url = null;
+		HttpURLConnection urlConnection = null;
+		String line = null;
+		String jsonResponse = "";
+		
+
+		urlString.append("http://schmaps.scarleo.se/rest.php?");
+		if(entering){
+			urlString.append("&insert=1");
+		}else{
+			urlString.append("&delete=1");
+		}
+		urlString.append("&code=");
+		urlString.append(id);
+		
+		
+		try {
+			url = new URL(urlString.toString());
+			urlConnection = (HttpURLConnection) url.openConnection();
+			urlConnection.setRequestMethod("GET");
+			urlConnection.setDoOutput(true);
+			urlConnection.setDoInput(true);
+			is = urlConnection.getInputStream();
+			urlConnection.connect();
+		} catch (MalformedURLException e) {
+
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		InputStreamReader inputStream = new InputStreamReader(is);
+		BufferedReader reader = new BufferedReader(inputStream);
+
+		//read from the buffer line by line and save in response (a stringbuider)
+		try{
+			while((line = reader.readLine()) != null){
+				response.append(line);
+			}
+			//Close the reader, stream & connection
+			reader.close();
+			inputStream.close();
+			urlConnection.disconnect();
+		}catch(Exception e) {
+			Log.e("Buffer Error", "Error converting result " + e.toString());
+		}
+
+		jsonResponse = response.toString();
+
+		//convert string to jsonobject and return the object
+		try{
+			returnedJSON = new JSONObject(jsonResponse);
+		}catch(JSONException e){
+
+		}
+
+		return returnedJSON;
+	}
+	}
 }
+
+
+

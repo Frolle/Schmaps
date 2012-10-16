@@ -1,5 +1,5 @@
 /*
- * Copyright [2012] [Mei Ha, Martin Augustsson, Simon Fransson]
+ * Copyright [2012] [Mei Ha, Martin Augustsson, Simon Fransson, Emma Dirnberger]
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -12,15 +12,18 @@
    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
    See the License for the specific language governing permissions and
    limitations under the License. 
-   */
+ */
 
 package com.chalmers.schmaps;
 
 import android.R.color;
 
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.LightingColorFilter;
@@ -28,6 +31,7 @@ import android.view.Menu;
 import android.view.View;
 import android.view.View.OnFocusChangeListener;
 import android.widget.Button;
+import android.widget.Toast;
 /**
  * MenuActivity contains buttons on the menu and determine which activity will start
  * when the buttons are pressed.
@@ -74,60 +78,73 @@ public class MenuActivity extends Activity implements View.OnClickListener {
 		bus.setOnClickListener(this);
 	}
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.activity_menu, menu);
-		return true;
-	}
-
 	/**
 	 * onClick method for determining which activity will start through the use of view ID's and
 	 * a switch case to start correct activity with correct variables.
 	 */
 	public void onClick(View v) {
 		switch(v.getId()){
-		
+
 		case R.id.searchHallButton:
 			startMapActivity = new Intent("android.intent.action.GOOGLEMAPSEARCHLOCATION");
 			setActivityString(startMapActivity.getAction());
 			startActivity(startMapActivity);
 			break;
-		
+
 		case R.id.microwaveButton:
 			startMapActivity = new Intent("android.intent.action.CAMPUSMENUACTIVITY");
 			startMapActivity.putExtra("Show locations", MICROWAVEBUTTON);
 			setActivityString(startMapActivity.getAction());
 			startActivity(startMapActivity);
 			break;
-			
+
 		case R.id.findRestaurantsButton:
 			startMapActivity = new Intent("android.intent.action.CAMPUSMENUACTIVITY");
 			startMapActivity.putExtra("Show locations", RESTAURANTBUTTON);
 			setActivityString(startMapActivity.getAction());
 			startActivity(startMapActivity);
 			break;
-			
+
 		case R.id.atmButton:
 			startMapActivity = new Intent("android.intent.action.CAMPUSMENUACTIVITY");
 			startMapActivity.putExtra("Show locations", ATMBUTTON);
 			setActivityString(startMapActivity.getAction());
 			startActivity(startMapActivity);	
 			break;
-			
+
 		case R.id.groupRoomButton:
 			//Start the group room activity
 			startMapActivity = new Intent(this,GroupRoomActivity.class);
 			setActivityString("GroupRoomButton");
 			startActivity(startMapActivity);	
 			break;
-			
+
 
 		case R.id.checkinButton:
-			Intent startCheckIn = new Intent("android.intent.action.CHECKINACTIVITY");
-			startActivity(startCheckIn);
+			if(gotInternetConnection()){
+				startMapActivity = new Intent("android.intent.action.CHECKINACTIVITY");
+				setActivityString(startMapActivity.getAction());
+				startActivity(startMapActivity);
+			}else{
+
+				Context context = getApplicationContext();
+				Toast.makeText(context, "Internet connection needed for this option", Toast.LENGTH_LONG).show();
+			}
 			break;
-			
-			
+
+		case R.id.checkbusButton:
+			if(gotInternetConnection()){
+				startMapActivity = new Intent("android.intent.action.CHECKBUSACTIVITY");
+				setActivityString(startMapActivity.getAction());
+				startActivity(startMapActivity);
+			}
+			else
+			{
+				Context context = getApplicationContext();
+				Toast.makeText(context, "Internet connection needed for this option", Toast.LENGTH_LONG).show();
+			}
+			break;
+
 		}
 	}
 	public String getActivityString() {
@@ -138,6 +155,33 @@ public class MenuActivity extends Activity implements View.OnClickListener {
 		this.activityString = activityString;
 	}
 
+	/**
+	 * Check if the device is connected to internet.
+	 * Need three if-statements because getActiveNetworkInfo() may return null
+	 * and end up with a force close. So thats the last thing to check.
+	 * @return true if there is an internet connection
+	 */
+	public boolean gotInternetConnection()
+	{
+		ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+
+		NetworkInfo wifiNetwork = cm.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+		if (wifiNetwork != null && wifiNetwork.isConnected()) {
+			return true;
+		}
+
+		NetworkInfo mobileNetwork = cm.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+		if (mobileNetwork != null && mobileNetwork.isConnected()) {
+			return true;
+		}
+
+		NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+		if (activeNetwork != null && activeNetwork.isConnected()) {
+			return true;
+		}
+
+		return false;
+	}
 
 
 

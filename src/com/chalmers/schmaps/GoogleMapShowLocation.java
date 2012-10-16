@@ -1,8 +1,29 @@
+/*
+ * Copyright [2012] [Simon Fransson, Martin Augustsson]
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License. 
+ */
 package com.chalmers.schmaps;
 
 
 import java.util.ArrayList;
 import java.util.List;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import com.chalmers.schmaps.SendToDB.GetQueue;
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapController;
@@ -51,6 +72,7 @@ public class GoogleMapShowLocation extends MapActivity {
 	private GeoPoint lindholmenLoc;
 	private GPSPoint gpsPoint;
 	private ArrayList<OverlayItem> locationList;
+	private JSONObject jsonObject, returnedJsonObject;
 	@Override
 	/**
 	 * Method for determining on creation how the map view will be shown, what locations should be drawn
@@ -60,6 +82,7 @@ public class GoogleMapShowLocation extends MapActivity {
 		super.onCreate(savedInstanceState);
 		Bundle setView = getIntent().getExtras();		
 		setContentView(R.layout.activity_strippedmap);
+		connectToDB();
 		assignInstances();
 		//If-check to see if it's Lindholmen or Johannesberg campus
 		if(setView.getInt("Campus")==JOHANNESBERG)
@@ -94,7 +117,7 @@ public class GoogleMapShowLocation extends MapActivity {
  * Draws locations (overlayitems) from specified table.
  * @param table - table containing the locations to be drawn.
  */
-	private void drawLocationList(String table) {
+	public void drawLocationList(String table) {
 		search.openRead();
 		locationList = search.getLocations(table);
 		search.close();
@@ -108,6 +131,7 @@ public class GoogleMapShowLocation extends MapActivity {
 		mapView.postInvalidate();
 		
 	}
+
 
 
 	@Override
@@ -207,6 +231,8 @@ public class GoogleMapShowLocation extends MapActivity {
 		
 		return false;
     }
+    
+    
     /*
      * Method to set the GPSPoints for the restaurants by calling the GPSPoint class
      * where you set a proximity alert on each desired position.
@@ -219,9 +245,49 @@ public class GoogleMapShowLocation extends MapActivity {
 
     }
     
-    private void drawQueue(){
-    	
-    }
-    
+	/*
+	 * Checks how many are queueing by checking the database on the server and returning this in the screen as a dialouge.
+	 */
+	
+	private void drawQueue(){
+
+		int code, nrOfCheckedIn;
+
+		try {
+			JSONArray result = jsonObject.getJSONArray("result");
+			JSONObject numberOfCheckedInPeople;
+
+			//loop through the jsonarray and extract all checked-in points
+			//collect data, create geopoint and add to list of overlays that will be drawn on map
+			for(int count = 0;count<result.length();count++){
+				numberOfCheckedInPeople = result.getJSONObject(count);
+				
+				code = (int) numberOfCheckedInPeople.getInt("code");
+				nrOfCheckedIn = (int)numberOfCheckedInPeople.getInt("number");
+				//code and nrOfCheckedIn need to be saved and somehow send to a database
+
+			}
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	private void connectToDB(){
+		returnedJsonObject = null;
+		SendToDB sender = new SendToDB();
+		GetQueue getQueue = sender.new GetQueue();
+		getQueue.execute();
+		
+		while(returnedJsonObject == null){ //if json object not returned, sleep for 30 sec
+			try {
+				Thread.sleep(500);
+			} catch (InterruptedException e1) {
+				e1.printStackTrace();
+			}
+		}
+		
+		sender.parseQueue(returnedJsonObject);
+		
+	}
 
 }

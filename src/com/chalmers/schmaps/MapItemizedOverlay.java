@@ -34,10 +34,11 @@ import com.google.android.maps.OverlayItem;
  * shows dialogs when user taps on figures in the picture
  *
  */
-public class MapItemizedOverlay extends ItemizedOverlay<OverlayItem> {
+public class MapItemizedOverlay extends ItemizedOverlay<OverlayItem>{
 	
 	private ArrayList<OverlayItem> mOverlays = new ArrayList<OverlayItem>();
 	private Context mContext;
+	private AlertDialog alertDialog;
 	
 	public MapItemizedOverlay(Drawable defaultMarker, Context context) {
 		super(boundCenterBottom(defaultMarker));
@@ -76,10 +77,9 @@ public class MapItemizedOverlay extends ItemizedOverlay<OverlayItem> {
 	 * called when the user taps a figure on the screen, shows a dialog with information about the geopoint
 	 */
 	@Override
-	protected boolean onTap(int index) {
+	public boolean onTap(int index) {
 	  OverlayItem item = mOverlays.get(index);
 	  AlertDialog.Builder builder;
-	  AlertDialog alertDialog;
 	 
 	  LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	  View layout = inflater.inflate(R.layout.room_dialog, null);
@@ -97,11 +97,11 @@ public class MapItemizedOverlay extends ItemizedOverlay<OverlayItem> {
 
 	  // builder.setMessage(item.getSnippet());
       builder.setCancelable(true);
-      
 	  
 	  builder.setView(layout);
 	  alertDialog = builder.create();
 	  alertDialog.setTitle(item.getTitle());
+	  alertDialog.setCanceledOnTouchOutside(true);
 	  alertDialog.show();
 	  
 	  return true;
