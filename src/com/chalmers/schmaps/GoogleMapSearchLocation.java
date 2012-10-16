@@ -49,6 +49,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.res.Configuration;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -89,6 +90,7 @@ public class GoogleMapSearchLocation extends MapActivity implements View.OnClick
 	private PathOverlay pathOverlay;
 	private boolean roomSearched;
 	private Dialog dialog;
+	private String temp;
 	
 	private Bundle bucket;
 	
@@ -113,7 +115,10 @@ public class GoogleMapSearchLocation extends MapActivity implements View.OnClick
 			overlayitemStudent = new OverlayItem(ourLocation, "Hey amigo", "This is your position!");
 			mapItemizedStudent.addOverlay(overlayitemStudent);
 			mapOverlays.add(mapItemizedStudent);
+			
+			
 		}
+
 
 		location_listener = new LocationListener(){
 			/**
@@ -214,14 +219,20 @@ public class GoogleMapSearchLocation extends MapActivity implements View.OnClick
 		criteria = new Criteria(); //deafult criteria
 		bestProvider = location_manager.getBestProvider(criteria, false); //best reception
 		location = location_manager.getLastKnownLocation(bestProvider); //gets last known location from chosen provider
-
+	
 		roomSearched = false;
 
 	}
 	
-	/*
+
+/*	
+	
 	@Override
 	protected void onSaveInstanceState(Bundle outState) {
+		 
+		  outState.putString("temp", roomToFind);
+		  super.onSaveInstanceState(outState);
+		/*
 		ArrayList<Integer> list = new ArrayList<Integer>(); 
 		
 		list.add(ourLocation.getLatitudeE6());
@@ -234,24 +245,22 @@ public class GoogleMapSearchLocation extends MapActivity implements View.OnClick
 		
 		outState.putIntegerArrayList("saved", list);
 		super.onSaveInstanceState(outState);
+		
+		
+		  super.onSaveInstanceState(outState);
+		  outState.putString("temp", roomToFind);
+	   
 	}
-	
+
 	@Override
 	protected void onRestoreInstanceState(Bundle savedInstanceState) {
+		
+		temp = savedInstanceState.getString(roomToFind);
 		super.onRestoreInstanceState(savedInstanceState);
-		bucket = savedInstanceState;
-		ArrayList<Integer> list =savedInstanceState.getIntegerArrayList("saved");
-		GeoPoint geo = new GeoPoint(list.get(0), list.get(1));
-		ourLocation = geo;
-		
-
-		geo = new GeoPoint(list.get(2), list.get(3));
-		roomLocation = geo;
-
-
-		
 	}
 	*/
+	
+	
 
 	public void onClick(View v) {
 		//Removes the key when finish typing

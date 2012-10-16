@@ -83,7 +83,7 @@ public class CheckInActivity extends MapActivity implements View.OnClickListener
 	private OverlayItem overlayitem;
 	private JSONArray result;
 	private boolean running;
-	
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -92,7 +92,7 @@ public class CheckInActivity extends MapActivity implements View.OnClickListener
 		username = "";
 		checkin = false;
 		running = false;
-		
+
 		mapview = (MapView) findViewById(R.id.mapview);
 		mapview.setBuiltInZoomControls(true);
 		mapcon = mapview.getController(); 
@@ -100,20 +100,20 @@ public class CheckInActivity extends MapActivity implements View.OnClickListener
 		checkInButton = (Button) findViewById(R.id.checkinbutton);
 		enterName = (EditText) findViewById(R.id.entername);
 		checkInButton.setOnClickListener(this);
-		
+
 		location_manager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
 		criteria = new Criteria(); //deafult criteria
 		bestProvider = location_manager.getBestProvider(criteria, false); //best reception
 		location = location_manager.getLastKnownLocation(bestProvider); //gets last known location from chosen provider
-		
+
 		if(location != null){ //if there is an provider that provides an location ->continue
 			latitude = (int) (location.getLatitude()*1E6); //get the latitude
 			longitude = (int) (location.getLongitude()*1E6); //get the longitude
 			ourLocation = new GeoPoint(latitude, longitude); //greates an geopoint with our location
-			
+
 			mapcon.animateTo(ourLocation);
 			mapcon.setZoom(17); //zoom level
-			
+
 		}
 
 		location_listener = new LocationListener(){
@@ -145,7 +145,7 @@ public class CheckInActivity extends MapActivity implements View.OnClickListener
 		};
 		connectExternalDatabase();
 	}
-	
+
 	/*********************************************************************
 	 * Creates the object of a new thread and executes it
 	 * Waits the thread to return an jsonobject, sleeps main thread if json object not returned
@@ -163,12 +163,12 @@ public class CheckInActivity extends MapActivity implements View.OnClickListener
 				e1.printStackTrace();
 			}
 		}
-		
+
 		running = true;
-		
+
 		parseJsonAndDraw(returnedJsonObject);
 	}
-	
+
 	/*******************************************************************
 	 * Method parses through in parameter jsonObject and creates an array of geopoints
 	 * each geopoint representing an checked-in person
@@ -180,13 +180,13 @@ public class CheckInActivity extends MapActivity implements View.OnClickListener
 		int lat, lng;
 		String name,time;
 		StringBuffer timebuffer = new StringBuffer();
-		
+
 		overlayList = mapview.getOverlays();
 		checkInDot = this.getResources().getDrawable(R.drawable.chalmersandroid); //drawable
 		mapItemizedCheckIn = new MapItemizedOverlay(checkInDot, this); //mapitemizedoverlay with drawable
-		
+
 		result =null;
-		
+
 		try {
 			result = jsonObject.getJSONArray("result");
 			JSONObject checkedInPerson;
@@ -228,12 +228,12 @@ public class CheckInActivity extends MapActivity implements View.OnClickListener
 
 		username = enterName.getText().toString();
 		username.trim(); //removes white signs
-		username = username.replaceAll("[^[a-zÃ¥Ã¤Ã¶][A-ZÃ…Ã„Ã–][0-9]]",""); //Removes illegal characters to prevent sql injection
+		username = username.replaceAll("[^[a-zåäö][A-ZÅÄÖ][0-9]]",""); //Removes illegal characters to prevent sql injection
 
 		//if the user have not entered a name the name is set to unknown
 		if(username.equals(""))
 			username = "Unknown";
-		
+
 		connectExternalDatabase();
 		checkin =false;
 	}
@@ -244,14 +244,14 @@ public class CheckInActivity extends MapActivity implements View.OnClickListener
 	public String getInputName(){
 		return username;
 	}
-	
+
 	/**
 	 * @return the size of jsonarray returned from string
 	 */
 	public int getSizeOfJsonArray(){
 		return result.length();
 	}
-	
+
 	/**
 	 * 
 	 * @return
@@ -268,7 +268,7 @@ public class CheckInActivity extends MapActivity implements View.OnClickListener
 	 *  http://www.vogella.com/articles/AndroidPerformance/article.html
 	 ********************************************************************************/
 	private class GetCheckIn extends AsyncTask<Void, Void, JSONObject> {
-		
+
 
 
 		/** when called makes a request to google directions api (json format) 
@@ -277,7 +277,7 @@ public class CheckInActivity extends MapActivity implements View.OnClickListener
 		 */
 		@Override
 		protected JSONObject doInBackground(Void... params) {
-			
+
 			StringBuilder urlString = new StringBuilder();
 			StringBuilder response = new StringBuilder();
 			InputStream is = null;
@@ -285,7 +285,7 @@ public class CheckInActivity extends MapActivity implements View.OnClickListener
 			HttpURLConnection urlConnection = null;
 			String line = null;
 			String jsonResponse = "";
-			
+
 			//Create a string with the right start and end position
 			urlString.append("http://schmaps.scarleo.se/schmaps.php?name=");
 			urlString.append(username); //from, your position, latitude
@@ -296,8 +296,8 @@ public class CheckInActivity extends MapActivity implements View.OnClickListener
 			urlString.append("&key=bSJ9B9CFn449QRsXL9qMxW-lc"); //authorization key
 			if(checkin)
 				urlString.append("&insert=1");
-			
-			
+
+
 			//establish a connection with google directions api
 			try {
 				url = new URL(urlString.toString());
@@ -339,10 +339,10 @@ public class CheckInActivity extends MapActivity implements View.OnClickListener
 			}catch(JSONException e){
 
 			}
-			
+
 			return returnedJsonObject;
 		}
-		
+
 	}
 
 
@@ -351,7 +351,7 @@ public class CheckInActivity extends MapActivity implements View.OnClickListener
 		// TODO Auto-generated method stub
 		return false;
 	}
-	
+
 	@Override
 	protected void onPause() {
 		super.onPause();
