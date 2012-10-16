@@ -44,7 +44,8 @@
         <activity
             android:name=".GoogleMapShowLocation"
             android:label="@string/title_map_show_location"
-            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
+            android:configChanges="orientation|screenSize" >
             <intent-filter>
                 <action android:name="android.intent.action.GOOGLEMAPSHOWLOCATION" />
 
@@ -64,10 +65,11 @@
         <activity
             android:name=".GoogleMapSearchLocation"
             android:label="@string/title_map_search_location"
-            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
+            android:configChanges="orientation|screenSize" >
             <intent-filter>
                 <action android:name="android.intent.action.GOOGLEMAPSEARCHLOCATION" />
-
+				
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
