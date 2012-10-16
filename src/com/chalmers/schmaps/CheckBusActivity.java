@@ -111,49 +111,69 @@ public class CheckBusActivity extends Activity implements View.OnClickListener {
 		GetDepatures getDepatures = new GetDepatures();
 		getDepatures.execute();
 		parseDataToArrays();
+		makeChalmersRows();
+		makeLindholmenRows();
 
-		for(int n = 0; n<2; n++){
-			for(int i = 0; i<NROFROWS; i++){ 
-				TableRow tempTableRow = new TableRow(this);
-				tempTableRow.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.WRAP_CONTENT));
-				tempTableRow.setBackgroundColor(Color.GRAY);
-				for(int j = 0; j<4; j++){
-					TextView textview = new TextView(this);
-					textview.setTextColor(Color.BLACK);
-					if(j == 0){
-						if(n == 0)
-							textview.setText(chalmersLineArray.get(i));
-						if(n == 1)
-							textview.setText(lindholmenLineArray.get(i));
-					}else if(j == 1){
-						if(n == 0)
-							textview.setText(chalmersDestArray.get(i));
-						if(n == 1)
-							textview.setText(lindholmenDestArray.get(i));
-					}else if(j == 2){
-						if(n == 0)
-							textview.setText(chalmersTimeArray.get(i));
-			 			if(n == 1)
-							textview.setText(lindholmenTimeArray.get(i));
-					}else if(j == 3){
-						if(n == 0)
-							textview.setText(chalmersTrackArray.get(i));
-						if(n == 1)
-							textview.setText(lindholmenTrackArray.get(i));
-					}
+	}
 
-					textview.setGravity(Gravity.CENTER_HORIZONTAL);
-					tempTableRow.addView(textview);
-				}
-				if(n==0){
-					chalmersTable.addView(tempTableRow, new TableLayout.LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.WRAP_CONTENT));
-				}
-				else if(n==1){
-					lindholmenTable.addView(tempTableRow, new TableLayout.LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.WRAP_CONTENT));	
-				}
+	public void makeChalmersRows(){
+		for(int i = 0; i<NROFROWS; i++){ 
+			TableRow tempTableRow = new TableRow(this);
+			tempTableRow.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.WRAP_CONTENT));
+			if(i%2 == 0){
+				tempTableRow.setBackgroundColor(Color.LTGRAY);
+			}else{
+				tempTableRow.setBackgroundColor(Color.WHITE);
 			}
+
+			for(int j = 0; j<4; j++){
+				TextView textview = new TextView(this);
+				textview.setTextColor(Color.BLACK);
+				if(j == 0){
+					textview.setText(chalmersLineArray.get(i));
+				}else if(j == 1){
+					textview.setText(chalmersDestArray.get(i));
+				}else if(j == 2){
+					textview.setText(chalmersTimeArray.get(i));
+				}else if(j == 3){
+					textview.setText(chalmersTrackArray.get(i));
+				}
+				textview.setGravity(Gravity.CENTER_HORIZONTAL);
+				tempTableRow.addView(textview);
+			}
+			chalmersTable.addView(tempTableRow, new TableLayout.LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.WRAP_CONTENT));
 		}
 	}
+
+	public void makeLindholmenRows(){
+		for(int i = 0; i<NROFROWS; i++){ 
+			TableRow tempTableRow = new TableRow(this);
+			tempTableRow.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.WRAP_CONTENT));
+			if(i%2 == 0){
+				tempTableRow.setBackgroundColor(Color.LTGRAY);
+			}else{
+				tempTableRow.setBackgroundColor(Color.WHITE);
+			}
+
+			for(int j = 0; j<4; j++){
+				TextView textview = new TextView(this);
+				textview.setTextColor(Color.BLACK);
+				if(j == 0){
+					textview.setText(lindholmenLineArray.get(i));
+				}else if(j == 1){
+					textview.setText(lindholmenDestArray.get(i));
+				}else if(j == 2){
+					textview.setText(lindholmenTimeArray.get(i));
+				}else if(j == 3){
+					textview.setText(lindholmenTrackArray.get(i));
+				}
+				textview.setGravity(Gravity.CENTER_HORIZONTAL);
+				tempTableRow.addView(textview);
+			}
+			lindholmenTable.addView(tempTableRow, new TableLayout.LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.WRAP_CONTENT));
+		}
+	}
+
 
 	/**
 	 * Refreshes the tables when clicking on the refresh button. 
