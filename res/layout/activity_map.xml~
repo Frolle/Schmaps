@@ -1,4 +1,4 @@
-<!--   Copyright [2012] [Dina Zuko, Simon Fransson] -->
+<!--   Copyright [2012] [] -->
 
 <!--    Licensed under the Apache License, Version 2.0 (the "License"); -->
 <!--    you may not use this file except in compliance with the License. -->
@@ -18,7 +18,6 @@
     	android:layout_width="match_parent"
     	android:layout_height="wrap_content"
     	android:orientation="vertical">
-<!-- This is a comment --> 
     	
     	<LinearLayout
    			android:id="@+id/lineLayETBT"
@@ -49,7 +48,7 @@
     		android:id="@+id/mapview"
     		android:layout_width="fill_parent"
     		android:layout_height="fill_parent"
-		android:apiKey="0LIGr976PR9ieBmFbnTRqglKcTUEtXIukD5Xv4g"
+    		android:apiKey="0LIGr976PR9ieBmFbnTRqglKcTUEtXIukD5Xv4g"
     		android:clickable="true"
     		tools:context=".GoogleMapSearchLocation"
     		android:layout_below="@+id/lineLayETBT"

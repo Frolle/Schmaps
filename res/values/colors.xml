@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="white">#a0f5f5dc</color>
+    <color name="white">#FFFFFF</color>
     <color name="midnight_blue">#b0191970</color>
     <color name="transp_purple">#b08700eb</color>
     <color name="light_transp_blue">#B087ceeb</color>

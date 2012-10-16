@@ -22,7 +22,6 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
-import android.util.Log;
 
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapView;
@@ -35,6 +34,7 @@ import com.google.android.maps.Projection;
 public class PathOverlay extends Overlay {
 	
 	private ArrayList<GeoPoint> geoList;
+	int index;
 	
 	
 	public PathOverlay(ArrayList<GeoPoint> geoPointList){
@@ -68,7 +68,7 @@ public class PathOverlay extends Overlay {
 		paint.setAlpha(100);
 		
 		//loops through the geopoint, convert from lat,lng to pixels and draw path on canvas
-		for(int index = 0; index<(geoList.size()-1);index++){
+		for(index = 0; index<(geoList.size()-1);index++){
 			startGeopoint = geoList.get(index);
 			projection.toPixels(startGeopoint, startPoint);
 			
@@ -83,5 +83,20 @@ public class PathOverlay extends Overlay {
 			//draws lines from geopoint to geopoint
 			canvas.drawLine(startLat, startLong, destLat, destLong, paint);	
 		}
+	}
+	
+	/**
+	 * @return the size of the arraylist<Geopoints>
+	 */
+	public int getSize(){
+		return geoList.size();
+	}
+	
+	/**
+	 * 
+	 * @return the size of the index, used 
+	 */
+	public int getIndexSize(){
+		return index;
 	}
 }

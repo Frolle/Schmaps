@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright [2012] [Martin Augustsson] -->
+
+<!-- Licensed under the Apache License, Version 2.0 (the "License"); -->
+<!-- you may not use this file except in compliance with the License. -->
+<!-- You may obtain a copy of the License at -->
+
+<!-- http://www.apache.org/licenses/LICENSE-2.0 -->
+
+<!-- Unless required by applicable law or agreed to in writing, software -->
+<!-- distributed under the License is distributed on an "AS IS" BASIS, -->
+<!-- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. -->
+<!-- See the License for the specific language governing permissions and -->
+<!-- limitations under the License. -->
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:padding="10dip">
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal"
+        android:orientation="vertical" >
+
+        <ScrollView
+            android:id="@+id/scrollView1"
+            android:layout_width="fill_parent"
+            android:layout_height="200dp" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" >
+
+                <TableLayout
+                    android:id="@+id/ChalmersTable"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" >
+
+                    <TableRow
+                        android:id="@+id/ChalmersTopRow"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/white"
+                        android:orientation="horizontal"
+                        android:padding="5dip"
+                        android:weightSum="100" >
+
+                        <TextView
+                            android:id="@+id/busTitle"
+                            android:layout_marginRight="5sp"
+                            android:text="Buss"
+                            android:textSize="18sp" />
+
+                        <TextView
+                            android:id="@+id/destTitle"
+                            android:layout_marginRight="5sp"
+                            android:text="Destination"
+                            android:textSize="18sp" />
+
+                        <TextView
+                            android:id="@+id/departureTitle"
+                            android:layout_marginRight="5sp"
+                            android:text="Departure"
+                            android:textSize="18sp" />
+
+                        <TextView
+                            android:id="@+id/trackTitle"
+                            android:layout_marginRight="5sp"
+                            android:text="Track"
+                            android:textSize="18sp" />
+                    </TableRow>
+                </TableLayout>
+            </LinearLayout>
+        </ScrollView>
+
+        <ScrollView
+            android:id="@+id/scrollView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+
+                <TableLayout
+                    android:id="@+id/LindholmenTable"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" >
+
+                    <TableRow
+                        android:id="@+id/LindholmenTopRow"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@color/white"
+                        android:orientation="horizontal"
+                        android:padding="5dip"
+                        android:weightSum="100" >
+
+                        <TextView
+                            android:id="@+id/busTitle2"
+                            android:layout_marginRight="5sp"
+                            android:text="Buss"
+                            android:textSize="18sp" />
+
+                        <TextView
+                            android:id="@+id/destTitle2"
+                            android:layout_marginRight="5sp"
+                            android:text="Destination"
+                            android:textSize="18sp" />
+
+                        <TextView
+                            android:id="@+id/departureTitle2"
+                            android:layout_marginRight="5sp"
+                            android:text="Departure"
+                            android:textSize="18sp" />
+
+                        <TextView
+                            android:id="@+id/trackTitle2"
+                            android:layout_marginRight="5sp"
+                            android:text="Track"
+                            android:textSize="18sp" />
+                    </TableRow>
+                </TableLayout>
+            </LinearLayout>
+        </ScrollView>
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/refreshbutton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:text="refresh"
+        android:textSize="14dp" />
+
+</RelativeLayout>
