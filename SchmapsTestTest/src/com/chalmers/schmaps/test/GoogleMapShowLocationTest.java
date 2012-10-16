@@ -44,7 +44,7 @@ public class GoogleMapShowLocationTest extends
 	private static final int SIZEOFMICROWAVETABLE = 9;
 	private static final int SIZEOFRESTAURANTTABLE = 34;
 	private static final int SIZEOFATMTABLE = 4;
-	private static final int SIZEOFROOMSTABLE = 263;
+	//private static final int SIZEOFROOMSTABLE = 263; Test not currently used because of taking too much time
 	
 	
 	public GoogleMapShowLocationTest() {
@@ -116,7 +116,6 @@ public class GoogleMapShowLocationTest extends
 //		assertEquals(SIZEOFROOMSTABLE, overlay.size());
 //	}
 	
-	@Override
 	public void tearDown() throws Exception{
 		super.tearDown();
 	}

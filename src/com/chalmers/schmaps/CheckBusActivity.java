@@ -23,16 +23,12 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import com.google.android.maps.GeoPoint;
-
-
 import android.app.Activity;
-import android.graphics.Canvas;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -42,7 +38,6 @@ import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -54,23 +49,22 @@ import android.widget.TextView;
 
 public class CheckBusActivity extends Activity implements View.OnClickListener {
 
-	private static int NROFROWS = 5;
-	private static String TAG = "CheckBusActivity";
-	private static String chalmersURL = "http://api.vasttrafik.se/bin/rest.exe/v1/departureBoard?authKey=2443e74a-b1cd-466a-a4e2-72ac982a62df&format=json&id=9021014001960000&direction=9021014004490000";
-	private static String lindholmenURL= "http://api.vasttrafik.se/bin/rest.exe/v1/departureBoard?authKey=2443e74a-b1cd-466a-a4e2-72ac982a62df&format=json&id=9021014004490000&direction=9021014001960000";
+	private static final int NROFROWS = 5;
+	private static final String chalmersURL = "http://api.vasttrafik.se/bin/rest.exe/v1/departureBoard?authKey=2443e74a-b1cd-466a-a4e2-72ac982a62df&format=json&id=9021014001960000&direction=9021014004490000";
+	private static final String lindholmenURL= "http://api.vasttrafik.se/bin/rest.exe/v1/departureBoard?authKey=2443e74a-b1cd-466a-a4e2-72ac982a62df&format=json&id=9021014004490000&direction=9021014001960000";
 
 	private JSONObject[] returnedJsonObject;
 	private TableLayout lindholmenTable;
 	private TableLayout chalmersTable;
-	private ArrayList<String> chalmersLineArray;
-	private ArrayList<String> chalmersDestArray;
-	private ArrayList<String> chalmersTimeArray;
-	private ArrayList<String> chalmersTrackArray;
+	private List<String> chalmersLineArray;
+	private List<String> chalmersDestArray;
+	private List<String> chalmersTimeArray;
+	private List<String> chalmersTrackArray;
 
-	private ArrayList<String> lindholmenLineArray;
-	private ArrayList<String> lindholmenDestArray;
-	private ArrayList<String> lindholmenTimeArray;
-	private ArrayList<String> lindholmenTrackArray;
+	private List<String> lindholmenLineArray;
+	private List<String> lindholmenDestArray;
+	private List<String> lindholmenTimeArray;
+	private List<String> lindholmenTrackArray;
 	private Button refreshButton;
 
 	@Override
@@ -117,49 +111,69 @@ public class CheckBusActivity extends Activity implements View.OnClickListener {
 		GetDepatures getDepatures = new GetDepatures();
 		getDepatures.execute();
 		parseDataToArrays();
+		makeChalmersRows();
+		makeLindholmenRows();
 
-		for(int n = 0; n<2; n++){
-			for(int i = 0; i<NROFROWS; i++){ 
-				TableRow tempTableRow = new TableRow(this);
-				tempTableRow.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.WRAP_CONTENT));
-				tempTableRow.setBackgroundColor(Color.GRAY);
-				for(int j = 0; j<4; j++){
-					TextView textview = new TextView(this);
-					textview.setTextColor(Color.BLACK);
-					if(j == 0){
-						if(n == 0)
-							textview.setText(chalmersLineArray.get(i));
-						if(n == 1)
-							textview.setText(lindholmenLineArray.get(i));
-					}else if(j == 1){
-						if(n == 0)
-							textview.setText(chalmersDestArray.get(i));
-						if(n == 1)
-							textview.setText(lindholmenDestArray.get(i));
-					}else if(j == 2){
-						if(n == 0)
-							textview.setText(chalmersTimeArray.get(i));
-			 			if(n == 1)
-							textview.setText(lindholmenTimeArray.get(i));
-					}else if(j == 3){
-						if(n == 0)
-							textview.setText(chalmersTrackArray.get(i));
-						if(n == 1)
-							textview.setText(lindholmenTrackArray.get(i));
-					}
+	}
 
-					textview.setGravity(Gravity.CENTER_HORIZONTAL);
-					tempTableRow.addView(textview);
-				}
-				if(n==0){
-					chalmersTable.addView(tempTableRow, new TableLayout.LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.WRAP_CONTENT));
-				}
-				else if(n==1){
-					lindholmenTable.addView(tempTableRow, new TableLayout.LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.WRAP_CONTENT));	
-				}
+	public void makeChalmersRows(){
+		for(int i = 0; i<NROFROWS; i++){ 
+			TableRow tempTableRow = new TableRow(this);
+			tempTableRow.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.WRAP_CONTENT));
+			if(i%2 == 0){
+				tempTableRow.setBackgroundColor(Color.LTGRAY);
+			}else{
+				tempTableRow.setBackgroundColor(Color.WHITE);
 			}
+
+			for(int j = 0; j<4; j++){
+				TextView textview = new TextView(this);
+				textview.setTextColor(Color.BLACK);
+				if(j == 0){
+					textview.setText(chalmersLineArray.get(i));
+				}else if(j == 1){
+					textview.setText(chalmersDestArray.get(i));
+				}else if(j == 2){
+					textview.setText(chalmersTimeArray.get(i));
+				}else if(j == 3){
+					textview.setText(chalmersTrackArray.get(i));
+				}
+				textview.setGravity(Gravity.CENTER_HORIZONTAL);
+				tempTableRow.addView(textview);
+			}
+			chalmersTable.addView(tempTableRow, new TableLayout.LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.WRAP_CONTENT));
 		}
 	}
+
+	public void makeLindholmenRows(){
+		for(int i = 0; i<NROFROWS; i++){ 
+			TableRow tempTableRow = new TableRow(this);
+			tempTableRow.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.WRAP_CONTENT));
+			if(i%2 == 0){
+				tempTableRow.setBackgroundColor(Color.LTGRAY);
+			}else{
+				tempTableRow.setBackgroundColor(Color.WHITE);
+			}
+
+			for(int j = 0; j<4; j++){
+				TextView textview = new TextView(this);
+				textview.setTextColor(Color.BLACK);
+				if(j == 0){
+					textview.setText(lindholmenLineArray.get(i));
+				}else if(j == 1){
+					textview.setText(lindholmenDestArray.get(i));
+				}else if(j == 2){
+					textview.setText(lindholmenTimeArray.get(i));
+				}else if(j == 3){
+					textview.setText(lindholmenTrackArray.get(i));
+				}
+				textview.setGravity(Gravity.CENTER_HORIZONTAL);
+				tempTableRow.addView(textview);
+			}
+			lindholmenTable.addView(tempTableRow, new TableLayout.LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.WRAP_CONTENT));
+		}
+	}
+
 
 	/**
 	 * Refreshes the tables when clicking on the refresh button. 

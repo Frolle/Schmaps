@@ -18,10 +18,8 @@ package com.chalmers.schmaps;
 
 import android.os.Bundle;
 import android.app.Activity;
-import android.view.Menu;
 import android.view.MotionEvent;
 import android.content.Intent;
-import android.view.Menu;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;

@@ -1,4 +1,4 @@
-<!--   Copyright [2012] [Mei Ha, Emma Dirnberger, Simon Fransson] -->
+<!--   Copyright [2012] [] -->
 
 <!--    Licensed under the Apache License, Version 2.0 (the "License"); -->
 <!--    you may not use this file except in compliance with the License. -->
@@ -15,7 +15,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/chalmerslogo_portrait"
+    android:background="@drawable/chalmerslogo_landscape"
     android:gravity="center"
     >
 	<LinearLayout 
