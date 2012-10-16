@@ -22,7 +22,7 @@ Dokumentation mm
 
 
 
-Sprint backlog 1
+Sprint backlog 1 - läsvecka 3
 #         Features                                    Timmar
 -------------------------------------------------------------------------------
 
@@ -35,7 +35,7 @@ Sprint backlog 1
 
 
 
-Sprint backlog 2
+Sprint backlog 2 - läsvecka 4
 #         Features                                    Timmar
 -------------------------------------------------------------------------------
 
@@ -50,28 +50,47 @@ Sprint backlog 2
 
 
 
-Sprint backlog 3
+Sprint backlog 3 - läsvecka 5
 #         Features                                    Timmar
 -------------------------------------------------------------------------------
 
-1     Layout(alla menyer) helt klar             	3         
-2     Testning TDD                       		40
-3     Databaser(Salar,datasalar,micro,grupprum) 	13                   
-4.    Dokumentation i kod(javadoc)          		2
-5.    Check-in                               		22
+1     Layout(alla menyer) helt klar             	3  -påbörjat       
+2     Testning TDD                       		40 -påbörjat
+3     Databaser(Salar,datasalar,micro,grupprum) 	13 -klar                   
+4.    Dokumentation i kod(javadoc)          		2  -klar
+5.    Check-in                               		22 -test kvar
 6.    Möte m.m    					20
 
-Sprint backlog 4
+
+
+Sprint backlog 4 - läsvecka 6
 
 #         Features                		      Timmar
 -------------------------------------------------------------------------------
 
-1	 Mikrovågsugn					8 	   
-2	 Restauranger (Johanneberg, LIndholmen)	        3   	
-3	 Testning (Junit, acceptancetester)		30		
-4.	 Layout						2					
-5.	 Västtrafik		 		        20	
-6.       Check-In					10	
-7.	 Jenkins					4	
-8. 	 APK signed keystore				3	
+1	 Mikrovågsugn					8  -klar  
+2	 Restauranger (Johanneberg, LIndholmen)	        3  -klar
+3	 Testning (Junit, acceptancetester)		30 -fler tester behövs	
+4.	 Layout				      		2  -klar	
+5.	 Västtrafik		 		        20 -test kvar + layout
+6.       Check-In					10 -påbörjat
+7.	 Jenkins					4  -klar(autobuild)
+8. 	 APK signed keystore				3  -klar
 9.  	 Möte, handledning mm	
+
+
+
+Sprint backlog 5 - läsvecka 7
+
+#         Features                		      Timmar
+-------------------------------------------------------------------------------
+
+1	GPSPoint					20	
+2	Testning					13
+3 	Buggar						8
+4	Dokument					30
+5 	Redovisning					5
+6	Västtrafik					3
+7	Möte, handledning mm				20
+
+	
