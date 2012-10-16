@@ -17,6 +17,7 @@
 package com.chalmers.schmaps;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -33,8 +34,8 @@ import com.google.android.maps.Projection;
  */
 public class PathOverlay extends Overlay {
 	
-	private ArrayList<GeoPoint> geoList;
-	int index;
+	private List<GeoPoint> geoList;
+	private int index;
 	
 	
 	public PathOverlay(ArrayList<GeoPoint> geoPointList){

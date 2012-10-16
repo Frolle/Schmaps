@@ -15,20 +15,9 @@
  */
 package com.chalmers.schmaps.test;
 
-import java.io.SequenceInputStream;
-
 import com.chalmers.schmaps.GoogleMapSearchLocation;
-import com.chalmers.schmaps.R;
 import com.chalmers.schmaps.SearchSQL;
-import com.google.android.maps.MapView;
-
-import android.content.Context;
 import android.test.ActivityInstrumentationTestCase2;
-import android.test.AndroidTestCase;
-import android.test.InstrumentationTestCase;
-import android.widget.Button;
-import android.widget.EditText;
-
 /**
  * Test class for testing the SQL class. Different test cases tests so that the
  * get methods get the proper data from the database given an already known query.
@@ -38,8 +27,8 @@ import android.widget.EditText;
 public class SearchSQLTest extends ActivityInstrumentationTestCase2<GoogleMapSearchLocation> {
 	private static final int RETURNVALUEIFNOTFOUND = 0;
 	private SearchSQL tester;
-	GoogleMapSearchLocation activity;
-	String theTestValue = "runan";
+	private GoogleMapSearchLocation activity;
+	private String theTestValue = "runan";
 	
 	public SearchSQLTest()
 	{

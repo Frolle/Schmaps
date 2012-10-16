@@ -17,9 +17,10 @@
 package com.chalmers.schmaps;
 
 import java.util.ArrayList;
+import java.util.List;
+
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,7 +37,7 @@ import com.google.android.maps.OverlayItem;
  */
 public class MapItemizedOverlay extends ItemizedOverlay<OverlayItem>{
 	
-	private ArrayList<OverlayItem> mOverlays = new ArrayList<OverlayItem>();
+	private List<OverlayItem> mOverlays = new ArrayList<OverlayItem>();
 	private Context mContext;
 	private AlertDialog alertDialog;
 	

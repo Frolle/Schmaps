@@ -17,12 +17,9 @@ package com.chalmers.schmaps.test;
 
 import com.chalmers.schmaps.MenuActivity;
 import com.chalmers.schmaps.R;
-import android.content.Intent;
-import android.graphics.Color;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.TouchUtils;
 import android.view.KeyEvent;
-import android.view.View;
 import android.widget.Button;
 
 /**
@@ -123,7 +120,6 @@ public class MenuActivityTest extends ActivityInstrumentationTestCase2<MenuActiv
 		this.sendKeys(KeyEvent.KEYCODE_BACK);
 	}
 
-	@Override
 	public void tearDown() throws Exception{
 		super.tearDown();
 	}

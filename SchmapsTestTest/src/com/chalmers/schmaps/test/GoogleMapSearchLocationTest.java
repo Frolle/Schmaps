@@ -18,7 +18,6 @@ package com.chalmers.schmaps.test;
 import java.lang.reflect.Field;
 import java.util.*;
 
-import junit.framework.Assert;
 
 import com.chalmers.schmaps.GoogleMapSearchLocation;
 import com.chalmers.schmaps.MapItemizedOverlay;
@@ -31,9 +30,6 @@ import android.view.KeyEvent;
 import android.app.Dialog;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.TouchUtils;
-import android.test.ViewAsserts;
-import android.text.style.SuperscriptSpan;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 /**
@@ -44,7 +40,7 @@ import android.widget.EditText;
  */
 public class GoogleMapSearchLocationTest extends ActivityInstrumentationTestCase2<GoogleMapSearchLocation> {
 	
-	GoogleMapSearchLocation activity;
+	private GoogleMapSearchLocation activity;
 	private Button editButton;
 	private EditText lectureEdit;
 	private MapView mapview;
@@ -67,7 +63,6 @@ public class GoogleMapSearchLocationTest extends ActivityInstrumentationTestCase
 		this.mapview = (MapView) this.activity.findViewById(R.id.mapview);
 	}
 	
-	@Override
 	protected void tearDown() throws Exception {
 		// TODO Auto-generated method stub
 		super.tearDown();
