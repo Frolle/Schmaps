@@ -33,7 +33,7 @@
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
 	        android:layout_alignParentTop="true"
-	        android:hint="@string/enterRoom"
+	        android:hint="Touch to enter lecture hall!"
 	        tools:context=".GoogleMapSearchLocation" />
 
 	    <Button
@@ -44,6 +44,7 @@
 	        android:text="@string/edit_button"
 	        tools:context=".GoogleMapSearchLocation" />
 	    </LinearLayout>
+	    
 		<com.google.android.maps.MapView 
     		xmlns:tools="http://schemas.android.com/tools"
     		android:id="@+id/mapview"
@@ -54,12 +55,13 @@
     		tools:context=".GoogleMapSearchLocation"
     		android:layout_below="@+id/lineLayETBT"
     		 />
-		<Button
-	        android:id="@+id/directionbutton"
+		
+	    <Button
+	        android:id="@+id/testbutton"
 	        android:layout_width="fill_parent"
 	        android:layout_height="wrap_content"
 	        android:layout_alignParentBottom="true"
-	        android:text="@string/directions"
+	        android:text="Get Directions"
 	        tools:context=".GoogleMapSearchLocation" />
     	
 	    </RelativeLayout>	
