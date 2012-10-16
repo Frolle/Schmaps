@@ -92,9 +92,7 @@ public class SendToDB extends BroadcastReceiver {
 			}
 		} catch (JSONException e) {
 			e.printStackTrace();
-		}		
-
-		
+		}			
 	}
 	
 	/**
@@ -113,8 +111,7 @@ public class SendToDB extends BroadcastReceiver {
 			}
 		}
 		
-		parseQueue(returnedJsonObject);
-		
+		parseQueue(returnedJsonObject);	
 	}
 	
 	/**
