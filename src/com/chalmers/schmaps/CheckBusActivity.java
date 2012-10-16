@@ -23,16 +23,13 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.google.android.maps.GeoPoint;
-
-
 import android.app.Activity;
-import android.graphics.Canvas;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -42,7 +39,6 @@ import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -62,15 +58,15 @@ public class CheckBusActivity extends Activity implements View.OnClickListener {
 	private JSONObject[] returnedJsonObject;
 	private TableLayout lindholmenTable;
 	private TableLayout chalmersTable;
-	private ArrayList<String> chalmersLineArray;
-	private ArrayList<String> chalmersDestArray;
-	private ArrayList<String> chalmersTimeArray;
-	private ArrayList<String> chalmersTrackArray;
+	private List<String> chalmersLineArray;
+	private List<String> chalmersDestArray;
+	private List<String> chalmersTimeArray;
+	private List<String> chalmersTrackArray;
 
-	private ArrayList<String> lindholmenLineArray;
-	private ArrayList<String> lindholmenDestArray;
-	private ArrayList<String> lindholmenTimeArray;
-	private ArrayList<String> lindholmenTrackArray;
+	private List<String> lindholmenLineArray;
+	private List<String> lindholmenDestArray;
+	private List<String> lindholmenTimeArray;
+	private List<String> lindholmenTrackArray;
 	private Button refreshButton;
 
 	@Override
@@ -122,19 +118,26 @@ public class CheckBusActivity extends Activity implements View.OnClickListener {
 
 	}
 
+	/**
+	 * Makes the rows for the chalmerstable
+	 */
 	public void makeChalmersRows(){
 		for(int i = 0; i<NROFROWS; i++){ 
 			TableRow tempTableRow = new TableRow(this);
 			tempTableRow.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.WRAP_CONTENT));
+			
+			// Makes every other row light gray or white
 			if(i%2 == 0){
 				tempTableRow.setBackgroundColor(Color.LTGRAY);
 			}else{
 				tempTableRow.setBackgroundColor(Color.WHITE);
 			}
 
+			//Makes every textview for each column and add it before starting with a new one
 			for(int j = 0; j<4; j++){
 				TextView textview = new TextView(this);
 				textview.setTextColor(Color.BLACK);
+				//Check which content should be written in the textview
 				if(j == 0){
 					textview.setText(chalmersLineArray.get(i));
 				}else if(j == 1){
@@ -151,19 +154,26 @@ public class CheckBusActivity extends Activity implements View.OnClickListener {
 		}
 	}
 
+	/**
+	 * Makes the rows for the lindholmentable
+	 */
 	public void makeLindholmenRows(){
 		for(int i = 0; i<NROFROWS; i++){ 
 			TableRow tempTableRow = new TableRow(this);
 			tempTableRow.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.WRAP_CONTENT));
+			
+			// Makes every other row light gray or white
 			if(i%2 == 0){
 				tempTableRow.setBackgroundColor(Color.LTGRAY);
 			}else{
 				tempTableRow.setBackgroundColor(Color.WHITE);
 			}
 
+			//Makes every textview for each column and add it before starting with a new one 
 			for(int j = 0; j<4; j++){
 				TextView textview = new TextView(this);
 				textview.setTextColor(Color.BLACK);
+				//Check which content should be written in the textview
 				if(j == 0){
 					textview.setText(lindholmenLineArray.get(i));
 				}else if(j == 1){
@@ -173,6 +183,7 @@ public class CheckBusActivity extends Activity implements View.OnClickListener {
 				}else if(j == 3){
 					textview.setText(lindholmenTrackArray.get(i));
 				}
+				
 				textview.setGravity(Gravity.CENTER_HORIZONTAL);
 				tempTableRow.addView(textview);
 			}
@@ -210,16 +221,21 @@ public class CheckBusActivity extends Activity implements View.OnClickListener {
 				e1.printStackTrace();
 			}
 		}
+		
+		//Run two times, one for data for chalmerstable and second for lindholmentable
 		for(int i=0;i<2;i++){
+			
 			try {
 				JSONObject departureBoard = returnedJsonObject[i].getJSONObject("DepartureBoard");
 				JSONArray departureArray = departureBoard.getJSONArray("Departure");
+				
 				for(int count = 0;count<departureArray.length();count++){
 					JSONObject depature = departureArray.getJSONObject(count);
 					String line = depature.getString("name");
 					String destination = depature.getString("direction");
 					String time = depature.getString("rtTime");
 					String track = depature.getString("track");
+					
 					if(i == 0){
 						chalmersLineArray.add(line);
 						chalmersDestArray.add(destination);
