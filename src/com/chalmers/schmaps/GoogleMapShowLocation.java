@@ -109,6 +109,7 @@ public class GoogleMapShowLocation extends MapActivity implements View.OnClickLi
 			
 		case RESTAURANTBUTTON:
 			drawLocationList(DB_RESTAURANTTABLE);
+			break;
 		
 		case MICROWAVEBUTTON:
 			drawLocationList(DB_MICROWAVETABLE);
