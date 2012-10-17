@@ -18,6 +18,8 @@ If you choose to run the application on the emulator your also a special AVD Man
 
 To be able to run the tests you need to import them to your Schmaps project. Click File -> Import -> General -> Existing Project into Workspace. A new window will open and you will see a field called "Select root dictionary". Press browse and navigate to your Schmaps directory, open the SchmapsTestTest and press OK. Select it and press Finish. Clean the project before you continue. You need to run the tests on your phone for them to work and your screen need to be lid up. 
 
+You can also take a look at our UML diagram where you can see the connections between all activities in this application. You can find it in our doc folder in github. 
+
 Good luck!
 
 
