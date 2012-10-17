@@ -192,6 +192,9 @@ public class GoogleMapSearchLocationTest extends ActivityInstrumentationTestCase
 		assertEquals(true,activity.getIsAsyncTaskRunning());
 	}
 	
+	/**
+	 * Tests that the getdirectionsbutton is working, that the asynctask method has executed
+	 */
 	public void testDirectionsButton(){
 		TouchUtils.tapView(this, this.lectureEdit);
 		super.sendKeys("R U N A N ");
