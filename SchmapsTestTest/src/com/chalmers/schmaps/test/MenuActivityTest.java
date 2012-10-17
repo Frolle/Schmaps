@@ -25,8 +25,10 @@ import com.chalmers.schmaps.MenuActivity;
 import com.chalmers.schmaps.R;
 import com.jayway.android.robotium.solo.Solo;
 
+import android.R.menu;
 import android.content.Context;
 import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.wifi.WifiManager;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.TouchUtils;
@@ -42,7 +44,9 @@ import android.widget.Button;
 public class MenuActivityTest extends ActivityInstrumentationTestCase2<MenuActivity> {
 	private Button searchHall, groupRoom,atmButton,microwaveButton,findRestaurantsButton;
 	private MenuActivity menuActivity;
-	private Solo solo;	private WifiManager wifiManager;
+	private Solo solo;	
+	private WifiManager wifiManager;
+	private ConnectivityManager connectivityManager;
 	public MenuActivityTest() {
 		super(MenuActivity.class);
 	}
@@ -61,6 +65,8 @@ public class MenuActivityTest extends ActivityInstrumentationTestCase2<MenuActiv
 		atmButton = (Button) menuActivity.findViewById(R.id.atmButton);
 		microwaveButton = (Button) menuActivity.findViewById(R.id.microwaveButton);
 		findRestaurantsButton = (Button) menuActivity.findViewById(R.id.findRestaurantsButton);
+		//connectivityManager =(ConnectivityManager)menuActivity.getSystemService(Context.CONNECTIVITY_SERVICE);
+		
 	}
 	
 	public void testPreConditions(){
@@ -125,20 +131,25 @@ public class MenuActivityTest extends ActivityInstrumentationTestCase2<MenuActiv
 	 * See test comments for test above.
 	 */
 	public void testCheckInButton(){
+		//Wait for mobile data to be enabled again.
+		NetworkInfo mobileNetwork = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+		while(!mobileNetwork.isConnected())
+		super.getInstrumentation().waitForIdleSync();
 		solo.clickOnButton("Check In");
 		super.getInstrumentation().waitForIdleSync();
 		solo.assertCurrentActivity("Wrong class", CheckInActivity.class);
-		this.sendKeys(KeyEvent.KEYCODE_BACK);
-		//Set to Airplane Mode for simulating no internet
+		super.getInstrumentation().waitForIdleSync();
+		solo.goBack();
+		//Toggle the internet off for affirming the Toast coming forth.
 		toggleInternetConnection(menuActivity, false);
 		super.getInstrumentation().waitForIdleSync();
 		solo.clickOnButton("Check In");
 		super.getInstrumentation().waitForIdleSync();
 		//If current activity still is MenuActivity then test was successful, since
 		//CheckinActivity shouldn't be started if internet connection is missing.
-		solo.assertCurrentActivity("Wrong class", MenuActivity.class);
+		assertTrue(solo.waitForText("Internet connection needed for this option"));
+		assertTrue(solo.searchText("Internet connection needed for this option"));
 		toggleInternetConnection(menuActivity, true);
-		super.getInstrumentation().waitForIdleSync();
 	}
 
 	/**
@@ -148,76 +159,50 @@ public class MenuActivityTest extends ActivityInstrumentationTestCase2<MenuActiv
 		solo.clickOnButton("Check Buses");
 		super.getInstrumentation().waitForIdleSync();
 		solo.assertCurrentActivity("Wrong class", CheckBusActivity.class);
-		this.sendKeys(KeyEvent.KEYCODE_BACK);
-		//Set to Airplane Mode for simulating no internet
+		solo.goBack();
+		super.getInstrumentation().waitForIdleSync();
+		//Toggle the internet off for affirming the Toast coming forth.
 		toggleInternetConnection(menuActivity, false);
 		super.getInstrumentation().waitForIdleSync();
 		solo.clickOnButton("Check Buses");
-		super.getInstrumentation().waitForIdleSync();
-		//If current activity still is MenuActivity then test was successful, since
-		//CheckinActivity shouldn't be started if internet connection is missing.
-		solo.assertCurrentActivity("Wrong class", MenuActivity.class);
+		//Use solo to assert the text of the Toast that occurs at loss of internet.
+		assertTrue(solo.waitForText("Internet connection needed for this option"));
+		assertTrue(solo.searchText("Internet connection needed for this option"));
 		toggleInternetConnection(menuActivity, true);
 		super.getInstrumentation().waitForIdleSync();
-
 	}
 
 	/**
 	 * Method to toggle both wifi and mobile data on/off. Uses reflection to access the
 	 * toggling for mobile data since it's hidden from the developer API, but still accessible
-	 * through reflection. Throws a variety of error because of the reflection, disclaimer found below.
-	 *  ClassNotFoundException - thrown if class for iConnectivitiyManager is not found.
-	 *  NoSuchFieldException  - thrown if the field of mobile service is not found.
-	 *  IllegalAccessException - thrown if it's not possible to gain access of iConnectivityManager.
-	 *  IllegalArgumentException - thrown if wrong argument is parsed to the method.
-	 *  NoSuchMethodException  - thrown if the method of setMobileDataEnabled is not found.
-	 *  InvocationTargetException - thrown if the target of the toggleMobileData is not found.
-
+	 * through reflection.
 	 * @param context - the test activity to use the function of toggling internet access.
+	 * @param toggle - turn on/off.
 	 */
 	public void toggleInternetConnection(Context context, boolean toggle){
-		//Assert the iConnectivityManager to be able to access mobile data on/off toggling, reflection is used
-		//since it's a hidden class from the API.
-		try{
-		final ConnectivityManager connectvityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-		final Class connectvityManagerClass = Class.forName(connectvityManager.getClass().getName());
-		//Getting the field of iConnectivityManager that holds the mobile data service and setting it accessible.
-		final Field iConnectivityManagerField = connectvityManagerClass.getDeclaredField("mService");
-		iConnectivityManagerField.setAccessible(true);
-		//Getting the actual class to the iConnectivityManager.
-		final Object iConnectivityManager = iConnectivityManagerField.get(connectvityManager);
-		final Class iConnectivityManagerClass = Class.forName(iConnectivityManager.getClass().getName());
-		//Getting the method from iConnectivityManager to be able to toggle mobile data on/off.
-		final Method toggleMobileData = iConnectivityManagerClass.getDeclaredMethod("setMobileDataEnabled", Boolean.TYPE);
-		toggleMobileData.setAccessible(true);
-		toggleMobileData.invoke(iConnectivityManager, toggle);
-		}
-		
-		catch(ClassNotFoundException e){
-			e.printStackTrace();
-		}
-		catch(NoSuchFieldException e){
-			e.printStackTrace();
-		}
-		catch (IllegalAccessException e){
-			e.printStackTrace();
-		}
-		catch(IllegalArgumentException e){
-			e.printStackTrace();
-		}
-		catch(NoSuchMethodException e){
-			e.printStackTrace();
-		}
-		catch(InvocationTargetException e){
-			e.printStackTrace();
-		}
-		
-		//Then toggle wifi on or off.
-		wifiManager = (WifiManager) menuActivity.getSystemService(Context.WIFI_SERVICE);
-		wifiManager.setWifiEnabled(toggle);
+		//Assert the ConnectivityManager to be able to access mobile data on/off toggling, reflection is used
+		//since it's a hidden method from the API.
+			ConnectivityManager iConnectivityManager = (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
+			Method toggleDataEnabled;
+			try {
+				toggleDataEnabled = ConnectivityManager.class.getDeclaredMethod("setMobileDataEnabled", boolean.class);
+				toggleDataEnabled.setAccessible(true);
+				toggleDataEnabled.invoke(iConnectivityManager, toggle); 
+			} catch (NoSuchMethodException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IllegalArgumentException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (InvocationTargetException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 	}
 	public void tearDown() throws Exception{
 		super.tearDown();
 	}
-	
 }
