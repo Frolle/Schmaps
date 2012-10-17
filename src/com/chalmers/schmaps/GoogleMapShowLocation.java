@@ -84,7 +84,6 @@ public class GoogleMapShowLocation extends MapActivity implements View.OnClickLi
 		super.onCreate(savedInstanceState);
 		Bundle setView = getIntent().getExtras();		
 		setContentView(R.layout.activity_strippedmap);
-		connectToDB();
 		assignInstances();
 		//If-check to see if it's Lindholmen or Johannesberg campus
 		if(setView.getInt("Campus")==JOHANNESBERG){
@@ -235,6 +234,7 @@ public class GoogleMapShowLocation extends MapActivity implements View.OnClickLi
      */
     private void getQueue(){
     	int id = 1;
+    	connectToDB();
     	for(OverlayItem item: locationList){
     	gpsPoint.setGPSPoints(item.getPoint().getLongitudeE6(), item.getPoint().getLatitudeE6(), id++);	//set the proximity alert of the spot on the (long, lat) place
     	}
@@ -289,7 +289,6 @@ public class GoogleMapShowLocation extends MapActivity implements View.OnClickLi
 	public void onClick(View v) {
 		
 		if(v == queueButton){
-			connectToDB();
 			getQueue();
 		}
 		
