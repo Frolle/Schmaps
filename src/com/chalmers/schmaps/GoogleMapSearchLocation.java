@@ -12,7 +12,7 @@
    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
    See the License for the specific language governing permissions and
    limitations under the License. 
-   */
+ */
 
 package com.chalmers.schmaps;
 
@@ -51,9 +51,6 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -66,7 +63,7 @@ import android.widget.Toast;
  *********************************************************/
 public class GoogleMapSearchLocation extends MapActivity implements View.OnClickListener {
 
-	private Button editButton;
+	private Button editButton, directionsButton;
 	private EditText lectureEdit;
 
 	private GeoPoint ourLocation, roomLocation;
@@ -83,17 +80,21 @@ public class GoogleMapSearchLocation extends MapActivity implements View.OnClick
 	private int longitude;
 	private int latitude;
 	private JSONObject jsonObject;
-	
+
 	private OverlayItem overlayitemStudent, overlayItemRoom;
 	private Drawable room, student;
 	private MapController mapcon;
 	private PathOverlay pathOverlay;
 	private boolean roomSearched;
 	private Dialog dialog;
-	private String temp;
+
+
+	private ArrayList<GeoPoint> geoList;
+
 	
-	private Bundle bucket;
-	
+	private boolean running;
+
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -103,14 +104,14 @@ public class GoogleMapSearchLocation extends MapActivity implements View.OnClick
 		if(location != null){ //if there is an provider that provides an location ->continue
 			latitude = (int) (location.getLatitude()*1E6); //get the latitude
 			longitude = (int) (location.getLongitude()*1E6); //get the longitude
-			
+
 
 			ourLocation = new GeoPoint(latitude, longitude); //greates an geopoint with our location
-			
+
 			mapcon = mapView.getController(); 
 			mapcon.animateTo(ourLocation);
 			mapcon.setZoom(18); //zoom level
-			
+
 			//creates a MapItemizedOverlay-object and adds it to the list mapOverlays
 			overlayitemStudent = new OverlayItem(ourLocation, "Hey amigo", "This is your position!");
 			mapItemizedStudent.addOverlay(overlayitemStudent);
@@ -137,34 +138,22 @@ public class GoogleMapSearchLocation extends MapActivity implements View.OnClick
 			}
 
 			public void onProviderDisabled(String arg0) {
-				// TODO Auto-generated method stub
-				
+
 			}
 
 			public void onProviderEnabled(String provider) {
-				// TODO Auto-generated method stub
-				
+
 			}
 
 			public void onStatusChanged(String provider, int status,
 					Bundle extras) {
-				// TODO Auto-generated method stub
-				
+
 			}
 
 		};
 
 		search = new SearchSQL(GoogleMapSearchLocation.this); //creates a SQLLite object
 		search.createDatabase(); //creates an database
-	}
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		super.onCreateOptionsMenu(menu);
-		MenuInflater showMenu = getMenuInflater();
-		showMenu.inflate(R.menu.searchmenu, menu);
-		return true;
-		
 	}
 
 	@Override
@@ -182,18 +171,12 @@ public class GoogleMapSearchLocation extends MapActivity implements View.OnClick
 	protected void onResume() {
 		super.onResume();
 		try {
-			//if(bucket.containsKey("saved")){
-				
-			//}
-			// Register the listener with the Location Manager to receive
-			// location updates
-			//location_manager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 10, location_listener);
 			location_manager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000, 10, location_listener);
 		}
 		catch (Exception e) {
 		}
 	}
-	
+
 	/**
 	 *  method is called from onCreate() and it initiates the variables
 	 *  used in GoogleMapSearchLocation
@@ -208,146 +191,113 @@ public class GoogleMapSearchLocation extends MapActivity implements View.OnClick
 		student = this.getResources().getDrawable(R.drawable.chalmersandroid);
 		mapItemizedRoom = new MapItemizedOverlay(room, this);
 		mapItemizedStudent = new MapItemizedOverlay(student, this);
-		
+
 		editButton = (Button) findViewById(R.id.edittextbutton);
+		directionsButton = (Button) findViewById(R.id.directionbutton);
 		lectureEdit = (EditText) findViewById(R.id.edittextlecture);
 		editButton.setOnClickListener(this);
-		
-		bucket = new Bundle();
-		
+		directionsButton.setOnClickListener(this);
+
 		location_manager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
 		criteria = new Criteria(); //deafult criteria
 		bestProvider = location_manager.getBestProvider(criteria, false); //best reception
 		location = location_manager.getLastKnownLocation(bestProvider); //gets last known location from chosen provider
 	
 		roomSearched = false;
+		running = false;
 
 	}
-	
+	 
 
-/*	
-	
-	@Override
-	protected void onSaveInstanceState(Bundle outState) {
-		 
-		  outState.putString("temp", roomToFind);
-		  super.onSaveInstanceState(outState);
-		/*
-		ArrayList<Integer> list = new ArrayList<Integer>(); 
-		
-		list.add(ourLocation.getLatitudeE6());
-		list.add(ourLocation.getLongitudeE6());
 
-		if(roomLocation!=null){
-		list.add(roomLocation.getLatitudeE6());
-		list.add(roomLocation.getLatitudeE6());
-		}
-		
-		outState.putIntegerArrayList("saved", list);
-		super.onSaveInstanceState(outState);
-		
-		
-		  super.onSaveInstanceState(outState);
-		  outState.putString("temp", roomToFind);
-	   
-	}
-
-	@Override
-	protected void onRestoreInstanceState(Bundle savedInstanceState) {
-		
-		temp = savedInstanceState.getString(roomToFind);
-		super.onRestoreInstanceState(savedInstanceState);
-	}
-	*/
-	
-	
-
+	/**
+	 * If the enter button is clicked a room search is done
+	 * If the get directions button is pressed you get the path drawn on map
+	 * but you have to search for a room first
+	 */
 	public void onClick(View v) {
-		//Removes the key when finish typing
-		InputMethodManager imm = (InputMethodManager)getSystemService(
-				Context.INPUT_METHOD_SERVICE);
-		imm.hideSoftInputFromWindow(lectureEdit.getWindowToken(), 0);
-
-		//removes the path drawn if there is one
-		mapOverlays.remove(pathOverlay);
+		switch(v.getId()){
 		
-		//removes the dot that point to a previous room found
-		mapOverlays.remove(mapItemizedRoom);
+		case R.id.edittextbutton:
+			//Removes the key when finish typing
+			InputMethodManager imm = (InputMethodManager)getSystemService(
+					Context.INPUT_METHOD_SERVICE);
+			imm.hideSoftInputFromWindow(lectureEdit.getWindowToken(), 0);
+			//removes the path drawn if there is one
+			mapOverlays.remove(pathOverlay);
+			//removes the dot that point to a previous room found
+			mapOverlays.remove(mapItemizedRoom);
+			roomToFind = lectureEdit.getText().toString();
+			roomToFind.toLowerCase().trim(); //removes white signs and converts to lower case
+			roomToFind = roomToFind.replaceAll("[^[a-zåäö][A-ZÅÄÖ][0-9]]",""); //Removes illegal characters to prevent sql injection
+			search.openRead(); //open database in read mode
+			//if we find room show room on map, if not show dialog 
+			if(search.exists(roomToFind)){
+				roomLocation = new GeoPoint(search.getLat(roomToFind),search.getLong(roomToFind)); //create a geopoint
+				mapcon = mapView.getController();
+				mapcon.animateTo(roomLocation);
+				mapcon.setZoom(18); //zoom level
+				overlayItemRoom = new OverlayItem(roomLocation, search.getAddress(roomToFind), 
+						search.getLevel(roomToFind)); //address and level is shown in the dialog
+				mapItemizedRoom.removeOverlay();
+				mapItemizedRoom.addOverlay(overlayItemRoom);
+				mapOverlays.add(mapItemizedRoom);
+				mapView.postInvalidate();
+				roomSearched = true; //now someone has searched for a room, set the boolean to true
+			}else{
+				//dilaog pops up if room not found
+				dialog = new Dialog(GoogleMapSearchLocation.this);
+				dialog.setTitle("Sorry, can not find the room :(");
+				dialog.setCanceledOnTouchOutside(true);
+				dialog.show();
+			}
+			search.close(); //close database
+			break;
 		
-		roomToFind = lectureEdit.getText().toString();
-		roomToFind.toLowerCase().trim(); //removes white signs and converts to lower case
-
-		roomToFind = roomToFind.replaceAll("[^[a-zåäö][A-ZÅÄÖ][0-9]]",""); //Removes illegal characters to prevent sql injection
-
-
-		
-		search.openRead(); //open database in read mode
-		
-		//if we find room show room on map, if not show dialog 
-		if(search.exists(roomToFind)){
-			roomLocation = new GeoPoint(search.getLat(roomToFind),search.getLong(roomToFind)); //create a geopoint
-			mapcon = mapView.getController();
-			mapcon.animateTo(roomLocation);
-			mapcon.setZoom(18); //zoom level
-			overlayItemRoom = new OverlayItem(roomLocation, search.getAddress(roomToFind), 
-					search.getLevel(roomToFind)); //address and level is shown in the dialog
-
-			mapItemizedRoom.removeOverlay();
-			mapItemizedRoom.addOverlay(overlayItemRoom);
-			mapOverlays.add(mapItemizedRoom);
-			mapView.postInvalidate();
-			roomSearched = true; //now someone has searched for a room, set the boolean to true
-
-		}else{
-			//dilaog pops up if room not found
-			dialog = new Dialog(GoogleMapSearchLocation.this);
-			dialog.setTitle("Sorry, can not find the room :(");
-			dialog.setCanceledOnTouchOutside(true);
-			dialog.show();
-		}
-		search.close(); //close database
-
-	}
-
-	/*******************************
-	 * Called when user presses the get directions button
-	 ***********************************/
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		
-		switch(item.getItemId()){
-		
-		case R.id.getdir:
+		case R.id.directionbutton:
+			Log.e("roomsearched", "in");
 			//if there there is roomLocation then search for a path
 			//if not a roomLocation then the user has not searched for a room, do not give directions
-			if(roomSearched){ 
-				if(gotInternetConnection()){
-				walkningDirections ();
-				roomSearched = false;
+			if(gotInternetConnection()){ 
+				Log.e("roomsearched", "inin");
+				if(roomSearched){
+					walkningDirections ();
+					roomSearched = false;
+				}else{
+					Context context = getApplicationContext();
+					Toast.makeText(context, "Search for a room first to get directions", Toast.LENGTH_LONG).show();	
 				}
 			}else
 			{
 				Context context = getApplicationContext();
 				Toast.makeText(context, "Internet connection needed for this option", Toast.LENGTH_LONG).show();
 			}
-		}
+
+			break;
 		
-		return false;
+		}
+
+
 	}
-	
+
+	/**
+	 * @return the size of geoList with geopoints used to draw path
+	 */
+	public int returnNrOfGeopoints(){
+		return geoList.size();
+	}
+
+
+
 	/***********************************************
 	 * creates a new thread (from where we get the directions) and calls it
 	 * waits for the new thread to return a json object
-	 * when json object returned parse it and extract directions
+	 * when json object returned parse it and extract directions in parseJson()
 	 ********************************************/
-private void walkningDirections (){
-		
-		JSONObject step,start_location,end_location;
-		int srcLat,srcLng,destLat,destLng;
-		GeoPoint geo;
-		ArrayList<GeoPoint> geoList = new ArrayList<GeoPoint>();
+	public void walkningDirections (){
+
 		jsonObject = null;
-		
+
 		GetDirections directions = new GetDirections();
 		directions.execute(); //the method doInBackground() in GetDirections is executed
 
@@ -357,20 +307,38 @@ private void walkningDirections (){
 			} catch (InterruptedException e1) {
 				e1.printStackTrace();
 			}
-		}
 
+		}
+		
+		running = true;
+
+		parseJson(jsonObject);
+	}
+
+	/**
+	 * Parses json response from google directions api
+	 * @param returnedJson
+	 */
+	public void parseJson(JSONObject returnedJson){
+
+		JSONObject step,start_location,end_location;
+		int srcLat,srcLng,destLat,destLng;
+		GeoPoint geo;
+		geoList = new ArrayList<GeoPoint>();
 
 		try {
-			JSONArray routes = jsonObject.getJSONArray("routes");
+			JSONArray routes = returnedJson.getJSONArray("routes");
 			JSONObject route = routes.getJSONObject(0);
 			// Take all legs from the route
 			JSONArray legs = route.getJSONArray("legs");
 			// Grab first leg
 			JSONObject leg = legs.getJSONObject(0);
 			//Grab all the steps from the led
-			JSONArray steps = leg.getJSONArray("steps");;
+			JSONArray steps = leg.getJSONArray("steps");
+
 
 			for(int count = 0;count<steps.length();count++){
+				Log.e("Json", "b");
 				//the json returns start and end for each step, we only want one geopoint of each position
 				//that is why we only get the start once and then get the end
 				// we add the geopoint to an array of geopoints
@@ -389,7 +357,7 @@ private void walkningDirections (){
 				geo = new GeoPoint(destLat,destLng);
 				geoList.add(count+1, geo);
 			}
-			
+
 			//creata an overlay and canvas so we can draw the path
 			pathOverlay = new PathOverlay(geoList);
 			Canvas canvas = new Canvas();
@@ -406,15 +374,25 @@ private void walkningDirections (){
 		}
 
 	}
+	
 
-/** this innerclass creates a new thread from where we can make a request
- *  to google directions api - to get the directions
- * 	inspired by
- *  http://www.vogella.com/articles/AndroidPerformance/article.html
- */
+	/**
+	 * @return true if the doinbackground() in asynktask has executed
+	 */
+	public boolean getIsAsyncTaskRunning(){
+		return running;
+	}
+
+
+
+	/** this innerclass creates a new thread from where we can make a request
+	 *  to google directions api - to get the directions
+	 * 	inspired by
+	 *  http://www.vogella.com/articles/AndroidPerformance/article.html
+	 */
 	private class GetDirections extends AsyncTask<Void, Void, JSONObject> {
-		
- 
+
+
 		/** when called makes a request to google directions api (json format) 
 		 *  gets the response back
 		 *  convertes the response to a jsonobject
@@ -437,7 +415,7 @@ private void walkningDirections (){
 			urlString.append("&destination=");// to, where you are going
 			urlString.append(Double.toString((double) roomLocation.getLatitudeE6() / 1.0E6)); //latitude
 			urlString.append(",");
-			urlString.append(Double.toString((double) roomLocation.getLongitudeE6() / 1.0E6)); //ongitude
+			urlString.append(Double.toString((double) roomLocation.getLongitudeE6() / 1.0E6)); //longitude
 			urlString.append("&sensor=false&avoid=highways&mode=walking"); //we want the walking directions
 
 
@@ -451,10 +429,8 @@ private void walkningDirections (){
 				is = urlConnection.getInputStream();
 				urlConnection.connect();
 			} catch (MalformedURLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 
@@ -476,7 +452,6 @@ private void walkningDirections (){
 			}
 
 			jsonResponse = response.toString();
-			//Log.e("json", jsonResponse); //print out jsonresponse
 
 			//convert string to jsonobject and return the object
 			try{
@@ -487,7 +462,7 @@ private void walkningDirections (){
 			return jsonObject;
 		}
 	}
-	
+
 	/**
 	 * Check if the device is connected to internet.
 	 * Need three if-statements because getActiveNetworkInfo() may return null

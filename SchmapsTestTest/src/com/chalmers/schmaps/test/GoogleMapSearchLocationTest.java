@@ -18,7 +18,11 @@ package com.chalmers.schmaps.test;
 import java.lang.reflect.Field;
 import java.util.*;
 
-import junit.framework.Assert;
+
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 
 import com.chalmers.schmaps.GoogleMapSearchLocation;
 import com.chalmers.schmaps.MapItemizedOverlay;
@@ -31,9 +35,6 @@ import android.view.KeyEvent;
 import android.app.Dialog;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.TouchUtils;
-import android.test.ViewAsserts;
-import android.text.style.SuperscriptSpan;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 /**
@@ -44,7 +45,7 @@ import android.widget.EditText;
  */
 public class GoogleMapSearchLocationTest extends ActivityInstrumentationTestCase2<GoogleMapSearchLocation> {
 	
-	GoogleMapSearchLocation activity;
+	private GoogleMapSearchLocation activity;
 	private Button editButton;
 	private EditText lectureEdit;
 	private MapView mapview;
@@ -67,7 +68,6 @@ public class GoogleMapSearchLocationTest extends ActivityInstrumentationTestCase
 		this.mapview = (MapView) this.activity.findViewById(R.id.mapview);
 	}
 	
-	@Override
 	protected void tearDown() throws Exception {
 		// TODO Auto-generated method stub
 		super.tearDown();
@@ -79,6 +79,8 @@ public class GoogleMapSearchLocationTest extends ActivityInstrumentationTestCase
 		super.assertNotNull(lectureEdit);
 		super.assertNotNull(activity);
 	}
+	
+	
 	/**
 	 * Searches for a room that is known to exist in the database and tests
 	 * that what is drawn on the map has the same attributes as the one that
@@ -105,6 +107,7 @@ public class GoogleMapSearchLocationTest extends ActivityInstrumentationTestCase
 		assertEquals("Floor 1",tempTestOverlay.getItem(0).getSnippet());
 	}
 	
+	
 	/**
 	 * Tests that a dialog is shown if a room is not found by querying for
 	 * something that does not exist within the database and confirms that
@@ -129,6 +132,7 @@ public class GoogleMapSearchLocationTest extends ActivityInstrumentationTestCase
 		assertTrue(showingDialog.isShowing());
 	}
 	
+	
 	/**
 	 * Makes sure that the regex function works as intended by 
 	 * inserting spaces and special characters into the query
@@ -151,5 +155,19 @@ public class GoogleMapSearchLocationTest extends ActivityInstrumentationTestCase
 			e.printStackTrace();
 		}
 		assertEquals("runan", roomToFindString);
+	}
+	
+	/**
+	 * Tests if walkingDirections parses the jsonobject in the right way
+	 * @throws JSONException
+	 */
+	public void testWalkingDirections() throws JSONException{
+
+		String jsonresponse = "{\"routes\" : [{\"legs\" : [{\"steps\" : [{\"end_location\" : {\"lat\" : 57.715350,\"lng\" : 11.999310},\"start_location\" : {\"lat\" : 57.715450,\"lng\" : 11.999690},},{\"end_location\" : {\"lat\" : 57.714780,\"lng\" : 11.999840},\"start_location\" : {\"lat\" : 57.715350,\"lng\" : 11.999310},},{\"end_location\" : {\"lat\" : 57.714380,\"lng\" : 11.996780},\"start_location\" : {\"lat\" : 57.714780,\"lng\" : 11.999840},},{\"end_location\" : {\"lat\" : 57.714220,\"lng\" : 11.996910},\"start_location\" : {\"lat\" : 57.714380,\"lng\" : 11.996780},}],}],}],}";
+		JSONObject jsonobject = new JSONObject(jsonresponse);
+
+		//activity.walkningDirections(jsonobject);
+
+		assertEquals(4,activity.returnNrOfGeopoints());
 	}
 }

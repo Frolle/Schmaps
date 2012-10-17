@@ -33,7 +33,7 @@
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
 	        android:layout_alignParentTop="true"
-	        android:hint="Touch to enter lecture hall!"
+	        android:hint="@string/enterRoom"
 	        tools:context=".GoogleMapSearchLocation" />
 
 	    <Button
@@ -54,5 +54,12 @@
     		tools:context=".GoogleMapSearchLocation"
     		android:layout_below="@+id/lineLayETBT"
     		 />
+		<Button
+	        android:id="@+id/directionbutton"
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	        android:layout_alignParentBottom="true"
+	        android:text="@string/directions"
+	        tools:context=".GoogleMapSearchLocation" />
     	
 	    </RelativeLayout>	

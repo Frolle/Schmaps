@@ -29,7 +29,6 @@ public class GroupRoomActivityTest extends ActivityInstrumentationTestCase2<Grou
 		this.groupRoomActivity = super.getActivity();		
 	}
 
-	@Override
 	protected void tearDown() throws Exception {
 		super.tearDown();
 	}

@@ -87,20 +87,9 @@ public class CheckInActivity extends MapActivity implements View.OnClickListener
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_checkin);
-		returnedJsonObject = null;
-		username = "";
-		checkin = false;
-		running = false;
 
-		mapview = (MapView) findViewById(R.id.mapview);
-		mapview.setBuiltInZoomControls(true);
-		mapcon = mapview.getController(); 
-
-		checkInButton = (Button) findViewById(R.id.checkinbutton);
-		enterName = (EditText) findViewById(R.id.entername);
-		checkInButton.setOnClickListener(this);
-
+		assignInstances(); //assigns variables used in this class
+		
 		location_manager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
 		criteria = new Criteria(); //deafult criteria
 		bestProvider = location_manager.getBestProvider(criteria, false); //best reception
@@ -123,18 +112,14 @@ public class CheckInActivity extends MapActivity implements View.OnClickListener
 			public void onLocationChanged(Location loc) { 
 				latitude = (int) (location.getLatitude()*1E6); //get the latitude
 				longitude = (int) (location.getLongitude()*1E6); //get the longitude
-
 				ourLocation = new GeoPoint(latitude, longitude); //greates an geopoint with our location
-
 			}
 
 			public void onProviderDisabled(String provider) {
-				// TODO Auto-generated method stub
 
 			}
 
 			public void onProviderEnabled(String provider) {
-				// TODO Auto-generated method stub
 
 			}
 
@@ -146,6 +131,29 @@ public class CheckInActivity extends MapActivity implements View.OnClickListener
 		connectExternalDatabase();
 	}
 
+	
+	
+	/**
+	 * assigns variables used in this class
+	 */
+	public void assignInstances(){
+		
+		setContentView(R.layout.activity_checkin);
+		returnedJsonObject = null;
+		username = "";
+		checkin = false;
+		running = false;
+		
+		mapview = (MapView) findViewById(R.id.mapview);
+		mapview.setBuiltInZoomControls(true);
+		mapcon = mapview.getController(); 
+
+		checkInButton = (Button) findViewById(R.id.checkinbutton);
+		enterName = (EditText) findViewById(R.id.entername);
+		checkInButton.setOnClickListener(this);
+		
+	}
+	
 	/*********************************************************************
 	 * Creates the object of a new thread and executes it
 	 * Waits the thread to return an jsonobject, sleeps main thread if json object not returned
@@ -228,7 +236,7 @@ public class CheckInActivity extends MapActivity implements View.OnClickListener
 
 		username = enterName.getText().toString();
 		username.trim(); //removes white signs
-		username = username.replaceAll("[^[a-zåäö][A-ZÅÄÖ][0-9]]",""); //Removes illegal characters to prevent sql injection
+		username = username.replaceAll("[^[a-zï¿½ï¿½ï¿½][A-Zï¿½ï¿½ï¿½][0-9]]",""); //Removes illegal characters to prevent sql injection
 
 		//if the user have not entered a name the name is set to unknown
 		if(username.equals(""))
@@ -254,7 +262,7 @@ public class CheckInActivity extends MapActivity implements View.OnClickListener
 
 	/**
 	 * 
-	 * @return
+	 * @return true if the goinbackground method in getcheckin has executed
 	 */
 	public boolean getIsAsyncTaskRunning(){
 		return running;
@@ -268,8 +276,6 @@ public class CheckInActivity extends MapActivity implements View.OnClickListener
 	 *  http://www.vogella.com/articles/AndroidPerformance/article.html
 	 ********************************************************************************/
 	private class GetCheckIn extends AsyncTask<Void, Void, JSONObject> {
-
-
 
 		/** when called makes a request to google directions api (json format) 
 		 *  gets the response back
@@ -308,10 +314,8 @@ public class CheckInActivity extends MapActivity implements View.OnClickListener
 				is = urlConnection.getInputStream();
 				urlConnection.connect();
 			} catch (MalformedURLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 
@@ -348,7 +352,6 @@ public class CheckInActivity extends MapActivity implements View.OnClickListener
 
 	@Override
 	protected boolean isRouteDisplayed() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 

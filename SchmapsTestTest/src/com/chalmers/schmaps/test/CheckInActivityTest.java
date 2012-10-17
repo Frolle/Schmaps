@@ -16,18 +16,13 @@
 
 package com.chalmers.schmaps.test;
 
-import java.util.List;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.chalmers.schmaps.CheckInActivity;
-import com.chalmers.schmaps.GoogleMapSearchLocation;
-import com.chalmers.schmaps.MapItemizedOverlay;
 import com.chalmers.schmaps.R;
-import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapView;
-import com.google.android.maps.Overlay;
 
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.TouchUtils;
@@ -38,7 +33,7 @@ import android.widget.EditText;
 public class CheckInActivityTest extends ActivityInstrumentationTestCase2<CheckInActivity> {
 
 
-	CheckInActivity activity;
+	private CheckInActivity activity;
 	private Button checkInButton;
 	private EditText nameEdit;
 	private MapView mapview;
@@ -59,7 +54,6 @@ public class CheckInActivityTest extends ActivityInstrumentationTestCase2<CheckI
 		this.mapview = (MapView) this.activity.findViewById(R.id.mapview);
 	}
 	
-	@Override
 	protected void tearDown() throws Exception {
 		// TODO Auto-generated method stub
 		activity.finish();
