@@ -1,5 +1,7 @@
-Id 		Title 		Description 				Pre-conditions		Steps					Result 					
-1		Lecture 	When you click on the button 			7		1. Start Application			1. Application window with buttons is shown.
+Id 		Title 		Description 				Pre-conditions		Steps					Result 	
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+				
+1		Lecture 	When you click on the button 			7		1. Start Application			1. Application window with buttons is shown, after an intro.
 				"search lecture hall", you should 		8		2. Press the Lecture Hall Button	2. Lecture Hall Button simulates a "click".
 				get to a menu where you can type 				3. Type lecture hall into textfield	A new window with a Googlemap will be shown
 				in the desired lecture hall and 				4. Press Enter				with an editable field along with a button.
@@ -7,33 +9,33 @@ Id 		Title 		Description 				Pre-conditions		Steps					Result
 																	4. The button simulates a click and an
 																	inzoomed Googlemap will be shown which shows
 																	the desired lecture hall with a mark, if it
-																	does not exist, a error message will be shown.
+																	does not exist, an error message will be shown.
 
-2		Micros		When you click on the "show micros"		8		1. Start Application			1. Application window with buttons will show up.
+2		Micros		When you click on the "show micros"		8		1. Start Application			1. Application window with buttons will show up, after an intro.
 				button, a menu where you can choose		7		2. Press the Micro Button		2. Micro Button will simulate a click, a new
 				either Lindholmen or Johanneberg will		9		3. Press the campus button		window with two buttons will show up.
-				turn up. When you've chosen the campus									3. The chosen button simulates a click and a
+				turn up. When you've chosen the campus		10							3. The chosen button simulates a click and a
 				a map with all micros will be shown									Googlemap, zoomed in to match the specified 
 				on that campus.												campus will show up with all micros marked.
 							
-3		Restaurants	When you press the "show restaurants"		8		1. Start Application			1. Application window with buttons will show up.	
+3		Restaurants	When you press the "show restaurants"		8		1. Start Application			1. Application window with buttons will show up, , after an intro.	
 				button, you get to choose campus and		7		2. Press the restaurant button		2. Restaurant Button will simulate a click, a new
 				a map with the restaurants location		9		3. Press on the desired campus button	window with two buttons will show up.
-				on that campus will be shown.										3. The chosen button simulates a click and a
+				on that campus will be shown.			10							3. The chosen button simulates a click and a
 																	Googlemap, zoomed in to match the specified
 																	campus will show up with all restaurants marked.
 
-4		Studyroom	When you press the "book studyroom"		8		1. Start Application			1. Application window with buttons will show up.
+4		Studyroom	When you press the "book studyroom"		8		1. Start Application			1. Application window with buttons will show up, after an intro.
 				button you will be transfered to		7		2. Press button				2. The button simulates a click and time-edit
 				time-edit where you can book a										will be shown where you can book grouprooms.
 				studyroom.
 
-5		ATMs		A function where you can see all		8		1. Start Application			1. Application window with buttons will show up.			
+5		ATMs		A function where you can see all		8		1. Start Application			1. Application window with buttons will show up, after an intro.			
 				ATMs on the campuses.				7		2. Press the ATMS button		2. The button simulates a click and a
 										9		3. Press on the desired campus button	Googlemap, zoomed in to match the specified 
-																	campus will show up with all ATM's marked.
+										10							campus will show up with all ATM's marked.
 
-6		Check In	You can log into a database located		8		1. Start Application			1. Application window with buttons will show up.
+6		Check In	You can log into a database located		8		1. Start Application			1. Application window with buttons will show up, after an intro.
 				on a server to see where you and other		7		2. Press Check in button		2. The button simulates a click and a Googlemap
 				logged in persons are.						3. Enter name into textfield		with a textfield and a button will appear.
 												4. Press Enter				3. You should be able to type in a text into the
@@ -43,12 +45,53 @@ Id 		Title 		Description 				Pre-conditions		Steps					Result
 																	who have used this function.
 
 
-7   		Menu Buttons	When you start the application, the 		8		1. Start the Application		1. The application starts and a menu shows up
-				buttons for each functions with their				2. Press Button				2. A "click" will appear on the button.
-				names on should appear.
+7   		Menu Buttons	When you start the application, the 		8		1. Start the Application		1. The application starts, an intro is displayed, and a menu shows up.
+				buttons for each functions with their				2. Buttons				2. The buttons will appear 
+				names on should appear.											
 
-8	Start Application	You start the application and an intro				1.Start The Application			1. When you start the application an intro will  
+8	Start Application	You start the application and an intro				1. Start The Application		1. When you start the application an intro will  
 				screen is shown before directing you 									appear before the actual screen shows up.
 				to the application-screen.	
 
-9.
+9		Campus Menu	When you've pressed a buttons which needs	8		1. Start The Application		1. Application window with buttons will show up, after an intro.
+				you to specify which campus you want		7		2. Press Menu Button			2. The button simulates a click and new menu 
+				information from, a campus menu will		2,3,5							window will show up.
+				show up, different from the previous									
+				menu.
+
+10		Campus Buttons	When you've pressed on certain buttons a	7		1. Start the Application		1. Application window with buttons will show up, after an intro.
+				new menu window should appear with two		8		2. Press Menu Button			2. The button simulates a click.
+				different buttons, one for each campus.		9		3. campus Menu				3. A new menu shows up because of the click.
+												4. Buttons				4. The buttons for the campus menu appears.
+
+11		Get Directions  When you've used the feature "Search Lecture	7		1. Start the Application		1. Application window with buttons will show up, after an intro.
+				Hall" you can choose to use another feature	8		2. Press the lecture hall button	2. Lecture Hall Button simulates a "click".
+				to mark a path to the specified lecture hall.	1		3. Type lecture hall into textfield	A new window with a Googlemap will be shown
+										12		4. Press Enter				with an editable field along with a button.
+												5. Press on "Get Directions"		3. You can write text into the textfield
+																	4. The button simulates a click and an
+																	inzoomed Googlemap will be shown which shows
+																	the desired lecture hall with a mark, if it
+																	does not exist, an error message will be shown.
+																	5. When clicked, a marker shows your location and 
+																	a blue path between you and the lecture hall
+																	you searched for.
+
+12	Get Directions Item	On the screen for the "Search Lecture Hall"	7		1. Start the Application		1. Application window with buttons will show up, after an intro.
+				feature there will be a menu item called "Get	8		2. Press the lecture hall button	2. Lecture Hall Button simulates a "click".
+				Directions" 					1		3. Type lecture hall into textfield	A new window with a Googlemap will be shown
+												4. Press Enter				with an editable field along with a button.
+												5. Get Directions			3. You can write text into the textfield
+																	4. The button simulates a click and an
+																	the desired lecture hall with a mark, if it
+																	does not exist, an error message will be shown.
+																	5. A menu item called "Get Directions" is
+																	visible on the screen.
+
+13		Check Bus	The user can choose the features "Check Bus"	7		1. Start the Application		1. Application window with buttons will show up, after an intro.
+				where two tables for the 16-bus's next 8 	8		2. Press the Check Bus button		2. The button simulates a click and a window with the tables
+				departures is shown, first table shows				3. Refresh				of the 16-bus's departures from/to Johanneberg from/to
+				the departures from Johanneberg to Lindholmen								Lindholmen is shown with a button called "refresh!.
+				and the table below shows the departures								3. If you press "refresh" a click is simulated and the tables
+				from Lindholmen to Johanneberg.										departures are updated
+																	
