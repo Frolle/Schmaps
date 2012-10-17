@@ -28,11 +28,13 @@ import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import android.app.Activity;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.View;
@@ -49,7 +51,7 @@ import android.widget.TextView;
 
 public class CheckBusActivity extends Activity implements View.OnClickListener {
 
-	private static final int NROFROWS = 5;
+	private static final int NROFROWS = 8;
 	private static final String chalmersURL = "http://api.vasttrafik.se/bin/rest.exe/v1/departureBoard?authKey=2443e74a-b1cd-466a-a4e2-72ac982a62df&format=json&id=9021014001960000&direction=9021014004490000";
 	private static final String lindholmenURL= "http://api.vasttrafik.se/bin/rest.exe/v1/departureBoard?authKey=2443e74a-b1cd-466a-a4e2-72ac982a62df&format=json&id=9021014004490000&direction=9021014001960000";
 
@@ -116,19 +118,27 @@ public class CheckBusActivity extends Activity implements View.OnClickListener {
 
 	}
 
+	/**
+	 * Makes the rows for the chalmerstable
+	 */
 	public void makeChalmersRows(){
 		for(int i = 0; i<NROFROWS; i++){ 
 			TableRow tempTableRow = new TableRow(this);
 			tempTableRow.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.WRAP_CONTENT));
+			
+			// Makes every other row light gray or white
 			if(i%2 == 0){
 				tempTableRow.setBackgroundColor(Color.LTGRAY);
 			}else{
 				tempTableRow.setBackgroundColor(Color.WHITE);
 			}
 
+			//Makes every textview for each column and add it before starting with a new one
 			for(int j = 0; j<4; j++){
 				TextView textview = new TextView(this);
 				textview.setTextColor(Color.BLACK);
+				textview.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
+				//Check which content should be written in the textview
 				if(j == 0){
 					textview.setText(chalmersLineArray.get(i));
 				}else if(j == 1){
@@ -145,19 +155,27 @@ public class CheckBusActivity extends Activity implements View.OnClickListener {
 		}
 	}
 
+	/**
+	 * Makes the rows for the lindholmentable
+	 */
 	public void makeLindholmenRows(){
 		for(int i = 0; i<NROFROWS; i++){ 
 			TableRow tempTableRow = new TableRow(this);
 			tempTableRow.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.WRAP_CONTENT));
+			
+			// Makes every other row light gray or white
 			if(i%2 == 0){
 				tempTableRow.setBackgroundColor(Color.LTGRAY);
 			}else{
 				tempTableRow.setBackgroundColor(Color.WHITE);
 			}
 
+			//Makes every textview for each column and add it before starting with a new one 
 			for(int j = 0; j<4; j++){
 				TextView textview = new TextView(this);
 				textview.setTextColor(Color.BLACK);
+				textview.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
+				//Check which content should be written in the textview
 				if(j == 0){
 					textview.setText(lindholmenLineArray.get(i));
 				}else if(j == 1){
@@ -167,6 +185,7 @@ public class CheckBusActivity extends Activity implements View.OnClickListener {
 				}else if(j == 3){
 					textview.setText(lindholmenTrackArray.get(i));
 				}
+				
 				textview.setGravity(Gravity.CENTER_HORIZONTAL);
 				tempTableRow.addView(textview);
 			}
@@ -204,16 +223,21 @@ public class CheckBusActivity extends Activity implements View.OnClickListener {
 				e1.printStackTrace();
 			}
 		}
+		
+		//Run two times, one for data for chalmerstable and second for lindholmentable
 		for(int i=0;i<2;i++){
+			
 			try {
 				JSONObject departureBoard = returnedJsonObject[i].getJSONObject("DepartureBoard");
 				JSONArray departureArray = departureBoard.getJSONArray("Departure");
+				
 				for(int count = 0;count<departureArray.length();count++){
 					JSONObject depature = departureArray.getJSONObject(count);
 					String line = depature.getString("name");
 					String destination = depature.getString("direction");
 					String time = depature.getString("rtTime");
 					String track = depature.getString("track");
+					
 					if(i == 0){
 						chalmersLineArray.add(line);
 						chalmersDestArray.add(destination);
