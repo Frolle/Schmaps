@@ -49,7 +49,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.res.Configuration;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -87,11 +86,8 @@ public class GoogleMapSearchLocation extends MapActivity implements View.OnClick
 	private PathOverlay pathOverlay;
 	private boolean roomSearched;
 	private Dialog dialog;
-
-
 	private ArrayList<GeoPoint> geoList;
 
-	
 	private boolean running;
 
 
@@ -119,10 +115,7 @@ public class GoogleMapSearchLocation extends MapActivity implements View.OnClick
 			overlayitemStudent = new OverlayItem(ourLocation, "Hey amigo", "This is your position!");
 			mapItemizedStudent.addOverlay(overlayitemStudent);
 			mapOverlays.add(mapItemizedStudent);
-			
-			
 		}
-
 
 		location_listener = new LocationListener(){
 			/**
@@ -205,12 +198,6 @@ public class GoogleMapSearchLocation extends MapActivity implements View.OnClick
 		directionsButton.setOnClickListener(this);
 
 		location_manager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
-<<<<<<< HEAD
-		criteria = new Criteria(); //deafult criteria
-		bestProvider = location_manager.getBestProvider(criteria, false); //best reception
-		location = location_manager.getLastKnownLocation(bestProvider); //gets last known location from chosen provider
-	
-=======
 		//deafult criteria
 		criteria = new Criteria(); 
 		//best reception
@@ -218,12 +205,10 @@ public class GoogleMapSearchLocation extends MapActivity implements View.OnClick
 		//gets last known location from chosen provider
 		location = location_manager.getLastKnownLocation(bestProvider); 
 
->>>>>>> master
 		roomSearched = false;
 		running = false;
 
 	}
-	 
 
 
 	/**
@@ -233,7 +218,7 @@ public class GoogleMapSearchLocation extends MapActivity implements View.OnClick
 	 */
 	public void onClick(View v) {
 		switch(v.getId()){
-		
+
 		case R.id.edittextbutton:
 			//Removes the key when finish typing
 			InputMethodManager imm = (InputMethodManager)getSystemService(
@@ -247,7 +232,7 @@ public class GoogleMapSearchLocation extends MapActivity implements View.OnClick
 			//removes white signs and converts to lower case
 			roomToFind.toLowerCase().trim(); 
 			//Removes illegal characters to prevent sql injection
-			roomToFind = roomToFind.replaceAll("[^[a-zÃ¥Ã¤Ã¶][A-ZÃ…Ã„Ã–][0-9]]",""); 
+			roomToFind = roomToFind.replaceAll("[^[a-zåäö][A-ZÅÄÖ][0-9]]",""); 
 			//open database in read mode
 			search.openRead(); 
 			//if we find room show room on map, if not show dialog 
@@ -277,7 +262,7 @@ public class GoogleMapSearchLocation extends MapActivity implements View.OnClick
 			//close database
 			search.close(); 
 			break;
-		
+
 		case R.id.directionbutton:
 			Log.e("roomsearched", "in");
 			//if there there is roomLocation then search for a path
@@ -298,7 +283,7 @@ public class GoogleMapSearchLocation extends MapActivity implements View.OnClick
 			}
 
 			break;
-		
+
 		}
 
 
@@ -333,7 +318,7 @@ public class GoogleMapSearchLocation extends MapActivity implements View.OnClick
 				e1.printStackTrace();
 			}
 		}
-		
+
 		running = true;
 
 		parseJson(jsonObject);
@@ -398,7 +383,7 @@ public class GoogleMapSearchLocation extends MapActivity implements View.OnClick
 		}
 
 	}
-	
+
 
 	/**
 	 * @return true if the doinbackground() in asynktask has executed
