@@ -36,7 +36,9 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.app.Dialog;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -195,7 +197,6 @@ public class GoogleMapShowLocation extends MapActivity implements View.OnClickLi
 		gpsPoint= new GPSPoint(); 
 		queueButton = (Button) findViewById(R.id.queuebutton);
 		queueButton.setOnClickListener(this);
-		
 		location_manager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
 		location_listener = new LocationListener(){
 
@@ -233,15 +234,28 @@ public class GoogleMapShowLocation extends MapActivity implements View.OnClickLi
      * where you set a proximity alert on each desired position.
      */
     private void getQueue(){
-    	SendToDB sender = new SendToDB();
+//    	SendToDB sender = new SendToDB();
+//    	sender.connectToDB();
     	int id = 1;
-    	sender.connectToDB();
     	for(OverlayItem item: locationList){
-    	gpsPoint.setGPSPoints(item.getPoint().getLongitudeE6(), item.getPoint().getLatitudeE6(), id++);	//set the proximity alert of the spot on the (long, lat) place
+    		setGPSPoints(item.getPoint().getLongitudeE6(), item.getPoint().getLatitudeE6(), id++);	//set the proximity alert of the spot on the (long, lat) place
     	}
 
     }
-    
+	/*
+	 * Add a proximity alert to the specified long and lat, adding an id for use in the database on our server.
+	 */
+
+	public void setGPSPoints(int lng, int lat, int id){
+		int distance = 20;
+		PendingIntent intent;
+		Intent intDB = new Intent(this, SendToDB.class);	//new intent from this class to the SendToDB class
+		intDB.putExtra("restaurant", id);
+		intent = PendingIntent.getActivity(this, 0, intDB, Intent.FLAG_ACTIVITY_NEW_TASK);	//creating a PendingIntent which will act like startActivity(intent) for the SendToDB class
+		location_manager.addProximityAlert(lng, lat, distance, -1, intent);		//add a proximity alert on the specified longitude and latitude, on a radius of distance, without time-limit for the intent.
+
+	}
+
 	/*
 	 * Checks how many are queueing by checking the database on the server and returning this in the screen as a dialouge.
 	 */
@@ -293,8 +307,7 @@ public class GoogleMapShowLocation extends MapActivity implements View.OnClickLi
 		if(v == queueButton){
 			getQueue();
 		}
-		
-		
 	}
+
 
 }
