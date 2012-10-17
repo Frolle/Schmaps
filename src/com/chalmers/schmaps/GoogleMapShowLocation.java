@@ -42,8 +42,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
+import android.widget.Button;
 
-public class GoogleMapShowLocation extends MapActivity {
+public class GoogleMapShowLocation extends MapActivity implements View.OnClickListener {
 	private static final int MICROWAVEBUTTON = 1;
 	private static final int RESTAURANTBUTTON = 2;
 	private static final int ATMBUTTON = 3;
@@ -73,6 +74,7 @@ public class GoogleMapShowLocation extends MapActivity {
 	private GPSPoint gpsPoint;
 	private ArrayList<OverlayItem> locationList;
 	private JSONObject jsonObject, returnedJsonObject;
+	private Button queueButton;
 	@Override
 	/**
 	 * Method for determining on creation how the map view will be shown, what locations should be drawn
@@ -190,6 +192,8 @@ public class GoogleMapShowLocation extends MapActivity {
 		Drawable drawable = this.getResources().getDrawable(R.drawable.dot); 
 		overlay = new MapItemizedOverlay(drawable, this);
 		gpsPoint= new GPSPoint(); 
+		queueButton = (Button) findViewById(R.id.queuebutton);
+		queueButton.setOnClickListener(this);
 		
 		location_manager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
 		location_listener = new LocationListener(){
@@ -222,21 +226,6 @@ public class GoogleMapShowLocation extends MapActivity {
 		search = new SearchSQL(GoogleMapShowLocation.this);
 		search.createDatabase();
 	}
-    /*
-     * Menu-button to select the option where you can see all people queueing atm.
-     *
-     */
-    public boolean onOptionsItemSelected(MenuItem item) {
-		
-		switch(item.getItemId()){
-		
-		case R.id.getqueue:
-				getQueue();
-		}
-		
-		return false;
-    }
-    
     
     /*
      * Method to set the GPSPoints for the restaurants by calling the GPSPoint class
@@ -292,6 +281,16 @@ public class GoogleMapShowLocation extends MapActivity {
 		}
 		
 		sender.parseQueue(returnedJsonObject);
+		
+	}
+
+	public void onClick(View v) {
+		
+		if(v == queueButton){
+			connectToDB();
+			getQueue();
+		}
+		
 		
 	}
 
