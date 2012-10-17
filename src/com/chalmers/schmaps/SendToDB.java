@@ -89,7 +89,7 @@ public class SendToDB extends BroadcastReceiver {
 	/**
 	 * Connecting this class to the database on the server.
 	 */
-	private void connectToDB(){
+	public void connectToDB(){
 		returnedJsonObject = null;
 		GetQueue getQueue = new GetQueue();
 		getQueue.execute();

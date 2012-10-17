@@ -233,8 +233,9 @@ public class GoogleMapShowLocation extends MapActivity implements View.OnClickLi
      * where you set a proximity alert on each desired position.
      */
     private void getQueue(){
+    	SendToDB sender = new SendToDB();
     	int id = 1;
-    	connectToDB();
+    	sender.connectToDB();
     	for(OverlayItem item: locationList){
     	gpsPoint.setGPSPoints(item.getPoint().getLongitudeE6(), item.getPoint().getLatitudeE6(), id++);	//set the proximity alert of the spot on the (long, lat) place
     	}
@@ -268,7 +269,7 @@ public class GoogleMapShowLocation extends MapActivity implements View.OnClickLi
 		}
 	}
 	
-	private void connectToDB(){
+/*	private void connectToDB(){
 		returnedJsonObject = null;
 		SendToDB sender = new SendToDB();
 		GetQueue getQueue = sender.new GetQueue();
@@ -285,6 +286,7 @@ public class GoogleMapShowLocation extends MapActivity implements View.OnClickLi
 		sender.parseQueue(returnedJsonObject);
 		
 	}
+	*/
 
 	public void onClick(View v) {
 		
