@@ -16,6 +16,8 @@
 
 package com.chalmers.schmaps;
 
+import com.google.android.maps.GeoPoint;
+
 import android.app.Activity;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -36,6 +38,7 @@ public class GPSPoint extends Activity {
 	private LocationManager manager;
 	private PendingIntent intent;
 	int distance = 20;
+	private GeoPoint myLocation;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState){
@@ -66,8 +69,9 @@ public class GPSPoint extends Activity {
 
 		public void onLocationChanged(Location location) {
 			if(location != null){
-				double longitude = location.getLongitude();
-				double latitude = location.getLatitude();
+				int longitude = (int)location.getLongitude();
+				int latitude = (int)location.getLatitude();
+				myLocation = new GeoPoint(latitude, longitude);
 			}
 			// TODO Auto-generated method stub
 			
