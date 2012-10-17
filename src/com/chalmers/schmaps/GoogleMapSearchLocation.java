@@ -50,9 +50,6 @@ import android.os.Bundle;
 import android.app.Dialog;
 import android.content.Context;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -135,18 +132,15 @@ public class GoogleMapSearchLocation extends MapActivity implements View.OnClick
 			}
 
 			public void onProviderDisabled(String arg0) {
-				// TODO Auto-generated method stub
 
 			}
 
 			public void onProviderEnabled(String provider) {
-				// TODO Auto-generated method stub
 
 			}
 
 			public void onStatusChanged(String provider, int status,
 					Bundle extras) {
-				// TODO Auto-generated method stub
 
 			}
 
@@ -245,7 +239,9 @@ public class GoogleMapSearchLocation extends MapActivity implements View.OnClick
 	 */
 
 	/**
-	 * 
+	 * If the enter button is clicked a room search is done
+	 * If the get directions button is pressed you get the path drawn on map
+	 * but you have to search for a room first
 	 */
 	public void onClick(View v) {
 		switch(v.getId()){
@@ -297,7 +293,7 @@ public class GoogleMapSearchLocation extends MapActivity implements View.OnClick
 					roomSearched = false;
 				}else{
 					Context context = getApplicationContext();
-					Toast.makeText(context, "Do a search first", Toast.LENGTH_LONG).show();	
+					Toast.makeText(context, "Search for a room first to get directions", Toast.LENGTH_LONG).show();	
 				}
 			}else
 			{
@@ -461,10 +457,8 @@ public class GoogleMapSearchLocation extends MapActivity implements View.OnClick
 				is = urlConnection.getInputStream();
 				urlConnection.connect();
 			} catch (MalformedURLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 
@@ -486,7 +480,6 @@ public class GoogleMapSearchLocation extends MapActivity implements View.OnClick
 			}
 
 			jsonResponse = response.toString();
-			//Log.e("json", jsonResponse); //print out jsonresponse
 
 			//convert string to jsonobject and return the object
 			try{
