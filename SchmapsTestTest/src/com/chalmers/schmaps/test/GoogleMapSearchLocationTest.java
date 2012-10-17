@@ -46,7 +46,7 @@ import android.widget.EditText;
 public class GoogleMapSearchLocationTest extends ActivityInstrumentationTestCase2<GoogleMapSearchLocation> {
 	
 	private GoogleMapSearchLocation activity;
-	private Button editButton;
+	private Button editButton, directionsButton;
 	private EditText lectureEdit;
 	private MapView mapview;
 	private String roomToFindString;
@@ -65,6 +65,7 @@ public class GoogleMapSearchLocationTest extends ActivityInstrumentationTestCase
 		this.activity = super.getActivity();
 		this.editButton = (Button) this.activity.findViewById(R.id.edittextbutton);
 		this.lectureEdit = (EditText) this.activity.findViewById(R.id.edittextlecture);
+		this.directionsButton = (Button) this.activity.findViewById(R.id.directionbutton);
 		this.mapview = (MapView) this.activity.findViewById(R.id.mapview);
 	}
 	
@@ -75,6 +76,7 @@ public class GoogleMapSearchLocationTest extends ActivityInstrumentationTestCase
 
 	public void testPreConditions(){
 		super.assertNotNull(editButton);
+		super.assertNotNull(directionsButton);
 		super.assertNotNull(mapview);
 		super.assertNotNull(lectureEdit);
 		super.assertNotNull(activity);
@@ -188,15 +190,14 @@ public class GoogleMapSearchLocationTest extends ActivityInstrumentationTestCase
 		assertEquals(true,activity.getIsAsyncTaskRunning());
 	}
 	
-	public void testa(){
+	public void testDirectionsButton(){
 		TouchUtils.tapView(this, this.lectureEdit);
 		super.sendKeys("R U N A N ");
 		super.getInstrumentation().waitForIdleSync();
 		TouchUtils.clickView(this, this.editButton);
 		super.getInstrumentation().waitForIdleSync();
 		
-		getInstrumentation().sendKeyDownUpSync(KeyEvent.KEYCODE_MENU);
-		getInstrumentation().invokeMenuActionSync(activity, R.menu.searchmenu, 0);
+		TouchUtils.clickView(this, this.directionsButton);
 		super.getInstrumentation().waitForIdleSync();
 		
 		assertEquals(true,activity.getIsAsyncTaskRunning());
