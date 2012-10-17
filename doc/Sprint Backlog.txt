@@ -1,4 +1,6 @@
-﻿User stories:
+Spring Backlog
+
+Våra user stories:
 
 Sprint 1 (läsvecka 3):
 Användaren ska kunna använda ett gränssnitt med knappar för att navigera i menyerna.
@@ -20,7 +22,11 @@ Användaren ska kunna trycka på en lektion i sitt schema och få upp en karta m
 Sprint 5 (läsvecka 7):
 Dokumentation mm
 
+Detta är en plan för alla springarna under läsperioden baserat på vår Produkt Backlog.
 
+*****************************************************************************
+
+Läsvecka 3
 
 Sprint backlog 1 - läsvecka 3
 #         Features                                    Timmar
@@ -33,6 +39,13 @@ Sprint backlog 1 - läsvecka 3
 5     Söka i databas och hitta olika salar      	30   
 6.    Möte, handledning etc.            		24
 
+Efter denna veckan ska vi leverera följande produkt: en applikation därman kan söka efter en sal och få salen visad på karta. 
+
+********************************************************************************
+
+Läsvecka 4
+Förra sprinten:
+Databasen är klar, det som saknas är all information som skall in i den. Det vill säga alla salarna och dess latitude, longitude och andress. Några salar går att söka efter, de pekas ut på kartan när man har tryckt på enter. Det behövs layoutförändringar: bland annat ny bakgrund, grafik på knapp, ny markeringspunkt i kartan. Är vi klara? Nej! Vi har inte skrivit unit tester eller kommenterat. Vi har kört acceptance tester. Göra JUnit-tester, skriva klart alla salar och kommentera klart.
 
 
 Sprint backlog 2 - läsvecka 4
@@ -48,19 +61,37 @@ Sprint backlog 2 - läsvecka 4
 7.    Visa Bankomater/göra databas            		6,5
 8.    Handledning och möten                		33
 
+Efter denna vecka ska man kunna få en väg utritad på kartan från mobilens position till salens position. Micros, restauranger och bankomater ska visas. Databasen med salar ska göras klar. Boka grupprum funktionen ska också vara klar. 
+
+*********************************************************************************
+
+Läsvecka 5
+Förra sprinten:
+Funktionaliteten för micro, restaranger och bankomater är klar men all info är inte inmatad i databasen. Bankomater är klart, visa directions klar men de är inte testade, något dokumneterade. Alla salar är inte inmatade. 
+
+Problem med att merga våra filer, vi bestämmer oss för att refaktorera, dela upp googleMapActivity i två delar. En del som visar en googlemapkarta där man kan söka rum och en som visar ut punkter på karta tex bankmat, mikro, restaurager.
+
+Vi tänkte först att vi skulle ha två xml filer och beroende på om man vill söka sal eller visa tex mikro så visas två olika xml, en med sökruta och en utan. Detta skulle inte vara så bra eftersom googlemapactivity skulle blivit massiv och väldigt krånglig. Det blir bättre att dela upp det.
 
 
 Sprint backlog 3 - läsvecka 5
 #         Features                                    Timmar
 -------------------------------------------------------------------------------
 
-1     Layout(alla menyer) helt klar             	3  -påbörjat       
-2     Testning TDD                       		40 -påbörjat
-3     Databaser(Salar,datasalar,micro,grupprum) 	13 -klar                   
-4.    Dokumentation i kod(javadoc)          		2  -klar
-5.    Check-in                               		22 -test kvar
+1     Layout(alla menyer) helt klar             	3       
+2     Testning TDD                       		40 
+3     Databaser(Salar,datasalar,micro,grupprum) 	13                   
+4.    Dokumentation i kod(javadoc)          		2  
+5.    Check-in                               		22 
 6.    Möte m.m    					20
 
+Den här veckan ska vi fokusera på göra klart det som inte är klart och refaktorera. Vi ska börja med tester då vi nte har några junit tester ännu, endast accentence tester. Vi ska även prova att tillämpa TDD på de funktioner som inte är skrivna ännu. Vi behöver dokumntera också. Enligt planeringen skulle vi börja med två nya funktioner den här veckan; visa när bussen mellan campus Chalmers och Lindholmen går och visa hur mycket folk det finns på respektive restaurang. Vi beslutar att påbörja en check-in funktion. Layouten ska också göras klar.
+
+******************************************************************************
+
+Läsvecka 6
+Förra sprinten:
+Testmiljön är uppsatt och en del tester är skrivna, saknas testfall för alla klasser. En grundläggande check-in funktion som kontaktar en extern databas på server är fixad. Man kan se vilka som är incheckade och checka in själv. Alla salarna är inmatade i databasen, både johanneberg och lindholmen. Layouten är påbörjad, alla knappar finns men de byter inte färg när man klickar på returnknappen. Backgrunden behöver bytas.
 
 
 Sprint backlog 4 - läsvecka 6
@@ -68,16 +99,23 @@ Sprint backlog 4 - läsvecka 6
 #         Features                		      Timmar
 -------------------------------------------------------------------------------
 
-1	 Mikrovågsugn					8  -klar  
-2	 Restauranger (Johanneberg, LIndholmen)	        3  -klar
-3	 Testning (Junit, acceptancetester)		30 -fler tester behövs	
-4.	 Layout				      		2  -klar	
-5.	 Västtrafik		 		        20 -test kvar + layout
-6.       Check-In					10 -påbörjat
-7.	 Jenkins					4  -klar(autobuild)
-8. 	 APK signed keystore				3  -klar
+1	 Mikrovågsugn					8  
+2	 Restauranger (Johanneberg, LIndholmen)	        3  
+3	 Testning (Junit, acceptancetester)		30 
+4.	 Layout				      		2 	
+5.	 Västtrafik		 		        20 
+6.       Check-In					10 
+7.	 Jenkins					4  
+8. 	 APK signed keystore				3  
 9.  	 Möte, handledning mm	
 
+Vi beslutar att hoppa över funktionerna som skulle vara i denna sprinten; personligt schema och att man ska kunna trycka på en lektion i sitt schema och få upp en karta med salens position. Detta ska fixas så småningom utanför kursens gränser. Istället fokuserar vi på att skriva tester, fixa buss featurn så att man kan se när 16-bussen mellan campus lindholmen och johanneberg går och att fixa checkin till det den ska vara, nämligen att man ska kunna se hur många som är på varje restuarang. Vi ska även mata in alla mikros och restuaranger i databasen. Vi ska också fixa med jenkins/autobuild, fixa till layouten ytterliggare och fixa en ny maps api nyckel (som inte är en debug nyckel) samt signed keystore.
+
+*********************************************************************************
+
+Läsvecka 7
+Förra sprinten:
+Buss-funktionen är så gott som klar, layouten behöver fixas till och testas. Databaserna är klara nu, all data är inmatad. Tester är skrivna, vi har bra coverege men satsar på över 90%. Signed keystore och "riktig" maps api nyckel är fixat. Tabell i extern databas på server är fixad och ska ta emot incheckade och skicka info om hur många som är vid respektive restaurang. Mobildelen är påbörjad, proximity allerts finns för alla restauranger. Fungerar inte än.
 
 
 Sprint backlog 5 - läsvecka 7
@@ -92,5 +130,13 @@ Sprint backlog 5 - läsvecka 7
 5 	Redovisning					5
 6	Västtrafik					3
 7	Möte, handledning mm				20
+
+Den här veckan ska fokusera på dokumentaion, testning, fixa buggar och göra klart västtrafik och checkin/gpspoint. En del av tiden kommer också att gå åt att förbereda redovisningen.
+
+**********************************************************************************
+
+Läsvecka 8
+Förra sprinten:
+
 
 	
