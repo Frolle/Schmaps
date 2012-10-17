@@ -92,7 +92,7 @@ public class GoogleMapShowLocation extends MapActivity {
 		else if(setView.getInt("Campus")==LINDHOLMEN){
 			mapcon.animateTo(lindholmenLoc);
 		}else{
-			mapcon.animateTo(lindholmenLoc);
+			mapcon.animateTo(johannesbergLoc);
 		}
 		mapcon.setZoom(16);
 		
