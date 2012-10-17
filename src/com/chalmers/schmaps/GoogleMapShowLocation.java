@@ -105,6 +105,7 @@ public class GoogleMapShowLocation extends MapActivity implements View.OnClickLi
 		case SENDTODB:
 			drawLocationList(DB_RESTAURANTTABLE);
 			drawQueue();
+			break;
 			
 		case RESTAURANTBUTTON:
 			drawLocationList(DB_RESTAURANTTABLE);
