@@ -46,7 +46,7 @@ public class MenuActivityTest extends ActivityInstrumentationTestCase2<MenuActiv
 	private MenuActivity menuActivity;
 	private Solo solo;	
 	private WifiManager wifiManager;
-	private ConnectivityManager connectivityManager;
+	private ConnectivityManager iConnectivityManager;
 	public MenuActivityTest() {
 		super(MenuActivity.class);
 	}
@@ -65,8 +65,7 @@ public class MenuActivityTest extends ActivityInstrumentationTestCase2<MenuActiv
 		atmButton = (Button) menuActivity.findViewById(R.id.atmButton);
 		microwaveButton = (Button) menuActivity.findViewById(R.id.microwaveButton);
 		findRestaurantsButton = (Button) menuActivity.findViewById(R.id.findRestaurantsButton);
-		//connectivityManager =(ConnectivityManager)menuActivity.getSystemService(Context.CONNECTIVITY_SERVICE);
-		
+		iConnectivityManager = (ConnectivityManager)menuActivity.getSystemService(Context.CONNECTIVITY_SERVICE);
 	}
 	
 	public void testPreConditions(){
@@ -88,7 +87,7 @@ public class MenuActivityTest extends ActivityInstrumentationTestCase2<MenuActiv
 		this.sendKeys(KeyEvent.KEYCODE_BACK);
 	}
 	/**
-	 * See test comments for test above.
+	 *	Tests the "Group Room" button to start the correct activity by comparing the intent.
 	 */
 	public void testGroupRoomButton(){
 		TouchUtils.clickView(this, this.groupRoom);
@@ -98,7 +97,7 @@ public class MenuActivityTest extends ActivityInstrumentationTestCase2<MenuActiv
 	}
 	
 	/**
-	 * See test comments for test above.
+	 *	Tests the "Atm" button to start the correct activity by comparing the intent.
 	 */
 	public void testAtmButton(){
 		TouchUtils.clickView(this, this.atmButton);
@@ -108,7 +107,7 @@ public class MenuActivityTest extends ActivityInstrumentationTestCase2<MenuActiv
 	}
 	
 	/**
-	 * See test comments for test above.
+	 *	Tests the "Microwave" button to start the correct activity by comparing the intent.
 	 */
 	public void testMicrowaveButton(){
 		TouchUtils.clickView(this, this.microwaveButton);
@@ -118,7 +117,7 @@ public class MenuActivityTest extends ActivityInstrumentationTestCase2<MenuActiv
 	}
 	
 	/**
-	 * See test comments for test above.
+	 *	Tests the "Find restaurants" button to start the correct activity by comparing the intent.
 	 */
 	public void testFindRestaurantsButton(){
 		TouchUtils.clickView(this, this.findRestaurantsButton);
@@ -128,13 +127,14 @@ public class MenuActivityTest extends ActivityInstrumentationTestCase2<MenuActiv
 	}
 	
 	/**
-	 * See test comments for test above.
+	 *	Tests the "Check in" button to start the correct activity by using solo to assert
+	 *	that the current activity is the correct one after pressing the button. Uses reflection
+	 *	to disable the internet connection to be able to test that the Toast-window appears
+	 *	and not starting the Check in activity.
 	 */
 	public void testCheckInButton(){
 		//Wait for mobile data to be enabled again.
-		NetworkInfo mobileNetwork = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
-		while(!mobileNetwork.isConnected())
-		super.getInstrumentation().waitForIdleSync();
+		while(!isOnline());
 		solo.clickOnButton("Check In");
 		super.getInstrumentation().waitForIdleSync();
 		solo.assertCurrentActivity("Wrong class", CheckInActivity.class);
@@ -145,15 +145,18 @@ public class MenuActivityTest extends ActivityInstrumentationTestCase2<MenuActiv
 		super.getInstrumentation().waitForIdleSync();
 		solo.clickOnButton("Check In");
 		super.getInstrumentation().waitForIdleSync();
-		//If current activity still is MenuActivity then test was successful, since
-		//CheckinActivity shouldn't be started if internet connection is missing.
+		//solo checks if the Toast appeared or not, validating that it did not start
+		//the activity if there was no internet connection.
 		assertTrue(solo.waitForText("Internet connection needed for this option"));
 		assertTrue(solo.searchText("Internet connection needed for this option"));
 		toggleInternetConnection(menuActivity, true);
 	}
 
 	/**
-	 * See test comments for test above.
+	 *	Tests the "Check bus" button to start the correct activity by using solo to assert
+	 *	that the current activity is the correct one after pressing the button. Uses reflection
+	 *	to disable the internet connection to be able to test that the Toast-window appears
+	 *	and not starting the Check in activity.
 	 */
 	public void testCheckBusButton(){
 		solo.clickOnButton("Check Buses");
@@ -169,7 +172,6 @@ public class MenuActivityTest extends ActivityInstrumentationTestCase2<MenuActiv
 		assertTrue(solo.waitForText("Internet connection needed for this option"));
 		assertTrue(solo.searchText("Internet connection needed for this option"));
 		toggleInternetConnection(menuActivity, true);
-		super.getInstrumentation().waitForIdleSync();
 	}
 
 	/**
@@ -182,7 +184,6 @@ public class MenuActivityTest extends ActivityInstrumentationTestCase2<MenuActiv
 	public void toggleInternetConnection(Context context, boolean toggle){
 		//Assert the ConnectivityManager to be able to access mobile data on/off toggling, reflection is used
 		//since it's a hidden method from the API.
-			ConnectivityManager iConnectivityManager = (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
 			Method toggleDataEnabled;
 			try {
 				toggleDataEnabled = ConnectivityManager.class.getDeclaredMethod("setMobileDataEnabled", boolean.class);
@@ -202,6 +203,15 @@ public class MenuActivityTest extends ActivityInstrumentationTestCase2<MenuActiv
 				e.printStackTrace();
 			}
 	}
+	/**
+	 * Simple method for checking if the device has internet connection or not
+	 * @return boolean - true or false depending on connection.
+	 */
+	public boolean isOnline() {
+	    return iConnectivityManager.getActiveNetworkInfo() != null && 
+	       iConnectivityManager.getActiveNetworkInfo().isConnectedOrConnecting();
+	}
+
 	public void tearDown() throws Exception{
 		super.tearDown();
 	}
