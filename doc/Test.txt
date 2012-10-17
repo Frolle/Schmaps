@@ -1,31 +1,54 @@
-Id 		Title 		Description 				Steps					Result 					Dependencies
-1		Lecture 	When you click on the button 		1. Press the button			1. You get to a GoogleMapSearchActivity
-				"search lecture hall", you should 	2. Type lecture hall into textfield	2+3. Entered hall is checked in database
-				get to a menu where you can type 	3. Press Enter				and if a match is found, the location
-				in the desired lecture hall and 						and description are shown. Else a error
-				then get the position on a map.							message shows on the screen.	
+Id 		Title 		Description 				Pre-conditions		Steps					Result 					
+1		Lecture 	When you click on the button 			7		1. Start Application			1. Application window with buttons is shown.
+				"search lecture hall", you should 		8		2. Press the Lecture Hall Button	2. Lecture Hall Button simulates a "click".
+				get to a menu where you can type 				3. Type lecture hall into textfield	A new window with a Googlemap will be shown
+				in the desired lecture hall and 				4. Press Enter				with an editable field along with a button.
+				then get the position on a map. 									3. You can write text into the textfield
+																	4. The button simulates a click and an
+																	inzoomed Googlemap will be shown which shows
+																	the desired lecture hall with a mark, if it
+																	does not exist, a error message will be shown.
 
-2		Micros		When you click on the "show micros"	1. Press the first Button		1. CampusMenuActivity will be activated.
-				button, a menu where you can choose	2. Press the campus button		2. Through identifiers from both the 
-				either Lindholmen or Johanneberg will						MenuActivity and the CampusMenuActivity
-				turn up. When you've chosen the campus						the GoogleMapShowLocation will show the
-				a map with all micros will be shown						correct table on the map for the desired
-				on that campus.									campus
+2		Micros		When you click on the "show micros"		8		1. Start Application			1. Application window with buttons will show up.
+				button, a menu where you can choose		7		2. Press the Micro Button		2. Micro Button will simulate a click, a new
+				either Lindholmen or Johanneberg will		9		3. Press the campus button		window with two buttons will show up.
+				turn up. When you've chosen the campus									3. The chosen button simulates a click and a
+				a map with all micros will be shown									Googlemap, zoomed in to match the specified 
+				on that campus.												campus will show up with all micros marked.
+							
+3		Restaurants	When you press the "show restaurants"		8		1. Start Application			1. Application window with buttons will show up.	
+				button, you get to choose campus and		7		2. Press the restaurant button		2. Restaurant Button will simulate a click, a new
+				a map with the restaurants location		9		3. Press on the desired campus button	window with two buttons will show up.
+				on that campus will be shown.										3. The chosen button simulates a click and a
+																	Googlemap, zoomed in to match the specified
+																	campus will show up with all restaurants marked.
 
-3		Restaurants	When you press the "show restaurants"	1. Press the restaurant button		1. CampusMenuActivity activates		2
-				button, you get to choose campus and	2. Press on the desired campus button	2. Works as id 2 result
-				a map with the restaurants location
-				on that campus will be shown.
-
-4		Studyroom	When you press the "book studyroom"	1. Press button				1. GroupRoomActivity will be activated
-				button you will be transfered to						and a web-browser till be launched
-				time-edit where you can book a							where you can book a grouproom.
+4		Studyroom	When you press the "book studyroom"		8		1. Start Application			1. Application window with buttons will show up.
+				button you will be transfered to		7		2. Press button				2. The button simulates a click and time-edit
+				time-edit where you can book a										will be shown where you can book grouprooms.
 				studyroom.
 
-5		ATMs		A function where you can see all	1. Press the ATMS button		1. Works as 2 and 3			2(3)
-				ATMs on the campuses.			2. Press on the button for desired	2. Works as 2 and 3
-									campus.
+5		ATMs		A function where you can see all		8		1. Start Application			1. Application window with buttons will show up.			
+				ATMs on the campuses.				7		2. Press the ATMS button		2. The button simulates a click and a
+										9		3. Press on the desired campus button	Googlemap, zoomed in to match the specified 
+																	campus will show up with all ATM's marked.
 
-6		Check In	You can log into a database located	1. Press Check in button		1. Activates CheckInActivity
-				on a server to see where you and other	2. Enter name into textfield		2+3. You will be shown on the map with
-				logged in persons are.			3. Press Enter				a marker on.
+6		Check In	You can log into a database located		8		1. Start Application			1. Application window with buttons will show up.
+				on a server to see where you and other		7		2. Press Check in button		2. The button simulates a click and a Googlemap
+				logged in persons are.						3. Enter name into textfield		with a textfield and a button will appear.
+												4. Press Enter				3. You should be able to type in a text into the
+																	textfield.
+																	4. The button simulates a click and a marker with
+																	your location will be shown and all other people
+																	who have used this function.
+
+
+7   		Menu Buttons	When you start the application, the 		8		1. Start the Application		1. The application starts and a menu shows up
+				buttons for each functions with their				2. Press Button				2. A "click" will appear on the button.
+				names on should appear.
+
+8	Start Application	You start the application and an intro				1.Start The Application			1. When you start the application an intro will  
+				screen is shown before directing you 									appear before the actual screen shows up.
+				to the application-screen.	
+
+9.
