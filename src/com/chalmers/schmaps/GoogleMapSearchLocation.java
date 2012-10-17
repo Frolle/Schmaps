@@ -87,27 +87,29 @@ public class GoogleMapSearchLocation extends MapActivity implements View.OnClick
 	private boolean roomSearched;
 	private Dialog dialog;
 	private ArrayList<GeoPoint> geoList;
-	
+
 	private boolean running;
 
-	private Bundle bucket;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		assignInstances(); //initiate the variables used in this class
-
-		if(location != null){ //if there is an provider that provides an location ->continue
-			latitude = (int) (location.getLatitude()*1E6); //get the latitude
-			longitude = (int) (location.getLongitude()*1E6); //get the longitude
-
-
-			ourLocation = new GeoPoint(latitude, longitude); //greates an geopoint with our location
+		//initiate the variables used in this class
+		assignInstances(); 
+		//if there is an provider that provides an location ->continue
+		if(location != null){ 
+			//get the latitude
+			latitude = (int) (location.getLatitude()*1E6); 
+			//get the longitude
+			longitude = (int) (location.getLongitude()*1E6); 
+			//greates an geopoint with our location
+			ourLocation = new GeoPoint(latitude, longitude); 
 
 			mapcon = mapView.getController(); 
 			mapcon.animateTo(ourLocation);
-			mapcon.setZoom(18); //zoom level
+			//zoom level
+			mapcon.setZoom(18); 
 
 			//creates a MapItemizedOverlay-object and adds it to the list mapOverlays
 			overlayitemStudent = new OverlayItem(ourLocation, "Hey amigo", "This is your position!");
@@ -120,10 +122,12 @@ public class GoogleMapSearchLocation extends MapActivity implements View.OnClick
 			 * method is called when location is changed
 			 */
 			public void onLocationChanged(Location loc) { 
-				latitude = (int) (location.getLatitude()*1E6); //get the latitude
-				longitude = (int) (location.getLongitude()*1E6); //get the longitude
-
-				ourLocation = new GeoPoint(latitude, longitude); //greates an geopoint with our location
+				//get the latitude
+				latitude = (int) (location.getLatitude()*1E6); 
+				//get the longitude
+				longitude = (int) (location.getLongitude()*1E6); 
+				//greates an geopoint with our location
+				ourLocation = new GeoPoint(latitude, longitude); 
 
 				//creates a MapItemizedOverlay-object and adds it to the list mapOverlays
 				overlayitemStudent = new OverlayItem(ourLocation, "Hey amigo", "This is your position!");
@@ -145,9 +149,10 @@ public class GoogleMapSearchLocation extends MapActivity implements View.OnClick
 			}
 
 		};
-
-		search = new SearchSQL(GoogleMapSearchLocation.this); //creates a SQLLite object
-		search.createDatabase(); //creates an database
+		//creates a SQLLite object
+		search = new SearchSQL(GoogleMapSearchLocation.this); 
+		//creates an database
+		search.createDatabase(); 
 	}
 
 	@Override
@@ -192,51 +197,19 @@ public class GoogleMapSearchLocation extends MapActivity implements View.OnClick
 		editButton.setOnClickListener(this);
 		directionsButton.setOnClickListener(this);
 
-		bucket = new Bundle();
-
 		location_manager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
-		criteria = new Criteria(); //deafult criteria
-		bestProvider = location_manager.getBestProvider(criteria, false); //best reception
-		location = location_manager.getLastKnownLocation(bestProvider); //gets last known location from chosen provider
+		//deafult criteria
+		criteria = new Criteria(); 
+		//best reception
+		bestProvider = location_manager.getBestProvider(criteria, false); 
+		//gets last known location from chosen provider
+		location = location_manager.getLastKnownLocation(bestProvider); 
 
 		roomSearched = false;
 		running = false;
 
 	}
 
-	/*
-	@Override
-	protected void onSaveInstanceState(Bundle outState) {
-		ArrayList<Integer> list = new ArrayList<Integer>(); 
-
-		list.add(ourLocation.getLatitudeE6());
-		list.add(ourLocation.getLongitudeE6());
-
-		if(roomLocation!=null){
-		list.add(roomLocation.getLatitudeE6());
-		list.add(roomLocation.getLatitudeE6());
-		}
-
-		outState.putIntegerArrayList("saved", list);
-		super.onSaveInstanceState(outState);
-	}
-
-	@Override
-	protected void onRestoreInstanceState(Bundle savedInstanceState) {
-		super.onRestoreInstanceState(savedInstanceState);
-		bucket = savedInstanceState;
-		ArrayList<Integer> list =savedInstanceState.getIntegerArrayList("saved");
-		GeoPoint geo = new GeoPoint(list.get(0), list.get(1));
-		ourLocation = geo;
-
-
-		geo = new GeoPoint(list.get(2), list.get(3));
-		roomLocation = geo;
-
-
-
-	}
-	 */
 
 	/**
 <<<<<<< HEAD
@@ -249,7 +222,7 @@ public class GoogleMapSearchLocation extends MapActivity implements View.OnClick
 	 */
 	public void onClick(View v) {
 		switch(v.getId()){
-		
+
 		case R.id.edittextbutton:
 			//Removes the key when finish typing
 			InputMethodManager imm = (InputMethodManager)getSystemService(
@@ -260,22 +233,29 @@ public class GoogleMapSearchLocation extends MapActivity implements View.OnClick
 			//removes the dot that point to a previous room found
 			mapOverlays.remove(mapItemizedRoom);
 			roomToFind = lectureEdit.getText().toString();
-			roomToFind.toLowerCase().trim(); //removes white signs and converts to lower case
-			roomToFind = roomToFind.replaceAll("[^[a-zÃ¥Ã¤Ã¶][A-ZÃ…Ã„Ã–][0-9]]",""); //Removes illegal characters to prevent sql injection
-			search.openRead(); //open database in read mode
+			//removes white signs and converts to lower case
+			roomToFind.toLowerCase().trim(); 
+			//Removes illegal characters to prevent sql injection
+			roomToFind = roomToFind.replaceAll("[^[a-zåäö][A-ZÅÄÖ][0-9]]",""); 
+			//open database in read mode
+			search.openRead(); 
 			//if we find room show room on map, if not show dialog 
 			if(search.exists(roomToFind)){
-				roomLocation = new GeoPoint(search.getLat(roomToFind),search.getLong(roomToFind)); //create a geopoint
+				//create a geopoint
+				roomLocation = new GeoPoint(search.getLat(roomToFind),search.getLong(roomToFind)); 
 				mapcon = mapView.getController();
 				mapcon.animateTo(roomLocation);
-				mapcon.setZoom(18); //zoom level
+				//zoom level
+				mapcon.setZoom(18); 
+				//address and level is shown in the dialog
 				overlayItemRoom = new OverlayItem(roomLocation, search.getAddress(roomToFind), 
-						search.getLevel(roomToFind)); //address and level is shown in the dialog
+						search.getLevel(roomToFind)); 
 				mapItemizedRoom.removeOverlay();
 				mapItemizedRoom.addOverlay(overlayItemRoom);
 				mapOverlays.add(mapItemizedRoom);
 				mapView.postInvalidate();
-				roomSearched = true; //now someone has searched for a room, set the boolean to true
+				//now someone has searched for a room, set the boolean to true
+				roomSearched = true; 
 			}else{
 				//dilaog pops up if room not found
 				dialog = new Dialog(GoogleMapSearchLocation.this);
@@ -283,9 +263,10 @@ public class GoogleMapSearchLocation extends MapActivity implements View.OnClick
 				dialog.setCanceledOnTouchOutside(true);
 				dialog.show();
 			}
-			search.close(); //close database
+			//close database
+			search.close(); 
 			break;
-		
+
 		case R.id.directionbutton:
 			Log.e("roomsearched", "in");
 			//if there there is roomLocation then search for a path
@@ -307,7 +288,7 @@ public class GoogleMapSearchLocation extends MapActivity implements View.OnClick
 			}
 
 			break;
-		
+
 		}
 
 
@@ -332,17 +313,17 @@ public class GoogleMapSearchLocation extends MapActivity implements View.OnClick
 		jsonObject = null;
 
 		GetDirections directions = new GetDirections();
-		directions.execute(); //the method doInBackground() in GetDirections is executed
-
-		while(jsonObject == null){ //if json object not returned, sleep for 30 sec
+		//the method doInBackground() in GetDirections is executed
+		directions.execute(); 
+		//if json object not returned, sleep for 30 sec
+		while(jsonObject == null){ 
 			try {
 				Thread.sleep(500);
 			} catch (InterruptedException e1) {
 				e1.printStackTrace();
 			}
-
 		}
-		
+
 		running = true;
 
 		parseJson(jsonObject);
@@ -407,7 +388,7 @@ public class GoogleMapSearchLocation extends MapActivity implements View.OnClick
 		}
 
 	}
-	
+
 
 	/**
 	 * @return true if the doinbackground() in asynktask has executed
@@ -442,14 +423,20 @@ public class GoogleMapSearchLocation extends MapActivity implements View.OnClick
 
 			//Create a string with the right start and end position
 			urlString.append("http://maps.googleapis.com/maps/api/directions/json?origin=");
-			urlString.append(Double.toString((double) ourLocation.getLatitudeE6() / 1.0E6)); //from, your position, latitude
+			//from, your position, latitude
+			urlString.append(Double.toString((double) ourLocation.getLatitudeE6() / 1.0E6)); 
 			urlString.append(",");
-			urlString.append(Double.toString((double) ourLocation.getLongitudeE6() / 1.0E6));//longitude
-			urlString.append("&destination=");// to, where you are going
-			urlString.append(Double.toString((double) roomLocation.getLatitudeE6() / 1.0E6)); //latitude
+			//longitude
+			urlString.append(Double.toString((double) ourLocation.getLongitudeE6() / 1.0E6));
+			// to, where you are going
+			urlString.append("&destination=");
+			//latitude
+			urlString.append(Double.toString((double) roomLocation.getLatitudeE6() / 1.0E6)); 
 			urlString.append(",");
-			urlString.append(Double.toString((double) roomLocation.getLongitudeE6() / 1.0E6)); //longitude
-			urlString.append("&sensor=false&avoid=highways&mode=walking"); //we want the walking directions
+			//longitude
+			urlString.append(Double.toString((double) roomLocation.getLongitudeE6() / 1.0E6)); 
+			//we want the walking directions
+			urlString.append("&sensor=false&avoid=highways&mode=walking"); 
 
 
 			//establish a connection with google directions api
@@ -467,12 +454,11 @@ public class GoogleMapSearchLocation extends MapActivity implements View.OnClick
 				e.printStackTrace();
 			}
 
-			InputStreamReader inputStream = new InputStreamReader(is);
-			BufferedReader reader = new BufferedReader(inputStream);
-
 
 			//read from the buffer line by line and save in response (a stringbuider)
 			try{
+				InputStreamReader inputStream = new InputStreamReader(is);
+				BufferedReader reader = new BufferedReader(inputStream);
 				while((line = reader.readLine()) != null){
 					response.append(line);
 				}

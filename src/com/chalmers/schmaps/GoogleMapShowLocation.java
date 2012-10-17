@@ -82,6 +82,7 @@ public class GoogleMapShowLocation extends MapActivity {
 			drawLocationList(DB_ATMTABLE);
 			break;
 		}
+		
 
 	}
 

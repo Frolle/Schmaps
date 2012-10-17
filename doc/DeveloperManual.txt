@@ -1,0 +1,28 @@
+Developer Manual
+
+We figure that you already have a github account if you can read this document. Start by forking and cloning the project https://github.com/Frolle/Schmaps.git View this guide to find out the details: https://help.github.com/articles/fork-a-repo
+
+If you use Eclipse open it up and import the project, press File -> Import and find your project.
+
+You need the SDK to develop an Android application. The Android SDK provides you the API libraries and developer tools necessary to build, test, and debug applications for Android. You can download it from: http://developer.android.com/sdk/index.html. If you are using Eclipse the easist way do this is to install the SDK Plugin. Check out this guide http://developer.android.com/sdk/installing/installing-adt.html#installing. There are also many tutorials on youtube that can help you with this. Thenewboston tutorials are quite good. 
+
+To develop this application you will need the google maps api library: com.google.android.maps and a Maps API Key. You also need to access the Internet so you need to set the permission. This is already included in the manifest.
+
+This application is developed for Android 4.0.3 but is backward compatible with version 2.2. If you use Eclipse you need to download API 15 (Android 4.0.3), including SDK Platform and Google APIs. 
+
+When running your application you can either run it on your phone or on the emulator. Since we are using locations in the application all the functions will not function properly if you run it on the emulator. The application may even crash so we recommend that you run in on your phone.
+
+If you use Windows and want to test your application on the phone you will need to download the driver for your phone. There are different drives for different brands and model, google your model to download what you need. If you use Linux you do not need this because Linux is awesome.
+
+If you choose to run the application on the emulator your also a special AVD Manager to run the applications, the target needs to be Google APIs. So click Window-> AVD Manager -> New, choose target Google API level 8 or 10. 
+
+To be able to run the tests you need to import them to your Schmaps project. Click File -> Import -> General -> Existing Project into Workspace. A new window will open and you will see a field called "Select root dictionary". Press browse and navigate to your Schmaps directory, open the SchmapsTestTest and press OK. Select it and press Finish. Clean the project before you continue. You need to run the tests on your phone for them to work and your screen need to be lid up. 
+
+You can also take a look at our UML diagram where you can see the connections between all activities in this application. You can find it in our doc folder in github. 
+
+Good luck!
+
+
+
+
+

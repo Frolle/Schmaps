@@ -15,15 +15,16 @@
 	    xmlns:android="http://schemas.android.com/apk/res/android"
 	    xmlns:tools="http://schemas.android.com/tools"
 	    android:id="@+id/relLayETBT"
-    	android:layout_width="match_parent"
-    	android:layout_height="wrap_content"
-    	android:orientation="vertical">
+	    android:layout_weight="1"
+    	android:layout_width="fill_parent"
+    	android:layout_height="fill_parent">
 <!-- This is a comment --> 
     	
     	<LinearLayout
    			android:id="@+id/lineLayETBT"
     		android:layout_width="match_parent"
     		android:layout_height="wrap_content"
+    		android:layout_alignParentTop="true"
     		android:orientation="horizontal"
     		android:weightSum="100">
     	    
@@ -32,7 +33,6 @@
 	        android:id="@+id/edittextlecture"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
-	        android:layout_alignParentTop="true"
 	        android:hint="@string/enterRoom"
 	        tools:context=".GoogleMapSearchLocation" />
 
@@ -44,22 +44,31 @@
 	        android:text="@string/edit_button"
 	        tools:context=".GoogleMapSearchLocation" />
 	    </LinearLayout>
+	    
 		<com.google.android.maps.MapView 
     		xmlns:tools="http://schemas.android.com/tools"
     		android:id="@+id/mapview"
+    		android:layout_above="@+id/linelaybottom"
     		android:layout_width="fill_parent"
     		android:layout_height="fill_parent"
-		android:apiKey="0LIGr976PR9ieBmFbnTRqglKcTUEtXIukD5Xv4g"
+			android:apiKey="0LIGr976PR9ieBmFbnTRqglKcTUEtXIukD5Xv4g"
     		android:clickable="true"
     		tools:context=".GoogleMapSearchLocation"
     		android:layout_below="@+id/lineLayETBT"
     		 />
+		<LinearLayout
+   			android:id="@+id/linelaybottom"
+    		android:layout_width="fill_parent"
+    		android:layout_height="wrap_content"
+    		android:orientation="horizontal"
+    		android:layout_alignParentBottom="true">
+		
 		<Button
 	        android:id="@+id/directionbutton"
 	        android:layout_width="fill_parent"
 	        android:layout_height="wrap_content"
-	        android:layout_alignParentBottom="true"
 	        android:text="@string/directions"
 	        tools:context=".GoogleMapSearchLocation" />
+    	</LinearLayout>
     	
 	    </RelativeLayout>	

@@ -83,26 +83,34 @@ public class CheckInActivity extends MapActivity implements View.OnClickListener
 	private OverlayItem overlayitem;
 	private JSONArray result;
 	private boolean running;
-	
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
-		assignInstances(); //assigns variables used in this class
-		
+		//assigns variables used in this class
+		assignInstances(); 
+
 		location_manager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
-		criteria = new Criteria(); //deafult criteria
-		bestProvider = location_manager.getBestProvider(criteria, false); //best reception
-		location = location_manager.getLastKnownLocation(bestProvider); //gets last known location from chosen provider
-		
-		if(location != null){ //if there is an provider that provides an location ->continue
-			latitude = (int) (location.getLatitude()*1E6); //get the latitude
-			longitude = (int) (location.getLongitude()*1E6); //get the longitude
-			ourLocation = new GeoPoint(latitude, longitude); //greates an geopoint with our location
-			
+		//deafult criteria
+		criteria = new Criteria(); 
+		//best reception
+		bestProvider = location_manager.getBestProvider(criteria, false); 
+		//gets last known location from chosen provider
+		location = location_manager.getLastKnownLocation(bestProvider); 
+
+		//if there is an provider that provides an location ->continue
+		if(location != null){ 
+			//get the latitude
+			latitude = (int) (location.getLatitude()*1E6);
+			//get the longitude
+			longitude = (int) (location.getLongitude()*1E6); 
+			//greates an geopoint with our location
+			ourLocation = new GeoPoint(latitude, longitude); 
+
 			mapcon.animateTo(ourLocation);
-			mapcon.setZoom(17); //zoom level
-			
+			//zoom level
+			mapcon.setZoom(17); 
+
 		}
 
 		location_listener = new LocationListener(){
@@ -110,9 +118,12 @@ public class CheckInActivity extends MapActivity implements View.OnClickListener
 			 * method is called when location is changed, when onResumed() is called
 			 */
 			public void onLocationChanged(Location loc) { 
-				latitude = (int) (location.getLatitude()*1E6); //get the latitude
-				longitude = (int) (location.getLongitude()*1E6); //get the longitude
-				ourLocation = new GeoPoint(latitude, longitude); //greates an geopoint with our location
+				//get the latitude
+				latitude = (int) (location.getLatitude()*1E6); 
+				//get the longitude
+				longitude = (int) (location.getLongitude()*1E6); 
+				//greates an geopoint with our location
+				ourLocation = new GeoPoint(latitude, longitude); 
 			}
 
 			public void onProviderDisabled(String provider) {
@@ -130,19 +141,19 @@ public class CheckInActivity extends MapActivity implements View.OnClickListener
 		};
 		connectExternalDatabase();
 	}
-	
-	
+
+
 	/**
 	 * assigns variables used in this class
 	 */
 	public void assignInstances(){
-		
+
 		setContentView(R.layout.activity_checkin);
 		returnedJsonObject = null;
 		username = "";
 		checkin = false;
 		running = false;
-		
+
 		mapview = (MapView) findViewById(R.id.mapview);
 		mapview.setBuiltInZoomControls(true);
 		mapcon = mapview.getController(); 
@@ -150,9 +161,9 @@ public class CheckInActivity extends MapActivity implements View.OnClickListener
 		checkInButton = (Button) findViewById(R.id.checkinbutton);
 		enterName = (EditText) findViewById(R.id.entername);
 		checkInButton.setOnClickListener(this);
-		
+
 	}
-	
+
 	/*********************************************************************
 	 * Creates the object of a new thread and executes it
 	 * Waits the thread to return an jsonobject, sleeps main thread if json object not returned
@@ -161,21 +172,23 @@ public class CheckInActivity extends MapActivity implements View.OnClickListener
 	public void connectExternalDatabase(){
 		returnedJsonObject = null;
 		GetCheckIn getCheckIn = new GetCheckIn();
-		getCheckIn.execute(); //the method doInBackground() is executed
+		//the method doInBackground() is executed
+		getCheckIn.execute(); 
 
-		while(returnedJsonObject == null){ //if json object not returned, sleep for 30 sec
+		//if json object not returned, sleep for 30 sec
+		while(returnedJsonObject == null){ 
 			try {
 				Thread.sleep(500);
 			} catch (InterruptedException e1) {
 				e1.printStackTrace();
 			}
 		}
-		
+
 		running = true;
-		
+
 		parseJsonAndDraw(returnedJsonObject);
 	}
-	
+
 	/*******************************************************************
 	 * Method parses through in parameter jsonObject and creates an array of geopoints
 	 * each geopoint representing an checked-in person
@@ -183,17 +196,20 @@ public class CheckInActivity extends MapActivity implements View.OnClickListener
 	 * @return arraylist of geopoints
 	 **********************************************************************/
 	public void parseJsonAndDraw(JSONObject jsonObject){
-		GeoPoint geopoint; //greates an geopoint with our location
+		//greates an geopoint with our location
+		GeoPoint geopoint; 
 		int lat, lng;
 		String name,time;
 		StringBuffer timebuffer = new StringBuffer();
-		
+
 		overlayList = mapview.getOverlays();
-		checkInDot = this.getResources().getDrawable(R.drawable.chalmersandroid); //drawable
-		mapItemizedCheckIn = new MapItemizedOverlay(checkInDot, this); //mapitemizedoverlay with drawable
-		
+		 //drawable
+		checkInDot = this.getResources().getDrawable(R.drawable.chalmersandroid);
+		//mapitemizedoverlay with drawable
+		mapItemizedCheckIn = new MapItemizedOverlay(checkInDot, this); 
+
 		result =null;
-		
+
 		try {
 			result = jsonObject.getJSONArray("result");
 			JSONObject checkedInPerson;
@@ -202,12 +218,18 @@ public class CheckInActivity extends MapActivity implements View.OnClickListener
 			//collect data, create geopoint and add to list of overlays that will be drawn on map
 			for(int count = 0;count<result.length();count++){
 				checkedInPerson = result.getJSONObject(count);
-				time = checkedInPerson.getString("time");//extract time
-				timebuffer.insert(0,time); //insert in stringbuffer
-				timebuffer.delete(16, timebuffer.length()); //delete seconds
-				timebuffer.delete(0, 11); //delete date
-				time = timebuffer.toString(); //convert back to string
-				timebuffer.delete(0,timebuffer.length()); //clear buffer
+				//extract time
+				time = checkedInPerson.getString("time");
+				//insert in stringbuffer
+				timebuffer.insert(0,time); 
+				//delete seconds
+				timebuffer.delete(16, timebuffer.length()); 
+				 //delete date
+				timebuffer.delete(0, 11);
+				//convert back to string
+				time = timebuffer.toString(); 
+				//clear buffer
+				timebuffer.delete(0,timebuffer.length()); 
 				name = checkedInPerson.getString("name");
 				lat = (int)checkedInPerson.getInt("lat");
 				lng = (int)checkedInPerson.getInt("lng");
@@ -234,13 +256,15 @@ public class CheckInActivity extends MapActivity implements View.OnClickListener
 		checkin = true;
 
 		username = enterName.getText().toString();
-		username.trim(); //removes white signs
-		username = username.replaceAll("[^[a-zÃ¥Ã¤Ã¶][A-ZÃ…Ã„Ã–][0-9]]",""); //Removes illegal characters to prevent sql injection
+		//removes white signs
+		username.trim();
+		//Removes illegal characters to prevent sql injection
+		username = username.replaceAll("[^[a-zåäö][A-ZÅÄÖ][0-9]]",""); 
 
 		//if the user have not entered a name the name is set to unknown
-		if(username.equals(""))
+		if(username.equals("")){
 			username = "Unknown";
-		
+		}
 		connectExternalDatabase();
 		checkin =false;
 	}
@@ -251,14 +275,14 @@ public class CheckInActivity extends MapActivity implements View.OnClickListener
 	public String getInputName(){
 		return username;
 	}
-	
+
 	/**
 	 * @return the size of jsonarray returned from string
 	 */
 	public int getSizeOfJsonArray(){
 		return result.length();
 	}
-	
+
 	/**
 	 * 
 <<<<<<< HEAD
@@ -279,14 +303,14 @@ public class CheckInActivity extends MapActivity implements View.OnClickListener
 	 *  http://www.vogella.com/articles/AndroidPerformance/article.html
 	 ********************************************************************************/
 	private class GetCheckIn extends AsyncTask<Void, Void, JSONObject> {
-		
+
 		/** when called makes a request to google directions api (json format) 
 		 *  gets the response back
 		 *  convertes the response to a jsonobject
 		 */
 		@Override
 		protected JSONObject doInBackground(Void... params) {
-			
+
 			StringBuilder urlString = new StringBuilder();
 			StringBuilder response = new StringBuilder();
 			InputStream is = null;
@@ -294,19 +318,23 @@ public class CheckInActivity extends MapActivity implements View.OnClickListener
 			HttpURLConnection urlConnection = null;
 			String line = null;
 			String jsonResponse = "";
-			
+
 			//Create a string with the right start and end position
 			urlString.append("http://schmaps.scarleo.se/schmaps.php?name=");
-			urlString.append(username); //from, your position, latitude
-			urlString.append("&lat=");// to, where you are going
-			urlString.append(Integer.toString((int) latitude)); //latitude
+			//from, your position, latitude
+			urlString.append(username); 
+			urlString.append("&lat=");
+			//latitude
+			urlString.append(Integer.toString((int) latitude)); 
 			urlString.append("&lng=");
-			urlString.append(Integer.toString((int) longitude)); //longitude
-			urlString.append("&key=bSJ9B9CFn449QRsXL9qMxW-lc"); //authorization key
-			if(checkin)
+			//longitude
+			urlString.append(Integer.toString((int) longitude)); 
+			//authorization key
+			urlString.append("&key=bSJ9B9CFn449QRsXL9qMxW-lc"); 
+			if(checkin){
 				urlString.append("&insert=1");
-			
-			
+			}
+
 			//establish a connection with google directions api
 			try {
 				url = new URL(urlString.toString());
@@ -322,11 +350,11 @@ public class CheckInActivity extends MapActivity implements View.OnClickListener
 				e.printStackTrace();
 			}
 
-			InputStreamReader inputStream = new InputStreamReader(is);
-			BufferedReader reader = new BufferedReader(inputStream);
 
 			//read from the buffer line by line and save in response (a stringbuider)
 			try{
+				InputStreamReader inputStream = new InputStreamReader(is);
+				BufferedReader reader = new BufferedReader(inputStream);
 				while((line = reader.readLine()) != null){
 					response.append(line);
 				}
@@ -346,10 +374,10 @@ public class CheckInActivity extends MapActivity implements View.OnClickListener
 			}catch(JSONException e){
 
 			}
-			
+
 			return returnedJsonObject;
 		}
-		
+
 	}
 
 
@@ -357,7 +385,7 @@ public class CheckInActivity extends MapActivity implements View.OnClickListener
 	protected boolean isRouteDisplayed() {
 		return false;
 	}
-	
+
 	@Override
 	protected void onPause() {
 		super.onPause();
