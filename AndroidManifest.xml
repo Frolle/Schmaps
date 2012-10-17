@@ -55,7 +55,8 @@
         <activity
             android:name=".CampusMenuActivity"
             android:screenOrientation="fullSensor"
-            android:label="@string/title_activity_campus_menu" >
+            android:label="@string/title_activity_campus_menu"
+            android:configChanges="orientation|screenSize" >
             <intent-filter>
                 <action android:name="android.intent.action.CAMPUSMENUACTIVITY" />
 
