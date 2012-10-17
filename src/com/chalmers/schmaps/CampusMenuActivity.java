@@ -1,5 +1,5 @@
 /*
- * Copyright [2012] [Simon Fransson]
+ * Copyright [2012] [Simon Fransson, Dina Zuko]
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -29,8 +29,6 @@ import android.widget.Button;
 */
 
 public class CampusMenuActivity extends Activity implements View.OnClickListener {
-	private static final int JOHANNESBERG = 40; 		//identifier for Johanneberg
-	private static final int LINDHOLMEN = 42;			// -||- for Lindholmen
 	
 	private Intent startMapActivity;
 	private Button johannebergButton;
@@ -60,26 +58,27 @@ public class CampusMenuActivity extends Activity implements View.OnClickListener
 	*the database and mark the correct locations in the area.
 	*/
 	public void onClick(View arg0) {
+		
+		String campus = "";
+		
 		switch (arg0.getId())
 		{
 		case R.id.johannebergButton:
-			startMapActivity = new Intent("android.intent.action.GOOGLEMAPSHOWLOCATION");
-			setActionString(startMapActivity.getAction());
-			startMapActivity.putExtra("Campus", JOHANNESBERG);
-			//Transfer what kind of locations should be drawn
-			startMapActivity.putExtra("Show locations", menuActionChosen.getInt("Show locations"));
-			startActivity(startMapActivity);
+			campus = "JOHANNEBERG";
 			break;
 			
+			
 		case R.id.lindholmenButton:
-			startMapActivity = new Intent("android.intent.action.GOOGLEMAPSHOWLOCATION");
-			setActionString(startMapActivity.getAction());
-			startMapActivity.putExtra("Campus", LINDHOLMEN);
-			//Transfer what kind of locations should be drawn
-			startMapActivity.putExtra("Show locations", menuActionChosen.getInt("Show locations"));
-			startActivity(startMapActivity);
+			campus = "LINDHOLMEN";
 			break;
 		}
+		
+		startMapActivity = new Intent("android.intent.action.GOOGLEMAPSHOWLOCATION");
+		setActionString(startMapActivity.getAction());
+		startMapActivity.putExtra("Campus", campus);
+		//Transfer what kind of locations should be drawn
+		startMapActivity.putExtra("Show locations", menuActionChosen.getInt("Show locations"));
+		startActivity(startMapActivity);
 	}
 	
     public String getActionString() {
