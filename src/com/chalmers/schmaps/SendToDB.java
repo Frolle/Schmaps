@@ -81,9 +81,16 @@ public class SendToDB extends BroadcastReceiver {
 		
 	}
 
+<<<<<<< HEAD
+			}
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}			
+=======
 	
 	public void parseQueue(JSONObject jsonObject){
 
+>>>>>>> 4ec93748dcc4d172a50059a5976fcf3c5d0f2a56
 	}
 	
 	/**
@@ -102,8 +109,7 @@ public class SendToDB extends BroadcastReceiver {
 			}
 		}
 		
-		parseQueue(returnedJsonObject);
-		
+		parseQueue(returnedJsonObject);	
 	}
 	
 

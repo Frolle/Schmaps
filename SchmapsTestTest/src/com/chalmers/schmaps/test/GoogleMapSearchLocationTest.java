@@ -18,6 +18,9 @@ package com.chalmers.schmaps.test;
 import java.lang.reflect.Field;
 import java.util.*;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import junit.framework.Assert;
 
 import com.chalmers.schmaps.GoogleMapSearchLocation;
@@ -151,5 +154,15 @@ public class GoogleMapSearchLocationTest extends ActivityInstrumentationTestCase
 			e.printStackTrace();
 		}
 		assertEquals("runan", roomToFindString);
+	}
+	
+	public void testWalkingDirections() throws JSONException{
+		
+String jsonresponse = "{\"routes\" : [{\"legs\" : [{\"steps\" : [{\"end_location\" : {\"lat\" : 57.715350,\"lng\" : 11.999310},\"start_location\" : {\"lat\" : 57.715450,\"lng\" : 11.999690},},{\"end_location\" : {\"lat\" : 57.714780,\"lng\" : 11.999840},\"start_location\" : {\"lat\" : 57.715350,\"lng\" : 11.999310},},{\"end_location\" : {\"lat\" : 57.714380,\"lng\" : 11.996780},\"start_location\" : {\"lat\" : 57.714780,\"lng\" : 11.999840},},{\"end_location\" : {\"lat\" : 57.714220,\"lng\" : 11.996910},\"start_location\" : {\"lat\" : 57.714380,\"lng\" : 11.996780},}],}],}],}";
+		JSONObject jsonobject = new JSONObject(jsonresponse);
+		
+		activity.walkningDirections(jsonobject);
+		
+		//assertEquals(3,activity.getSizeOfJsonArray());
 	}
 }
