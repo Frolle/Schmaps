@@ -163,13 +163,15 @@ public class GoogleMapSearchLocationTest extends ActivityInstrumentationTestCase
 	 * Tests if walkingDirections parses the jsonobject in the right way
 	 * @throws JSONException
 	 */
-	public void testWalkingDirections() throws JSONException{
+	public void testParseJson() throws JSONException{
 
 		String jsonresponse = "{\"routes\":[{\"legs\":[{\"steps\":[{\"end_location\":{\"lat\":57.715350,\"lng\":11.999310},\"start_location\":{\"lat\":57.71545000000001,\"lng\":11.999690}}]}]}]}";
 				
 		JSONObject jsonobject = new JSONObject(jsonresponse);
 
+
 		activity.parseJson(jsonobject);
+
 
 		assertEquals(2,activity.returnNrOfGeopoints());
 	}

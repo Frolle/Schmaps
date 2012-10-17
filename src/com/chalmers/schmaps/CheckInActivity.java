@@ -87,19 +87,8 @@ public class CheckInActivity extends MapActivity implements View.OnClickListener
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_checkin);
-		returnedJsonObject = null;
-		username = "";
-		checkin = false;
-		running = false;
 		
-		mapview = (MapView) findViewById(R.id.mapview);
-		mapview.setBuiltInZoomControls(true);
-		mapcon = mapview.getController(); 
-
-		checkInButton = (Button) findViewById(R.id.checkinbutton);
-		enterName = (EditText) findViewById(R.id.entername);
-		checkInButton.setOnClickListener(this);
+		assignInstances(); //assigns variables used in this class
 		
 		location_manager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
 		criteria = new Criteria(); //deafult criteria
@@ -123,18 +112,14 @@ public class CheckInActivity extends MapActivity implements View.OnClickListener
 			public void onLocationChanged(Location loc) { 
 				latitude = (int) (location.getLatitude()*1E6); //get the latitude
 				longitude = (int) (location.getLongitude()*1E6); //get the longitude
-
 				ourLocation = new GeoPoint(latitude, longitude); //greates an geopoint with our location
-
 			}
 
 			public void onProviderDisabled(String provider) {
-				// TODO Auto-generated method stub
 
 			}
 
 			public void onProviderEnabled(String provider) {
-				// TODO Auto-generated method stub
 
 			}
 
@@ -144,6 +129,28 @@ public class CheckInActivity extends MapActivity implements View.OnClickListener
 			}	
 		};
 		connectExternalDatabase();
+	}
+	
+	
+	/**
+	 * assigns variables used in this class
+	 */
+	public void assignInstances(){
+		
+		setContentView(R.layout.activity_checkin);
+		returnedJsonObject = null;
+		username = "";
+		checkin = false;
+		running = false;
+		
+		mapview = (MapView) findViewById(R.id.mapview);
+		mapview.setBuiltInZoomControls(true);
+		mapcon = mapview.getController(); 
+
+		checkInButton = (Button) findViewById(R.id.checkinbutton);
+		enterName = (EditText) findViewById(R.id.entername);
+		checkInButton.setOnClickListener(this);
+		
 	}
 	
 	/*********************************************************************
@@ -254,7 +261,11 @@ public class CheckInActivity extends MapActivity implements View.OnClickListener
 	
 	/**
 	 * 
+<<<<<<< HEAD
 	 * @return true if the doinbackground() in asynktask has executed
+=======
+	 * @return true if the goinbackground method in getcheckin has executed
+>>>>>>> 3b9c24e68944d2e99ddfd225913f53eeb55aa051
 	 */
 	public boolean getIsAsyncTaskRunning(){
 		return running;
@@ -269,8 +280,6 @@ public class CheckInActivity extends MapActivity implements View.OnClickListener
 	 ********************************************************************************/
 	private class GetCheckIn extends AsyncTask<Void, Void, JSONObject> {
 		
-
-
 		/** when called makes a request to google directions api (json format) 
 		 *  gets the response back
 		 *  convertes the response to a jsonobject
@@ -308,10 +317,8 @@ public class CheckInActivity extends MapActivity implements View.OnClickListener
 				is = urlConnection.getInputStream();
 				urlConnection.connect();
 			} catch (MalformedURLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 
@@ -348,7 +355,6 @@ public class CheckInActivity extends MapActivity implements View.OnClickListener
 
 	@Override
 	protected boolean isRouteDisplayed() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 	
