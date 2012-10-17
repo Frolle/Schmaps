@@ -55,10 +55,10 @@ public class GPSPoint extends Activity {
 	 * Add a proximity alert to the specified long and lat, adding an id for use in the database on our server.
 	 */
 	public void setGPSPoints(int lng, int lat, int id){
-		Intent intDB = new Intent(this, SendToDB.class);
+		Intent intDB = new Intent(this, SendToDB.class);	//new intent from this class to the SendToDB class
 		intDB.putExtra("restaurant", id);
-		PendingIntent.getActivity(this, 0, intDB, Intent.FLAG_ACTIVITY_NEW_TASK);
-		manager.addProximityAlert(lng, lat, distance, -1, intent);		
+		PendingIntent.getActivity(this, 0, intDB, Intent.FLAG_ACTIVITY_NEW_TASK);	//creating a PendingIntent which will act like startActivity(intent) for the SendToDB class
+		manager.addProximityAlert(lng, lat, distance, -1, intent);		//add a proximity alert on the specified longitude and latitude, on a radius of distance, without time-limit for the intent.
 
 	}
 	
