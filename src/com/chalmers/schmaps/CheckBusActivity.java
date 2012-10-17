@@ -34,6 +34,7 @@ import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.View;
@@ -136,6 +137,7 @@ public class CheckBusActivity extends Activity implements View.OnClickListener {
 			for(int j = 0; j<4; j++){
 				TextView textview = new TextView(this);
 				textview.setTextColor(Color.BLACK);
+				textview.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
 				//Check which content should be written in the textview
 				if(j == 0){
 					textview.setText(chalmersLineArray.get(i));
@@ -172,6 +174,7 @@ public class CheckBusActivity extends Activity implements View.OnClickListener {
 			for(int j = 0; j<4; j++){
 				TextView textview = new TextView(this);
 				textview.setTextColor(Color.BLACK);
+				textview.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
 				//Check which content should be written in the textview
 				if(j == 0){
 					textview.setText(lindholmenLineArray.get(i));
