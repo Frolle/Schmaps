@@ -18,6 +18,7 @@ package com.chalmers.schmaps;
 
 import android.os.Bundle;
 import android.app.Activity;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.content.Intent;
 import android.view.animation.Animation;
@@ -35,6 +36,7 @@ public class Startup extends Activity {
 	private Animation fadeInAnimation;
     private Intent startMenuActivity;
     private Thread threadForSplash;
+    private boolean isBackPressed = false;
 
 	/**
 	 * onCreate method that assign the instance variables and create an anonymous Thread which is used as a timer for the splash screen.
@@ -57,11 +59,15 @@ public class Startup extends Activity {
             		e.printStackTrace();
             	}
             	finish();
+            	if(!isBackPressed){
         		startActivity(startMenuActivity);
+            	}
             }
           };
-
+        
         threadForSplash.start();
+        
+
     }
 	/**
 	 * Method to assign the instance variables.
@@ -78,6 +84,18 @@ public class Startup extends Activity {
 		super.onPause();
 		finish();
 	}
+/**
+ * If back button is clicked, then finish the activity
+ */
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if ((keyCode == KeyEvent.KEYCODE_BACK)) {
+            isBackPressed = true;
+            finish();
+        }
+        return super.onKeyDown(keyCode, event);
+
+    }
 	
 	
 	@Override
