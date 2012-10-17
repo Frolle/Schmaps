@@ -297,7 +297,7 @@ public class GoogleMapSearchLocation extends MapActivity implements View.OnClick
 					roomSearched = false;
 				}else{
 					Context context = getApplicationContext();
-					Toast.makeText(context, "Do a search first", Toast.LENGTH_LONG).show();	
+					Toast.makeText(context, "Search for a room first to get directions", Toast.LENGTH_LONG).show();	
 				}
 			}else
 			{
