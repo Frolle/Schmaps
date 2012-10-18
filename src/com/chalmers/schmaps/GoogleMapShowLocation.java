@@ -36,26 +36,24 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.content.Context;
-<<<<<<< HEAD
+
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
-=======
->>>>>>> c294522c375ed511652e5d6dc42de0eaead36e97
+
 
 public class GoogleMapShowLocation extends MapActivity {
 	private static final int MICROWAVEBUTTON = 1;
 	private static final int RESTAURANTBUTTON = 2;
 	private static final int ATMBUTTON = 3;
-<<<<<<< HEAD
+
 	private static final int LECTUREHALLBUTTON = 4;
 	private static final int BOOKINGKEY = 5;
 	private static final int BUSKEY = 6;
 	private static final int SENDTODB = 7;
-=======
->>>>>>> c294522c375ed511652e5d6dc42de0eaead36e97
+
 	private static final int JOHANNESBERG = 40;
 
 	private static final String DB_MICROWAVETABLE = "Microwaves"; //Name of our microwave table
