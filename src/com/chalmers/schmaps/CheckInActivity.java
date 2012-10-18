@@ -20,10 +20,10 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.charset.Charset;
 import java.util.List;
 
 import org.json.JSONArray;
@@ -272,11 +272,9 @@ public class CheckInActivity extends MapActivity implements View.OnClickListener
 
 	/**
 	 * @return the username that user enters
-	 * @throws UnsupportedEncodingException 
 	 */
-	public String getInputName() throws UnsupportedEncodingException{
-		String str = new String(username.getBytes("macintosh"), "UTF-8");
-		return str;
+	public String getInputName(){
+		return username;
 	}
 
 	/**
@@ -353,8 +351,11 @@ public class CheckInActivity extends MapActivity implements View.OnClickListener
 			//read from the buffer line by line and save in response (a stringbuider)
 			try{
 				InputStreamReader inputStream = new InputStreamReader(is);
+				
 				BufferedReader reader = new BufferedReader(inputStream);
+				
 				while((line = reader.readLine()) != null){
+		
 					response.append(line);
 				}
 				//Close the reader, stream & connection
