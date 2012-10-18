@@ -286,7 +286,11 @@ public class CheckInActivity extends MapActivity implements View.OnClickListener
 
 	/**
 	 * 
+<<<<<<< HEAD
+	 * @return true if the doinbackground() in asynktask has executed
+=======
 	 * @return true if the goinbackground method in getcheckin has executed
+>>>>>>> 3b9c24e68944d2e99ddfd225913f53eeb55aa051
 	 */
 	public boolean getIsAsyncTaskRunning(){
 		return running;
