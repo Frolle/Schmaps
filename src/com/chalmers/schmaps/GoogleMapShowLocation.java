@@ -30,7 +30,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.chalmers.schmaps.SendToDB.GetQueue;
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapController;
@@ -45,17 +44,11 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 
 import android.content.Context;
-
-
-import android.app.Dialog;
 import android.app.PendingIntent;
-import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
 import android.widget.Button;
 
 
@@ -75,8 +68,8 @@ public class GoogleMapShowLocation extends MapActivity implements View.OnClickLi
 	private static final String DB_MICROWAVETABLE = "Microwaves"; //Name of our microwave table
 	private static final String DB_RESTAURANTTABLE = "Restaurants"; //Name of our restaurants table
 	private static final String DB_ATMTABLE = "Atm";				//Name of our ATM table
-		
-    private MapController mapcon;
+
+	private MapController mapcon;
 	private LocationManager location_manager;
 	private LocationListener location_listener;
 	private List<Overlay> mapOverlays;
@@ -85,9 +78,7 @@ public class GoogleMapShowLocation extends MapActivity implements View.OnClickLi
 	private SearchSQL search;
 	private GeoPoint johannesbergLoc;
 	private GeoPoint lindholmenLoc;
-	private GPSPoint gpsPoint;
 	private ArrayList<OverlayItem> locationList;
-	private JSONObject jsonObject, returnedJsonObject;
 	private Button queueButton;
 	private JSONObject returnedJSON;
 	@Override
@@ -104,30 +95,30 @@ public class GoogleMapShowLocation extends MapActivity implements View.OnClickLi
 		if(setView.getInt("Campus")==JOHANNESBERG){
 			mapcon.animateTo(johannesbergLoc);
 		}
-		
+
 		else if(setView.getInt("Campus")==LINDHOLMEN){
 			mapcon.animateTo(lindholmenLoc);
 		}else{
 			mapcon.animateTo(johannesbergLoc);
 		}
 		mapcon.setZoom(16);
-		
+
 
 		//Switch case to determine what series of locations to be drawn on map
 		switch(setView.getInt("Show locations")){
-		
+
 		case SENDTODB:
 			drawLocationList(DB_RESTAURANTTABLE);
 			break;
-			
+
 		case RESTAURANTBUTTON:
 			drawLocationList(DB_RESTAURANTTABLE);
 			break;
-		
+
 		case MICROWAVEBUTTON:
 			drawLocationList(DB_MICROWAVETABLE);
 			break;
-			
+
 		case ATMBUTTON:
 			drawLocationList(DB_ATMTABLE);
 			break;
@@ -135,10 +126,10 @@ public class GoogleMapShowLocation extends MapActivity implements View.OnClickLi
 
 	}
 
-/**
- * Draws locations (overlayitems) from specified table.
- * @param table - table containing the locations to be drawn.
- */
+	/**
+	 * Draws locations (overlayitems) from specified table.
+	 * @param table - table containing the locations to be drawn.
+	 */
 	public void drawLocationList(String table) {
 		search.openRead();
 		locationList = search.getLocations(table);
@@ -151,7 +142,7 @@ public class GoogleMapShowLocation extends MapActivity implements View.OnClickLi
 
 		}
 		mapView.postInvalidate();
-		
+
 	}
 
 
@@ -161,7 +152,7 @@ public class GoogleMapShowLocation extends MapActivity implements View.OnClickLi
 		getMenuInflater().inflate(R.menu.activity_map, menu);
 		return true;
 	}
-	
+
 
 	@Override
 	protected boolean isRouteDisplayed() {
@@ -191,11 +182,11 @@ public class GoogleMapShowLocation extends MapActivity implements View.OnClickLi
 			//print("Couldn't use the GPS: " + e + ", " + e.getMessage());
 		}
 	}
-	
+
 	/**
 	 * Simple method to assign all instance variables and initiate the settings for map view.
 	 */
-    private void assignInstances() {
+	private void assignInstances() {
 
 		mapView = (MapView) findViewById(R.id.mapview);
 		mapView.setBuiltInZoomControls(true);
@@ -206,7 +197,6 @@ public class GoogleMapShowLocation extends MapActivity implements View.OnClickLi
 		johannesbergLoc = new GeoPoint(57688678, 11977136);
 		Drawable drawable = this.getResources().getDrawable(R.drawable.dot); 
 		overlay = new MapItemizedOverlay(drawable, this);
-		gpsPoint= new GPSPoint(); 
 		queueButton = (Button) findViewById(R.id.queuebutton);
 		queueButton.setOnClickListener(this);
 		location_manager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
@@ -214,7 +204,7 @@ public class GoogleMapShowLocation extends MapActivity implements View.OnClickLi
 
 			public void onLocationChanged(Location location) { //metod som hämtar din position genom att anropa onResume
 
-				
+
 				int longitude = (int) (location.getLongitude() * 1E6);
 				int latitude = (int) (location.getLatitude() * 1E6);
 
@@ -240,23 +230,22 @@ public class GoogleMapShowLocation extends MapActivity implements View.OnClickLi
 		search = new SearchSQL(GoogleMapShowLocation.this);
 		search.createDatabase();
 	}
-    
-    /*
-     * Method to set the GPSPoints for the restaurants by calling the GPSPoint class
-     * where you set a proximity alert on each desired position.
-     */
-    private void getQueue(){
-    	int id = 1;
-    	for(OverlayItem item: locationList){
-    		setGPSPoints(item.getPoint().getLongitudeE6(), item.getPoint().getLatitudeE6(), id++);	//set the proximity alert of the spot on the (long, lat) place
-    	}
-    	setGPSPoints(57714860,12000497, id++);
-    	Log.e("showlocation", "getqueue");
-    	ConnectionToServer connection = new ConnectionToServer();
-    	connection.doInBackground();
-    	
 
-    }
+	/*
+	 * Method to set the GPSPoints for the restaurants by calling the GPSPoint class
+	 * where you set a proximity alert on each desired position.
+	 */
+	private void getQueue(){
+		int id = 1;
+		for(OverlayItem item: locationList){
+			setGPSPoints(item.getPoint().getLongitudeE6(), item.getPoint().getLatitudeE6(), id++);	//set the proximity alert of the spot on the (long, lat) place
+		}
+		setGPSPoints(57714860,12000497, id++);
+		Log.e("showlocation", "getqueue");
+		connectToDB();
+
+
+	}
 	/*
 	 * Add a proximity alert to the specified long and lat, adding an id for use in the database on our server.
 	 */
@@ -275,10 +264,14 @@ public class GoogleMapShowLocation extends MapActivity implements View.OnClickLi
 	/*
 	 * Checks how many are queueing by checking the database on the server and returning this in the screen as a dialouge.
 	 */
-	
-	private void parseQueue(){
 
-		int code, nrOfCheckedIn;
+	private void parseQueue(JSONObject jsonObject){
+		
+		Log.e("showlocation", "parse");
+		
+		ArrayList <PairOfCodeAndCheckedin> list = new ArrayList<PairOfCodeAndCheckedin>();
+
+		int codeOfRest, nrOfCheckedIn;
 
 		try {
 			JSONArray result = jsonObject.getJSONArray("result");
@@ -288,24 +281,30 @@ public class GoogleMapShowLocation extends MapActivity implements View.OnClickLi
 			//collect data, create geopoint and add to list of overlays that will be drawn on map
 			for(int count = 0;count<result.length();count++){
 				numberOfCheckedInPeople = result.getJSONObject(count);
-				
-				code = (int) numberOfCheckedInPeople.getInt("code");
-				nrOfCheckedIn = (int)numberOfCheckedInPeople.getInt("number");
-				//code and nrOfCheckedIn need to be saved and somehow send to a database
 
+				codeOfRest = (int) numberOfCheckedInPeople.getInt("code");
+				nrOfCheckedIn = (int)numberOfCheckedInPeople.getInt("number");
+				PairOfCodeAndCheckedin pair = new PairOfCodeAndCheckedin(codeOfRest,nrOfCheckedIn);
+				list.add(pair);
 			}
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
-	}
-	
-	private void connectToDB(){
-		returnedJsonObject = null;
-		SendToDB sender = new SendToDB();
-		GetQueue getQueue = sender.new GetQueue();
-		getQueue.execute();
 		
-		while(returnedJsonObject == null){ //if json object not returned, sleep for 30 sec
+		Log.e("showlocation", "parse finish");
+		
+		//tex return list till connecttoDB
+		
+		
+	}
+
+	private void connectToDB(){
+		Log.e("showlocation", "connecttodb");
+		returnedJSON = null;
+		ConnectionToServer connection = new ConnectionToServer();
+		connection.execute();
+
+		while(returnedJSON == null){ //if json object not returned, sleep for 30 sec
 			try {
 				Thread.sleep(500);
 			} catch (InterruptedException e1) {
@@ -313,31 +312,35 @@ public class GoogleMapShowLocation extends MapActivity implements View.OnClickLi
 			}
 		}
 		
-		parseQueue(returnedJsonObject);
+		Log.e("showlocation", "finish connecttodb");
+
+		parseQueue(returnedJSON);
 		
+		//Här får man på ta list visa vilka som är inloggade, antigen direct i showlocation eller i en lista (ny intent)
+
 	}
 
 
 	public void onClick(View v) {
-		
+
 		if(v == queueButton){
 			Log.e("showlocation", "onclick");
 			getQueue();
 		}
 	}
-	
+
 	/**
 	 * @author Kya
 	 *Created a new class to connect the program to the external database with the restaurant table and their id:s
 	 *Not yet completed.
 	 */
 
-		private class ConnectionToServer extends AsyncTask<Void, Void, JSONObject> {
-			
+	private class ConnectionToServer extends AsyncTask<Void, Void, JSONObject> {
+
 
 		@Override
 		protected JSONObject doInBackground(Void... params) {
-			Log.e("SendtoDb", "doinbackground");
+			Log.e("showlocation", "doinbackground");
 			StringBuilder urlString = new StringBuilder();
 			StringBuilder response = new StringBuilder();
 			InputStream is = null;
@@ -345,18 +348,22 @@ public class GoogleMapShowLocation extends MapActivity implements View.OnClickLi
 			HttpURLConnection urlConnection = null;
 			String line = null;
 			String jsonResponse = "";
-			
 
-			urlString.append("http://schmaps.scarleo.se/rest.php?");
-			if(entering){
-				urlString.append("&insert=1");
-			}else{
-				urlString.append("&delete=1");
-			}
-			urlString.append("&code=");
-			urlString.append(id);
+			Log.e("show location", "hej1");
+			urlString.append("http://schmaps.scarleo.se/rest.php?&insert=1&code=79");
 			
-			
+//			Här kan man ska en int enter som är true ifall man går in i området och false och man går ut
+//			Detta för att kunna skicka relevant info till databsen så att antalet van justeras
+//			int code visar vilken restaurang det gäller, det var man ska justera antalet	
+//			urlString.append("http://schmaps.scarleo.se/rest.php?");			
+//			if(enter){ 
+//				urlString.append("&insert=1");
+//			}else{
+//				urlString.append("&delete=1");
+//			}
+//			urlString.append("&code=");
+//			urlString.append(code);
+
 			try {
 				url = new URL(urlString.toString());
 				urlConnection = (HttpURLConnection) url.openConnection();
@@ -366,18 +373,20 @@ public class GoogleMapShowLocation extends MapActivity implements View.OnClickLi
 				is = urlConnection.getInputStream();
 				urlConnection.connect();
 			} catch (MalformedURLException e) {
-
+				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 
-			InputStreamReader inputStream = new InputStreamReader(is);
-			BufferedReader reader = new BufferedReader(inputStream);
+			
+			
 
 			//read from the buffer line by line and save in response (a stringbuider)
 			try{
+				InputStreamReader inputStream = new InputStreamReader(is);
+				BufferedReader reader = new BufferedReader(inputStream);
 				while((line = reader.readLine()) != null){
 					response.append(line);
 				}
@@ -388,19 +397,23 @@ public class GoogleMapShowLocation extends MapActivity implements View.OnClickLi
 			}catch(Exception e) {
 				Log.e("Buffer Error", "Error converting result " + e.toString());
 			}
+			Log.e("show location", jsonResponse);
 
+			
 			jsonResponse = response.toString();
-
+			Log.e("show location", jsonResponse);
 			//convert string to jsonobject and return the object
 			try{
 				returnedJSON = new JSONObject(jsonResponse);
 			}catch(JSONException e){
 
 			}
+			
+			Log.e("showlocation", "finish doinbackground");
 
 			return returnedJSON;
 		}
-		}
+	}
 
 
 }
