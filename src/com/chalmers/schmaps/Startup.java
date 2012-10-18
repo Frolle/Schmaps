@@ -92,9 +92,9 @@ public class Startup extends Activity {
         if ((keyCode == KeyEvent.KEYCODE_BACK)) {
             isBackPressed = true;
             finish();
+            return true;
         }
-        return super.onKeyDown(keyCode, event);
-
+        return false;
     }
 	
 	
