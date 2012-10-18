@@ -22,9 +22,7 @@ import com.chalmers.schmaps.R;
 import com.jayway.android.robotium.solo.Solo;
 
 import android.test.ActivityInstrumentationTestCase2;
-import android.test.TouchUtils;
 import android.test.UiThreadTest;
-import android.util.Log;
 import android.widget.Button;
 import android.widget.TableLayout;
 
