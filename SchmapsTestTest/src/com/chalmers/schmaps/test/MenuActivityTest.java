@@ -15,7 +15,6 @@
  */
 package com.chalmers.schmaps.test;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
@@ -25,11 +24,8 @@ import com.chalmers.schmaps.MenuActivity;
 import com.chalmers.schmaps.R;
 import com.jayway.android.robotium.solo.Solo;
 
-import android.R.menu;
 import android.content.Context;
 import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
-import android.net.wifi.WifiManager;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.TouchUtils;
 import android.view.KeyEvent;
@@ -45,7 +41,6 @@ public class MenuActivityTest extends ActivityInstrumentationTestCase2<MenuActiv
 	private Button searchHall, groupRoom,atmButton,microwaveButton,findRestaurantsButton;
 	private MenuActivity menuActivity;
 	private Solo solo;	
-	private WifiManager wifiManager;
 	private ConnectivityManager iConnectivityManager;
 	public MenuActivityTest() {
 		super(MenuActivity.class);
@@ -92,7 +87,7 @@ public class MenuActivityTest extends ActivityInstrumentationTestCase2<MenuActiv
 	public void testGroupRoomButton(){
 		TouchUtils.clickView(this, this.groupRoom);
 		super.getInstrumentation().waitForIdleSync();
-		assertEquals("GroupRoomButton", menuActivity.getActivityString());
+		assertEquals("android.intent.action.GROUPROOM", menuActivity.getActivityString());
 		this.sendKeys(KeyEvent.KEYCODE_BACK);
 	}
 	
