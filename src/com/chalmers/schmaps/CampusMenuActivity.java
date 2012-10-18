@@ -29,12 +29,15 @@ import android.widget.Button;
 */
 
 public class CampusMenuActivity extends Activity implements View.OnClickListener {
+	private static final int JOHANNESBERG = 40; //identifier for Johanneberg
+	private static final int LINDHOLMEN = 42;	// -||- for Lindholmen
 	
 	private Intent startMapActivity;
 	private Button johannebergButton;
 	private Button lindholmenButton;
 	private Bundle menuActionChosen;
 	private String actionString;
+	private int campus;
 
 	@Override
     public void onCreate(Bundle savedInstanceState) {
@@ -59,17 +62,17 @@ public class CampusMenuActivity extends Activity implements View.OnClickListener
 	*/
 	public void onClick(View arg0) {
 		
-		String campus = "";
+		
 		
 		switch (arg0.getId())
 		{
 		case R.id.johannebergButton:
-			campus = "JOHANNEBERG";
+			campus = JOHANNESBERG;
 			break;
 			
 			
 		case R.id.lindholmenButton:
-			campus = "LINDHOLMEN";
+			campus = LINDHOLMEN;
 			break;
 		}
 		
