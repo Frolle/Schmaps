@@ -16,6 +16,13 @@
 package com.chalmers.schmaps;
 
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,17 +41,25 @@ import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.os.AsyncTask;
 import android.os.Bundle;
+
 import android.content.Context;
 
+
+import android.app.Dialog;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
+import android.widget.Button;
 
 
-public class GoogleMapShowLocation extends MapActivity {
+public class GoogleMapShowLocation extends MapActivity implements View.OnClickListener {
 	private static final int MICROWAVEBUTTON = 1;
 	private static final int RESTAURANTBUTTON = 2;
 	private static final int ATMBUTTON = 3;
@@ -55,6 +70,7 @@ public class GoogleMapShowLocation extends MapActivity {
 	private static final int SENDTODB = 7;
 
 	private static final int JOHANNESBERG = 40;
+	private static final int LINDHOLMEN = 42;	
 
 	private static final String DB_MICROWAVETABLE = "Microwaves"; //Name of our microwave table
 	private static final String DB_RESTAURANTTABLE = "Restaurants"; //Name of our restaurants table
@@ -72,6 +88,8 @@ public class GoogleMapShowLocation extends MapActivity {
 	private GPSPoint gpsPoint;
 	private ArrayList<OverlayItem> locationList;
 	private JSONObject jsonObject, returnedJsonObject;
+	private Button queueButton;
+	private JSONObject returnedJSON;
 	@Override
 	/**
 	 * Method for determining on creation how the map view will be shown, what locations should be drawn
@@ -81,25 +99,30 @@ public class GoogleMapShowLocation extends MapActivity {
 		super.onCreate(savedInstanceState);
 		Bundle setView = getIntent().getExtras();		
 		setContentView(R.layout.activity_strippedmap);
-		connectToDB();
 		assignInstances();
 		//If-check to see if it's Lindholmen or Johannesberg campus
-		if(setView.getInt("Campus")==JOHANNESBERG)
+		if(setView.getInt("Campus")==JOHANNESBERG){
 			mapcon.animateTo(johannesbergLoc);
+		}
 		
-		else 
+		else if(setView.getInt("Campus")==LINDHOLMEN){
 			mapcon.animateTo(lindholmenLoc);
+		}else{
+			mapcon.animateTo(johannesbergLoc);
+		}
 		mapcon.setZoom(16);
+		
 
 		//Switch case to determine what series of locations to be drawn on map
 		switch(setView.getInt("Show locations")){
 		
 		case SENDTODB:
 			drawLocationList(DB_RESTAURANTTABLE);
-			drawQueue();
+			break;
 			
 		case RESTAURANTBUTTON:
 			drawLocationList(DB_RESTAURANTTABLE);
+			break;
 		
 		case MICROWAVEBUTTON:
 			drawLocationList(DB_MICROWAVETABLE);
@@ -161,7 +184,7 @@ public class GoogleMapShowLocation extends MapActivity {
 		try {
 			// Register the listener with the Location Manager to receive
 			// location updates
-			location_manager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 30000, 100, location_listener);
+			//location_manager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 30000, 100, location_listener);
 			location_manager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 30000, 100, location_listener);
 		}
 		catch (Exception e) {
@@ -184,7 +207,8 @@ public class GoogleMapShowLocation extends MapActivity {
 		Drawable drawable = this.getResources().getDrawable(R.drawable.dot); 
 		overlay = new MapItemizedOverlay(drawable, this);
 		gpsPoint= new GPSPoint(); 
-		
+		queueButton = (Button) findViewById(R.id.queuebutton);
+		queueButton.setOnClickListener(this);
 		location_manager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
 		location_listener = new LocationListener(){
 
@@ -216,21 +240,6 @@ public class GoogleMapShowLocation extends MapActivity {
 		search = new SearchSQL(GoogleMapShowLocation.this);
 		search.createDatabase();
 	}
-    /*
-     * Menu-button to select the option where you can see all people queueing atm.
-     *
-     */
-    public boolean onOptionsItemSelected(MenuItem item) {
-		
-		switch(item.getItemId()){
-		
-		case R.id.getqueue:
-				getQueue();
-		}
-		
-		return false;
-    }
-    
     
     /*
      * Method to set the GPSPoints for the restaurants by calling the GPSPoint class
@@ -239,16 +248,35 @@ public class GoogleMapShowLocation extends MapActivity {
     private void getQueue(){
     	int id = 1;
     	for(OverlayItem item: locationList){
-    	gpsPoint.setGPSPoints(item.getPoint().getLongitudeE6(), item.getPoint().getLatitudeE6(), id++);	//set the proximity alert of the spot on the (long, lat) place
+    		setGPSPoints(item.getPoint().getLongitudeE6(), item.getPoint().getLatitudeE6(), id++);	//set the proximity alert of the spot on the (long, lat) place
     	}
+    	setGPSPoints(57714860,12000497, id++);
+    	Log.e("showlocation", "getqueue");
+    	ConnectionToServer connection = new ConnectionToServer();
+    	connection.doInBackground();
+    	
 
     }
-    
+	/*
+	 * Add a proximity alert to the specified long and lat, adding an id for use in the database on our server.
+	 */
+
+	public void setGPSPoints(int lng, int lat, int id){
+		Log.e("showlocation", "setGPSPoints");
+		int distance = 20;
+		PendingIntent intent;
+		Intent intDB = new Intent(this, SendToDB.class);	//new intent from this class to the SendToDB class
+		intDB.putExtra("restaurant", id);
+		intent = PendingIntent.getActivity(this, 0, intDB, Intent.FLAG_ACTIVITY_NEW_TASK);	//creating a PendingIntent which will act like startActivity(intent) for the SendToDB class
+		location_manager.addProximityAlert(lng, lat, distance, -1, intent);		//add a proximity alert on the specified longitude and latitude, on a radius of distance, without time-limit for the intent.
+
+	}
+
 	/*
 	 * Checks how many are queueing by checking the database on the server and returning this in the screen as a dialouge.
 	 */
 	
-	private void drawQueue(){
+	private void parseQueue(){
 
 		int code, nrOfCheckedIn;
 
@@ -285,8 +313,94 @@ public class GoogleMapShowLocation extends MapActivity {
 			}
 		}
 		
-		sender.parseQueue(returnedJsonObject);
+		parseQueue(returnedJsonObject);
 		
 	}
+
+
+	public void onClick(View v) {
+		
+		if(v == queueButton){
+			Log.e("showlocation", "onclick");
+			getQueue();
+		}
+	}
+	
+	/**
+	 * @author Kya
+	 *Created a new class to connect the program to the external database with the restaurant table and their id:s
+	 *Not yet completed.
+	 */
+
+		private class ConnectionToServer extends AsyncTask<Void, Void, JSONObject> {
+			
+
+		@Override
+		protected JSONObject doInBackground(Void... params) {
+			Log.e("SendtoDb", "doinbackground");
+			StringBuilder urlString = new StringBuilder();
+			StringBuilder response = new StringBuilder();
+			InputStream is = null;
+			URL url = null;
+			HttpURLConnection urlConnection = null;
+			String line = null;
+			String jsonResponse = "";
+			
+
+			urlString.append("http://schmaps.scarleo.se/rest.php?");
+			if(entering){
+				urlString.append("&insert=1");
+			}else{
+				urlString.append("&delete=1");
+			}
+			urlString.append("&code=");
+			urlString.append(id);
+			
+			
+			try {
+				url = new URL(urlString.toString());
+				urlConnection = (HttpURLConnection) url.openConnection();
+				urlConnection.setRequestMethod("GET");
+				urlConnection.setDoOutput(true);
+				urlConnection.setDoInput(true);
+				is = urlConnection.getInputStream();
+				urlConnection.connect();
+			} catch (MalformedURLException e) {
+
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+			InputStreamReader inputStream = new InputStreamReader(is);
+			BufferedReader reader = new BufferedReader(inputStream);
+
+			//read from the buffer line by line and save in response (a stringbuider)
+			try{
+				while((line = reader.readLine()) != null){
+					response.append(line);
+				}
+				//Close the reader, stream & connection
+				reader.close();
+				inputStream.close();
+				urlConnection.disconnect();
+			}catch(Exception e) {
+				Log.e("Buffer Error", "Error converting result " + e.toString());
+			}
+
+			jsonResponse = response.toString();
+
+			//convert string to jsonobject and return the object
+			try{
+				returnedJSON = new JSONObject(jsonResponse);
+			}catch(JSONException e){
+
+			}
+
+			return returnedJSON;
+		}
+		}
+
 
 }

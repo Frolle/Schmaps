@@ -72,11 +72,12 @@ public class SendToDB extends BroadcastReceiver {
 		String intentKey = LocationManager.KEY_PROXIMITY_ENTERING;	//Taking the KEY_PROXMITY_ENTERING from GPSPoint and saving the boolean
 		entering = intent.getBooleanExtra(intentKey, false); //Saving the boolean from KEY_PROXIMITY_ENTERING for further use
 		connectToDB();
+		Log.e("SendtoDb", "onrecieve");
 		
 
-		Intent backtrack = new Intent("android.intent.action.GOOGLEMAPSHOWLOCATION");
-		backtrack.putExtra("Show locations", thisid);
-		PendingIntent pIntent = PendingIntent.getActivity(null, 0, backtrack, Intent.FLAG_ACTIVITY_NEW_TASK); //Send an intent back to GoogleMapShowLocation
+//		Intent backtrack = new Intent("android.intent.action.GOOGLEMAPSHOWLOCATION");
+//		backtrack.putExtra("Show locations", thisid);
+//		PendingIntent pIntent = PendingIntent.getActivity(null, 0, backtrack, Intent.FLAG_ACTIVITY_NEW_TASK); //Send an intent back to GoogleMapShowLocation
 
 		
 	}
@@ -89,7 +90,8 @@ public class SendToDB extends BroadcastReceiver {
 	/**
 	 * Connecting this class to the database on the server.
 	 */
-	private void connectToDB(){
+	public void connectToDB(){
+		Log.e("SendtoDb", "connecttodb");
 		returnedJsonObject = null;
 		GetQueue getQueue = new GetQueue();
 		getQueue.execute();
@@ -119,6 +121,7 @@ public class SendToDB extends BroadcastReceiver {
 
 	@Override
 	protected JSONObject doInBackground(Void... params) {
+		Log.e("SendtoDb", "doinbackground");
 		StringBuilder urlString = new StringBuilder();
 		StringBuilder response = new StringBuilder();
 		InputStream is = null;

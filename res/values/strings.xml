@@ -12,6 +12,7 @@
     <string name="title_activity_campus_menu">CampusMenuActivity</string>
     <string name="checkin_button">Check in!</string>
     <string name="write_name">Write your name here</string>
+    <string name = "queue">Get Queue</string>
     
 
 </resources>

@@ -30,5 +30,19 @@
     		tools:context=".GoogleMapActivity"
     		android:layout_below="@+id/lineLayETBT"
     		 />
+		<LinearLayout
+   			android:id="@+id/linearbottom"
+    		android:layout_width="fill_parent"
+    		android:layout_height="wrap_content"
+    		android:orientation="horizontal"
+    		android:layout_alignParentBottom="true">
+
+		<Button
+	        android:id="@+id/queuebutton"
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	        android:text="@string/queue"
+	        tools:context=".GoogleMapShowLocation" />
+    	</LinearLayout>
     	
 	    </RelativeLayout>	
