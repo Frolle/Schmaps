@@ -42,6 +42,7 @@ public class MenuActivity extends Activity implements View.OnClickListener {
 
 
 	private String activityString;
+	private boolean okToStartActivity;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -65,6 +66,7 @@ public class MenuActivity extends Activity implements View.OnClickListener {
 		checkin.setOnClickListener(this);
 		bus = (Button) findViewById(R.id.checkbusButton);
 		bus.setOnClickListener(this);
+		okToStartActivity = true;
 	}
 
 	/**
@@ -106,6 +108,7 @@ public class MenuActivity extends Activity implements View.OnClickListener {
 
 				Context context = getApplicationContext();
 				Toast.makeText(context, "Internet connection needed for this option", Toast.LENGTH_LONG).show();
+				okToStartActivity = false;
 			}
 			break;
 
@@ -113,18 +116,23 @@ public class MenuActivity extends Activity implements View.OnClickListener {
 			if(gotInternetConnection()){
 				startActivity = new Intent("android.intent.action.CHECKBUSACTIVITY");
 			}
+
 			else
 			{
+				okToStartActivity = false;
 				Context context = getApplicationContext();
 				Toast.makeText(context, "Internet connection needed for this option", Toast.LENGTH_LONG).show();
 			}
 			break;	
 
 		}
-		
-		setActivityString(startActivity.getAction());
-		startActivity(startActivity);
+		if(okToStartActivity){
+			setActivityString(startActivity.getAction());
+			startActivity(startActivity);
+			okToStartActivity = true;
+		}
 	}
+
 	public String getActivityString() {
 		return activityString;
 	}

@@ -46,7 +46,7 @@ import android.widget.EditText;
 public class GoogleMapSearchLocationTest extends ActivityInstrumentationTestCase2<GoogleMapSearchLocation> {
 	
 	private GoogleMapSearchLocation activity;
-	private Button editButton;
+	private Button editButton, directionsButton;
 	private EditText lectureEdit;
 	private MapView mapview;
 	private String roomToFindString;
@@ -65,6 +65,7 @@ public class GoogleMapSearchLocationTest extends ActivityInstrumentationTestCase
 		this.activity = super.getActivity();
 		this.editButton = (Button) this.activity.findViewById(R.id.edittextbutton);
 		this.lectureEdit = (EditText) this.activity.findViewById(R.id.edittextlecture);
+		this.directionsButton = (Button) this.activity.findViewById(R.id.directionbutton);
 		this.mapview = (MapView) this.activity.findViewById(R.id.mapview);
 	}
 	
@@ -75,6 +76,7 @@ public class GoogleMapSearchLocationTest extends ActivityInstrumentationTestCase
 
 	public void testPreConditions(){
 		super.assertNotNull(editButton);
+		super.assertNotNull(directionsButton);
 		super.assertNotNull(mapview);
 		super.assertNotNull(lectureEdit);
 		super.assertNotNull(activity);
@@ -161,13 +163,48 @@ public class GoogleMapSearchLocationTest extends ActivityInstrumentationTestCase
 	 * Tests if walkingDirections parses the jsonobject in the right way
 	 * @throws JSONException
 	 */
-	public void testWalkingDirections() throws JSONException{
+	public void testParseJson() throws JSONException{
 
-		String jsonresponse = "{\"routes\" : [{\"legs\" : [{\"steps\" : [{\"end_location\" : {\"lat\" : 57.715350,\"lng\" : 11.999310},\"start_location\" : {\"lat\" : 57.715450,\"lng\" : 11.999690},},{\"end_location\" : {\"lat\" : 57.714780,\"lng\" : 11.999840},\"start_location\" : {\"lat\" : 57.715350,\"lng\" : 11.999310},},{\"end_location\" : {\"lat\" : 57.714380,\"lng\" : 11.996780},\"start_location\" : {\"lat\" : 57.714780,\"lng\" : 11.999840},},{\"end_location\" : {\"lat\" : 57.714220,\"lng\" : 11.996910},\"start_location\" : {\"lat\" : 57.714380,\"lng\" : 11.996780},}],}],}],}";
+		String jsonresponse = "{\"routes\":[{\"legs\":[{\"steps\":[{\"end_location\":{\"lat\":57.715350,\"lng\":11.999310},\"start_location\":{\"lat\":57.71545000000001,\"lng\":11.999690}}]}]}]}";
+				
 		JSONObject jsonobject = new JSONObject(jsonresponse);
 
-		//activity.walkningDirections(jsonobject);
 
-		assertEquals(4,activity.returnNrOfGeopoints());
+		activity.parseJson(jsonobject);
+
+
+		assertEquals(2,activity.returnNrOfGeopoints());
+	}
+	
+	/**
+	 * Tests that the database is connected and that a response from the google directions api is recieved
+	 * If the jsonobject is received the boolean running is set to true
+	 */
+	public void testConnectionToDirections(){
+		TouchUtils.tapView(this, this.lectureEdit);
+		super.sendKeys("R U N A N ");
+		super.getInstrumentation().waitForIdleSync();
+		TouchUtils.clickView(this, this.editButton);
+		super.getInstrumentation().waitForIdleSync();
+
+		activity.walkningDirections();
+		
+		assertEquals(true,activity.getIsAsyncTaskRunning());
+	}
+	
+	/**
+	 * Tests that the getdirectionsbutton is working, that the asynctask method has executed
+	 */
+	public void testDirectionsButton(){
+		TouchUtils.tapView(this, this.lectureEdit);
+		super.sendKeys("R U N A N ");
+		super.getInstrumentation().waitForIdleSync();
+		TouchUtils.clickView(this, this.editButton);
+		super.getInstrumentation().waitForIdleSync();
+		
+		TouchUtils.clickView(this, this.directionsButton);
+		super.getInstrumentation().waitForIdleSync();
+		
+		assertEquals(true,activity.getIsAsyncTaskRunning());
 	}
 }

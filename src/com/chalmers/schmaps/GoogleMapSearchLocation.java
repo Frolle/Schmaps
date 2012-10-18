@@ -212,9 +212,13 @@ public class GoogleMapSearchLocation extends MapActivity implements View.OnClick
 
 
 	/**
+<<<<<<< HEAD
+	 * 
+=======
 	 * If the enter button is clicked a room search is done
 	 * If the get directions button is pressed you get the path drawn on map
 	 * but you have to search for a room first
+>>>>>>> 3b9c24e68944d2e99ddfd225913f53eeb55aa051
 	 */
 	public void onClick(View v) {
 		switch(v.getId()){
@@ -275,6 +279,7 @@ public class GoogleMapSearchLocation extends MapActivity implements View.OnClick
 				}else{
 					Context context = getApplicationContext();
 					Toast.makeText(context, "Search for a room first to get directions", Toast.LENGTH_LONG).show();	
+
 				}
 			}else
 			{

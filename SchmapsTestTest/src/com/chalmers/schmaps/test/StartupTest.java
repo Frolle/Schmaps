@@ -22,6 +22,7 @@ import com.chalmers.schmaps.Startup;
 import com.jayway.android.robotium.solo.Solo;
 import android.os.SystemClock;
 import android.test.ActivityInstrumentationTestCase2;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 
 /**
@@ -38,6 +39,10 @@ public class StartupTest extends ActivityInstrumentationTestCase2<Startup> {
 	public StartupTest() {
 		super(Startup.class);
 	}
+	
+	/**
+	 * Set up the instance variables accordingly.
+	 */
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
@@ -72,6 +77,13 @@ public class StartupTest extends ActivityInstrumentationTestCase2<Startup> {
 		threadForSplash.run();
 		solo.clickOnScreen(65, 65);
 		solo.assertCurrentActivity("Wrong class", MenuActivity.class);
+	}
+	/**
+	 * Test for testing that the activity finishes when users clicks back.
+	 */
+	public void testSkipStart(){
+		assertTrue(startupActivity.onKeyDown(KeyEvent.KEYCODE_BACK, null));
+		assertFalse(startupActivity.onKeyDown(KeyEvent.KEYCODE_MENU, null));
 	}
 	
 }
