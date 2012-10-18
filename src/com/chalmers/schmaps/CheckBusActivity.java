@@ -28,11 +28,13 @@ import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import android.app.Activity;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.View;
@@ -41,6 +43,7 @@ import android.widget.Button;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 /*************************************************
  * Class shows when Bus 16 departures from
@@ -49,22 +52,22 @@ import android.widget.TextView;
 
 public class CheckBusActivity extends Activity implements View.OnClickListener {
 
-	private static final int NROFROWS = 5;
+	private static final int NROFROWS = 8;
 	private static final String chalmersURL = "http://api.vasttrafik.se/bin/rest.exe/v1/departureBoard?authKey=2443e74a-b1cd-466a-a4e2-72ac982a62df&format=json&id=9021014001960000&direction=9021014004490000";
 	private static final String lindholmenURL= "http://api.vasttrafik.se/bin/rest.exe/v1/departureBoard?authKey=2443e74a-b1cd-466a-a4e2-72ac982a62df&format=json&id=9021014004490000&direction=9021014001960000";
 
 	private JSONObject[] returnedJsonObject;
 	private TableLayout lindholmenTable;
 	private TableLayout chalmersTable;
-	private List<String> chalmersLineArray;
-	private List<String> chalmersDestArray;
-	private List<String> chalmersTimeArray;
-	private List<String> chalmersTrackArray;
+	private List<String> chalmersLineArray = new ArrayList<String>();
+	private List<String> chalmersDestArray = new ArrayList<String>();
+	private List<String> chalmersTimeArray = new ArrayList<String>();
+	private List<String> chalmersTrackArray = new ArrayList<String>();
 
-	private List<String> lindholmenLineArray;
-	private List<String> lindholmenDestArray;
-	private List<String> lindholmenTimeArray;
-	private List<String> lindholmenTrackArray;
+	private List<String> lindholmenLineArray = new ArrayList<String>();
+	private List<String> lindholmenDestArray = new ArrayList<String>();
+	private List<String> lindholmenTimeArray = new ArrayList<String>();
+	private List<String> lindholmenTrackArray = new ArrayList<String>();
 	private Button refreshButton;
 
 	@Override
@@ -108,27 +111,38 @@ public class CheckBusActivity extends Activity implements View.OnClickListener {
 	 */
 	public void makeRows(){
 		returnedJsonObject = null;
-		GetDepatures getDepatures = new GetDepatures();
-		getDepatures.execute();
-		parseDataToArrays();
+		try{
+			GetDepatures getDepatures = new GetDepatures();
+			getDepatures.execute();
+			parseDataToArrays();
+		}catch (Exception e) {
+		}
 		makeChalmersRows();
 		makeLindholmenRows();
 
 	}
 
+	/**
+	 * Makes the rows for the chalmerstable
+	 */
 	public void makeChalmersRows(){
 		for(int i = 0; i<NROFROWS; i++){ 
 			TableRow tempTableRow = new TableRow(this);
 			tempTableRow.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.WRAP_CONTENT));
+
+			// Makes every other row light gray or white
 			if(i%2 == 0){
 				tempTableRow.setBackgroundColor(Color.LTGRAY);
 			}else{
 				tempTableRow.setBackgroundColor(Color.WHITE);
 			}
 
+			//Makes every textview for each column and add it before starting with a new one
 			for(int j = 0; j<4; j++){
 				TextView textview = new TextView(this);
 				textview.setTextColor(Color.BLACK);
+				textview.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
+				//Check which content should be written in the textview
 				if(j == 0){
 					textview.setText(chalmersLineArray.get(i));
 				}else if(j == 1){
@@ -145,19 +159,27 @@ public class CheckBusActivity extends Activity implements View.OnClickListener {
 		}
 	}
 
+	/**
+	 * Makes the rows for the lindholmentable
+	 */
 	public void makeLindholmenRows(){
 		for(int i = 0; i<NROFROWS; i++){ 
 			TableRow tempTableRow = new TableRow(this);
 			tempTableRow.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.WRAP_CONTENT));
+
+			// Makes every other row light gray or white
 			if(i%2 == 0){
 				tempTableRow.setBackgroundColor(Color.LTGRAY);
 			}else{
 				tempTableRow.setBackgroundColor(Color.WHITE);
 			}
 
+			//Makes every textview for each column and add it before starting with a new one 
 			for(int j = 0; j<4; j++){
 				TextView textview = new TextView(this);
 				textview.setTextColor(Color.BLACK);
+				textview.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
+				//Check which content should be written in the textview
 				if(j == 0){
 					textview.setText(lindholmenLineArray.get(i));
 				}else if(j == 1){
@@ -167,6 +189,7 @@ public class CheckBusActivity extends Activity implements View.OnClickListener {
 				}else if(j == 3){
 					textview.setText(lindholmenTrackArray.get(i));
 				}
+
 				textview.setGravity(Gravity.CENTER_HORIZONTAL);
 				tempTableRow.addView(textview);
 			}
@@ -187,15 +210,6 @@ public class CheckBusActivity extends Activity implements View.OnClickListener {
 	 * in arrays for easy access when making table
 	 */
 	public void parseDataToArrays(){
-		chalmersLineArray = new ArrayList<String>();
-		chalmersDestArray = new ArrayList<String>();
-		chalmersTimeArray = new ArrayList<String>();
-		chalmersTrackArray = new ArrayList<String>();
-
-		lindholmenLineArray = new ArrayList<String>();
-		lindholmenDestArray = new ArrayList<String>();
-		lindholmenTimeArray = new ArrayList<String>();
-		lindholmenTrackArray = new ArrayList<String>();
 
 		while(returnedJsonObject == null){ //if json object not returned, sleep
 			try {
@@ -204,31 +218,36 @@ public class CheckBusActivity extends Activity implements View.OnClickListener {
 				e1.printStackTrace();
 			}
 		}
+		//Run two times, one for data for chalmerstable and second for lindholmentable
 		for(int i=0;i<2;i++){
+
 			try {
 				JSONObject departureBoard = returnedJsonObject[i].getJSONObject("DepartureBoard");
 				JSONArray departureArray = departureBoard.getJSONArray("Departure");
+
 				for(int count = 0;count<departureArray.length();count++){
 					JSONObject depature = departureArray.getJSONObject(count);
 					String line = depature.getString("name");
 					String destination = depature.getString("direction");
 					String time = depature.getString("rtTime");
 					String track = depature.getString("track");
+
 					if(i == 0){
-						chalmersLineArray.add(line);
-						chalmersDestArray.add(destination);
-						chalmersTimeArray.add(time);
-						chalmersTrackArray.add(track);
+						chalmersLineArray.add(count, line);
+						chalmersDestArray.add(count, destination);
+						chalmersTimeArray.add(count, time);
+						chalmersTrackArray.add(count, track);
 					}else if(i == 1){
-						lindholmenLineArray.add(line);
-						lindholmenDestArray.add(destination);
-						lindholmenTimeArray.add(time);
-						lindholmenTrackArray.add(track);
+						lindholmenLineArray.add(count,line);
+						lindholmenDestArray.add(count,destination);
+						lindholmenTimeArray.add(count,time);
+						lindholmenTrackArray.add(count,track);
 					}
 				}
 
-			} catch (JSONException e) {
+			} catch (Exception e) {
 				e.printStackTrace();
+				Toast.makeText(getApplicationContext(), "Failed to retrive data", Toast.LENGTH_SHORT).show();
 			}
 
 		}
@@ -237,10 +256,15 @@ public class CheckBusActivity extends Activity implements View.OnClickListener {
 	/**
 	 * Refreshes the tables that hold info about departures
 	 */
-	public void refreshTables(){
-		this.deleteRows();
-		makeRows();
-
+	public boolean refreshTables(){
+		try {
+			this.deleteRows();
+			makeRows();
+			return true;
+		} catch (Exception e) {
+		Log.e("TEST!", "SEWFAGAGAG AG GA GSAFSAFASFASF");
+		}
+		return false;
 	}
 
 
@@ -250,7 +274,7 @@ public class CheckBusActivity extends Activity implements View.OnClickListener {
 	 * 	inspired by
 	 *  http://www.vogella.com/articles/AndroidPerformance/article.html
 	 ********************************************************************************/
-	private class GetDepatures extends AsyncTask<Void, Void, JSONObject[]> {
+	private class GetDepatures extends AsyncTask<Void, Void, JSONObject[]>{
 
 
 		/** when called makes a request to västtrafik api (json format) 
@@ -283,18 +307,15 @@ public class CheckBusActivity extends Activity implements View.OnClickListener {
 					is = urlConnection.getInputStream();
 					urlConnection.connect();
 				} catch (MalformedURLException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
+
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-
-				InputStreamReader inputStream = new InputStreamReader(is);
-				BufferedReader reader = new BufferedReader(inputStream);
-
 				//read from the buffer line by line and save in response (a stringbuider)
 				try{
+					InputStreamReader inputStream = new InputStreamReader(is);
+					BufferedReader reader = new BufferedReader(inputStream);
 					while((line = reader.readLine()) != null){
 						response.append(line);
 					}

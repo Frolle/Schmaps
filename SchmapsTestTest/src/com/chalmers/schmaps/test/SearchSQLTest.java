@@ -56,7 +56,9 @@ public class SearchSQLTest extends ActivityInstrumentationTestCase2<GoogleMapSea
 		super.tearDown();
 	}
 
-
+	/**
+	 * Tests the method that checks if the value exists in the database
+	 */
 	public void testExists() {
 		assertTrue(tester.exists(theTestValue));
 		assertFalse(tester.exists("ValueThatDoesNotExist"));
