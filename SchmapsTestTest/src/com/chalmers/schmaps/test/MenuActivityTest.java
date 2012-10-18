@@ -206,7 +206,6 @@ public class MenuActivityTest extends ActivityInstrumentationTestCase2<MenuActiv
 	    return iConnectivityManager.getActiveNetworkInfo() != null && 
 	       iConnectivityManager.getActiveNetworkInfo().isConnectedOrConnecting();
 	}
-
 	public void tearDown() throws Exception{
 		super.tearDown();
 	}
