@@ -129,8 +129,8 @@ public class MenuActivity extends Activity implements View.OnClickListener {
 		if(okToStartActivity){
 			setActivityString(startActivity.getAction());
 			startActivity(startActivity);
-			okToStartActivity = true;
 		}
+		okToStartActivity = true;
 	}
 
 	public String getActivityString() {
