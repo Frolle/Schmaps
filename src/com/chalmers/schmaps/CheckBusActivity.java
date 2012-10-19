@@ -71,6 +71,10 @@ public class CheckBusActivity extends Activity implements View.OnClickListener {
 	private Button refreshButton;
 
 	@Override
+	/**
+	 * onCreate method for determining what the activity does on creation.
+	 * Sets the right view for the user and assigns fields.
+	 */
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_checkbus);
