@@ -270,15 +270,13 @@ public class CheckInActivity extends MapActivity implements View.OnClickListener
 		checkin =false;
 	}
 
+
 	/**
 	 * @return the username that user enters
-	 * @throws UnsupportedEncodingException 
 	 */
-	public String getInputName() throws UnsupportedEncodingException{
-		String str = new String(username.getBytes("macintosh"), "UTF-8");
-		return str;
+	public String getInputName(){
+		return username;
 	}
-
 	/**
 	 * @return the size of jsonarray returned from string
 	 */
