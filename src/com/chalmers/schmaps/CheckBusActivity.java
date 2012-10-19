@@ -59,8 +59,8 @@ public class CheckBusActivity extends Activity implements View.OnClickListener {
 	private static final int TIME_TO_SLEEP = 700;
 	private static final int TEXT_SIZE = 14;
 	private static final int NROFROWS = 8;
-	private static final String chalmersURL = "http://api.vasttrafik.se/bin/rest.exe/v1/departureBoard?authKey=2443e74a-b1cd-466a-a4e2-72ac982a62df&format=json&id=9021014001960000&direction=9021014004490000";
-	private static final String lindholmenURL= "http://api.vasttrafik.se/bin/rest.exe/v1/departureBoard?authKey=2443e74a-b1cd-466a-a4e2-72ac982a62df&format=json&id=9021014004490000&direction=9021014001960000";
+	private static final String CHALMERS_URL = "http://api.vasttrafik.se/bin/rest.exe/v1/departureBoard?authKey=2443e74a-b1cd-466a-a4e2-72ac982a62df&format=json&id=9021014001960000&direction=9021014004490000";
+	private static final String LINDHOLMEN_URL= "http://api.vasttrafik.se/bin/rest.exe/v1/departureBoard?authKey=2443e74a-b1cd-466a-a4e2-72ac982a62df&format=json&id=9021014004490000&direction=9021014001960000";
 
 	private JSONObject[] returnedJsonObject;
 	private TableLayout lindholmenTable;
@@ -304,9 +304,9 @@ public class CheckBusActivity extends Activity implements View.OnClickListener {
 				String jsonResponse = "";
 				try {
 					if(i==0){
-						url = new URL(chalmersURL);
+						url = new URL(CHALMERS_URL);
 					} else if(i == 1 ) {
-						url = new URL(lindholmenURL);
+						url = new URL(LINDHOLMEN_URL);
 					}
 					urlConnection = (HttpURLConnection) url.openConnection();
 					urlConnection.setRequestMethod("GET");
