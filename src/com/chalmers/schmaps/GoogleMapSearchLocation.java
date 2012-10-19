@@ -90,6 +90,10 @@ public class GoogleMapSearchLocation extends MapActivity implements View.OnClick
 
 	private boolean running;
 
+	/**
+	 * onCreate method for determining what the activity does on creation.
+	 * Sets the right view for the user and assigns fields used by the activity.
+	 */
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -155,17 +159,29 @@ public class GoogleMapSearchLocation extends MapActivity implements View.OnClick
 		search.createDatabase(); 
 	}
 
+	/**
+	 * A simple check to see if a route is currently displayed
+	 * @return - boolean says if route displayed or not
+	 */
 	@Override
 	protected boolean isRouteDisplayed() {
 		return false;
 	}
 
+	/**
+	 * Method to define what the activity does on pause. Removes updates from the
+	 * location manager
+	 */
 	@Override
 	protected void onPause() {
 		super.onPause();
 		location_manager.removeUpdates(location_listener);
 	}
 
+	/**
+	 * Method to define what the activity does on resume.
+	 * Updates the coordinates of the current position.
+	 */
 	@Override
 	protected void onResume() {
 		super.onResume();
@@ -212,13 +228,9 @@ public class GoogleMapSearchLocation extends MapActivity implements View.OnClick
 
 
 	/**
-<<<<<<< HEAD
-	 * 
-=======
 	 * If the enter button is clicked a room search is done
 	 * If the get directions button is pressed you get the path drawn on map
 	 * but you have to search for a room first
->>>>>>> 3b9c24e68944d2e99ddfd225913f53eeb55aa051
 	 */
 	public void onClick(View v) {
 		switch(v.getId()){

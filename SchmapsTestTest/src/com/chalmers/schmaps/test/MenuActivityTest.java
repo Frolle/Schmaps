@@ -63,6 +63,9 @@ public class MenuActivityTest extends ActivityInstrumentationTestCase2<MenuActiv
 		iConnectivityManager = (ConnectivityManager)menuActivity.getSystemService(Context.CONNECTIVITY_SERVICE);
 	}
 	
+	/**
+	 * Tests conditions before starting all the tests.
+	 */
 	public void testPreConditions(){
 		super.assertNotNull(searchHall);
 		super.assertNotNull(groupRoom);
@@ -129,7 +132,7 @@ public class MenuActivityTest extends ActivityInstrumentationTestCase2<MenuActiv
 	 */
 	public void testCheckInButton(){
 		//Wait for mobile data to be enabled again.
-		while(!isOnline());
+		while(!isOnline()){}
 		solo.clickOnButton("Check In");
 		super.getInstrumentation().waitForIdleSync();
 		solo.assertCurrentActivity("Wrong class", CheckInActivity.class);
@@ -206,6 +209,9 @@ public class MenuActivityTest extends ActivityInstrumentationTestCase2<MenuActiv
 	    return iConnectivityManager.getActiveNetworkInfo() != null && 
 	       iConnectivityManager.getActiveNetworkInfo().isConnectedOrConnecting();
 	}
+	/**
+	 * Method called after each test to safely close them down.
+	 */
 	public void tearDown() throws Exception{
 		super.tearDown();
 	}

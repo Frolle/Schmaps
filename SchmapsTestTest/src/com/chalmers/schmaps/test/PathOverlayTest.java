@@ -40,7 +40,9 @@ public class PathOverlayTest extends ActivityInstrumentationTestCase2<GoogleMapS
 		super(GoogleMapSearchLocation.class);
 	
 	}
-
+	/**
+	 * Setup method for instantiating the variables.
+	 */
 	protected void setUp() throws Exception {
 		super.setUp();
 		this.activity = super.getActivity();
@@ -61,6 +63,9 @@ public class PathOverlayTest extends ActivityInstrumentationTestCase2<GoogleMapS
 		this.mapview = (MapView) this.activity.findViewById(R.id.mapview);
 		
 	}
+	/**
+	 * Method called after each test to safely close them down.
+	 */
 	protected void tearDown() throws Exception {
 		super.tearDown();
 	}

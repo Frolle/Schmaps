@@ -39,6 +39,10 @@ public class CampusMenuActivity extends Activity implements View.OnClickListener
 	private String actionString;
 	private int campus;
 
+	/**
+	 * onCreate method for determining what the activity does on creation.
+	 * Sets the right view for the user and calls a method for assigning fields.
+	 */
 	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,6 +50,9 @@ public class CampusMenuActivity extends Activity implements View.OnClickListener
         assignInstances();
     }
     
+	/**
+	 * Method for assigning all the field variables used.
+	 */
 	private void assignInstances() {
 		johannebergButton = (Button) findViewById(R.id.johannebergButton);
 		johannebergButton.setOnClickListener(this);
@@ -83,11 +90,18 @@ public class CampusMenuActivity extends Activity implements View.OnClickListener
 		startMapActivity.putExtra("Show locations", menuActionChosen.getInt("Show locations"));
 		startActivity(startMapActivity);
 	}
-	
+	/**
+	 * Get method for intent action string
+	 * @return - String containing the action to start intent
+	 */
     public String getActionString() {
 		return actionString;
 	}
 
+    /**
+     * Set method for the intent action string
+     * @param actionString - String to set the action intent
+     */
 	public void setActionString(String actionString) {
 		this.actionString = actionString;
 	}

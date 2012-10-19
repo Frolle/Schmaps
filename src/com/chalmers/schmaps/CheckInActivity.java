@@ -86,6 +86,10 @@ public class CheckInActivity extends MapActivity implements View.OnClickListener
 	private boolean running;
 
 	@Override
+	/**
+	 * onCreate method for determining what the activity does on creation.
+	 * Sets the right view for the user and assigns fields.
+	 */
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		//assigns variables used in this class
@@ -285,12 +289,7 @@ public class CheckInActivity extends MapActivity implements View.OnClickListener
 	}
 
 	/**
-	 * 
-<<<<<<< HEAD
 	 * @return true if the doinbackground() in asynktask has executed
-=======
-	 * @return true if the goinbackground method in getcheckin has executed
->>>>>>> 3b9c24e68944d2e99ddfd225913f53eeb55aa051
 	 */
 	public boolean getIsAsyncTaskRunning(){
 		return running;
@@ -383,16 +382,28 @@ public class CheckInActivity extends MapActivity implements View.OnClickListener
 
 
 	@Override
+	/**
+	 * A simple check to see if a route is currently displayed
+	 * @return - boolean says if route displayed or not
+	 */
 	protected boolean isRouteDisplayed() {
 		return false;
 	}
 
 	@Override
+	/**
+	 * Method to define what the activity does on pause. Removes updates from the
+	 * location manager
+	 */
 	protected void onPause() {
 		super.onPause();
 		location_manager.removeUpdates(location_listener);
 	}
 
+	/**
+	 * Method to define what the activity does on resume.
+	 * Updates the coordinates of the current position.
+	 */
 	@Override
 	protected void onResume() {
 		super.onResume();
