@@ -103,7 +103,6 @@ public class MapItemizedOverlay extends ItemizedOverlay<OverlayItem>{
 	  
 	  image.setImageResource(R.drawable.logoschmapsmini); //shows a picture in the dialog
 
-	  // builder.setMessage(item.getSnippet());
       builder.setCancelable(true);
 	  
 	  builder.setView(layout);

@@ -26,6 +26,7 @@ import android.test.ActivityInstrumentationTestCase2;
  */
 public class SearchSQLTest extends ActivityInstrumentationTestCase2<GoogleMapSearchLocation> {
 	private static final int RETURNVALUEIFNOTFOUND = 0;
+	private static final String VALUETHATDOESNOTEXISTINDATABASE = "ValueThatDoesNotExist";
 	private SearchSQL tester;
 	private GoogleMapSearchLocation activity;
 	private String theTestValue = "runan";
@@ -64,14 +65,14 @@ public class SearchSQLTest extends ActivityInstrumentationTestCase2<GoogleMapSea
 	 */
 	public void testExists() {
 		assertTrue(tester.exists(theTestValue));
-		assertFalse(tester.exists("ValueThatDoesNotExist"));
+		assertFalse(tester.exists(VALUETHATDOESNOTEXISTINDATABASE));
 	}
 	/**
 	 * Tests the method that checks if the value exists in the database
 	 */
 	public void testGetLat() {
 		assertEquals(57689111, tester.getLat(theTestValue));
-		assertEquals(RETURNVALUEIFNOTFOUND, tester.getLat("ValueThatDoesNotExist"));
+		assertEquals(RETURNVALUEIFNOTFOUND, tester.getLat(VALUETHATDOESNOTEXISTINDATABASE));
 	}
 
 	/**
@@ -79,7 +80,7 @@ public class SearchSQLTest extends ActivityInstrumentationTestCase2<GoogleMapSea
 	 */
 	public void testGetLong() {
 		assertEquals(11973517, tester.getLong(theTestValue));
-		assertEquals(RETURNVALUEIFNOTFOUND, tester.getLong("ValueThatDoesNotExist"));
+		assertEquals(RETURNVALUEIFNOTFOUND, tester.getLong(VALUETHATDOESNOTEXISTINDATABASE));
 
 	}
 
@@ -89,7 +90,7 @@ public class SearchSQLTest extends ActivityInstrumentationTestCase2<GoogleMapSea
 	public void testGetAddress() {
 		
 		assertEquals("Sven Hultins gata 2", tester.getAddress(theTestValue));
-		assertNull(tester.getAddress("ValueThatDoesNotExist"));
+		assertNull(tester.getAddress(VALUETHATDOESNOTEXISTINDATABASE));
 	}
 
 	/**
@@ -98,7 +99,7 @@ public class SearchSQLTest extends ActivityInstrumentationTestCase2<GoogleMapSea
 	public void testGetLevel() {
 		
 		assertEquals("Floor 1", tester.getLevel(theTestValue));
-		assertNull(tester.getLevel("ValueThatDoesNotExist"));
+		assertNull(tester.getLevel(VALUETHATDOESNOTEXISTINDATABASE));
 
 	}
 
