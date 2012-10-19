@@ -132,7 +132,7 @@ public class MenuActivityTest extends ActivityInstrumentationTestCase2<MenuActiv
 	 */
 	public void testCheckInButton(){
 		//Wait for mobile data to be enabled again.
-		while(!isOnline());
+		while(!isOnline()){}
 		solo.clickOnButton("Check In");
 		super.getInstrumentation().waitForIdleSync();
 		solo.assertCurrentActivity("Wrong class", CheckInActivity.class);
