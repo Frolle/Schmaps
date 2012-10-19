@@ -126,7 +126,6 @@ public class GoogleMapSearchLocationTest extends ActivityInstrumentationTestCase
 			showingDialog = (Dialog) dialogRoomNotFound.get(this.activity);
 		}
 		catch (Exception e) {
-				e.printStackTrace();
 		}
 		assertTrue(showingDialog.isShowing());
 	}
@@ -151,7 +150,6 @@ public class GoogleMapSearchLocationTest extends ActivityInstrumentationTestCase
 			roomToFindString = (String) roomToFindField.get(this.activity);
 			Log.e("GMSLtest", roomToFindString);
 		} catch (Exception e) {
-			e.printStackTrace();
 		}
 		assertEquals("runan", roomToFindString);
 	}

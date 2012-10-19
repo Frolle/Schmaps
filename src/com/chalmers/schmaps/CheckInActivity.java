@@ -69,8 +69,8 @@ public class CheckInActivity extends MapActivity implements View.OnClickListener
 	private static final long UPDATEFREQUENCYINMS = 1000;
 	private static final float UPDATEAAREA = 10;
 	private GeoPoint ourLocation;
-	private LocationManager location_manager;
-	private LocationListener location_listener;
+	private LocationManager locationManager;
+	private LocationListener locationListener;
 	private JSONObject returnedJsonObject;
 	private List<Overlay> overlayList;
 	private MapItemizedOverlay mapItemizedCheckIn;
@@ -101,13 +101,13 @@ public class CheckInActivity extends MapActivity implements View.OnClickListener
 		//assigns variables used in this class
 		assignInstances(); 
 
-		location_manager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+		locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
 		//deafult criteria
 		criteria = new Criteria(); 
 		//best reception
-		bestProvider = location_manager.getBestProvider(criteria, false); 
+		bestProvider = locationManager.getBestProvider(criteria, false); 
 		//gets last known location from chosen provider
-		location = location_manager.getLastKnownLocation(bestProvider); 
+		location = locationManager.getLastKnownLocation(bestProvider); 
 
 		//if there is an provider that provides an location ->continue
 		if(location != null){ 
@@ -124,7 +124,7 @@ public class CheckInActivity extends MapActivity implements View.OnClickListener
 
 		}
 
-		location_listener = new LocationListener(){
+		locationListener = new LocationListener(){
 			/**
 			 * method is called when location is changed, when onResumed() is called
 			 */
@@ -191,7 +191,6 @@ public class CheckInActivity extends MapActivity implements View.OnClickListener
 			try {
 				Thread.sleep(SLEEPTIMEINMS);
 			} catch (InterruptedException e1) {
-				e1.printStackTrace();
 			}
 		}
 
@@ -250,7 +249,6 @@ public class CheckInActivity extends MapActivity implements View.OnClickListener
 				overlayList.add(mapItemizedCheckIn);
 			}
 		} catch (JSONException e) {
-			e.printStackTrace();
 		}		
 
 		mapview.postInvalidate();
@@ -270,7 +268,7 @@ public class CheckInActivity extends MapActivity implements View.OnClickListener
 		//removes white signs
 		username.trim();
 		//Removes illegal characters to prevent sql injection
-		username = username.replaceAll("[^[a-zåäö][A-ZÅÄÖ][0-9]]",""); 
+		username = username.replaceAll("[^[a-zï¿½ï¿½ï¿½][A-Zï¿½ï¿½ï¿½][0-9]]",""); 
 
 		//if the user have not entered a name the name is set to unknown
 		if(username.equals("")){
@@ -351,9 +349,7 @@ public class CheckInActivity extends MapActivity implements View.OnClickListener
 				is = urlConnection.getInputStream();
 				urlConnection.connect();
 			} catch (MalformedURLException e) {
-				e.printStackTrace();
 			} catch (IOException e) {
-				e.printStackTrace();
 			}
 
 
@@ -406,7 +402,7 @@ public class CheckInActivity extends MapActivity implements View.OnClickListener
 	 */
 	protected void onPause() {
 		super.onPause();
-		location_manager.removeUpdates(location_listener);
+		locationManager.removeUpdates(locationListener);
 	}
 
 	/**
@@ -419,7 +415,7 @@ public class CheckInActivity extends MapActivity implements View.OnClickListener
 		try {
 			// Register the listener with the Location Manager to receive
 			// location updates
-			location_manager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, UPDATEFREQUENCYINMS, UPDATEAAREA, location_listener);
+			locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, UPDATEFREQUENCYINMS, UPDATEAAREA, locationListener);
 		}
 		catch (Exception e) {
 		}

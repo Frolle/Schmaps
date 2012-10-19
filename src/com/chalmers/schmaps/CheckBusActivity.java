@@ -218,7 +218,6 @@ public class CheckBusActivity extends Activity implements View.OnClickListener {
 			try {
 				Thread.sleep(500);
 			} catch (InterruptedException e1) {
-				e1.printStackTrace();
 			}
 		}
 		//Run two times, one for data for chalmerstable and second for lindholmentable
@@ -249,7 +248,6 @@ public class CheckBusActivity extends Activity implements View.OnClickListener {
 				}
 
 			} catch (Exception e) {
-				e.printStackTrace();
 				String msg = "Failed to retrive data";
 				Toast.makeText(getApplicationContext(),msg , Toast.LENGTH_SHORT).show();
 			}
@@ -274,14 +272,14 @@ public class CheckBusActivity extends Activity implements View.OnClickListener {
 
 	/****************************************************************************
 	 * this innerclass creates a new thread from where we can make a request
-	 *  to västtrafik api - to get the directions
+	 *  to vï¿½sttrafik api - to get the directions
 	 * 	inspired by
 	 *  http://www.vogella.com/articles/AndroidPerformance/article.html
 	 ********************************************************************************/
 	private class GetDepatures extends AsyncTask<Void, Void, JSONObject[]>{
 
 
-		/** when called makes a request to västtrafik api (json format) 
+		/** when called makes a request to vï¿½sttrafik api (json format) 
 		 *  gets the response back
 		 *  convertes the response to a jsonobject
 		 */
@@ -290,7 +288,7 @@ public class CheckBusActivity extends Activity implements View.OnClickListener {
 
 			JSONObject[] tempJsonObject = new JSONObject[2];
 
-			//establish a connection with västtrafik api
+			//establish a connection with vï¿½sttrafik api
 			for(int i=0; i<2; i++){
 				StringBuilder response = new StringBuilder();
 				InputStream is = null;
@@ -311,10 +309,7 @@ public class CheckBusActivity extends Activity implements View.OnClickListener {
 					is = urlConnection.getInputStream();
 					urlConnection.connect();
 				} catch (MalformedURLException e) {
-					e.printStackTrace();
-
 				} catch (IOException e) {
-					e.printStackTrace();
 				}
 				//read from the buffer line by line and save in response (a stringbuider)
 				try{

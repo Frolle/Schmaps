@@ -82,7 +82,6 @@ public class CheckBusActivityTest extends ActivityInstrumentationTestCase2<Check
 			nrOfRowsField.setAccessible(true);
 			nrOfRows = (Integer) nrOfRowsField.get(this.activity);
 		} catch (Exception e) {
-			e.printStackTrace();
 		}
 		assertEquals(1+nrOfRows, lindholmenTableLayout.getChildCount());
 		assertEquals(1+nrOfRows, chalmersTableLayout.getChildCount());
