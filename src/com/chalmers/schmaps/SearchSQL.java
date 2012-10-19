@@ -18,6 +18,7 @@ package com.chalmers.schmaps;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.List;
 
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.OverlayItem;
@@ -89,8 +90,9 @@ public class SearchSQL {
 	{
 		String [] columns = new String []{KEY_ROWID, KEY_ROOM, KEY_LAT, KEY_LONG, KEY_STREET, KEY_LEVEL};
 		Cursor cursor = ourDatabase.query(DATABASE_TABLE, columns, KEY_ROOM + " LIKE ?" , new String [] { "%" + query + "%"}, null, null, null);
-		if(cursor.getCount()<=0)
+		if(cursor.getCount()<=0){
 			return false;
+		}
 		return true;
 
 	}
@@ -182,7 +184,7 @@ public class SearchSQL {
 	 * @param tableName - defines what table that should be searched.
 	 * @return List of geopoints for drawing them on the map.
 	 */
-	public ArrayList<OverlayItem> getLocations(String tableName)
+	public List<OverlayItem> getLocations(String tableName)
 	{
 		ArrayList<OverlayItem> locationList = new ArrayList<OverlayItem>();
 		Cursor cursor = ourDatabase.rawQuery("select * from " + tableName, null);
@@ -231,8 +233,9 @@ public class SearchSQL {
 	    @Override 
 	    public synchronized void close()  
 	    { 
-	        if(internDatabase != null) 
+	        if(internDatabase != null) {
 	            internDatabase.close(); 
+	        }
 	        super.close(); 
 	    }
 		

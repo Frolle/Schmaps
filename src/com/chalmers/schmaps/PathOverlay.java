@@ -38,7 +38,7 @@ public class PathOverlay extends Overlay {
 	private int index;
 	
 	
-	public PathOverlay(ArrayList<GeoPoint> geoPointList){
+	public PathOverlay(List<GeoPoint> geoPointList){
 		super();
 		geoList = geoPointList;
 	}

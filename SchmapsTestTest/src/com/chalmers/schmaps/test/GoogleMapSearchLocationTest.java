@@ -68,11 +68,9 @@ public class GoogleMapSearchLocationTest extends ActivityInstrumentationTestCase
 		this.directionsButton = (Button) this.activity.findViewById(R.id.directionbutton);
 		this.mapview = (MapView) this.activity.findViewById(R.id.mapview);
 	}
-	protected void tearDown() throws Exception {
-		// TODO Auto-generated method stub
-		super.tearDown();
-	}
-
+	/**
+	 * Tests conditions before starting all the tests.
+	 */
 	public void testPreConditions(){
 		super.assertNotNull(editButton);
 		super.assertNotNull(directionsButton);

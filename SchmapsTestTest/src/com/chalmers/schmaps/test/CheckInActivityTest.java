@@ -30,6 +30,12 @@ import android.view.KeyEvent;
 import android.widget.Button;
 import android.widget.EditText;
 
+/**
+ * Test class for testing the Checkin activity by testing connection to database,
+ * Reg ex functions and adding JSON objects.
+ * @author Teafrog
+ *
+ */
 public class CheckInActivityTest extends ActivityInstrumentationTestCase2<CheckInActivity> {
 
 
@@ -44,6 +50,9 @@ public class CheckInActivityTest extends ActivityInstrumentationTestCase2<CheckI
 		super(CheckInActivity.class);
 	}
 	
+	/**
+	 * Simple setUp method that runs before each test to set fields and such.
+	 */
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
@@ -53,13 +62,18 @@ public class CheckInActivityTest extends ActivityInstrumentationTestCase2<CheckI
 		this.nameEdit = (EditText) this.activity.findViewById(R.id.entername);
 		this.mapview = (MapView) this.activity.findViewById(R.id.mapview);
 	}
-	
+	/**
+	 * Method called after each test to safely close them down.
+	 */
 	protected void tearDown() throws Exception {
 		// TODO Auto-generated method stub
 		activity.finish();
 		super.tearDown();
 	}
 
+	/**
+	 * Tests conditions before starting to tests
+	 */
 	public void testPreConditions(){
 		super.assertNotNull(checkInButton);
 		super.assertNotNull(mapview);

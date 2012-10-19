@@ -62,6 +62,12 @@ import android.widget.EditText;
  **************************************************************/
 public class CheckInActivity extends MapActivity implements View.OnClickListener{
 
+	private static final int ZOOMVALUEFOROVERVIEW = 17;
+	private static final long SLEEPTIMEINMS = 500;
+	private static final int VALUEOFSECONDS = 16;
+	private static final int VALUEOFDATE = 11;
+	private static final long UPDATEFREQUENCYINMS = 1000;
+	private static final float UPDATEAAREA = 10;
 	private GeoPoint ourLocation;
 	private LocationManager location_manager;
 	private LocationListener location_listener;
@@ -86,6 +92,10 @@ public class CheckInActivity extends MapActivity implements View.OnClickListener
 	private boolean running;
 
 	@Override
+	/**
+	 * onCreate method for determining what the activity does on creation.
+	 * Sets the right view for the user and assigns fields.
+	 */
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		//assigns variables used in this class
@@ -110,7 +120,7 @@ public class CheckInActivity extends MapActivity implements View.OnClickListener
 
 			mapcon.animateTo(ourLocation);
 			//zoom level
-			mapcon.setZoom(17); 
+			mapcon.setZoom(ZOOMVALUEFOROVERVIEW); 
 
 		}
 
@@ -176,10 +186,10 @@ public class CheckInActivity extends MapActivity implements View.OnClickListener
 		//the method doInBackground() is executed
 		getCheckIn.execute(); 
 
-		//if json object not returned, sleep for 30 sec
+		//if json object not returned, sleep for 0,5 sec
 		while(returnedJsonObject == null){ 
 			try {
-				Thread.sleep(500);
+				Thread.sleep(SLEEPTIMEINMS);
 			} catch (InterruptedException e1) {
 				e1.printStackTrace();
 			}
@@ -224,9 +234,9 @@ public class CheckInActivity extends MapActivity implements View.OnClickListener
 				//insert in stringbuffer
 				timebuffer.insert(0,time); 
 				//delete seconds
-				timebuffer.delete(16, timebuffer.length()); 
+				timebuffer.delete(VALUEOFSECONDS, timebuffer.length()); 
 				 //delete date
-				timebuffer.delete(0, 11);
+				timebuffer.delete(0, VALUEOFDATE);
 				//convert back to string
 				time = timebuffer.toString(); 
 				//clear buffer
@@ -270,13 +280,13 @@ public class CheckInActivity extends MapActivity implements View.OnClickListener
 		checkin =false;
 	}
 
+
 	/**
 	 * @return the username that user enters
 	 */
 	public String getInputName(){
 		return username;
 	}
-
 	/**
 	 * @return the size of jsonarray returned from string
 	 */
@@ -285,12 +295,7 @@ public class CheckInActivity extends MapActivity implements View.OnClickListener
 	}
 
 	/**
-	 * 
-<<<<<<< HEAD
 	 * @return true if the doinbackground() in asynktask has executed
-=======
-	 * @return true if the goinbackground method in getcheckin has executed
->>>>>>> 3b9c24e68944d2e99ddfd225913f53eeb55aa051
 	 */
 	public boolean getIsAsyncTaskRunning(){
 		return running;
@@ -386,23 +391,35 @@ public class CheckInActivity extends MapActivity implements View.OnClickListener
 
 
 	@Override
+	/**
+	 * A simple check to see if a route is currently displayed
+	 * @return - boolean says if route displayed or not
+	 */
 	protected boolean isRouteDisplayed() {
 		return false;
 	}
 
 	@Override
+	/**
+	 * Method to define what the activity does on pause. Removes updates from the
+	 * location manager
+	 */
 	protected void onPause() {
 		super.onPause();
 		location_manager.removeUpdates(location_listener);
 	}
 
+	/**
+	 * Method to define what the activity does on resume.
+	 * Updates the coordinates of the current position.
+	 */
 	@Override
 	protected void onResume() {
 		super.onResume();
 		try {
 			// Register the listener with the Location Manager to receive
 			// location updates
-			location_manager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000, 10, location_listener);
+			location_manager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, UPDATEFREQUENCYINMS, UPDATEAAREA, location_listener);
 		}
 		catch (Exception e) {
 		}

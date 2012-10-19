@@ -43,8 +43,13 @@ public class CampusMenuActivityTest extends ActivityInstrumentationTestCase2<Cam
 	 * Set up method for instantiating the variables.
 	 */
 	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
+	protected void setUp()  {
+		try {
+			super.setUp();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		//Simulate the intent from the previous activities which is usually rendered from the user's inputs in the app.
 		setActivityIntent(new Intent("android.intent.action.CAMPUSMENUACTIVITY").putExtra("Show locations", MICROWAVEBUTTON));
 		setActivityInitialTouchMode(false);
@@ -53,6 +58,9 @@ public class CampusMenuActivityTest extends ActivityInstrumentationTestCase2<Cam
 		lindholmenButton = (Button) campusMenuActivity.findViewById(R.id.lindholmenButton);
 	}
 
+	/**
+	 * Tests conditions before starting to tests
+	 */
 	public void testPreConditions(){
 		super.assertNotNull(johannebergButton);
 		super.assertNotNull(lindholmenButton);

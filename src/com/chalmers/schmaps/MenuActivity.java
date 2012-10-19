@@ -133,10 +133,18 @@ public class MenuActivity extends Activity implements View.OnClickListener {
 		okToStartActivity = true;
 	}
 
+	/**
+	 * Get method for intent action string
+	 * @return - String containing the action to start intent
+	 */
 	public String getActivityString() {
 		return activityString;
 	}
-
+	
+    /**
+     * Set method for the intent action string
+     * @param actionString - String to set the action intent
+     */
 	public void setActivityString(String activityString) {
 		this.activityString = activityString;
 	}
