@@ -50,9 +50,6 @@ public class StartupTest extends ActivityInstrumentationTestCase2<Startup> {
 		solo = new Solo(getInstrumentation(), getActivity());
 		this.startupActivity = super.getActivity();
 		}
-	protected void tearDown() throws Exception {
-		super.tearDown();
-	}
 	/**
 	 * Test that the splash screen starts the correct activity and that it shuts down
 	 * when it's touched.

@@ -62,8 +62,7 @@ public class GoogleMapShowLocationTest extends
 	
 	/**
 	 * Test to see if all the locations for the microwaves were drawn out, by comparing
-	 * the size of all the items drawn out to the size of the data table. The other tests
-	 * works just like this except for different tables.
+	 * the size of all the items drawn out to the size of the data table.
 	 * Reason to why the mapView and overlay variables are in all the tests and not in the
  	 * setUp is because the intent needs to be customized for every different test to be
 	 * customized for every different case to get coverage of all the code.
@@ -79,7 +78,11 @@ public class GoogleMapShowLocationTest extends
 		assertEquals(SIZEOFMICROWAVETABLE,overlay.size());
 	}
 	/**
-	 * See the test comments above.
+	 * Test to see if all the locations for the restaurants were drawn out, by comparing
+	 * the size of all the items drawn out to the size of the data table.
+	 * Reason to why the mapView and overlay variables are in all the tests and not in the
+ 	 * setUp is because the intent needs to be customized for every different test to be
+	 * customized for every different case to get coverage of all the code.
 	 */
 
 	public void testDrawLocationsRestaurants(){
@@ -93,7 +96,11 @@ public class GoogleMapShowLocationTest extends
 		assertEquals(SIZEOFRESTAURANTTABLE,overlay.size());
 	}
 	/**
-	 * See the test comments above.
+	 * Test to see if all the locations for the ATMs were drawn out, by comparing
+	 * the size of all the items drawn out to the size of the data table.
+	 * Reason to why the mapView and overlay variables are in all the tests and not in the
+ 	 * setUp is because the intent needs to be customized for every different test to be
+	 * customized for every different case to get coverage of all the code.
 	 */
 
 	public void testDrawLocationsAtms(){
@@ -115,9 +122,6 @@ public class GoogleMapShowLocationTest extends
 //		super.getInstrumentation().waitForIdleSync();
 //		assertEquals(SIZEOFROOMSTABLE, overlay.size());
 //	}
-	public void tearDown() throws Exception{
-		super.tearDown();
-	}
 
 
 }

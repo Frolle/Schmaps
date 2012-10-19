@@ -36,17 +36,18 @@ public class GroupRoomActivityTest extends ActivityInstrumentationTestCase2<Grou
 	public GroupRoomActivityTest() {
 		super(GroupRoomActivity.class);
 	}
-	
+	/**
+	 * Method for assigning all the field variables used.
+	 */
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 		setActivityInitialTouchMode(false);
 		this.groupRoomActivity = super.getActivity();		
 	}
-	protected void tearDown() throws Exception {
-		super.tearDown();
-	}
-	
+	/**
+	 * Tests conditions before starting to tests
+	 */
 	public void testPreConditions(){
 		assertNotNull(groupRoomActivity);
 	}

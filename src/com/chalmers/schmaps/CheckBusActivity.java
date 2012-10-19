@@ -71,6 +71,10 @@ public class CheckBusActivity extends Activity implements View.OnClickListener {
 	private Button refreshButton;
 
 	@Override
+	/**
+	 * onCreate method for determining what the activity does on creation.
+	 * Sets the right view for the user and assigns fields.
+	 */
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_checkbus);
@@ -81,13 +85,6 @@ public class CheckBusActivity extends Activity implements View.OnClickListener {
 		lindholmenTable = (TableLayout) findViewById(R.id.LindholmenTable);
 		makeRows();
 	}
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		//        getMenuInflater().inflate(R.menu.activity_campus_menu, menu);
-		return true;
-	}
-
 	/**
 	 * Delete all rows under the top row 
 	 **/
@@ -95,14 +92,16 @@ public class CheckBusActivity extends Activity implements View.OnClickListener {
 		int chalmersRowsToDel = chalmersTable.getChildCount();
 		int lindholmenRowsToDel = lindholmenTable.getChildCount();
 
-		for (int i=chalmersRowsToDel-1;i>0;i--){
-			TableRow row = (TableRow) chalmersTable.getChildAt(i);
-			chalmersTable.removeView(row);
-		}
+		if( (chalmersRowsToDel-1 | lindholmenRowsToDel-1) > 0){
+			for (int i=chalmersRowsToDel-1;i>0;i--){
+				TableRow row = (TableRow) chalmersTable.getChildAt(i);
+				chalmersTable.removeView(row);
+			}
 
-		for (int j=lindholmenRowsToDel;j>0;j--){
-			TableRow row = (TableRow) lindholmenTable.getChildAt(j);
-			lindholmenTable.removeView(row);
+			for (int j=lindholmenRowsToDel;j>0;j--){
+				TableRow row = (TableRow) lindholmenTable.getChildAt(j);
+				lindholmenTable.removeView(row);
+			}
 		}
 	}
 
@@ -115,10 +114,14 @@ public class CheckBusActivity extends Activity implements View.OnClickListener {
 			GetDepatures getDepatures = new GetDepatures();
 			getDepatures.execute();
 			parseDataToArrays();
+
+			makeChalmersRows();
+			makeLindholmenRows();
 		}catch (Exception e) {
+			String msg = "Failed to retrive data";
+			Toast.makeText(getApplicationContext(),msg , Toast.LENGTH_SHORT).show();
 		}
-		makeChalmersRows();
-		makeLindholmenRows();
+
 
 	}
 
@@ -132,9 +135,9 @@ public class CheckBusActivity extends Activity implements View.OnClickListener {
 
 			// Makes every other row light gray or white
 			if(i%2 == 0){
-				tempTableRow.setBackgroundColor(Color.LTGRAY);
+				tempTableRow.setBackgroundColor(getResources().getColor(R.color.transp_grey));
 			}else{
-				tempTableRow.setBackgroundColor(Color.WHITE);
+				tempTableRow.setBackgroundColor(getResources().getColor(R.color.transp_white));
 			}
 
 			//Makes every textview for each column and add it before starting with a new one
@@ -169,9 +172,9 @@ public class CheckBusActivity extends Activity implements View.OnClickListener {
 
 			// Makes every other row light gray or white
 			if(i%2 == 0){
-				tempTableRow.setBackgroundColor(Color.LTGRAY);
+				tempTableRow.setBackgroundColor(getResources().getColor(R.color.transp_grey));
 			}else{
-				tempTableRow.setBackgroundColor(Color.WHITE);
+				tempTableRow.setBackgroundColor(getResources().getColor(R.color.transp_white));
 			}
 
 			//Makes every textview for each column and add it before starting with a new one 
@@ -247,7 +250,8 @@ public class CheckBusActivity extends Activity implements View.OnClickListener {
 
 			} catch (Exception e) {
 				e.printStackTrace();
-				Toast.makeText(getApplicationContext(), "Failed to retrive data", Toast.LENGTH_SHORT).show();
+				String msg = "Failed to retrive data";
+				Toast.makeText(getApplicationContext(),msg , Toast.LENGTH_SHORT).show();
 			}
 
 		}
@@ -262,7 +266,7 @@ public class CheckBusActivity extends Activity implements View.OnClickListener {
 			makeRows();
 			return true;
 		} catch (Exception e) {
-		Log.e("TEST!", "SEWFAGAGAG AG GA GSAFSAFASFASF");
+			Log.e("TEST!", "SEWFAGAGAG AG GA GSAFSAFASFASF");
 		}
 		return false;
 	}
