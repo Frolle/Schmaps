@@ -30,6 +30,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.chalmers.schmaps.GPSPoint.myLocationListener;
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapController;
@@ -40,6 +41,7 @@ import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.location.LocationProvider;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
@@ -50,6 +52,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 
 public class GoogleMapShowLocation extends MapActivity implements View.OnClickListener {
@@ -199,8 +202,11 @@ public class GoogleMapShowLocation extends MapActivity implements View.OnClickLi
 		overlay = new MapItemizedOverlay(drawable, this);
 		queueButton = (Button) findViewById(R.id.queuebutton);
 		queueButton.setOnClickListener(this);
+		
 		location_manager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
-		location_listener = new LocationListener(){
+		LocationProvider provider = location_manager.getProvider(LocationManager.NETWORK_PROVIDER);		//Using NETWORK_PROVIDER to save battery-time
+		location_listener = new LocationListener()
+		{
 
 			public void onLocationChanged(Location location) { //metod som hämtar din position genom att anropa onResume
 
@@ -236,7 +242,12 @@ public class GoogleMapShowLocation extends MapActivity implements View.OnClickLi
 	 * where you set a proximity alert on each desired position.
 	 */
 	private void getQueue(){
+		Location location = location_manager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 		int id = 1;
+		if(location == null){
+			Toast.makeText(this, "No last known location", Toast.LENGTH_LONG).show();
+			return;
+		}
 		for(OverlayItem item: locationList){
 			setGPSPoints(item.getPoint().getLongitudeE6(), item.getPoint().getLatitudeE6(), id++);	//set the proximity alert of the spot on the (long, lat) place
 		}
