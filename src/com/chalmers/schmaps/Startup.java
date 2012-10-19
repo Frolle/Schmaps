@@ -97,7 +97,9 @@ public class Startup extends Activity {
         return false;
     }
 	
-	
+	/**
+	 * Method for handling on Touch event from user.
+	 */
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
 		if(event.getAction()==MotionEvent.ACTION_DOWN){

@@ -48,6 +48,9 @@ public class SearchSQLTest extends ActivityInstrumentationTestCase2<GoogleMapSea
 		tester.openRead();
 	}
 	
+	/**
+	 * Method called after each test to safely close them down.
+	 */
 	@Override
 	protected void tearDown() throws Exception {
 		// TODO Auto-generated method stub
@@ -63,27 +66,35 @@ public class SearchSQLTest extends ActivityInstrumentationTestCase2<GoogleMapSea
 		assertTrue(tester.exists(theTestValue));
 		assertFalse(tester.exists("ValueThatDoesNotExist"));
 	}
-	
+	/**
+	 * Tests the method that checks if the value exists in the database
+	 */
 	public void testGetLat() {
 		assertEquals(57689111, tester.getLat(theTestValue));
 		assertEquals(RETURNVALUEIFNOTFOUND, tester.getLat("ValueThatDoesNotExist"));
 	}
 
-
+	/**
+	 * Tests the method that checks if the value exists in the database
+	 */
 	public void testGetLong() {
 		assertEquals(11973517, tester.getLong(theTestValue));
 		assertEquals(RETURNVALUEIFNOTFOUND, tester.getLong("ValueThatDoesNotExist"));
 
 	}
 
-
+	/**
+	 * Tests the method that checks if the value exists in the database
+	 */
 	public void testGetAddress() {
 		
 		assertEquals("Sven Hultins gata 2", tester.getAddress(theTestValue));
 		assertNull(tester.getAddress("ValueThatDoesNotExist"));
 	}
 
-
+	/**
+	 * Tests the method that checks if the value exists in the database
+	 */
 	public void testGetLevel() {
 		
 		assertEquals("Floor 1", tester.getLevel(theTestValue));
@@ -91,7 +102,9 @@ public class SearchSQLTest extends ActivityInstrumentationTestCase2<GoogleMapSea
 
 	}
 
-
+	/**
+	 * Tests the method that checks if the value exists in the database
+	 */
 	public void testGetLocations() {
 		
 		assertEquals(9, tester.getLocations("Microwaves").size());

@@ -53,6 +53,9 @@ public class CampusMenuActivityTest extends ActivityInstrumentationTestCase2<Cam
 		lindholmenButton = (Button) campusMenuActivity.findViewById(R.id.lindholmenButton);
 	}
 
+	/**
+	 * Tests conditions before starting to tests
+	 */
 	public void testPreConditions(){
 		super.assertNotNull(johannebergButton);
 		super.assertNotNull(lindholmenButton);
