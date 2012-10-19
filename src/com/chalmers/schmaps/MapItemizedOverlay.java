@@ -63,11 +63,18 @@ public class MapItemizedOverlay extends ItemizedOverlay<OverlayItem>{
 		populate();
 	}
 	
+	/**
+	 * Method used to create copies of Overlay Items found
+	 * in the array list of this class.
+	 */
 	@Override
 	protected OverlayItem createItem(int i) {
 		return mOverlays.get(i);
 	}
 
+	/**
+	 * Returns size of the array list.
+	 */
 	@Override
 	public int size() {
 		return mOverlays.size();

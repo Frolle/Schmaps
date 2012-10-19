@@ -48,6 +48,9 @@ public class MapItemizedOverlayTest extends ActivityInstrumentationTestCase2<Goo
 		super(GoogleMapSearchLocation.class);
 	}
 	
+	/**
+	 * Set up instance variables
+	 */
 	@Override
 	protected void setUp() 	throws Exception {
 		super.setUp();
@@ -55,6 +58,9 @@ public class MapItemizedOverlayTest extends ActivityInstrumentationTestCase2<Goo
 		drawable = activity.getResources().getDrawable(R.drawable.chalmersandroid);
 		mapOverlay = new MapItemizedOverlay(drawable,activity);		
 	}
+	/**
+	 * Method called after each test to safely close them down.
+	 */
 	protected void tearDown() throws Exception {
 		super.tearDown();
 	}

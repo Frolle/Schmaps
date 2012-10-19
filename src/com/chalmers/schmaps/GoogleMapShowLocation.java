@@ -105,12 +105,20 @@ public class GoogleMapShowLocation extends MapActivity {
 		
 	}
 
+	/**
+	 *Method for telling if route displayed. 
+	 *Shouldn't display a route in this activity so is always false.
+	 */
 	@Override
 	protected boolean isRouteDisplayed() {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
+	/**
+	 * Method to define what the activity does on pause. Removes updates from the
+	 * location manager
+	 */
 	@Override
 	protected void onPause() {
 		// TODO Auto-generated method stub
@@ -118,7 +126,11 @@ public class GoogleMapShowLocation extends MapActivity {
 		finish();
 		location_manager.removeUpdates(location_listener);
 	}
-
+	
+	/**
+	 * Method to define what the activity does on resume.
+	 * Updates the coordinates of the current position.
+	 */
 	@Override
 	protected void onResume() {
 		// TODO Auto-generated method stub
