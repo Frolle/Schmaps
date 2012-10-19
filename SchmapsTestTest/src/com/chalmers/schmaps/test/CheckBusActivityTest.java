@@ -15,6 +15,7 @@
  */
 package com.chalmers.schmaps.test;
 
+import java.lang.ref.Reference;
 import java.lang.reflect.Field;
 
 import com.chalmers.schmaps.CheckBusActivity;
@@ -37,6 +38,9 @@ public class CheckBusActivityTest extends ActivityInstrumentationTestCase2<Check
 		super(CheckBusActivity.class);
 	}
 
+	/**
+	 * Set up all reference's to views we need to be able to use 
+	 */
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
@@ -47,6 +51,9 @@ public class CheckBusActivityTest extends ActivityInstrumentationTestCase2<Check
 		refreshButton = (Button) this.activity.findViewById(R.id.refreshbutton);
 	}
 
+	/**
+	 * Tear down before next test
+	 */
 	@Override
 	protected void tearDown() throws Exception {
 		this.activity.finish();
@@ -54,6 +61,9 @@ public class CheckBusActivityTest extends ActivityInstrumentationTestCase2<Check
 		super.tearDown();
 	}
 
+	/**
+	 * Test that all reference's not null
+	 */
 	public void testPreConditions(){
 		super.assertNotNull(lindholmenTableLayout);
 		super.assertNotNull(chalmersTableLayout);
@@ -61,6 +71,9 @@ public class CheckBusActivityTest extends ActivityInstrumentationTestCase2<Check
 		super.assertNotNull(activity);
 	}
 
+	/**
+	 * Test that all rows except top row is deleted 
+	 */
 	@UiThreadTest
 	public void testDeleteRows(){
 		this.activity.deleteRows();
@@ -68,6 +81,9 @@ public class CheckBusActivityTest extends ActivityInstrumentationTestCase2<Check
 		assertEquals(1, chalmersTableLayout.getChildCount());
 	}
 
+	/**
+	 * Test that tests if right amount of rows is created
+	 */
 	@UiThreadTest
 	public void testMakeRows(){
 		int nrOfRows = 0;
