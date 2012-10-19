@@ -19,7 +19,6 @@ import java.lang.reflect.Field;
 
 import com.chalmers.schmaps.CheckBusActivity;
 import com.chalmers.schmaps.R;
-import com.jayway.android.robotium.solo.Solo;
 
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.UiThreadTest;
