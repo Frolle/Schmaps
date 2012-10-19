@@ -77,21 +77,32 @@ Id 		Title 		Description 				Pre-conditions		Steps					Result
 																	a blue path between you and the lecture hall
 																	you searched for.
 
-12	Get Directions Item	On the screen for the "Search Lecture Hall"	7		1. Start the Application		1. Application window with buttons will show up, after an intro.
-				feature there will be a menu item called "Get	8		2. Press the lecture hall button	2. Lecture Hall Button simulates a "click".
+12	Get Directions Button	On the screen for the "Search Lecture Hall"	7		1. Start the Application		1. Application window with buttons will show up, after an intro.
+				feature there will be a button called "Get	8		2. Press the lecture hall button	2. Lecture Hall Button simulates a "click".
 				Directions" 					1		3. Type lecture hall into textfield	A new window with a Googlemap will be shown
 												4. Press Enter				with an editable field along with a button.
 												5. Get Directions			3. You can write text into the textfield
 																	4. The button simulates a click and an
 																	the desired lecture hall with a mark, if it
 																	does not exist, an error message will be shown.
-																	5. A menu item called "Get Directions" is
+																	5. A button called "Get Directions" is
 																	visible on the screen.
 
 13		Check Bus	The user can choose the features "Check Bus"	7		1. Start the Application		1. Application window with buttons will show up, after an intro.
 				where two tables for the 16-bus's next 8 	8		2. Press the Check Bus button		2. The button simulates a click and a window with the tables
-				departures is shown, first table shows				3. Refresh				of the 16-bus's departures from/to Johanneberg from/to
-				the departures from Johanneberg to Lindholmen								Lindholmen is shown with a button called "refresh!.
-				and the table below shows the departures								3. If you press "refresh" a click is simulated and the tables
-				from Lindholmen to Johanneberg.										departures are updated
+				departures is shown, first table shows		14		3. Refresh Button			of the 16-bus's departures from/to Johanneberg from/to
+				the departures from Johanneberg to Lindholmen	15							Lindholmen is shown.
+				and the table below shows the departures								3. A button named "refresh" should be shown on the screen, with 
+				from Lindholmen to Johanneberg.										the function of updating the tables.						
+
+14		Refresh Button	A refresh button exists on the screen so that	7		1. Start the Application		1. Application window with buttons will show up, after an intro.
+				the user can update the tables to match the 	8		2. Press the Check Bus button		2. The button simulates a click and a window with the tables
+				time shown on the cellphone.			13		3. Click on Refresh Button		Lindholmen is shown.
+										15							3. The refresh button is shown on the screen and when you
+																	press it, an update will occur to match the present time.
+
+15		Bus Tables	When the user have pressed the "Check bus"	7		1. Start the Application		1. Application window with buttons will show up, after an intro.
+				button, two tables for the 16-bus will appear	8		2. Press the Check Bus button		2. The button simulates a click.
+				showing the next 8 departures from the present			3. Table screen				3. After the click, the tables for the 16-bus appears with
+				time.													the 8 next departures.
 																	
