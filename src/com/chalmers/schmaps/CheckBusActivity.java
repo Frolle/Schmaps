@@ -51,6 +51,13 @@ import android.widget.Toast;
 
 public class CheckBusActivity extends Activity implements View.OnClickListener {
 
+	private static final int COLUMN_NR_4 = 3;
+	private static final int COLUMN_NR_3 = 2;
+	private static final int COLUMN_NR_2 = 1;
+	private static final int COLUMN_NR_1 = 0;
+	private static final int NR_OF_COLUMNS = 4;
+	private static final int TIME_TO_SLEEP = 700;
+	private static final int TEXT_SIZE = 14;
 	private static final int NROFROWS = 8;
 	private static final String chalmersURL = "http://api.vasttrafik.se/bin/rest.exe/v1/departureBoard?authKey=2443e74a-b1cd-466a-a4e2-72ac982a62df&format=json&id=9021014001960000&direction=9021014004490000";
 	private static final String lindholmenURL= "http://api.vasttrafik.se/bin/rest.exe/v1/departureBoard?authKey=2443e74a-b1cd-466a-a4e2-72ac982a62df&format=json&id=9021014004490000&direction=9021014001960000";
@@ -140,18 +147,18 @@ public class CheckBusActivity extends Activity implements View.OnClickListener {
 			}
 
 			//Makes every textview for each column and add it before starting with a new one
-			for(int j = 0; j<4; j++){
+			for(int j = 0; j<NR_OF_COLUMNS; j++){
 				TextView textview = new TextView(this);
 				textview.setTextColor(Color.BLACK);
-				textview.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
+				textview.setTextSize(TypedValue.COMPLEX_UNIT_SP, TEXT_SIZE);
 				//Check which content should be written in the textview
-				if(j == 0){
+				if(j == COLUMN_NR_1){
 					textview.setText(chalmersLineArray.get(i));
-				}else if(j == 1){
+				}else if(j == COLUMN_NR_2){
 					textview.setText(chalmersDestArray.get(i));
-				}else if(j == 2){
+				}else if(j == COLUMN_NR_3){
 					textview.setText(chalmersTimeArray.get(i));
-				}else if(j == 3){
+				}else if(j == COLUMN_NR_4){
 					textview.setText(chalmersTrackArray.get(i));
 				}
 				textview.setGravity(Gravity.CENTER_HORIZONTAL);
@@ -177,18 +184,18 @@ public class CheckBusActivity extends Activity implements View.OnClickListener {
 			}
 
 			//Makes every textview for each column and add it before starting with a new one 
-			for(int j = 0; j<4; j++){
+			for(int j = 0; j<NR_OF_COLUMNS; j++){
 				TextView textview = new TextView(this);
 				textview.setTextColor(Color.BLACK);
-				textview.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
+				textview.setTextSize(TypedValue.COMPLEX_UNIT_SP, TEXT_SIZE);
 				//Check which content should be written in the textview
-				if(j == 0){
+				if(j == COLUMN_NR_1){
 					textview.setText(lindholmenLineArray.get(i));
-				}else if(j == 1){
+				}else if(j == COLUMN_NR_2){
 					textview.setText(lindholmenDestArray.get(i));
-				}else if(j == 2){
+				}else if(j == COLUMN_NR_3){
 					textview.setText(lindholmenTimeArray.get(i));
-				}else if(j == 3){
+				}else if(j == COLUMN_NR_4){
 					textview.setText(lindholmenTrackArray.get(i));
 				}
 
@@ -215,7 +222,7 @@ public class CheckBusActivity extends Activity implements View.OnClickListener {
 
 		while(returnedJsonObject == null){ //if json object not returned, sleep
 			try {
-				Thread.sleep(500);
+				Thread.sleep(TIME_TO_SLEEP); // Sleep for x seconds
 			} catch (InterruptedException e1) {
 				e1.printStackTrace();
 			}
