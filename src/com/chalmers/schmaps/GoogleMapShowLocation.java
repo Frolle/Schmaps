@@ -25,11 +25,7 @@ import com.google.android.maps.MapView;
 import com.google.android.maps.Overlay;
 import com.google.android.maps.OverlayItem;
 import android.graphics.drawable.Drawable;
-import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
 import android.os.Bundle;
-import android.content.Context;
 
 public class GoogleMapShowLocation extends MapActivity {
 	private static final int MICROWAVEBUTTON = 1;
@@ -42,8 +38,6 @@ public class GoogleMapShowLocation extends MapActivity {
 	private static final String DB_ATMTABLE = "Atm";				//Name of our ATM table
 		
     private MapController mapcon;
-	private LocationManager location_manager;
-	private LocationListener location_listener;
 	private List<Overlay> mapOverlays;
 	private MapItemizedOverlay overlay;
 	private MapView mapView;
@@ -114,38 +108,7 @@ public class GoogleMapShowLocation extends MapActivity {
 		// TODO Auto-generated method stub
 		return false;
 	}
-
-	/**
-	 * Method to define what the activity does on pause. Removes updates from the
-	 * location manager
-	 */
-	@Override
-	protected void onPause() {
-		// TODO Auto-generated method stub
-		super.onPause();
-		finish();
-		location_manager.removeUpdates(location_listener);
-	}
-	
-	/**
-	 * Method to define what the activity does on resume.
-	 * Updates the coordinates of the current position.
-	 */
-	@Override
-	protected void onResume() {
-		// TODO Auto-generated method stub
-		super.onResume();
-		try {
-			// Register the listener with the Location Manager to receive
-			// location updates
-			location_manager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 30000, 100, location_listener);
-			location_manager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 30000, 100, location_listener);
-		}
-		catch (Exception e) {
-			//print("Couldn't use the GPS: " + e + ", " + e.getMessage());
-		}
-	}
-	
+		
 	/**
 	 * Simple method to assign all instance variables and initiate the settings for map view.
 	 */
@@ -160,39 +123,6 @@ public class GoogleMapShowLocation extends MapActivity {
 		johannesbergLoc = new GeoPoint(57688678, 11977136);
 		Drawable drawable = this.getResources().getDrawable(R.drawable.dot); 
 		overlay = new MapItemizedOverlay(drawable, this);
-		
-		location_manager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
-		location_listener = new LocationListener(){
-
-			public void onLocationChanged(Location location) { //metod som hämtar din position genom att anropa onResume
-
-				/*
-				int longitude = (int) (location.getLongitude() * 1E6);
-				int latitude = (int) (location.getLatitude() * 1E6);
-
-				GeoPoint point = new GeoPoint(latitude, longitude);
-				OverlayItem overlayitem = new OverlayItem(point, "Hola, Mundo!", "I'm in Mexico City!");
-				overlay.addOverlay(overlayitem);
-				mapOverlays.add(overlay);
-				 */
-
-			}
-
-			public void onProviderDisabled(String provider) {
-				// TODO Auto-generated method stub
-
-			}
-
-			public void onProviderEnabled(String provider) {
-				// TODO Auto-generated method stub
-
-			}
-
-			public void onStatusChanged(String provider, int status,
-					Bundle extras) {
-
-			}	
-		};
 		search = new SearchSQL(GoogleMapShowLocation.this);
 		search.createDatabase();
 	}
