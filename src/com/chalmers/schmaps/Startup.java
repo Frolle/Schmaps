@@ -57,7 +57,6 @@ public class Startup extends Activity {
             		}
             	}
             	catch(InterruptedException e){
-            		e.printStackTrace();
             	}
             	finish();
             	if(!isBackPressed){

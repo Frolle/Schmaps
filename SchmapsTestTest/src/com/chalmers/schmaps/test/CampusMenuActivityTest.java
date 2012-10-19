@@ -47,8 +47,6 @@ public class CampusMenuActivityTest extends ActivityInstrumentationTestCase2<Cam
 		try {
 			super.setUp();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 		//Simulate the intent from the previous activities which is usually rendered from the user's inputs in the app.
 		setActivityIntent(new Intent("android.intent.action.CAMPUSMENUACTIVITY").putExtra("Show locations", MICROWAVEBUTTON));

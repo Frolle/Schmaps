@@ -110,7 +110,6 @@ public class MapItemizedOverlayTest extends ActivityInstrumentationTestCase2<Goo
 			dialogToShow.setAccessible(true);
 			dialogShowing = (AlertDialog) dialogToShow.get(this.mapOverlay);
 		} catch (Exception e) {
-			e.printStackTrace();
 		}
 		assertTrue(dialogShowing.isShowing());
 		}

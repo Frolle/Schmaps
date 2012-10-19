@@ -71,8 +71,8 @@ public class GoogleMapSearchLocation extends MapActivity implements View.OnClick
 	private EditText lectureEdit;
 
 	private GeoPoint ourLocation, roomLocation;
-	private LocationManager location_manager;
-	private LocationListener location_listener;
+	private LocationManager locationManager;
+	private LocationListener locationListener;
 	private List<Overlay> mapOverlays;
 	private MapItemizedOverlay mapItemizedRoom, mapItemizedStudent;
 	private String roomToFind;
@@ -126,7 +126,7 @@ public class GoogleMapSearchLocation extends MapActivity implements View.OnClick
 			mapOverlays.add(mapItemizedStudent);
 		}
 
-		location_listener = new LocationListener(){
+		locationListener= new LocationListener(){
 			/**
 			 * method is called when location is changed
 			 */
@@ -180,7 +180,7 @@ public class GoogleMapSearchLocation extends MapActivity implements View.OnClick
 	@Override
 	protected void onPause() {
 		super.onPause();
-		location_manager.removeUpdates(location_listener);
+		locationManager.removeUpdates(locationListener);
 	}
 
 	/**
@@ -191,7 +191,7 @@ public class GoogleMapSearchLocation extends MapActivity implements View.OnClick
 	protected void onResume() {
 		super.onResume();
 		try {
-			location_manager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, UPDATEFREQUENCYINMS, UPDATEAAREA, location_listener);
+			locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, UPDATEFREQUENCYINMS, UPDATEAAREA, locationListener);
 		}
 		catch (Exception e) {
 		}
@@ -218,13 +218,13 @@ public class GoogleMapSearchLocation extends MapActivity implements View.OnClick
 		editButton.setOnClickListener(this);
 		directionsButton.setOnClickListener(this);
 
-		location_manager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+		locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
 		//deafult criteria
 		criteria = new Criteria(); 
 		//best reception
-		bestProvider = location_manager.getBestProvider(criteria, false); 
+		bestProvider = locationManager.getBestProvider(criteria, false); 
 		//gets last known location from chosen provider
-		location = location_manager.getLastKnownLocation(bestProvider); 
+		location = locationManager.getLastKnownLocation(bestProvider); 
 
 		roomSearched = false;
 		running = false;
@@ -253,7 +253,7 @@ public class GoogleMapSearchLocation extends MapActivity implements View.OnClick
 			//removes white signs and converts to lower case
 			roomToFind.toLowerCase().trim(); 
 			//Removes illegal characters to prevent sql injection
-			roomToFind = roomToFind.replaceAll("[^[a-zåäö][A-ZÅÄÖ][0-9]]",""); 
+			roomToFind = roomToFind.replaceAll("[^[a-zï¿½ï¿½ï¿½][A-Zï¿½ï¿½ï¿½][0-9]]",""); 
 			//open database in read mode
 			search.openRead(); 
 			//if we find room show room on map, if not show dialog 
@@ -337,7 +337,6 @@ public class GoogleMapSearchLocation extends MapActivity implements View.OnClick
 			try {
 				Thread.sleep(SLEEPTIMEINMS);
 			} catch (InterruptedException e1) {
-				e1.printStackTrace();
 			}
 		}
 
@@ -352,7 +351,7 @@ public class GoogleMapSearchLocation extends MapActivity implements View.OnClick
 	 */
 	public void parseJson(JSONObject returnedJson){
 
-		JSONObject step,start_location,end_location;
+		JSONObject step,startLocation,endLocation;
 		int srcLat,srcLng,destLat,destLng;
 		GeoPoint geo;
 		geoList = new ArrayList<GeoPoint>();
@@ -375,16 +374,21 @@ public class GoogleMapSearchLocation extends MapActivity implements View.OnClick
 				// we add the geopoint to an array of geopoints
 				if(count == 0){
 					step = steps.getJSONObject(0);
-					start_location = step.getJSONObject("start_location");
-					srcLat = (int)(start_location.getDouble("lat")*CONVERTTOGEOPOINTVALUE);
-					srcLng = (int)(start_location.getDouble("lng")*CONVERTTOGEOPOINTVALUE);
+
+					startLocation = step.getJSONObject("start_location");
+
+					srcLat = (int)(startLocation.getDouble("lat")*CONVERTTOGEOPOINTVALUE);
+					srcLng = (int)(startLocation.getDouble("lng")*CONVERTTOGEOPOINTVALUE);
+
 					geo = new GeoPoint(srcLat,srcLng);
 					geoList.add(0, geo);
 				}
 				step = steps.getJSONObject(count);
-				end_location = step.getJSONObject("end_location");
-				destLat = (int)(end_location.getDouble("lat")*CONVERTTOGEOPOINTVALUE);
-				destLng = (int)(end_location.getDouble("lng")*CONVERTTOGEOPOINTVALUE);
+
+				endLocation = step.getJSONObject("end_location");
+				destLat = (int)(endLocation.getDouble("lat")*CONVERTTOGEOPOINTVALUE);
+				destLng = (int)(endLocation.getDouble("lng")*CONVERTTOGEOPOINTVALUE);
+
 				geo = new GeoPoint(destLat,destLng);
 				geoList.add(count+1, geo);
 			}
@@ -401,7 +405,6 @@ public class GoogleMapSearchLocation extends MapActivity implements View.OnClick
 
 
 		} catch (JSONException e) {
-			e.printStackTrace();
 		}
 
 	}
@@ -468,9 +471,7 @@ public class GoogleMapSearchLocation extends MapActivity implements View.OnClick
 				is = urlConnection.getInputStream();
 				urlConnection.connect();
 			} catch (MalformedURLException e) {
-				e.printStackTrace();
 			} catch (IOException e) {
-				e.printStackTrace();
 			}
 
 

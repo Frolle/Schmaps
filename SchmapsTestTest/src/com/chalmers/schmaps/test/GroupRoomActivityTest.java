@@ -62,12 +62,8 @@ public class GroupRoomActivityTest extends ActivityInstrumentationTestCase2<Grou
 			urlStringField.setAccessible(true);
 			urlString = (String)urlStringField.get(this.groupRoomActivity).toString();
 		} catch (NoSuchFieldException e) {
-			e.printStackTrace();
 		} catch (IllegalArgumentException e) {
-			e.printStackTrace();
 		} catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 		assertEquals(URLTOBESTARTED, urlString);
 		

@@ -62,7 +62,6 @@ public class StartupTest extends ActivityInstrumentationTestCase2<Startup> {
 			threadForSplash = (Thread) splashThread.get(this.startupActivity);
 		}
 		catch (Exception e) {
-				e.printStackTrace();
 		}
 		MotionEvent evtDown, evtUp;
 		evtDown = MotionEvent.obtain(SystemClock.uptimeMillis(), SystemClock.uptimeMillis(), MotionEvent.ACTION_DOWN , 0.0f, 0.0f, 0);
