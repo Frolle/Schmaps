@@ -95,7 +95,7 @@ public class CheckBusActivity extends Activity implements View.OnClickListener {
 		int chalmersRowsToDel = chalmersTable.getChildCount();
 		int lindholmenRowsToDel = lindholmenTable.getChildCount();
 
-		if( (chalmersRowsToDel-1 & lindholmenRowsToDel-1) > 0){
+		if( (chalmersRowsToDel-1 | lindholmenRowsToDel-1) > 0){
 			for (int i=chalmersRowsToDel-1;i>0;i--){
 				TableRow row = (TableRow) chalmersTable.getChildAt(i);
 				chalmersTable.removeView(row);
@@ -117,6 +117,7 @@ public class CheckBusActivity extends Activity implements View.OnClickListener {
 			GetDepatures getDepatures = new GetDepatures();
 			getDepatures.execute();
 			parseDataToArrays();
+
 			makeChalmersRows();
 			makeLindholmenRows();
 		}catch (Exception e) {
@@ -137,9 +138,9 @@ public class CheckBusActivity extends Activity implements View.OnClickListener {
 
 			// Makes every other row light gray or white
 			if(i%2 == 0){
-				tempTableRow.setBackgroundColor(Color.LTGRAY);
+				tempTableRow.setBackgroundColor(getResources().getColor(R.color.transp_grey));
 			}else{
-				tempTableRow.setBackgroundColor(Color.WHITE);
+				tempTableRow.setBackgroundColor(getResources().getColor(R.color.transp_white));
 			}
 
 			//Makes every textview for each column and add it before starting with a new one
@@ -174,9 +175,9 @@ public class CheckBusActivity extends Activity implements View.OnClickListener {
 
 			// Makes every other row light gray or white
 			if(i%2 == 0){
-				tempTableRow.setBackgroundColor(Color.LTGRAY);
+				tempTableRow.setBackgroundColor(getResources().getColor(R.color.transp_grey));
 			}else{
-				tempTableRow.setBackgroundColor(Color.WHITE);
+				tempTableRow.setBackgroundColor(getResources().getColor(R.color.transp_white));
 			}
 
 			//Makes every textview for each column and add it before starting with a new one 
