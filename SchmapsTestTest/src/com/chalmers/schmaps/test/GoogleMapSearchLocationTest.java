@@ -16,27 +16,25 @@
 package com.chalmers.schmaps.test;
 
 import java.lang.reflect.Field;
-import java.util.*;
-
-
+import java.util.List;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.app.Dialog;
+import android.test.ActivityInstrumentationTestCase2;
+import android.test.TouchUtils;
+import android.util.Log;
+import android.view.KeyEvent;
+import android.widget.Button;
+import android.widget.EditText;
 
 import com.chalmers.schmaps.GoogleMapSearchLocation;
 import com.chalmers.schmaps.MapItemizedOverlay;
 import com.chalmers.schmaps.R;
-
-import com.google.android.maps.*;
-
-import android.util.Log;
-import android.view.KeyEvent;
-import android.app.Dialog;
-import android.test.ActivityInstrumentationTestCase2;
-import android.test.TouchUtils;
-import android.widget.Button;
-import android.widget.EditText;
+import com.google.android.maps.GeoPoint;
+import com.google.android.maps.MapView;
+import com.google.android.maps.Overlay;
 /**
  * Test class for testing GoogleMapSearchLocation, tests the function to search for rooms,
  * regex and what happens if room is not found.

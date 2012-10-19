@@ -16,13 +16,14 @@
 
 package com.chalmers.schmaps.test;
 
-import com.chalmers.schmaps.CampusMenuActivity;
-import com.chalmers.schmaps.R;
 import android.content.Intent;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.TouchUtils;
 import android.view.KeyEvent;
 import android.widget.Button;
+
+import com.chalmers.schmaps.CampusMenuActivity;
+import com.chalmers.schmaps.R;
 /**
  * Test case for CampusMenuActivity to test that it starts the correct activities 
  * from the user's input.

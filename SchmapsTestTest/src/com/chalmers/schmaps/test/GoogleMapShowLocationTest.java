@@ -18,12 +18,13 @@ package com.chalmers.schmaps.test;
 
 import java.util.List;
 
-import com.chalmers.schmaps.GoogleMapShowLocation;
-import com.chalmers.schmaps.R;
-import com.google.android.maps.*;
-
 import android.content.Intent;
 import android.test.ActivityInstrumentationTestCase2;
+
+import com.chalmers.schmaps.GoogleMapShowLocation;
+import com.chalmers.schmaps.R;
+import com.google.android.maps.MapView;
+import com.google.android.maps.Overlay;
 
 /**
  * Test class for the GoogleMapShowLocation activity, mainly for its drawLocationList

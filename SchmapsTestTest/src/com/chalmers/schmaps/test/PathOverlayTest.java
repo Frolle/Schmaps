@@ -18,14 +18,14 @@ package com.chalmers.schmaps.test;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.graphics.Canvas;
+import android.test.ActivityInstrumentationTestCase2;
+
 import com.chalmers.schmaps.GoogleMapSearchLocation;
 import com.chalmers.schmaps.PathOverlay;
 import com.chalmers.schmaps.R;
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapView;
-
-import android.graphics.Canvas;
-import android.test.ActivityInstrumentationTestCase2;
 
 
 public class PathOverlayTest extends ActivityInstrumentationTestCase2<GoogleMapSearchLocation> {
