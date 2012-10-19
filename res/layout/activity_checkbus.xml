@@ -30,15 +30,19 @@
             android:id="@+id/tablename"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Departures from Chalmers"
+            android:text="Departures from Chalmers to Lindholmen"
             android:textColor="@color/white"
-            android:textSize="20sp" />
-"
+            android:background="@color/transp_black"
+            android:textSize="18sp"
+            android:padding="5dp" 
+            android:layout_marginTop="20dp"/>
+
 
         <ScrollView
             android:id="@+id/scrollView1"
             android:layout_width="wrap_content"
-            android:layout_height="200dp" >
+            android:layout_height="150dp" 
+            android:fadeScrollbars="false" >
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -53,9 +57,9 @@
                         android:id="@+id/ChalmersTopRow"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@color/transp_red"
+                        android:background="@color/white"
                         android:orientation="horizontal"
-                        android:padding="5dip"
+                        android:padding="5dp"
                         android:weightSum="100" >
 
                         <TextView
@@ -93,16 +97,20 @@
 
         <TextView
             android:id="@+id/tablename2"
-            android:text="Departures from Lindholmen"
+            android:text="Departures from Lindholmen to Chalmers"
             android:textColor="@color/white"
-            android:textSize="20sp"
+            android:textSize="18sp"
             android:layout_height="wrap_content" 
-            android:layout_width="wrap_content"/>
+            android:layout_width="wrap_content"
+            android:background="@color/transp_black"
+            android:padding="5dp"
+            android:layout_marginTop="35dp"/>
 
         <ScrollView
             android:id="@+id/scrollView2"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" >
+            android:layout_height="150dp"
+            android:fadeScrollbars="false" >"
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -117,9 +125,9 @@
                         android:id="@+id/LindholmenTopRow"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@color/transp_red"
+                        android:background="@color/white"
                         android:orientation="horizontal"
-                        android:padding="5dip"
+                        android:padding="5dp"
                         android:weightSum="100" >
 
                         <TextView
@@ -162,7 +170,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        android:text="refresh"
+        android:text="Refresh"
         android:textSize="14dp" />
 
 </RelativeLayout>

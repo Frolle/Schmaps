@@ -5,6 +5,8 @@
     <color name="transp_purple">#b08700eb</color>
     <color name="light_transp_blue">#B087ceeb</color>
     <color name="transp_red">#A0ff0000</color>
+    <color name="transp_black">#88000000</color>
     <color name="black">#000000</color>
-    
+    <color name="transp_white">#d9ffffff</color>
+    <color name="transp_grey">#d9cccccc</color>
 </resources>
