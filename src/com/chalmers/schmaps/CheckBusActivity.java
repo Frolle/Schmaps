@@ -85,13 +85,6 @@ public class CheckBusActivity extends Activity implements View.OnClickListener {
 		lindholmenTable = (TableLayout) findViewById(R.id.LindholmenTable);
 		makeRows();
 	}
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		//        getMenuInflater().inflate(R.menu.activity_campus_menu, menu);
-		return true;
-	}
-
 	/**
 	 * Delete all rows under the top row 
 	 **/
