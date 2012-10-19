@@ -36,6 +36,11 @@ public class GoogleMapShowLocation extends MapActivity {
 	private static final String DB_MICROWAVETABLE = "Microwaves"; //Name of our microwave table
 	private static final String DB_RESTAURANTTABLE = "Restaurants"; //Name of our restaurants table
 	private static final String DB_ATMTABLE = "Atm";				//Name of our ATM table
+	private static final int OVERVIEWZOOMVALUE = 16;
+	private static final int LATVALUEOFLINDHOLMEN = 57706434;
+	private static final int LONGVALUEOFLINDHOLMEN = 11937214;
+	private static final int LATVALUEOFJOHANNEBERG = 57688678;
+	private static final int LONGVALUEOFJOHANNEBERG = 11977136;
 		
     private MapController mapcon;
 	private List<Overlay> mapOverlays;
@@ -63,7 +68,7 @@ public class GoogleMapShowLocation extends MapActivity {
 		{
 			mapcon.animateTo(lindholmenLoc);
 		}
-		mapcon.setZoom(16);
+		mapcon.setZoom(OVERVIEWZOOMVALUE);
 
 		//Switch case to determine what series of locations to be drawn on map
 		switch(setView.getInt("Show locations")){
@@ -122,8 +127,8 @@ public class GoogleMapShowLocation extends MapActivity {
 		mapView.setSatellite(false);
 		mapcon = mapView.getController();
 		mapOverlays = mapView.getOverlays();
-		lindholmenLoc = new GeoPoint(57706434, 11937214);
-		johannesbergLoc = new GeoPoint(57688678, 11977136);
+		lindholmenLoc = new GeoPoint(LATVALUEOFLINDHOLMEN, LONGVALUEOFLINDHOLMEN);
+		johannesbergLoc = new GeoPoint(LATVALUEOFJOHANNEBERG, LONGVALUEOFJOHANNEBERG);
 		Drawable drawable = this.getResources().getDrawable(R.drawable.dot); 
 		overlay = new MapItemizedOverlay(drawable, this);
 		search = new SearchSQL(GoogleMapShowLocation.this);

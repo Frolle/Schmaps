@@ -62,6 +62,10 @@ import android.widget.Toast;
  *********************************************************/
 public class GoogleMapSearchLocation extends MapActivity implements View.OnClickListener {
 
+	private static final int OVERVIEWZOOMVALUE = 18;
+	private static final long UPDATEFREQUENCYINMS = 1000;
+	private static final float UPDATEAAREA = 10;
+	private static final long SLEEPTIMEINMS = 500;
 	private Button editButton, directionsButton;
 	private EditText lectureEdit;
 
@@ -113,7 +117,7 @@ public class GoogleMapSearchLocation extends MapActivity implements View.OnClick
 			mapcon = mapView.getController(); 
 			mapcon.animateTo(ourLocation);
 			//zoom level
-			mapcon.setZoom(18); 
+			mapcon.setZoom(OVERVIEWZOOMVALUE); 
 
 			//creates a MapItemizedOverlay-object and adds it to the list mapOverlays
 			overlayitemStudent = new OverlayItem(ourLocation, "Hey amigo", "This is your position!");
@@ -186,7 +190,7 @@ public class GoogleMapSearchLocation extends MapActivity implements View.OnClick
 	protected void onResume() {
 		super.onResume();
 		try {
-			location_manager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000, 10, location_listener);
+			location_manager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, UPDATEFREQUENCYINMS, UPDATEAAREA, location_listener);
 		}
 		catch (Exception e) {
 		}
@@ -258,7 +262,7 @@ public class GoogleMapSearchLocation extends MapActivity implements View.OnClick
 				mapcon = mapView.getController();
 				mapcon.animateTo(roomLocation);
 				//zoom level
-				mapcon.setZoom(18); 
+				mapcon.setZoom(OVERVIEWZOOMVALUE); 
 				//address and level is shown in the dialog
 				overlayItemRoom = new OverlayItem(roomLocation, search.getAddress(roomToFind), 
 						search.getLevel(roomToFind)); 
@@ -327,10 +331,10 @@ public class GoogleMapSearchLocation extends MapActivity implements View.OnClick
 		GetDirections directions = new GetDirections();
 		//the method doInBackground() in GetDirections is executed
 		directions.execute(); 
-		//if json object not returned, sleep for 30 sec
+		//if json object not returned, sleep for 0,5 sec
 		while(jsonObject == null){ 
 			try {
-				Thread.sleep(500);
+				Thread.sleep(SLEEPTIMEINMS);
 			} catch (InterruptedException e1) {
 				e1.printStackTrace();
 			}

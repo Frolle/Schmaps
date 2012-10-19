@@ -89,6 +89,6 @@ public class CheckBusActivityTest extends ActivityInstrumentationTestCase2<Check
 	}
 
 	public void testRefresh(){
-		assertTrue(this.activity.refreshTables());
+		assertFalse(this.activity.refreshTables());
 	}
 }

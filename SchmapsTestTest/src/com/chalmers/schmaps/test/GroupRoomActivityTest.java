@@ -46,12 +46,6 @@ public class GroupRoomActivityTest extends ActivityInstrumentationTestCase2<Grou
 		this.groupRoomActivity = super.getActivity();		
 	}
 	/**
-	 * Method called after each test to safely close them down.
-	 */
-	protected void tearDown() throws Exception {
-		super.tearDown();
-	}
-	/**
 	 * Tests conditions before starting to tests
 	 */
 	public void testPreConditions(){

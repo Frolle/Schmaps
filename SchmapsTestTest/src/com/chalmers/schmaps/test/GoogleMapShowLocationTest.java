@@ -122,12 +122,6 @@ public class GoogleMapShowLocationTest extends
 //		super.getInstrumentation().waitForIdleSync();
 //		assertEquals(SIZEOFROOMSTABLE, overlay.size());
 //	}
-	/**
-	 * Method runs after each test to safely close them down.
-	 */
-	public void tearDown() throws Exception{
-		super.tearDown();
-	}
 
 
 }
