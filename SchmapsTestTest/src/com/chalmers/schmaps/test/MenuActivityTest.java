@@ -132,7 +132,13 @@ public class MenuActivityTest extends ActivityInstrumentationTestCase2<MenuActiv
 	 */
 	public void testCheckInButton(){
 		//Wait for mobile data to be enabled again.
-		while(!isOnline()){}
+		toggleInternetConnection(menuActivity, true);
+		super.getInstrumentation().waitForIdleSync();
+		while(!isOnline()){
+			if(isOnline()){
+				break;
+			}
+		}
 		solo.clickOnButton("Check In");
 		super.getInstrumentation().waitForIdleSync();
 		solo.assertCurrentActivity("Wrong class", CheckInActivity.class);
@@ -169,7 +175,6 @@ public class MenuActivityTest extends ActivityInstrumentationTestCase2<MenuActiv
 		//Use solo to assert the text of the Toast that occurs at loss of internet.
 		assertTrue(solo.waitForText("Internet connection needed for this option"));
 		assertTrue(solo.searchText("Internet connection needed for this option"));
-		toggleInternetConnection(menuActivity, true);
 	}
 
 	/**

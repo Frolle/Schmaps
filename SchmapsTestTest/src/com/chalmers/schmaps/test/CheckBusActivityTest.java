@@ -32,7 +32,6 @@ public class CheckBusActivityTest extends ActivityInstrumentationTestCase2<Check
 	private TableLayout chalmersTableLayout;
 	private TableLayout lindholmenTableLayout;
 	private Button refreshButton;
-	private Solo solo;
 
 	public CheckBusActivityTest()
 	{

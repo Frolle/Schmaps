@@ -56,10 +56,13 @@ public class GoogleMapShowLocation extends MapActivity {
 		assignInstances();
 		//If-check to see if it's Lindholmen or Johannesberg campus
 		if(setView.getInt("Campus")==JOHANNESBERG)
+		{
 			mapcon.animateTo(johannesbergLoc);
-		
+		}
 		else 
+		{
 			mapcon.animateTo(lindholmenLoc);
+		}
 		mapcon.setZoom(16);
 
 		//Switch case to determine what series of locations to be drawn on map
@@ -86,7 +89,7 @@ public class GoogleMapShowLocation extends MapActivity {
  */
 	public void drawLocationList(String table) {
 		search.openRead();
-		ArrayList<OverlayItem> locationList = search.getLocations(table);
+		ArrayList<OverlayItem> locationList = (ArrayList<OverlayItem>) search.getLocations(table);
 		search.close();
 		overlay.removeOverlay();
 		for(OverlayItem item : locationList)

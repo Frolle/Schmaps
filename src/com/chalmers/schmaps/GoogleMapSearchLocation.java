@@ -86,7 +86,7 @@ public class GoogleMapSearchLocation extends MapActivity implements View.OnClick
 	private PathOverlay pathOverlay;
 	private boolean roomSearched;
 	private Dialog dialog;
-	private ArrayList<GeoPoint> geoList;
+	private List<GeoPoint> geoList;
 
 	private boolean running;
 
