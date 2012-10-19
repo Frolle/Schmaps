@@ -43,7 +43,6 @@ public class GroupRoomActivityTest extends ActivityInstrumentationTestCase2<Grou
 		setActivityInitialTouchMode(false);
 		this.groupRoomActivity = super.getActivity();		
 	}
-
 	protected void tearDown() throws Exception {
 		super.tearDown();
 	}

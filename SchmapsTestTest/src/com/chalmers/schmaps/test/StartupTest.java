@@ -50,7 +50,6 @@ public class StartupTest extends ActivityInstrumentationTestCase2<Startup> {
 		solo = new Solo(getInstrumentation(), getActivity());
 		this.startupActivity = super.getActivity();
 		}
-	
 	protected void tearDown() throws Exception {
 		super.tearDown();
 	}
