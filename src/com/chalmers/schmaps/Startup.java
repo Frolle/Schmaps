@@ -32,7 +32,8 @@ import android.widget.ImageView;
  */
 public class Startup extends Activity {
 
-    private ImageView myView;
+    protected static final long TIMETODISPLAYSPLASH = 5000;
+	private ImageView myView;
 	private Animation fadeInAnimation;
     private Intent startMenuActivity;
     private Thread threadForSplash;
@@ -52,7 +53,7 @@ public class Startup extends Activity {
 			public void run (){
             	try{
             		synchronized(this){
-            		wait(5000);
+            		wait(TIMETODISPLAYSPLASH);
             		}
             	}
             	catch(InterruptedException e){

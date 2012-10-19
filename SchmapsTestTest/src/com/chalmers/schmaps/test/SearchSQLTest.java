@@ -27,6 +27,11 @@ import android.test.ActivityInstrumentationTestCase2;
 public class SearchSQLTest extends ActivityInstrumentationTestCase2<GoogleMapSearchLocation> {
 	private static final int RETURNVALUEIFNOTFOUND = 0;
 	private static final String VALUETHATDOESNOTEXISTINDATABASE = "ValueThatDoesNotExist";
+	private static final int LATOFTESTVALUE = 57689111;
+	private static final int LONGOFTESTVALUE = 11973517;
+	private static final String ADDRESSOFTESTVALUE = "Sven Hultins gata 2";
+	private static final int SIZEOFMICROWAVETABLE = 9;
+	private static final String LEVELOFTESTVALUE = "Floor 1";
 	private SearchSQL tester;
 	private GoogleMapSearchLocation activity;
 	private String theTestValue = "runan";
@@ -71,7 +76,7 @@ public class SearchSQLTest extends ActivityInstrumentationTestCase2<GoogleMapSea
 	 * Tests the method that checks if the value exists in the database
 	 */
 	public void testGetLat() {
-		assertEquals(57689111, tester.getLat(theTestValue));
+		assertEquals(LATOFTESTVALUE, tester.getLat(theTestValue));
 		assertEquals(RETURNVALUEIFNOTFOUND, tester.getLat(VALUETHATDOESNOTEXISTINDATABASE));
 	}
 
@@ -79,7 +84,7 @@ public class SearchSQLTest extends ActivityInstrumentationTestCase2<GoogleMapSea
 	 * Tests the method that checks if the value exists in the database
 	 */
 	public void testGetLong() {
-		assertEquals(11973517, tester.getLong(theTestValue));
+		assertEquals(LONGOFTESTVALUE, tester.getLong(theTestValue));
 		assertEquals(RETURNVALUEIFNOTFOUND, tester.getLong(VALUETHATDOESNOTEXISTINDATABASE));
 
 	}
@@ -89,7 +94,7 @@ public class SearchSQLTest extends ActivityInstrumentationTestCase2<GoogleMapSea
 	 */
 	public void testGetAddress() {
 		
-		assertEquals("Sven Hultins gata 2", tester.getAddress(theTestValue));
+		assertEquals(ADDRESSOFTESTVALUE, tester.getAddress(theTestValue));
 		assertNull(tester.getAddress(VALUETHATDOESNOTEXISTINDATABASE));
 	}
 
@@ -98,7 +103,7 @@ public class SearchSQLTest extends ActivityInstrumentationTestCase2<GoogleMapSea
 	 */
 	public void testGetLevel() {
 		
-		assertEquals("Floor 1", tester.getLevel(theTestValue));
+		assertEquals(LEVELOFTESTVALUE, tester.getLevel(theTestValue));
 		assertNull(tester.getLevel(VALUETHATDOESNOTEXISTINDATABASE));
 
 	}
@@ -108,7 +113,7 @@ public class SearchSQLTest extends ActivityInstrumentationTestCase2<GoogleMapSea
 	 */
 	public void testGetLocations() {
 		
-		assertEquals(9, tester.getLocations("Microwaves").size());
+		assertEquals(SIZEOFMICROWAVETABLE, tester.getLocations("Microwaves").size());
 	}
 
 }

@@ -39,6 +39,7 @@ import android.widget.EditText;
 public class CheckInActivityTest extends ActivityInstrumentationTestCase2<CheckInActivity> {
 
 
+	private static final int SIZEOFJSONARRAY = 3;
 	private CheckInActivity activity;
 	private Button checkInButton;
 	private EditText nameEdit;
@@ -92,7 +93,7 @@ public class CheckInActivityTest extends ActivityInstrumentationTestCase2<CheckI
 		
 		activity.parseJsonAndDraw(jsonobject);
 		
-		assertEquals(3,activity.getSizeOfJsonArray());
+		assertEquals(SIZEOFJSONARRAY,activity.getSizeOfJsonArray());
 	}
 	
 	/**

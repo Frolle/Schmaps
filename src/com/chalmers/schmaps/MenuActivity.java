@@ -82,7 +82,7 @@ public class MenuActivity extends Activity implements View.OnClickListener {
 
 		case R.id.microwaveButton:
 			startActivity = new Intent("android.intent.action.CAMPUSMENUACTIVITY");
-			startActivity.putExtra("Show locations", MICROWAVEBUTTON);;
+			startActivity.putExtra("Show locations", MICROWAVEBUTTON);
 			break;
 
 		case R.id.findRestaurantsButton:

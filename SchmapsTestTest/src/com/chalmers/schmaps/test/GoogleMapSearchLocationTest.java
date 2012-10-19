@@ -45,6 +45,8 @@ import android.widget.EditText;
  */
 public class GoogleMapSearchLocationTest extends ActivityInstrumentationTestCase2<GoogleMapSearchLocation> {
 	
+	private static final int ARBITRARYLATPOS = 57689111;
+	private static final int ARBITRARYLONGPOS = 11973517;
 	private GoogleMapSearchLocation activity;
 	private Button editButton, directionsButton;
 	private EditText lectureEdit;
@@ -99,7 +101,7 @@ public class GoogleMapSearchLocationTest extends ActivityInstrumentationTestCase
 		//Test case for when u get a position for the user
 		MapItemizedOverlay tempTestOverlay = (MapItemizedOverlay) overlays.get(2);
 		
-		GeoPoint roomGP = new GeoPoint(57689111, 11973517);
+		GeoPoint roomGP = new GeoPoint(ARBITRARYLATPOS, ARBITRARYLONGPOS);
 		
 		assertEquals(roomGP,tempTestOverlay.getItem(0).getPoint());
 		assertEquals("Sven Hultins gata 2",tempTestOverlay.getItem(0).getTitle());

@@ -23,7 +23,6 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.nio.charset.Charset;
 import java.util.List;
 
 import org.json.JSONArray;
@@ -61,7 +60,8 @@ import android.widget.EditText;
  * WARNING: This application will probably crash on an emulator since it can not get your position
  **************************************************************/
 public class CheckInActivity extends MapActivity implements View.OnClickListener{
-
+	
+	private static final double CONVERTTOGEOPOINTVALUE = 1E6;
 	private static final int ZOOMVALUEFOROVERVIEW = 17;
 	private static final long SLEEPTIMEINMS = 500;
 	private static final int VALUEOFSECONDS = 16;
@@ -112,9 +112,9 @@ public class CheckInActivity extends MapActivity implements View.OnClickListener
 		//if there is an provider that provides an location ->continue
 		if(location != null){ 
 			//get the latitude
-			latitude = (int) (location.getLatitude()*1E6);
+			latitude = (int) (location.getLatitude()*CONVERTTOGEOPOINTVALUE);
 			//get the longitude
-			longitude = (int) (location.getLongitude()*1E6); 
+			longitude = (int) (location.getLongitude()*CONVERTTOGEOPOINTVALUE); 
 			//greates an geopoint with our location
 			ourLocation = new GeoPoint(latitude, longitude); 
 
@@ -130,9 +130,9 @@ public class CheckInActivity extends MapActivity implements View.OnClickListener
 			 */
 			public void onLocationChanged(Location loc) { 
 				//get the latitude
-				latitude = (int) (location.getLatitude()*1E6); 
+				latitude = (int) (location.getLatitude()*CONVERTTOGEOPOINTVALUE); 
 				//get the longitude
-				longitude = (int) (location.getLongitude()*1E6); 
+				longitude = (int) (location.getLongitude()*CONVERTTOGEOPOINTVALUE); 
 				//greates an geopoint with our location
 				ourLocation = new GeoPoint(latitude, longitude); 
 			}
