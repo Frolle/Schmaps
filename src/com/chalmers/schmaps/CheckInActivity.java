@@ -269,7 +269,7 @@ public class CheckInActivity extends MapActivity implements View.OnClickListener
 		//removes white signs
 		username.trim();
 		//Removes illegal characters to prevent sql injection
-		username = username.replaceAll("[^[a-åäö][A-ÅÖÖ][0-9]]",""); 
+		username = username.replaceAll("[^[a-zåäö][A-ZÅÖÖ][0-9]]",""); 
 
 		//if the user have not entered a name the name is set to unknown
 		if(username.equals("")){
