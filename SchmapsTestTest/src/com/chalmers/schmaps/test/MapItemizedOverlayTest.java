@@ -18,15 +18,15 @@ package com.chalmers.schmaps.test;
 
 import java.lang.reflect.Field;
 
+import android.app.AlertDialog;
+import android.graphics.drawable.Drawable;
+import android.test.ActivityInstrumentationTestCase2;
 
 import com.chalmers.schmaps.GoogleMapSearchLocation;
 import com.chalmers.schmaps.MapItemizedOverlay;
 import com.chalmers.schmaps.R;
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.OverlayItem;
-import android.app.AlertDialog;
-import android.graphics.drawable.Drawable;
-import android.test.ActivityInstrumentationTestCase2;
 /**
  * Test class for testing the MapItemizedOverlay by adding overlays,
  * removing overlays and testing what happens when you tap on the 

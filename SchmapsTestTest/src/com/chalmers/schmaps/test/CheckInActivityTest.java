@@ -20,15 +20,15 @@ package com.chalmers.schmaps.test;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.chalmers.schmaps.CheckInActivity;
-import com.chalmers.schmaps.R;
-import com.google.android.maps.MapView;
-
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.TouchUtils;
 import android.view.KeyEvent;
 import android.widget.Button;
 import android.widget.EditText;
+
+import com.chalmers.schmaps.CheckInActivity;
+import com.chalmers.schmaps.R;
+import com.google.android.maps.MapView;
 
 /**
  * Test class for testing the Checkin activity by testing connection to database,

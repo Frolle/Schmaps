@@ -17,9 +17,9 @@ package com.chalmers.schmaps.test;
 
 import java.lang.reflect.Field;
 
-import com.chalmers.schmaps.GroupRoomActivity;
-
 import android.test.ActivityInstrumentationTestCase2;
+
+import com.chalmers.schmaps.GroupRoomActivity;
 
 /**
  * Test class for GroupRoomActivity, contains just one test that it starts and uses

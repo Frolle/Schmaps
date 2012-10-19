@@ -15,16 +15,15 @@
  */
 package com.chalmers.schmaps.test;
 
-import java.lang.ref.Reference;
 import java.lang.reflect.Field;
-
-import com.chalmers.schmaps.CheckBusActivity;
-import com.chalmers.schmaps.R;
 
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.UiThreadTest;
 import android.widget.Button;
 import android.widget.TableLayout;
+
+import com.chalmers.schmaps.CheckBusActivity;
+import com.chalmers.schmaps.R;
 
 public class CheckBusActivityTest extends ActivityInstrumentationTestCase2<CheckBusActivity> {
 

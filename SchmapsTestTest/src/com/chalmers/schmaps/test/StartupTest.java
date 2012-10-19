@@ -17,13 +17,14 @@ package com.chalmers.schmaps.test;
 
 import java.lang.reflect.Field;
 
-import com.chalmers.schmaps.MenuActivity;
-import com.chalmers.schmaps.Startup;
-import com.jayway.android.robotium.solo.Solo;
 import android.os.SystemClock;
 import android.test.ActivityInstrumentationTestCase2;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
+
+import com.chalmers.schmaps.MenuActivity;
+import com.chalmers.schmaps.Startup;
+import com.jayway.android.robotium.solo.Solo;
 
 /**
  * Test class for testing the splash screen and that it starts the correct activity

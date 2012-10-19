@@ -18,18 +18,18 @@ package com.chalmers.schmaps.test;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
-import com.chalmers.schmaps.CheckBusActivity;
-import com.chalmers.schmaps.CheckInActivity;
-import com.chalmers.schmaps.MenuActivity;
-import com.chalmers.schmaps.R;
-import com.jayway.android.robotium.solo.Solo;
-
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.TouchUtils;
 import android.view.KeyEvent;
 import android.widget.Button;
+
+import com.chalmers.schmaps.CheckBusActivity;
+import com.chalmers.schmaps.CheckInActivity;
+import com.chalmers.schmaps.MenuActivity;
+import com.chalmers.schmaps.R;
+import com.jayway.android.robotium.solo.Solo;
 
 /**
  * Test case to see that all the menu buttons in MenuActivity starts the

@@ -15,9 +15,10 @@
  */
 package com.chalmers.schmaps.test;
 
+import android.test.ActivityInstrumentationTestCase2;
+
 import com.chalmers.schmaps.GoogleMapSearchLocation;
 import com.chalmers.schmaps.SearchSQL;
-import android.test.ActivityInstrumentationTestCase2;
 /**
  * Test class for testing the SQL class. Different test cases tests so that the
  * get methods get the proper data from the database given an already known query.
