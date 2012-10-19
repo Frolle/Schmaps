@@ -55,7 +55,6 @@ public class MapItemizedOverlayTest extends ActivityInstrumentationTestCase2<Goo
 		drawable = activity.getResources().getDrawable(R.drawable.chalmersandroid);
 		mapOverlay = new MapItemizedOverlay(drawable,activity);		
 	}
-	
 	protected void tearDown() throws Exception {
 		super.tearDown();
 	}

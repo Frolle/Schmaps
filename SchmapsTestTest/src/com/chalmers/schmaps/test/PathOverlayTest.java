@@ -61,7 +61,6 @@ public class PathOverlayTest extends ActivityInstrumentationTestCase2<GoogleMapS
 		this.mapview = (MapView) this.activity.findViewById(R.id.mapview);
 		
 	}
-
 	protected void tearDown() throws Exception {
 		super.tearDown();
 	}

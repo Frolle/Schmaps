@@ -115,7 +115,6 @@ public class GoogleMapShowLocationTest extends
 //		super.getInstrumentation().waitForIdleSync();
 //		assertEquals(SIZEOFROOMSTABLE, overlay.size());
 //	}
-	
 	public void tearDown() throws Exception{
 		super.tearDown();
 	}
