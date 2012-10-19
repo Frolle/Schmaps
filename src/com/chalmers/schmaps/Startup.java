@@ -16,11 +16,11 @@
 
 package com.chalmers.schmaps;
 
-import android.os.Bundle;
 import android.app.Activity;
+import android.content.Intent;
+import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
-import android.content.Intent;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
@@ -32,7 +32,8 @@ import android.widget.ImageView;
  */
 public class Startup extends Activity {
 
-    private ImageView myView;
+    protected static final long TIMETODISPLAYSPLASH = 5000;
+	private ImageView myView;
 	private Animation fadeInAnimation;
     private Intent startMenuActivity;
     private Thread threadForSplash;
@@ -52,7 +53,7 @@ public class Startup extends Activity {
 			public void run (){
             	try{
             		synchronized(this){
-            		wait(5000);
+            		wait(TIMETODISPLAYSPLASH);
             		}
             	}
             	catch(InterruptedException e){

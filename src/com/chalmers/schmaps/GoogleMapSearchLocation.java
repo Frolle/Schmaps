@@ -62,6 +62,7 @@ import android.widget.Toast;
  *********************************************************/
 public class GoogleMapSearchLocation extends MapActivity implements View.OnClickListener {
 
+	private static final double CONVERTTOGEOPOINTVALUE = 1E6;
 	private static final int OVERVIEWZOOMVALUE = 18;
 	private static final long UPDATEFREQUENCYINMS = 1000;
 	private static final float UPDATEAAREA = 10;
@@ -108,9 +109,9 @@ public class GoogleMapSearchLocation extends MapActivity implements View.OnClick
 		//if there is an provider that provides an location ->continue
 		if(location != null){ 
 			//get the latitude
-			latitude = (int) (location.getLatitude()*1E6); 
+			latitude = (int) (location.getLatitude()*CONVERTTOGEOPOINTVALUE); 
 			//get the longitude
-			longitude = (int) (location.getLongitude()*1E6); 
+			longitude = (int) (location.getLongitude()*CONVERTTOGEOPOINTVALUE); 
 			//greates an geopoint with our location
 			ourLocation = new GeoPoint(latitude, longitude); 
 
@@ -131,9 +132,9 @@ public class GoogleMapSearchLocation extends MapActivity implements View.OnClick
 			 */
 			public void onLocationChanged(Location loc) { 
 				//get the latitude
-				latitude = (int) (location.getLatitude()*1E6); 
+				latitude = (int) (location.getLatitude()*CONVERTTOGEOPOINTVALUE); 
 				//get the longitude
-				longitude = (int) (location.getLongitude()*1E6); 
+				longitude = (int) (location.getLongitude()*CONVERTTOGEOPOINTVALUE); 
 				//greates an geopoint with our location
 				ourLocation = new GeoPoint(latitude, longitude); 
 
@@ -373,16 +374,21 @@ public class GoogleMapSearchLocation extends MapActivity implements View.OnClick
 				// we add the geopoint to an array of geopoints
 				if(count == 0){
 					step = steps.getJSONObject(0);
+
 					startLocation = step.getJSONObject("start_location");
-					srcLat = (int)(startLocation.getDouble("lat")*1E6);
-					srcLng = (int)(startLocation.getDouble("lng")*1E6);
+
+					srcLat = (int)(startLocation.getDouble("lat")*CONVERTTOGEOPOINTVALUE);
+					srcLng = (int)(startLocation.getDouble("lng")*CONVERTTOGEOPOINTVALUE);
+
 					geo = new GeoPoint(srcLat,srcLng);
 					geoList.add(0, geo);
 				}
 				step = steps.getJSONObject(count);
+
 				endLocation = step.getJSONObject("end_location");
-				destLat = (int)(endLocation.getDouble("lat")*1E6);
-				destLng = (int)(endLocation.getDouble("lng")*1E6);
+				destLat = (int)(endLocation.getDouble("lat")*CONVERTTOGEOPOINTVALUE);
+				destLng = (int)(endLocation.getDouble("lng")*CONVERTTOGEOPOINTVALUE);
+
 				geo = new GeoPoint(destLat,destLng);
 				geoList.add(count+1, geo);
 			}
@@ -421,6 +427,8 @@ public class GoogleMapSearchLocation extends MapActivity implements View.OnClick
 	private class GetDirections extends AsyncTask<Void, Void, JSONObject> {
 
 
+		private static final double CONVERTTOJSONVALUE = 1.0E6;
+
 		/** when called makes a request to google directions api (json format) 
 		 *  gets the response back
 		 *  convertes the response to a jsonobject
@@ -438,17 +446,17 @@ public class GoogleMapSearchLocation extends MapActivity implements View.OnClick
 			//Create a string with the right start and end position
 			urlString.append("http://maps.googleapis.com/maps/api/directions/json?origin=");
 			//from, your position, latitude
-			urlString.append(Double.toString((double) ourLocation.getLatitudeE6() / 1.0E6)); 
+			urlString.append(Double.toString((double) ourLocation.getLatitudeE6() / CONVERTTOJSONVALUE)); 
 			urlString.append(",");
 			//longitude
-			urlString.append(Double.toString((double) ourLocation.getLongitudeE6() / 1.0E6));
+			urlString.append(Double.toString((double) ourLocation.getLongitudeE6() / CONVERTTOJSONVALUE));
 			// to, where you are going
 			urlString.append("&destination=");
 			//latitude
-			urlString.append(Double.toString((double) roomLocation.getLatitudeE6() / 1.0E6)); 
+			urlString.append(Double.toString((double) roomLocation.getLatitudeE6() / CONVERTTOJSONVALUE)); 
 			urlString.append(",");
 			//longitude
-			urlString.append(Double.toString((double) roomLocation.getLongitudeE6() / 1.0E6)); 
+			urlString.append(Double.toString((double) roomLocation.getLongitudeE6() / CONVERTTOJSONVALUE)); 
 			//we want the walking directions
 			urlString.append("&sensor=false&avoid=highways&mode=walking"); 
 

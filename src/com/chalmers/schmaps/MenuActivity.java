@@ -17,12 +17,12 @@
 package com.chalmers.schmaps;
 
 
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
-import android.os.Bundle;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -82,7 +82,7 @@ public class MenuActivity extends Activity implements View.OnClickListener {
 
 		case R.id.microwaveButton:
 			startActivity = new Intent("android.intent.action.CAMPUSMENUACTIVITY");
-			startActivity.putExtra("Show locations", MICROWAVEBUTTON);;
+			startActivity.putExtra("Show locations", MICROWAVEBUTTON);
 			break;
 
 		case R.id.findRestaurantsButton:

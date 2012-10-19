@@ -32,6 +32,7 @@ import android.view.MotionEvent;
  */
 public class StartupTest extends ActivityInstrumentationTestCase2<Startup> {
 
+	private static final float ARBITRARYSCREENLOC = 65;
 	private Startup startupActivity;
 	private Thread threadForSplash;
 	private Solo solo;
@@ -63,14 +64,14 @@ public class StartupTest extends ActivityInstrumentationTestCase2<Startup> {
 		catch (Exception e) {
 		}
 		MotionEvent evtDown, evtUp;
-		evtDown = MotionEvent.obtain(SystemClock.uptimeMillis(), SystemClock.uptimeMillis()+100, MotionEvent.ACTION_DOWN , 0.0f, 0.0f, 0);
-		evtUp = MotionEvent.obtain(SystemClock.uptimeMillis(), SystemClock.uptimeMillis()+100, MotionEvent.ACTION_UP , 0.0f, 0.0f, 0);
+		evtDown = MotionEvent.obtain(SystemClock.uptimeMillis(), SystemClock.uptimeMillis(), MotionEvent.ACTION_DOWN , 0.0f, 0.0f, 0);
+		evtUp = MotionEvent.obtain(SystemClock.uptimeMillis(), SystemClock.uptimeMillis(), MotionEvent.ACTION_UP , 0.0f, 0.0f, 0);
 
 		assertTrue(startupActivity.onTouchEvent(evtDown));
 		assertFalse(startupActivity.onTouchEvent(evtUp));
 
 		threadForSplash.run();
-		solo.clickOnScreen(65, 65);
+		solo.clickOnScreen(ARBITRARYSCREENLOC, ARBITRARYSCREENLOC);
 		solo.assertCurrentActivity("Wrong class", MenuActivity.class);
 	}
 	/**

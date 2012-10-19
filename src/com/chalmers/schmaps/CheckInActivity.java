@@ -23,20 +23,11 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.nio.charset.Charset;
 import java.util.List;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import com.google.android.maps.GeoPoint;
-import com.google.android.maps.MapActivity;
-import com.google.android.maps.MapController;
-import com.google.android.maps.MapView;
-import com.google.android.maps.Overlay;
-
-import com.google.android.maps.OverlayItem;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -52,6 +43,13 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.google.android.maps.GeoPoint;
+import com.google.android.maps.MapActivity;
+import com.google.android.maps.MapController;
+import com.google.android.maps.MapView;
+import com.google.android.maps.Overlay;
+import com.google.android.maps.OverlayItem;
+
 /*******************************************************
  * CheckInActivity shows a MapView zoomed into your position and shows people that are checked in
  * It connects an external database and collects info about people who have checked in i the last two hours
@@ -61,7 +59,8 @@ import android.widget.EditText;
  * WARNING: This application will probably crash on an emulator since it can not get your position
  **************************************************************/
 public class CheckInActivity extends MapActivity implements View.OnClickListener{
-
+	
+	private static final double CONVERTTOGEOPOINTVALUE = 1E6;
 	private static final int ZOOMVALUEFOROVERVIEW = 17;
 	private static final long SLEEPTIMEINMS = 500;
 	private static final int VALUEOFSECONDS = 16;
@@ -112,9 +111,9 @@ public class CheckInActivity extends MapActivity implements View.OnClickListener
 		//if there is an provider that provides an location ->continue
 		if(location != null){ 
 			//get the latitude
-			latitude = (int) (location.getLatitude()*1E6);
+			latitude = (int) (location.getLatitude()*CONVERTTOGEOPOINTVALUE);
 			//get the longitude
-			longitude = (int) (location.getLongitude()*1E6); 
+			longitude = (int) (location.getLongitude()*CONVERTTOGEOPOINTVALUE); 
 			//greates an geopoint with our location
 			ourLocation = new GeoPoint(latitude, longitude); 
 
@@ -130,9 +129,9 @@ public class CheckInActivity extends MapActivity implements View.OnClickListener
 			 */
 			public void onLocationChanged(Location loc) { 
 				//get the latitude
-				latitude = (int) (location.getLatitude()*1E6); 
+				latitude = (int) (location.getLatitude()*CONVERTTOGEOPOINTVALUE); 
 				//get the longitude
-				longitude = (int) (location.getLongitude()*1E6); 
+				longitude = (int) (location.getLongitude()*CONVERTTOGEOPOINTVALUE); 
 				//greates an geopoint with our location
 				ourLocation = new GeoPoint(latitude, longitude); 
 			}
