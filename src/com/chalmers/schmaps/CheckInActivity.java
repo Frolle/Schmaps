@@ -20,9 +20,11 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.util.List;
 
 import org.json.JSONArray;
@@ -267,7 +269,7 @@ public class CheckInActivity extends MapActivity implements View.OnClickListener
 		//removes white signs
 		username.trim();
 		//Removes illegal characters to prevent sql injection
-		username = username.replaceAll("[^[a-z���][A-Z���][0-9]]",""); 
+		username = username.replaceAll("[^[a-zåäö][A-ZÅÖÖ][0-9]]",""); 
 
 		//if the user have not entered a name the name is set to unknown
 		if(username.equals("")){
@@ -313,7 +315,6 @@ public class CheckInActivity extends MapActivity implements View.OnClickListener
 		 */
 		@Override
 		protected JSONObject doInBackground(Void... params) {
-
 			StringBuilder urlString = new StringBuilder();
 			StringBuilder response = new StringBuilder();
 			InputStream is = null;
@@ -321,11 +322,20 @@ public class CheckInActivity extends MapActivity implements View.OnClickListener
 			HttpURLConnection urlConnection = null;
 			String line = null;
 			String jsonResponse = "";
+			
+			String decodedUsername = "";
+			
+			//Decoding the username so that we can use swedish characters å,ä and ö in names
+			try {
+				decodedUsername = URLEncoder.encode(username,"UTF-8");
+			} catch (UnsupportedEncodingException e1) {
+			}
+			
 
 			//Create a string with the right start and end position
 			urlString.append("http://schmaps.scarleo.se/schmaps.php?name=");
 			//from, your position, latitude
-			urlString.append(username); 
+			urlString.append(decodedUsername); 
 			urlString.append("&lat=");
 			//latitude
 			urlString.append(Integer.toString((int) latitude)); 
@@ -337,11 +347,15 @@ public class CheckInActivity extends MapActivity implements View.OnClickListener
 			if(checkin){
 				urlString.append("&insert=1");
 			}
+			
+		    
 
-			//establish a connection with google directions api
+			//establish a connection with the external database 
 			try {
 				url = new URL(urlString.toString());
+				
 				urlConnection = (HttpURLConnection) url.openConnection();
+				
 				urlConnection.setRequestMethod("GET");
 				urlConnection.setDoOutput(true);
 				urlConnection.setDoInput(true);
