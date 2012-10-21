@@ -232,30 +232,35 @@ public class CheckBusActivity extends Activity implements View.OnClickListener {
 			try {
 				JSONObject departureBoard = returnedJsonObject[i].getJSONObject("DepartureBoard");
 				JSONArray departureArray = departureBoard.getJSONArray("Departure");
+				if(departureArray.length() <= 0)
+				{
+					String msg = "Failed to retrive data";
+					Toast.makeText(getApplicationContext(),msg , Toast.LENGTH_SHORT).show();
+				}
+				else
+				{
+					for(int count = 0;count<departureArray.length();count++){
+						JSONObject depature = departureArray.getJSONObject(count);
+						String line = depature.getString("name");
+						String destination = depature.getString("direction");
+						String time = depature.getString("rtTime");
+						String track = depature.getString("track");
 
-				for(int count = 0;count<departureArray.length();count++){
-					JSONObject depature = departureArray.getJSONObject(count);
-					String line = depature.getString("name");
-					String destination = depature.getString("direction");
-					String time = depature.getString("rtTime");
-					String track = depature.getString("track");
-
-					if(i == 0){
-						chalmersLineArray.add(count, line);
-						chalmersDestArray.add(count, destination);
-						chalmersTimeArray.add(count, time);
-						chalmersTrackArray.add(count, track);
-					}else if(i == 1){
-						lindholmenLineArray.add(count,line);
-						lindholmenDestArray.add(count,destination);
-						lindholmenTimeArray.add(count,time);
-						lindholmenTrackArray.add(count,track);
+						if(i == 0){
+							chalmersLineArray.add(count, line);
+							chalmersDestArray.add(count, destination);
+							chalmersTimeArray.add(count, time);
+							chalmersTrackArray.add(count, track);
+						}else if(i == 1){
+							lindholmenLineArray.add(count,line);
+							lindholmenDestArray.add(count,destination);
+							lindholmenTimeArray.add(count,time);
+							lindholmenTrackArray.add(count,track);
+						}
 					}
 				}
 
-			} catch (Exception e) {
-				String msg = "Failed to retrive data";
-				Toast.makeText(getApplicationContext(),msg , Toast.LENGTH_SHORT).show();
+			} catch (JSONException e) {
 			}
 
 		}
@@ -270,7 +275,7 @@ public class CheckBusActivity extends Activity implements View.OnClickListener {
 			makeRows();
 			return true;
 		} catch (Exception e) {
-			Log.e("TEST!", "SEWFAGAGAG AG GA GSAFSAFASFASF");
+
 		}
 		return false;
 	}
