@@ -61,13 +61,13 @@ public class CheckBusActivityTest extends ActivityInstrumentationTestCase2<Check
 	}
 
 	/**
-	 * Test that all reference's not null
+	 * Test that all fields are assigned correct class.
 	 */
 	public void testPreConditions(){
-		super.assertNotNull(lindholmenTableLayout);
-		super.assertNotNull(chalmersTableLayout);
-		super.assertNotNull(refreshButton);
-		super.assertNotNull(activity);
+		assertEquals(TableLayout.class, lindholmenTableLayout.getClass());
+		assertEquals(TableLayout.class, chalmersTableLayout.getClass());
+		assertEquals(Button.class, refreshButton.getClass());
+		assertEquals(CheckBusActivity.class, activity.getClass());
 	}
 
 	/**

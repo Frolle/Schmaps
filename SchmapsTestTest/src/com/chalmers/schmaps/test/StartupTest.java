@@ -52,6 +52,14 @@ public class StartupTest extends ActivityInstrumentationTestCase2<Startup> {
 		solo = new Solo(getInstrumentation(), getActivity());
 		this.startupActivity = super.getActivity();
 		}
+	
+	/**
+	 * Test that all fields are assigned correct class.
+	 */
+	public void testPreConditions(){
+		assertEquals(Solo.class, solo.getClass());
+		assertEquals(Startup.class, startupActivity.getClass());
+	}
 	/**
 	 * Test that the splash screen starts the correct activity and that it finishes
 	 * early when the screen is touched

@@ -49,7 +49,7 @@ public class GroupRoomActivityTest extends ActivityInstrumentationTestCase2<Grou
 	 * Tests conditions before starting to tests
 	 */
 	public void testPreConditions(){
-		assertNotNull(groupRoomActivity);
+		assertEquals(GroupRoomActivity.class, groupRoomActivity.getClass());
 	}
 	/**
 	 * Tests that it starts the correct URL, gets the field containing the url in run time
