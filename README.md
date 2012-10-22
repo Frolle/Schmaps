@@ -1,6 +1,3 @@
-Schmaps - Epic Android project.
-===================================
-
 Release Notes - Release version 1.0
 -----------------------------------------------
 The following features are included in the release of Schmaps version 1.0: 
@@ -60,7 +57,7 @@ Bug Bugged-Button
 The buttons in menu still pressed in when press return button
 
 Bug #11 Splash screen bug
-If return button is pressed when splash sceen is showing the application starts anyway, the menu is shown.
+If return button is pressed when splash screen is showing the application starts anyway, the menu is shown.
 
 Bug #12 Not possible to check in using Swedish characters
 
@@ -70,7 +67,7 @@ Known bugs:
 --------------------------------------	
 Bug #13 App crashes sometimes when trying to access Check buses
 
-Bug #15 Checkbus crashes after 01:00 besouse västrafik does not return from whish stop the bus leaves bug 
+Bug #15 Checkbus crashes after 01:00 because västrafik api does not return from which stop the bus leaves
 
-Bug #16 campus menu does not work properly in landscape mode, streches the picture out bug 
-(menu, campusmenu ans splash is now locked in portrait mode intill this bug is fixed)
+Bug #16 campus menu does not work properly in landscape mode, stretches the picture out
+(menu, campusmenu ans splash is now locked in portrait mode until this bug is fixed)
