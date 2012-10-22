@@ -72,11 +72,11 @@ public class GoogleMapSearchLocationTest extends ActivityInstrumentationTestCase
 	 * Tests conditions before starting all the tests.
 	 */
 	public void testPreConditions(){
-		super.assertNotNull(editButton);
-		super.assertNotNull(directionsButton);
-		super.assertNotNull(mapview);
-		super.assertNotNull(lectureEdit);
-		super.assertNotNull(activity);
+		assertEquals(GoogleMapSearchLocation.class, activity.getClass());
+		assertEquals(Button.class, editButton.getClass());
+		assertEquals(Button.class, directionsButton.getClass());
+		assertEquals(MapView.class, mapview.getClass());
+		assertEquals(EditText.class, lectureEdit.getClass());
 	}
 	
 	

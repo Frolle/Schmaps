@@ -76,9 +76,10 @@ public class CheckInActivityTest extends ActivityInstrumentationTestCase2<CheckI
 	 * Tests conditions before starting to tests
 	 */
 	public void testPreConditions(){
-		super.assertNotNull(checkInButton);
-		super.assertNotNull(mapview);
-		super.assertNotNull(nameEdit);
+		assertEquals(CheckInActivity.class, activity.getClass());
+		assertEquals(Button.class, checkInButton.getClass());
+		assertEquals(MapView.class, mapview.getClass());
+		assertEquals(EditText.class, nameEdit.getClass());
 	}
 	
 	/**
