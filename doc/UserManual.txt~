@@ -1,0 +1,44 @@
+﻿User Manual for Schmaps.
+Congratulations to your download of the app Schmaps! In this manual, we will help you get started with
+your app so you can start finding your way around campus!
+
+When the app starts the first thing to happen is that a splash screen will be put on display for a few seconds.
+When the splash screen closes down a menu appears with the different options the application offers.
+To start and use a function from the app you just have to touch any of the menu options accordingly to what you want to do.
+The different options are:
+
+Search lecture hall:
+If you touch this option you will be presented with a view of a map and a text field, you can use the text field to enter the lecture
+halls you want to find. To find a lecture hall you gently touch the text field and enter the name of the lecture hall you want
+to find and then the map will draw and animate to the location you want to find.
+
+To get extra information about the hall you searched for just click on the position that was drawn on the map. To get a path drawn
+from your current location to the hall just click the icon and when the extra information dialog comes upp click "Get Directions".
+
+
+Find microwaves:
+If you touch this option you will be asked to choose what campus you want the microwave oven locations drawn out on. After you've
+chosen the campus a map view will be displayed and all the microwave oven locations will be drawn upon it. To display information
+like which building and level the microwave is located in just touch the location you want information about and a dialog will appear 
+with the info you requested.
+
+
+Find restaurants:
+The function works in the same manner as microwaves, you will get restaurants displayed instead of microwave ovens.
+
+
+Book study rooms:
+Touch this option and the application will open a web browser and navigate to the Time Edit webpage where you can log in with your
+CID and password to use their function to book a study room.
+
+ATMs:
+Works the same as Find microwaves and Find restaurants, the locations drawn on the map will be of ATMs instead.
+
+Check-in:
+Not yet implemented.
+
+Check buses:
+Not yet implemented.
+
+UML Diagram:
+You can also take a look at our UML diagram where you can see the connections between all activities in this application. You can find it in our doc folder in github. 

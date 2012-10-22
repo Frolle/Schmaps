@@ -1,0 +1,151 @@
+
+php script used for the checkin function
+return all checked in people always 
+when the user enters his/hers name and presses enter in the activity checkin
+this script is called which stores the info in database and returns a list of all checkedin people
+
+<?php
+//Insert data to database when &insert=1, takes lat, lng and name and stores it
+// Authenification code is needed for this
+function insert_db($name, $lat, $lng){
+        $con = mysql_connect("localhost", "schmaps", "leeloomultipass");
+        if (!$con)
+          {
+          die('Could not connect: ' . mysql_error());
+          }
+
+        mysql_select_db("schmaps", $con);
+        mysql_query("INSERT INTO checkin (name, lat, lng)
+        VALUES ('$name', '$lat', '$lng')");
+        mysql_close($con);
+}
+
+
+function read_db(){
+        $con = mysql_connect("localhost", "schmaps", "leeloomultipass");
+        if (!$con)
+          {
+          die('Could not connect: ' . mysql_error());
+          }
+
+        mysql_select_db("schmaps", $con);
+
+        $db_result = mysql_query("SELECT time, name, lat, lng FROM `checkin` WHERE `time` >= NOW() - INTERVAL 2 HOUR");
+        $records = array();
+        $records['result'] = array();
+        $row = array();
+        $row['users'] = array();
+        while ($row['users'] = mysql_fetch_assoc($db_result)){
+                array_push($records['result'], $row['users']);
+                }
+
+        echo json_encode($records);
+        mysql_close($con);
+
+}
+
+if (isset($_GET['key'])) {
+  if ($_GET['key'] == 'bSJ9B9CFn449QRsXL9qMxW-lc') {
+
+//Get values from query
+if (isset($_GET['name'])) {
+        $name = $_GET['name'];
+}
+
+if (isset($_GET['lat'])) {
+        $lat = $_GET['lat'];
+}
+
+if (isset($_GET['lng'])) {
+        $lng = $_GET['lng'];
+}
+
+//Insert into db if querey is insert. TODO: Create key check to allow or disallow entry
+if (isset($_GET['insert'])) {
+  if ($_GET['insert'] == 1) {
+        insert_db($name, $lat, $lng);
+        }
+}
+
+//Read from database in every query (should be cached to scale, at least)
+read_db();
+}else {echo "No soup for you! :)";}
+}else {echo "No soup for you! :)";}
+?>
+
+--------------------------------------------------------------------------------------------------
+
+php script that recieves a code and delete=1 or insert=1 depending if a person enters or leves an area
+returns a list of all codes and how many people are checked in at each code (restuarant)
+
+<?php
+
+function rest_insert($code){
+        $con = mysql_connect("localhost", "schmaps", "leeloomultipass");
+        if (!$con)
+          {
+          die('Could not connect: ' . mysql_error());
+          }
+
+        mysql_select_db("schmaps", $con);
+        mysql_query("INSERT INTO eating (code)
+        VALUES ('$code')");
+        mysql_close($con);
+
+}
+
+function count_code(){
+        $con = mysql_connect("localhost", "schmaps", "leeloomultipass");
+        if (!$con)
+          {
+          die('Could not connect: ' . mysql_error());
+          }
+
+        mysql_select_db("schmaps", $con);
+        $db_result = mysql_query("SELECT code, COUNT(*) AS `number` FROM `eating` WHERE `time` >= NOW() - INTERVAL 12 HOUR GROUP BY code");
+        $records = array();
+        $records['result'] = array();
+        $row = array();
+        $row['code'] = array();
+        while ($row['code'] = mysql_fetch_assoc($db_result)) {
+                array_push($records['result'], $row['code']);
+                }
+
+        echo json_encode($records);
+        mysql_close($con);
+
+}
+
+function delete_code($code) {
+        $con = mysql_connect("localhost", "schmaps", "leeloomultipass");
+        if (!$con)
+          {
+          die('Could not connect: ' . mysql_error());
+          }
+
+        mysql_select_db("schmaps", $con);
+        mysql_query("DELETE FROM eating WHERE code = '$code' ORDER BY time LIMIT 1");
+        mysql_close($con);
+
+
+}
+
+if (isset($_GET['code'])) {
+        $code = $_GET['code'];
+}
+
+if (isset($_GET['insert'])) {
+  if ($_GET['insert'] == 1) {
+        rest_insert($code);
+        }
+}
+
+if (isset($_GET['delete'])) {
+  if ($_GET['delete'] == 1) {
+        delete_code($code);
+        }
+}
+
+
+count_code();
+?>

@@ -18,13 +18,8 @@ package com.chalmers.schmaps;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.LightingColorFilter;
 import android.net.Uri;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.Button;
 
 /**
  * GroupRoomActivity starts a URL link, where students can book group room at Chalmers.

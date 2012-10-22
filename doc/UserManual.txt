@@ -39,6 +39,3 @@ Not yet implemented.
 
 Check buses:
 Not yet implemented.
-
-UML Diagram:
-You can also take a look at our UML diagram where you can see the connections between all activities in this application. You can find it in our doc folder in github. 

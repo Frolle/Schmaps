@@ -15,20 +15,10 @@
  */
 package com.chalmers.schmaps.test;
 
-import java.io.SequenceInputStream;
+import android.test.ActivityInstrumentationTestCase2;
 
 import com.chalmers.schmaps.GoogleMapSearchLocation;
-import com.chalmers.schmaps.R;
 import com.chalmers.schmaps.SearchSQL;
-import com.google.android.maps.MapView;
-
-import android.content.Context;
-import android.test.ActivityInstrumentationTestCase2;
-import android.test.AndroidTestCase;
-import android.test.InstrumentationTestCase;
-import android.widget.Button;
-import android.widget.EditText;
-
 /**
  * Test class for testing the SQL class. Different test cases tests so that the
  * get methods get the proper data from the database given an already known query.
@@ -37,9 +27,15 @@ import android.widget.EditText;
  */
 public class SearchSQLTest extends ActivityInstrumentationTestCase2<GoogleMapSearchLocation> {
 	private static final int RETURNVALUEIFNOTFOUND = 0;
+	private static final String VALUETHATDOESNOTEXISTINDATABASE = "ValueThatDoesNotExist";
+	private static final int LATOFTESTVALUE = 57689111;
+	private static final int LONGOFTESTVALUE = 11973517;
+	private static final String ADDRESSOFTESTVALUE = "Sven Hultins gata 2";
+	private static final int SIZEOFMICROWAVETABLE = 9;
+	private static final String LEVELOFTESTVALUE = "Floor 1";
 	private SearchSQL tester;
-	GoogleMapSearchLocation activity;
-	String theTestValue = "runan";
+	private GoogleMapSearchLocation activity;
+	private String theTestValue = "runan";
 	
 	public SearchSQLTest()
 	{
@@ -59,6 +55,9 @@ public class SearchSQLTest extends ActivityInstrumentationTestCase2<GoogleMapSea
 		tester.openRead();
 	}
 	
+	/**
+	 * Method called after each test to safely close them down.
+	 */
 	@Override
 	protected void tearDown() throws Exception {
 		// TODO Auto-generated method stub
@@ -67,43 +66,55 @@ public class SearchSQLTest extends ActivityInstrumentationTestCase2<GoogleMapSea
 		super.tearDown();
 	}
 
-
+	/**
+	 * Tests the method that checks if the value exists in the database
+	 */
 	public void testExists() {
 		assertTrue(tester.exists(theTestValue));
-		assertFalse(tester.exists("ValueThatDoesNotExist"));
+		assertFalse(tester.exists(VALUETHATDOESNOTEXISTINDATABASE));
 	}
-	
+	/**
+	 * Tests the method that checks if the value exists in the database
+	 */
 	public void testGetLat() {
-		assertEquals(57689111, tester.getLat(theTestValue));
-		assertEquals(RETURNVALUEIFNOTFOUND, tester.getLat("ValueThatDoesNotExist"));
+		assertEquals(LATOFTESTVALUE, tester.getLat(theTestValue));
+		assertEquals(RETURNVALUEIFNOTFOUND, tester.getLat(VALUETHATDOESNOTEXISTINDATABASE));
 	}
 
-
+	/**
+	 * Tests the method that checks if the value exists in the database
+	 */
 	public void testGetLong() {
-		assertEquals(11973517, tester.getLong(theTestValue));
-		assertEquals(RETURNVALUEIFNOTFOUND, tester.getLong("ValueThatDoesNotExist"));
+		assertEquals(LONGOFTESTVALUE, tester.getLong(theTestValue));
+		assertEquals(RETURNVALUEIFNOTFOUND, tester.getLong(VALUETHATDOESNOTEXISTINDATABASE));
 
 	}
 
-
+	/**
+	 * Tests the method that checks if the value exists in the database
+	 */
 	public void testGetAddress() {
 		
-		assertEquals("Sven Hultins gata 2", tester.getAddress(theTestValue));
-		assertNull(tester.getAddress("ValueThatDoesNotExist"));
+		assertEquals(ADDRESSOFTESTVALUE, tester.getAddress(theTestValue));
+		assertNull(tester.getAddress(VALUETHATDOESNOTEXISTINDATABASE));
 	}
 
-
+	/**
+	 * Tests the method that checks if the value exists in the database
+	 */
 	public void testGetLevel() {
 		
-		assertEquals("", tester.getLevel(theTestValue));
-		assertNull(tester.getLevel("ValueThatDoesNotExist"));
+		assertEquals(LEVELOFTESTVALUE, tester.getLevel(theTestValue));
+		assertNull(tester.getLevel(VALUETHATDOESNOTEXISTINDATABASE));
 
 	}
 
-
+	/**
+	 * Tests the method that checks if the value exists in the database
+	 */
 	public void testGetLocations() {
 		
-		assertEquals(2, tester.getLocations("Microwaves").size());
+		assertEquals(SIZEOFMICROWAVETABLE, tester.getLocations("Microwaves").size());
 	}
 
 }

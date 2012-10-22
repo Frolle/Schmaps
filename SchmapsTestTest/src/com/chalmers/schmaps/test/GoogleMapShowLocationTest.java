@@ -18,12 +18,13 @@ package com.chalmers.schmaps.test;
 
 import java.util.List;
 
-import com.chalmers.schmaps.GoogleMapShowLocation;
-import com.chalmers.schmaps.R;
-import com.google.android.maps.*;
-
 import android.content.Intent;
 import android.test.ActivityInstrumentationTestCase2;
+
+import com.chalmers.schmaps.GoogleMapShowLocation;
+import com.chalmers.schmaps.R;
+import com.google.android.maps.MapView;
+import com.google.android.maps.Overlay;
 
 /**
  * Test class for the GoogleMapShowLocation activity, mainly for its drawLocationList
@@ -44,7 +45,7 @@ public class GoogleMapShowLocationTest extends
 	private static final int SIZEOFMICROWAVETABLE = 9;
 	private static final int SIZEOFRESTAURANTTABLE = 34;
 	private static final int SIZEOFATMTABLE = 4;
-	private static final int SIZEOFROOMSTABLE = 263;
+	//private static final int SIZEOFROOMSTABLE = 263; Test not currently used because of taking too much time
 	
 	
 	public GoogleMapShowLocationTest() {
@@ -62,8 +63,7 @@ public class GoogleMapShowLocationTest extends
 	
 	/**
 	 * Test to see if all the locations for the microwaves were drawn out, by comparing
-	 * the size of all the items drawn out to the size of the data table. The other tests
-	 * works just like this except for different tables.
+	 * the size of all the items drawn out to the size of the data table.
 	 * Reason to why the mapView and overlay variables are in all the tests and not in the
  	 * setUp is because the intent needs to be customized for every different test to be
 	 * customized for every different case to get coverage of all the code.
@@ -79,7 +79,11 @@ public class GoogleMapShowLocationTest extends
 		assertEquals(SIZEOFMICROWAVETABLE,overlay.size());
 	}
 	/**
-	 * See the test comments above.
+	 * Test to see if all the locations for the restaurants were drawn out, by comparing
+	 * the size of all the items drawn out to the size of the data table.
+	 * Reason to why the mapView and overlay variables are in all the tests and not in the
+ 	 * setUp is because the intent needs to be customized for every different test to be
+	 * customized for every different case to get coverage of all the code.
 	 */
 
 	public void testDrawLocationsRestaurants(){
@@ -93,7 +97,11 @@ public class GoogleMapShowLocationTest extends
 		assertEquals(SIZEOFRESTAURANTTABLE,overlay.size());
 	}
 	/**
-	 * See the test comments above.
+	 * Test to see if all the locations for the ATMs were drawn out, by comparing
+	 * the size of all the items drawn out to the size of the data table.
+	 * Reason to why the mapView and overlay variables are in all the tests and not in the
+ 	 * setUp is because the intent needs to be customized for every different test to be
+	 * customized for every different case to get coverage of all the code.
 	 */
 
 	public void testDrawLocationsAtms(){
@@ -115,11 +123,6 @@ public class GoogleMapShowLocationTest extends
 //		super.getInstrumentation().waitForIdleSync();
 //		assertEquals(SIZEOFROOMSTABLE, overlay.size());
 //	}
-	
-	@Override
-	public void tearDown() throws Exception{
-		super.tearDown();
-	}
 
 
 }

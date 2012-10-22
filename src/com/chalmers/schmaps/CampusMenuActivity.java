@@ -1,5 +1,5 @@
 /*
- * Copyright [2012] [Simon Fransson]
+ * Copyright [2012] [Simon Fransson, Dina Zuko]
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -15,11 +15,9 @@
  */
 package com.chalmers.schmaps;
 
-import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Color;
-import android.view.Menu;
+import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
@@ -31,15 +29,20 @@ import android.widget.Button;
 */
 
 public class CampusMenuActivity extends Activity implements View.OnClickListener {
-	private static final int JOHANNESBERG = 40; 		//identifier for Johanneberg
-	private static final int LINDHOLMEN = 42;			// -||- for Lindholmen
+	private static final int JOHANNESBERG = 40; //identifier for Johanneberg
+	private static final int LINDHOLMEN = 42;	// -||- for Lindholmen
 	
 	private Intent startMapActivity;
 	private Button johannebergButton;
 	private Button lindholmenButton;
 	private Bundle menuActionChosen;
 	private String actionString;
+	private int campus;
 
+	/**
+	 * onCreate method for determining what the activity does on creation.
+	 * Sets the right view for the user and calls a method for assigning fields.
+	 */
 	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,6 +50,9 @@ public class CampusMenuActivity extends Activity implements View.OnClickListener
         assignInstances();
     }
     
+	/**
+	 * Method for assigning all the field variables used.
+	 */
 	private void assignInstances() {
 		johannebergButton = (Button) findViewById(R.id.johannebergButton);
 		johannebergButton.setOnClickListener(this);
@@ -62,32 +68,40 @@ public class CampusMenuActivity extends Activity implements View.OnClickListener
 	*the database and mark the correct locations in the area.
 	*/
 	public void onClick(View arg0) {
+		
+		
+		
 		switch (arg0.getId())
 		{
 		case R.id.johannebergButton:
-			startMapActivity = new Intent("android.intent.action.GOOGLEMAPSHOWLOCATION");
-			setActionString(startMapActivity.getAction());
-			startMapActivity.putExtra("Campus", JOHANNESBERG);
-			//Transfer what kind of locations should be drawn
-			startMapActivity.putExtra("Show locations", menuActionChosen.getInt("Show locations"));
-			startActivity(startMapActivity);
+			campus = JOHANNESBERG;
 			break;
 			
+			
 		case R.id.lindholmenButton:
-			startMapActivity = new Intent("android.intent.action.GOOGLEMAPSHOWLOCATION");
-			setActionString(startMapActivity.getAction());
-			startMapActivity.putExtra("Campus", LINDHOLMEN);
-			//Transfer what kind of locations should be drawn
-			startMapActivity.putExtra("Show locations", menuActionChosen.getInt("Show locations"));
-			startActivity(startMapActivity);
+			campus = LINDHOLMEN;
 			break;
 		}
+		
+		startMapActivity = new Intent("android.intent.action.GOOGLEMAPSHOWLOCATION");
+		setActionString(startMapActivity.getAction());
+		startMapActivity.putExtra("Campus", campus);
+		//Transfer what kind of locations should be drawn
+		startMapActivity.putExtra("Show locations", menuActionChosen.getInt("Show locations"));
+		startActivity(startMapActivity);
 	}
-	
+	/**
+	 * Get method for intent action string
+	 * @return - String containing the action to start intent
+	 */
     public String getActionString() {
 		return actionString;
 	}
 
+    /**
+     * Set method for the intent action string
+     * @param actionString - String to set the action intent
+     */
 	public void setActionString(String actionString) {
 		this.actionString = actionString;
 	}

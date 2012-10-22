@@ -17,9 +17,10 @@
 package com.chalmers.schmaps;
 
 import java.util.ArrayList;
+import java.util.List;
+
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,7 +37,7 @@ import com.google.android.maps.OverlayItem;
  */
 public class MapItemizedOverlay extends ItemizedOverlay<OverlayItem>{
 	
-	private ArrayList<OverlayItem> mOverlays = new ArrayList<OverlayItem>();
+	private List<OverlayItem> mOverlays = new ArrayList<OverlayItem>();
 	private Context mContext;
 	private AlertDialog alertDialog;
 	
@@ -62,11 +63,18 @@ public class MapItemizedOverlay extends ItemizedOverlay<OverlayItem>{
 		populate();
 	}
 	
+	/**
+	 * Method used to create copies of Overlay Items found
+	 * in the array list of this class.
+	 */
 	@Override
 	protected OverlayItem createItem(int i) {
 		return mOverlays.get(i);
 	}
 
+	/**
+	 * Returns size of the array list.
+	 */
 	@Override
 	public int size() {
 		return mOverlays.size();
@@ -95,7 +103,6 @@ public class MapItemizedOverlay extends ItemizedOverlay<OverlayItem>{
 	  
 	  image.setImageResource(R.drawable.logoschmapsmini); //shows a picture in the dialog
 
-	  // builder.setMessage(item.getSnippet());
       builder.setCancelable(true);
 	  
 	  builder.setView(layout);

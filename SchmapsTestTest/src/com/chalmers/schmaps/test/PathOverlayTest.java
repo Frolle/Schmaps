@@ -16,6 +16,10 @@
 package com.chalmers.schmaps.test;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import android.graphics.Canvas;
+import android.test.ActivityInstrumentationTestCase2;
 
 import com.chalmers.schmaps.GoogleMapSearchLocation;
 import com.chalmers.schmaps.PathOverlay;
@@ -23,37 +27,46 @@ import com.chalmers.schmaps.R;
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapView;
 
-import android.graphics.Canvas;
-import android.test.ActivityInstrumentationTestCase2;
-
 
 public class PathOverlayTest extends ActivityInstrumentationTestCase2<GoogleMapSearchLocation> {
 	
-	GoogleMapSearchLocation activity;
+	private static final int ARBITRARYLATVALUE1 = 57715450;
+	private static final int ARBITRARYLONGVALUE1 = 11999690;
+	private static final int ARBITRARYLATVALUE2 = 57715350;
+	private static final int ARBITRARYLONGVALUE2 = 11999310;
+	private static final int ARBITRARYLATVALUE3 = 57714780;
+	private static final int ARBITRARYLONGVALUE3 = 11999840;
+	private static final int ARBITRARYLATVALUE4 = 57714380;
+	private static final int ARBITRARYLONGVALUE4 = 11996780;
+	private static final int SIZEOFPATHOVERLAY = 4;
+	private static final int SIZEOFPATHINDEX = 3;
+	private GoogleMapSearchLocation activity;
 	private MapView mapview;
-	PathOverlay pathoverlay;
-	GeoPoint p1, p2, p3, p4;
-	ArrayList<GeoPoint> geolist = new ArrayList<GeoPoint>();
-	Canvas canvas;
+	private PathOverlay pathoverlay;
+	private GeoPoint p1, p2, p3, p4;
+	private List<GeoPoint> geolist = new ArrayList<GeoPoint>();
+	private Canvas canvas;
 
 	public PathOverlayTest() {
 		super(GoogleMapSearchLocation.class);
 	
 	}
-
+	/**
+	 * Setup method for instantiating the variables.
+	 */
 	protected void setUp() throws Exception {
 		super.setUp();
 		this.activity = super.getActivity();
-		p1 = new GeoPoint(57715450, 11999690);
+		p1 = new GeoPoint(ARBITRARYLATVALUE1, ARBITRARYLONGVALUE1);
 		geolist.add(p1);
 		
-		p2 = new GeoPoint(57715350, 11999310);
+		p2 = new GeoPoint(ARBITRARYLATVALUE2, ARBITRARYLONGVALUE2);
 		geolist.add(p2);
 		
-		p3 = new GeoPoint(57714780, 11999840);
+		p3 = new GeoPoint(ARBITRARYLATVALUE3, ARBITRARYLONGVALUE3);
 		geolist.add(p3);
 		
-		p4 = new GeoPoint(57714380, 11996780);
+		p4 = new GeoPoint(ARBITRARYLATVALUE4, ARBITRARYLONGVALUE4);
 		geolist.add(p4);
 		pathoverlay = new PathOverlay(geolist);
 		
@@ -61,16 +74,12 @@ public class PathOverlayTest extends ActivityInstrumentationTestCase2<GoogleMapS
 		this.mapview = (MapView) this.activity.findViewById(R.id.mapview);
 		
 	}
-
-	protected void tearDown() throws Exception {
-		super.tearDown();
-	}
 	
 	/**
 	 * Tests that all four geopoints are added when pathoverlay-activity is started 
 	 */
 	public void testNrOfGeoPoints(){
-		assertEquals(4,pathoverlay.getSize());
+		assertEquals(SIZEOFPATHOVERLAY,pathoverlay.getSize());
 	}
 	
 	
@@ -81,7 +90,7 @@ public class PathOverlayTest extends ActivityInstrumentationTestCase2<GoogleMapS
 	public void testDrawPath(){
 		pathoverlay.draw(canvas,mapview,true);
 		
-		assertEquals(3,pathoverlay.getIndexSize());
+		assertEquals(SIZEOFPATHINDEX,pathoverlay.getIndexSize());
 		
 	}
 

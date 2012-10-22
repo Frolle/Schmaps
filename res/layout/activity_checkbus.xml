@@ -17,116 +17,151 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center_horizontal"
-    android:padding="10dip">
+    android:padding="10dip"
+    android:background="@drawable/kuggen_portrait" >
 
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="match_parent"
         android:gravity="center_horizontal"
         android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/tablename"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Departures from Chalmers to Lindholmen"
+            android:textColor="@color/white"
+            android:background="@color/transp_black"
+            android:textSize="18sp"
+            android:padding="5dp" 
+            android:layout_marginTop="20dp"/>
+
 
         <ScrollView
             android:id="@+id/scrollView1"
-            android:layout_width="fill_parent"
-            android:layout_height="200dp" >
+            android:layout_width="wrap_content"
+            android:layout_height="150dp" 
+            android:fadeScrollbars="false" >
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" >
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" >
 
                 <TableLayout
                     android:id="@+id/ChalmersTable"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content" >
 
                     <TableRow
                         android:id="@+id/ChalmersTopRow"
-                        android:layout_width="fill_parent"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@color/white"
                         android:orientation="horizontal"
-                        android:padding="5dip"
+                        android:padding="5dp"
                         android:weightSum="100" >
 
                         <TextView
                             android:id="@+id/busTitle"
-                            android:layout_marginRight="5sp"
+                            android:layout_marginLeft="5sp"
+                            android:layout_marginRight="16sp"
                             android:text="Buss"
+                            android:textColor="@color/black"
                             android:textSize="18sp" />
 
                         <TextView
                             android:id="@+id/destTitle"
-                            android:layout_marginRight="5sp"
+                            android:layout_marginRight="16sp"
                             android:text="Destination"
+                            android:textColor="@color/black"
                             android:textSize="18sp" />
 
                         <TextView
                             android:id="@+id/departureTitle"
                             android:layout_marginRight="5sp"
                             android:text="Departure"
+                            android:textColor="@color/black"
                             android:textSize="18sp" />
 
                         <TextView
                             android:id="@+id/trackTitle"
                             android:layout_marginRight="5sp"
                             android:text="Track"
+                            android:textColor="@color/black"
                             android:textSize="18sp" />
                     </TableRow>
                 </TableLayout>
             </LinearLayout>
         </ScrollView>
 
+        <TextView
+            android:id="@+id/tablename2"
+            android:text="Departures from Lindholmen to Chalmers"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:layout_height="wrap_content" 
+            android:layout_width="wrap_content"
+            android:background="@color/transp_black"
+            android:padding="5dp"
+            android:layout_marginTop="35dp"/>
+
         <ScrollView
             android:id="@+id/scrollView2"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" >
+            android:layout_height="150dp"
+            android:fadeScrollbars="false" >"
 
             <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content" >
 
                 <TableLayout
                     android:id="@+id/LindholmenTable"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content" >
 
                     <TableRow
                         android:id="@+id/LindholmenTopRow"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@color/white"
                         android:orientation="horizontal"
-                        android:padding="5dip"
+                        android:padding="5dp"
                         android:weightSum="100" >
 
                         <TextView
                             android:id="@+id/busTitle2"
-                            android:layout_marginRight="5sp"
+                            android:layout_marginLeft="5sp"
+                            android:layout_marginRight="16sp"
                             android:text="Buss"
+                            android:textColor="@color/black"
                             android:textSize="18sp" />
 
                         <TextView
                             android:id="@+id/destTitle2"
-                            android:layout_marginRight="5sp"
+                            android:layout_marginRight="16sp"
                             android:text="Destination"
+                            android:textColor="@color/black"
                             android:textSize="18sp" />
 
                         <TextView
                             android:id="@+id/departureTitle2"
                             android:layout_marginRight="5sp"
                             android:text="Departure"
+                            android:textColor="@color/black"
                             android:textSize="18sp" />
 
                         <TextView
                             android:id="@+id/trackTitle2"
                             android:layout_marginRight="5sp"
                             android:text="Track"
+                            android:textColor="@color/black"
                             android:textSize="18sp" />
                     </TableRow>
                 </TableLayout>
             </LinearLayout>
         </ScrollView>
-
     </LinearLayout>
 
     <Button
@@ -135,7 +170,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        android:text="refresh"
+        android:text="Refresh"
         android:textSize="14dp" />
 
 </RelativeLayout>

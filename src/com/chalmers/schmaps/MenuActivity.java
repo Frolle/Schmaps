@@ -16,20 +16,14 @@
 
 package com.chalmers.schmaps;
 
-import android.R.color;
-
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
-import android.os.Bundle;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.LightingColorFilter;
-import android.view.Menu;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.os.Bundle;
 import android.view.View;
-import android.view.View.OnFocusChangeListener;
 import android.widget.Button;
 import android.widget.Toast;
 /**
@@ -41,18 +35,14 @@ public class MenuActivity extends Activity implements View.OnClickListener {
 	private static final int MICROWAVEBUTTON = 1;
 	private static final int RESTAURANTBUTTON = 2;
 	private static final int ATMBUTTON = 3;
-	private static final int LECTUREHALLBUTTON = 4;
-	private static final int BOOKINGKEY = 5;
-	private static final int BUSKEY = 6;
-	private static final int CHECKIN = 7;
 
-
-	private Intent startMapActivity;
+	private Intent startActivity;
 
 	private Button searchHall, groupRoom,atmButton,microwaveButton,findRestaurantsButton, checkin, bus;
 
 
 	private String activityString;
+	private boolean okToStartActivity;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -76,6 +66,7 @@ public class MenuActivity extends Activity implements View.OnClickListener {
 		checkin.setOnClickListener(this);
 		bus = (Button) findViewById(R.id.checkbusButton);
 		bus.setOnClickListener(this);
+		okToStartActivity = true;
 	}
 
 	/**
@@ -86,71 +77,74 @@ public class MenuActivity extends Activity implements View.OnClickListener {
 		switch(v.getId()){
 
 		case R.id.searchHallButton:
-			startMapActivity = new Intent("android.intent.action.GOOGLEMAPSEARCHLOCATION");
-			setActivityString(startMapActivity.getAction());
-			startActivity(startMapActivity);
+			startActivity = new Intent("android.intent.action.GOOGLEMAPSEARCHLOCATION");
 			break;
 
 		case R.id.microwaveButton:
-			startMapActivity = new Intent("android.intent.action.CAMPUSMENUACTIVITY");
-			startMapActivity.putExtra("Show locations", MICROWAVEBUTTON);
-			setActivityString(startMapActivity.getAction());
-			startActivity(startMapActivity);
+			startActivity = new Intent("android.intent.action.CAMPUSMENUACTIVITY");
+			startActivity.putExtra("Show locations", MICROWAVEBUTTON);
 			break;
 
 		case R.id.findRestaurantsButton:
-			startMapActivity = new Intent("android.intent.action.CAMPUSMENUACTIVITY");
-			startMapActivity.putExtra("Show locations", RESTAURANTBUTTON);
-			setActivityString(startMapActivity.getAction());
-			startActivity(startMapActivity);
+			startActivity = new Intent("android.intent.action.CAMPUSMENUACTIVITY");
+			startActivity.putExtra("Show locations", RESTAURANTBUTTON);
 			break;
 
 		case R.id.atmButton:
-			startMapActivity = new Intent("android.intent.action.CAMPUSMENUACTIVITY");
-			startMapActivity.putExtra("Show locations", ATMBUTTON);
-			setActivityString(startMapActivity.getAction());
-			startActivity(startMapActivity);	
+			startActivity = new Intent("android.intent.action.CAMPUSMENUACTIVITY");
+			startActivity.putExtra("Show locations", ATMBUTTON);	
 			break;
 
 		case R.id.groupRoomButton:
 			//Start the group room activity
-			startMapActivity = new Intent(this,GroupRoomActivity.class);
-			setActivityString("GroupRoomButton");
-			startActivity(startMapActivity);	
+			startActivity = new Intent("android.intent.action.GROUPROOM");
 			break;
 
 
 		case R.id.checkinButton:
 			if(gotInternetConnection()){
-				startMapActivity = new Intent("android.intent.action.CHECKINACTIVITY");
-				setActivityString(startMapActivity.getAction());
-				startActivity(startMapActivity);
+				startActivity = new Intent("android.intent.action.CHECKINACTIVITY");
 			}else{
 
 				Context context = getApplicationContext();
 				Toast.makeText(context, "Internet connection needed for this option", Toast.LENGTH_LONG).show();
+				okToStartActivity = false;
 			}
 			break;
 
 		case R.id.checkbusButton:
 			if(gotInternetConnection()){
-				startMapActivity = new Intent("android.intent.action.CHECKBUSACTIVITY");
-				setActivityString(startMapActivity.getAction());
-				startActivity(startMapActivity);
+				startActivity = new Intent("android.intent.action.CHECKBUSACTIVITY");
 			}
+
 			else
 			{
+				okToStartActivity = false;
 				Context context = getApplicationContext();
 				Toast.makeText(context, "Internet connection needed for this option", Toast.LENGTH_LONG).show();
 			}
-			break;
+			break;	
 
 		}
+		if(okToStartActivity){
+			setActivityString(startActivity.getAction());
+			startActivity(startActivity);
+		}
+		okToStartActivity = true;
 	}
+
+	/**
+	 * Get method for intent action string
+	 * @return - String containing the action to start intent
+	 */
 	public String getActivityString() {
 		return activityString;
 	}
-
+	
+    /**
+     * Set method for the intent action string
+     * @param actionString - String to set the action intent
+     */
 	public void setActivityString(String activityString) {
 		this.activityString = activityString;
 	}

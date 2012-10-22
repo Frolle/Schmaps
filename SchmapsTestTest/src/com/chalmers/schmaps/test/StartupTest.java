@@ -17,15 +17,14 @@ package com.chalmers.schmaps.test;
 
 import java.lang.reflect.Field;
 
+import android.os.SystemClock;
+import android.test.ActivityInstrumentationTestCase2;
+import android.view.KeyEvent;
+import android.view.MotionEvent;
+
 import com.chalmers.schmaps.MenuActivity;
 import com.chalmers.schmaps.Startup;
 import com.jayway.android.robotium.solo.Solo;
-
-import android.app.Dialog;
-import android.content.Intent;
-import android.os.SystemClock;
-import android.test.ActivityInstrumentationTestCase2;
-import android.view.MotionEvent;
 
 /**
  * Test class for testing the splash screen and that it starts the correct activity
@@ -34,6 +33,7 @@ import android.view.MotionEvent;
  */
 public class StartupTest extends ActivityInstrumentationTestCase2<Startup> {
 
+	private static final float ARBITRARYSCREENLOC = 65;
 	private Startup startupActivity;
 	private Thread threadForSplash;
 	private Solo solo;
@@ -41,6 +41,10 @@ public class StartupTest extends ActivityInstrumentationTestCase2<Startup> {
 	public StartupTest() {
 		super(Startup.class);
 	}
+	
+	/**
+	 * Set up the instance variables accordingly.
+	 */
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
@@ -48,11 +52,6 @@ public class StartupTest extends ActivityInstrumentationTestCase2<Startup> {
 		solo = new Solo(getInstrumentation(), getActivity());
 		this.startupActivity = super.getActivity();
 		}
-	
-	@Override
-	protected void tearDown() throws Exception {
-		super.tearDown();
-	}
 	/**
 	 * Test that the splash screen starts the correct activity and that it shuts down
 	 * when it's touched.
@@ -64,18 +63,24 @@ public class StartupTest extends ActivityInstrumentationTestCase2<Startup> {
 			threadForSplash = (Thread) splashThread.get(this.startupActivity);
 		}
 		catch (Exception e) {
-				e.printStackTrace();
 		}
 		MotionEvent evtDown, evtUp;
-		evtDown = MotionEvent.obtain(SystemClock.uptimeMillis(), SystemClock.uptimeMillis()+100, MotionEvent.ACTION_DOWN , 0.0f, 0.0f, 0);
-		evtUp = MotionEvent.obtain(SystemClock.uptimeMillis(), SystemClock.uptimeMillis()+100, MotionEvent.ACTION_UP , 0.0f, 0.0f, 0);
+		evtDown = MotionEvent.obtain(SystemClock.uptimeMillis(), SystemClock.uptimeMillis(), MotionEvent.ACTION_DOWN , 0.0f, 0.0f, 0);
+		evtUp = MotionEvent.obtain(SystemClock.uptimeMillis(), SystemClock.uptimeMillis(), MotionEvent.ACTION_UP , 0.0f, 0.0f, 0);
 
 		assertTrue(startupActivity.onTouchEvent(evtDown));
 		assertFalse(startupActivity.onTouchEvent(evtUp));
 
 		threadForSplash.run();
-		solo.clickOnScreen(65, 65);
+		solo.clickOnScreen(ARBITRARYSCREENLOC, ARBITRARYSCREENLOC);
 		solo.assertCurrentActivity("Wrong class", MenuActivity.class);
+	}
+	/**
+	 * Test for testing that the activity finishes when users clicks back.
+	 */
+	public void testSkipStart(){
+		assertTrue(startupActivity.onKeyDown(KeyEvent.KEYCODE_BACK, null));
+		assertFalse(startupActivity.onKeyDown(KeyEvent.KEYCODE_MENU, null));
 	}
 	
 }

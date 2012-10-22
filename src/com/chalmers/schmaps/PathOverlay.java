@@ -16,7 +16,7 @@
 
 package com.chalmers.schmaps;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -33,11 +33,13 @@ import com.google.android.maps.Projection;
  */
 public class PathOverlay extends Overlay {
 	
-	private ArrayList<GeoPoint> geoList;
-	int index;
+	private static final float STROKEWIDTH = 4;
+	private static final int TRANSPARENCY = 100;
+	private List<GeoPoint> geoList;
+	private int index;
 	
 	
-	public PathOverlay(ArrayList<GeoPoint> geoPointList){
+	public PathOverlay(List<GeoPoint> geoPointList){
 		super();
 		geoList = geoPointList;
 	}
@@ -64,8 +66,8 @@ public class PathOverlay extends Overlay {
 		//set colur etc to paint with
 		paint.setColor(Color.BLUE);
 		paint.setStyle(Paint.Style.FILL_AND_STROKE);
-		paint.setStrokeWidth(4);
-		paint.setAlpha(100);
+		paint.setStrokeWidth(STROKEWIDTH);
+		paint.setAlpha(TRANSPARENCY);
 		
 		//loops through the geopoint, convert from lat,lng to pixels and draw path on canvas
 		for(index = 0; index<(geoList.size()-1);index++){

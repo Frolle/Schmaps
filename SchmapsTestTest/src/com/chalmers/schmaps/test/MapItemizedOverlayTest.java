@@ -17,23 +17,16 @@
 package com.chalmers.schmaps.test;
 
 import java.lang.reflect.Field;
-import java.util.ArrayList;
 
+import android.app.AlertDialog;
+import android.graphics.drawable.Drawable;
+import android.test.ActivityInstrumentationTestCase2;
 
 import com.chalmers.schmaps.GoogleMapSearchLocation;
 import com.chalmers.schmaps.MapItemizedOverlay;
 import com.chalmers.schmaps.R;
 import com.google.android.maps.GeoPoint;
-import com.google.android.maps.MapView;
 import com.google.android.maps.OverlayItem;
-import com.jayway.android.robotium.solo.Solo;
-
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.graphics.drawable.Drawable;
-import android.test.ActivityInstrumentationTestCase2;
-import android.util.Log;
-import android.view.View;
 /**
  * Test class for testing the MapItemizedOverlay by adding overlays,
  * removing overlays and testing what happens when you tap on the 
@@ -44,10 +37,17 @@ import android.view.View;
 public class MapItemizedOverlayTest extends ActivityInstrumentationTestCase2<GoogleMapSearchLocation> {
 	private static final int THEOVERLAYITEMONMAP = 0;
 
+	private static final int ARBITRARYLATVALUE = 67854516;
+
+	private static final int ARBITRARYLONGVALUE = 20215681;
+
+	private static final int ARBITRARYLATVALUE2 = 29385034;
+
+	private static final int ARBITRARYLONGVALUE2 = 30482932;
+
 	private GoogleMapSearchLocation activity;
 	private MapItemizedOverlay mapOverlay;
 	private Drawable drawable;
-	private Solo solo;
 
 	private AlertDialog dialogShowing;
 
@@ -56,18 +56,15 @@ public class MapItemizedOverlayTest extends ActivityInstrumentationTestCase2<Goo
 		super(GoogleMapSearchLocation.class);
 	}
 	
+	/**
+	 * Set up instance variables
+	 */
 	@Override
 	protected void setUp() 	throws Exception {
 		super.setUp();
-		solo = new Solo(getInstrumentation(), getActivity());
 		this.activity = super.getActivity();
-		drawable = activity.getResources().getDrawable(R.drawable.androidgubbemini);
+		drawable = activity.getResources().getDrawable(R.drawable.chalmersandroid);
 		mapOverlay = new MapItemizedOverlay(drawable,activity);		
-	}
-	
-	@Override
-	protected void tearDown() throws Exception {
-		super.tearDown();
 	}
 	
 	/**
@@ -75,7 +72,7 @@ public class MapItemizedOverlayTest extends ActivityInstrumentationTestCase2<Goo
 	 * and checking the size of it.
 	 */
 	public void testAddOverlay(){
-		GeoPoint p = new GeoPoint(67854516,20215681);
+		GeoPoint p = new GeoPoint(ARBITRARYLATVALUE,ARBITRARYLONGVALUE);
 		OverlayItem item = new OverlayItem(p, "Hej Kiruna", "Här är det kallt");
 		mapOverlay.addOverlay(item);
 		assertEquals(1,mapOverlay.size());
@@ -85,8 +82,8 @@ public class MapItemizedOverlayTest extends ActivityInstrumentationTestCase2<Goo
 	 * Works the same way as addOverlay but removes overlays instead.
 	 */
 	public void testRemoveOverlay(){
-		GeoPoint p = new GeoPoint(67854516,20215681);
-		GeoPoint p2 = new GeoPoint(29385034,30482932);
+		GeoPoint p = new GeoPoint(ARBITRARYLATVALUE,ARBITRARYLONGVALUE);
+		GeoPoint p2 = new GeoPoint(ARBITRARYLATVALUE2,ARBITRARYLONGVALUE2);
 		OverlayItem item = new OverlayItem(p, "RAWR", "TESTRAWR");
 		OverlayItem item2 = new OverlayItem(p2, "RAWR2", "TESTRAWR");
 		mapOverlay.addOverlay(item);
@@ -103,7 +100,7 @@ public class MapItemizedOverlayTest extends ActivityInstrumentationTestCase2<Goo
 	 * @throws InterruptedException
 	 */
 	public void testOnTap() throws InterruptedException{
-		GeoPoint p = new GeoPoint(67854516,20215681);
+		GeoPoint p = new GeoPoint(ARBITRARYLATVALUE,ARBITRARYLONGVALUE);
 		OverlayItem item = new OverlayItem(p, "RAWR", "TESTRAWR");
 		mapOverlay.addOverlay(item);
 		mapOverlay.onTap(THEOVERLAYITEMONMAP);
@@ -113,7 +110,6 @@ public class MapItemizedOverlayTest extends ActivityInstrumentationTestCase2<Goo
 			dialogToShow.setAccessible(true);
 			dialogShowing = (AlertDialog) dialogToShow.get(this.mapOverlay);
 		} catch (Exception e) {
-			e.printStackTrace();
 		}
 		assertTrue(dialogShowing.isShowing());
 		}

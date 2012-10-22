@@ -16,18 +16,9 @@
 
 package com.chalmers.schmaps.test;
 
-import java.util.List;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import com.chalmers.schmaps.CheckInActivity;
-import com.chalmers.schmaps.GoogleMapSearchLocation;
-import com.chalmers.schmaps.MapItemizedOverlay;
-import com.chalmers.schmaps.R;
-import com.google.android.maps.GeoPoint;
-import com.google.android.maps.MapView;
-import com.google.android.maps.Overlay;
 
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.TouchUtils;
@@ -35,10 +26,21 @@ import android.view.KeyEvent;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.chalmers.schmaps.CheckInActivity;
+import com.chalmers.schmaps.R;
+import com.google.android.maps.MapView;
+
+/**
+ * Test class for testing the Checkin activity by testing connection to database,
+ * Reg ex functions and adding JSON objects.
+ * @author Teafrog
+ *
+ */
 public class CheckInActivityTest extends ActivityInstrumentationTestCase2<CheckInActivity> {
 
 
-	CheckInActivity activity;
+	private static final int SIZEOFJSONARRAY = 3;
+	private CheckInActivity activity;
 	private Button checkInButton;
 	private EditText nameEdit;
 	private MapView mapview;
@@ -49,6 +51,9 @@ public class CheckInActivityTest extends ActivityInstrumentationTestCase2<CheckI
 		super(CheckInActivity.class);
 	}
 	
+	/**
+	 * Simple setUp method that runs before each test to set fields and such.
+	 */
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
@@ -58,14 +63,18 @@ public class CheckInActivityTest extends ActivityInstrumentationTestCase2<CheckI
 		this.nameEdit = (EditText) this.activity.findViewById(R.id.entername);
 		this.mapview = (MapView) this.activity.findViewById(R.id.mapview);
 	}
-	
-	@Override
+	/**
+	 * Method called after each test to safely close them down.
+	 */
 	protected void tearDown() throws Exception {
 		// TODO Auto-generated method stub
 		activity.finish();
 		super.tearDown();
 	}
 
+	/**
+	 * Tests conditions before starting to tests
+	 */
 	public void testPreConditions(){
 		super.assertNotNull(checkInButton);
 		super.assertNotNull(mapview);
@@ -84,7 +93,7 @@ public class CheckInActivityTest extends ActivityInstrumentationTestCase2<CheckI
 		
 		activity.parseJsonAndDraw(jsonobject);
 		
-		assertEquals(3,activity.getSizeOfJsonArray());
+		assertEquals(SIZEOFJSONARRAY,activity.getSizeOfJsonArray());
 	}
 	
 	/**

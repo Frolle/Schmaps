@@ -16,22 +16,22 @@
 
 package com.chalmers.schmaps;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.android.maps.GeoPoint;
-import com.google.android.maps.OverlayItem;
-
-import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteDatabase.CursorFactory;
-import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
+
+import com.google.android.maps.GeoPoint;
+import com.google.android.maps.OverlayItem;
 
 public class SearchSQL {
 
@@ -42,22 +42,15 @@ public class SearchSQL {
 	public static final String KEY_STREET = "street_name";
 	public static final String KEY_LEVEL = "level";
 	
-	private static String TAG = "SearchSQL";
 	
 	private static final String DATABASE_NAME = "SchmapsDB"; //namnet på vår databas
 	private static final String DATABASE_TABLE = "Rooms"; //namnet på vår tabell (kan ha flera tabeller)
-	private static final String DB_MICROWAVETABLE = "Microwaves"; //Name of our microwave table
-	private static final String DATABASE_ATMTABLE = "Bankomater";
-
-	private static String DATABASE_PATH = "/data/data/com.chalmers.schmaps/databases/";
-	private static final int DATABASE_VERSION = 8;
-
-
-	
-	private static final int MICROWAVETABLE = 1;
-	private static final int RESTAURANTTABLE = 2;
-	private static final int ATMTABLE = 3;
-
+	private static final String DATABASE_PATH = "/data/data/com.chalmers.schmaps/databases/";
+	private static final int DATABASE_VERSION = 2;
+	private static final int TABLECOLUMNOFLAT = 2;
+	private static final int TABLECOLUMNOFLONG = 3;
+	private static final int TABLECOLUMNOFADDRESS = 4;
+	private static final int TABLECOLUMNOFLEVEL = 5;
 	private MySQLiteOpenHelper ourHelper;
 	private final Context ourContext;
 	private SQLiteDatabase ourDatabase;
@@ -105,10 +98,10 @@ public class SearchSQL {
 	{
 		String [] columns = new String []{KEY_ROWID, KEY_ROOM, KEY_LAT, KEY_LONG, KEY_STREET, KEY_LEVEL};
 		Cursor cursor = ourDatabase.query(DATABASE_TABLE, columns, KEY_ROOM + " LIKE ?" , new String [] { "%" + query + "%"}, null, null, null);
-		if(cursor.getCount()<=0)
+		if(cursor.getCount()<=0){
 			return false;
-		else 
-			return true;
+		}
+		return true;
 
 	}
 
@@ -123,7 +116,7 @@ public class SearchSQL {
 		Cursor cursor = ourDatabase.query(DATABASE_TABLE, columns, KEY_ROOM + " LIKE ?" , new String [] { "%" + query + "%"}, null, null, null);
 		
 		if(cursor.moveToFirst()){
-			int lat = cursor.getInt(2);
+			int lat = cursor.getInt(TABLECOLUMNOFLAT);
 			if (cursor != null && !cursor.isClosed()) {
 	            cursor.close();
 			}
@@ -144,7 +137,7 @@ public class SearchSQL {
 		Cursor cursor = ourDatabase.query(DATABASE_TABLE, columns, KEY_ROOM + " LIKE ?" , new String [] { "%" + query + "%"}, null, null, null);
 		
 		if(cursor.moveToFirst()){
-			int lon = cursor.getInt(3);
+			int lon = cursor.getInt(TABLECOLUMNOFLONG);
 			if (cursor != null && !cursor.isClosed()) {
 	            cursor.close();
 			}
@@ -163,7 +156,7 @@ public class SearchSQL {
 		String [] columns = new String []{KEY_ROWID, KEY_ROOM, KEY_LAT, KEY_LONG, KEY_STREET, KEY_LEVEL };
 		Cursor cursor = ourDatabase.query(DATABASE_TABLE, columns, KEY_ROOM + " LIKE ?" , new String [] { "%" + query + "%"}, null, null, null);
 		if(cursor.moveToFirst()){
-			String address = cursor.getString(4);
+			String address = cursor.getString(TABLECOLUMNOFADDRESS);
 			if (cursor != null && !cursor.isClosed()) {
 	            cursor.close();
 			}
@@ -183,7 +176,7 @@ public class SearchSQL {
 		Cursor cursor = ourDatabase.query(DATABASE_TABLE, columns, KEY_ROOM + " LIKE ?" , new String [] { "%" + query + "%"}, null, null, null);
 		
 		if(cursor.moveToFirst()){
-			String level = cursor.getString(5);
+			String level = cursor.getString(TABLECOLUMNOFLEVEL);
 			if (cursor != null && !cursor.isClosed()) {
 	            cursor.close();
 			}
@@ -199,15 +192,15 @@ public class SearchSQL {
 	 * @param tableName - defines what table that should be searched.
 	 * @return List of geopoints for drawing them on the map.
 	 */
-	public ArrayList<OverlayItem> getLocations(String tableName)
+	public List<OverlayItem> getLocations(String tableName)
 	{
 		ArrayList<OverlayItem> locationList = new ArrayList<OverlayItem>();
 		Cursor cursor = ourDatabase.rawQuery("select * from " + tableName, null);
 		cursor.moveToFirst();
 			while(!cursor.isAfterLast())
 			{
-				GeoPoint gp = new GeoPoint(cursor.getInt(2), cursor.getInt(3));
-				OverlayItem item = new OverlayItem(gp, cursor.getString(4), cursor.getString(5));
+				GeoPoint gp = new GeoPoint(cursor.getInt(TABLECOLUMNOFLAT), cursor.getInt(TABLECOLUMNOFLONG));
+				OverlayItem item = new OverlayItem(gp, cursor.getString(TABLECOLUMNOFADDRESS), cursor.getString(TABLECOLUMNOFLEVEL));
 				locationList.add(item);
 				cursor.moveToNext();
 			}
@@ -217,8 +210,9 @@ public class SearchSQL {
 	
 	private static class MySQLiteOpenHelper extends SQLiteOpenHelper{
 
+		private static final int ARBITRARYNUMBEROFBYTES = 1024;
 		private final Context myContext;
-		SQLiteDatabase internDatabase;
+		private SQLiteDatabase internDatabase;
 		
 		public MySQLiteOpenHelper(Context context) {
 			super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -248,8 +242,9 @@ public class SearchSQL {
 	    @Override 
 	    public synchronized void close()  
 	    { 
-	        if(internDatabase != null) 
+	        if(internDatabase != null) {
 	            internDatabase.close(); 
+	        }
 	        super.close(); 
 	    }
 		
@@ -332,7 +327,7 @@ public class SearchSQL {
 	    	OutputStream myOutput = new FileOutputStream(outFileName);
 	 
 	    	//transfer bytes from the inputfile to the outputfile
-	    	byte[] buffer = new byte[1024];
+	    	byte[] buffer = new byte[ARBITRARYNUMBEROFBYTES];
 	    	int length;
 	    	while ((length = myInput.read(buffer))>0){
 	    		myOutput.write(buffer, 0, length);

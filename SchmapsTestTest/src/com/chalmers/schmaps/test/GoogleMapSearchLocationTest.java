@@ -16,26 +16,25 @@
 package com.chalmers.schmaps.test;
 
 import java.lang.reflect.Field;
-import java.util.*;
+import java.util.List;
 
-import junit.framework.Assert;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import android.app.Dialog;
+import android.test.ActivityInstrumentationTestCase2;
+import android.test.TouchUtils;
+import android.util.Log;
+import android.view.KeyEvent;
+import android.widget.Button;
+import android.widget.EditText;
 
 import com.chalmers.schmaps.GoogleMapSearchLocation;
 import com.chalmers.schmaps.MapItemizedOverlay;
 import com.chalmers.schmaps.R;
-
-import com.google.android.maps.*;
-
-import android.util.Log;
-import android.view.KeyEvent;
-import android.app.Dialog;
-import android.test.ActivityInstrumentationTestCase2;
-import android.test.TouchUtils;
-import android.test.ViewAsserts;
-import android.text.style.SuperscriptSpan;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
+import com.google.android.maps.GeoPoint;
+import com.google.android.maps.MapView;
+import com.google.android.maps.Overlay;
 /**
  * Test class for testing GoogleMapSearchLocation, tests the function to search for rooms,
  * regex and what happens if room is not found.
@@ -44,8 +43,10 @@ import android.widget.EditText;
  */
 public class GoogleMapSearchLocationTest extends ActivityInstrumentationTestCase2<GoogleMapSearchLocation> {
 	
-	GoogleMapSearchLocation activity;
-	private Button editButton;
+	private static final int ARBITRARYLATPOS = 57689111;
+	private static final int ARBITRARYLONGPOS = 11973517;
+	private GoogleMapSearchLocation activity;
+	private Button editButton, directionsButton;
 	private EditText lectureEdit;
 	private MapView mapview;
 	private String roomToFindString;
@@ -64,21 +65,21 @@ public class GoogleMapSearchLocationTest extends ActivityInstrumentationTestCase
 		this.activity = super.getActivity();
 		this.editButton = (Button) this.activity.findViewById(R.id.edittextbutton);
 		this.lectureEdit = (EditText) this.activity.findViewById(R.id.edittextlecture);
+		this.directionsButton = (Button) this.activity.findViewById(R.id.directionbutton);
 		this.mapview = (MapView) this.activity.findViewById(R.id.mapview);
 	}
-	
-	@Override
-	protected void tearDown() throws Exception {
-		// TODO Auto-generated method stub
-		super.tearDown();
-	}
-
+	/**
+	 * Tests conditions before starting all the tests.
+	 */
 	public void testPreConditions(){
 		super.assertNotNull(editButton);
+		super.assertNotNull(directionsButton);
 		super.assertNotNull(mapview);
 		super.assertNotNull(lectureEdit);
 		super.assertNotNull(activity);
 	}
+	
+	
 	/**
 	 * Searches for a room that is known to exist in the database and tests
 	 * that what is drawn on the map has the same attributes as the one that
@@ -98,12 +99,13 @@ public class GoogleMapSearchLocationTest extends ActivityInstrumentationTestCase
 		//Test case for when u get a position for the user
 		MapItemizedOverlay tempTestOverlay = (MapItemizedOverlay) overlays.get(2);
 		
-		GeoPoint roomGP = new GeoPoint(57689111, 11973517);
+		GeoPoint roomGP = new GeoPoint(ARBITRARYLATPOS, ARBITRARYLONGPOS);
 		
 		assertEquals(roomGP,tempTestOverlay.getItem(0).getPoint());
 		assertEquals("Sven Hultins gata 2",tempTestOverlay.getItem(0).getTitle());
-		assertEquals("",tempTestOverlay.getItem(0).getSnippet());
+		assertEquals("Floor 1",tempTestOverlay.getItem(0).getSnippet());
 	}
+	
 	
 	/**
 	 * Tests that a dialog is shown if a room is not found by querying for
@@ -124,10 +126,10 @@ public class GoogleMapSearchLocationTest extends ActivityInstrumentationTestCase
 			showingDialog = (Dialog) dialogRoomNotFound.get(this.activity);
 		}
 		catch (Exception e) {
-				e.printStackTrace();
 		}
 		assertTrue(showingDialog.isShowing());
 	}
+	
 	
 	/**
 	 * Makes sure that the regex function works as intended by 
@@ -148,8 +150,56 @@ public class GoogleMapSearchLocationTest extends ActivityInstrumentationTestCase
 			roomToFindString = (String) roomToFindField.get(this.activity);
 			Log.e("GMSLtest", roomToFindString);
 		} catch (Exception e) {
-			e.printStackTrace();
 		}
 		assertEquals("runan", roomToFindString);
+	}
+	
+	/**
+	 * Tests if walkingDirections parses the jsonobject in the right way
+	 * @throws JSONException
+	 */
+	public void testParseJson() throws JSONException{
+
+		String jsonresponse = "{\"routes\":[{\"legs\":[{\"steps\":[{\"end_location\":{\"lat\":57.715350,\"lng\":11.999310},\"start_location\":{\"lat\":57.71545000000001,\"lng\":11.999690}}]}]}]}";
+				
+		JSONObject jsonobject = new JSONObject(jsonresponse);
+
+
+		activity.parseJson(jsonobject);
+
+
+		assertEquals(2,activity.returnNrOfGeopoints());
+	}
+	
+	/**
+	 * Tests that the database is connected and that a response from the google directions api is recieved
+	 * If the jsonobject is received the boolean running is set to true
+	 */
+	public void testConnectionToDirections(){
+		TouchUtils.tapView(this, this.lectureEdit);
+		super.sendKeys("R U N A N ");
+		super.getInstrumentation().waitForIdleSync();
+		TouchUtils.clickView(this, this.editButton);
+		super.getInstrumentation().waitForIdleSync();
+
+		activity.walkningDirections();
+		
+		assertEquals(true,activity.getIsAsyncTaskRunning());
+	}
+	
+	/**
+	 * Tests that the getdirectionsbutton is working, that the asynctask method has executed
+	 */
+	public void testDirectionsButton(){
+		TouchUtils.tapView(this, this.lectureEdit);
+		super.sendKeys("R U N A N ");
+		super.getInstrumentation().waitForIdleSync();
+		TouchUtils.clickView(this, this.editButton);
+		super.getInstrumentation().waitForIdleSync();
+		
+		TouchUtils.clickView(this, this.directionsButton);
+		super.getInstrumentation().waitForIdleSync();
+		
+		assertEquals(true,activity.getIsAsyncTaskRunning());
 	}
 }

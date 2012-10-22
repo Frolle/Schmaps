@@ -16,12 +16,11 @@
 
 package com.chalmers.schmaps;
 
-import android.os.Bundle;
 import android.app.Activity;
-import android.view.Menu;
-import android.view.MotionEvent;
 import android.content.Intent;
-import android.view.Menu;
+import android.os.Bundle;
+import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
@@ -33,10 +32,12 @@ import android.widget.ImageView;
  */
 public class Startup extends Activity {
 
-    private ImageView myView;
+    protected static final long TIMETODISPLAYSPLASH = 5000;
+	private ImageView myView;
 	private Animation fadeInAnimation;
     private Intent startMenuActivity;
     private Thread threadForSplash;
+    private boolean isBackPressed = false;
 
 	/**
 	 * onCreate method that assign the instance variables and create an anonymous Thread which is used as a timer for the splash screen.
@@ -52,18 +53,21 @@ public class Startup extends Activity {
 			public void run (){
             	try{
             		synchronized(this){
-            		wait(5000);
+            		wait(TIMETODISPLAYSPLASH);
             		}
             	}
             	catch(InterruptedException e){
-            		e.printStackTrace();
             	}
             	finish();
+            	if(!isBackPressed){
         		startActivity(startMenuActivity);
+            	}
             }
           };
-
+        
         threadForSplash.start();
+        
+
     }
 	/**
 	 * Method to assign the instance variables.
@@ -80,8 +84,22 @@ public class Startup extends Activity {
 		super.onPause();
 		finish();
 	}
+/**
+ * If back button is clicked, then finish the activity
+ */
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if ((keyCode == KeyEvent.KEYCODE_BACK)) {
+            isBackPressed = true;
+            finish();
+            return true;
+        }
+        return false;
+    }
 	
-	
+	/**
+	 * Method for handling on Touch event from user.
+	 */
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
 		if(event.getAction()==MotionEvent.ACTION_DOWN){
