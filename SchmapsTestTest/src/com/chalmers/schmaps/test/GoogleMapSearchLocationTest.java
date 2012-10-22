@@ -24,7 +24,6 @@ import org.json.JSONObject;
 import android.app.Dialog;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.TouchUtils;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.widget.Button;
 import android.widget.EditText;
@@ -49,8 +48,6 @@ public class GoogleMapSearchLocationTest extends ActivityInstrumentationTestCase
 	private Button editButton, directionsButton;
 	private EditText lectureEdit;
 	private MapView mapview;
-	private String roomToFindString;
-	private Dialog showingDialog;
 	public GoogleMapSearchLocationTest()
 	{
 		super(GoogleMapSearchLocation.class);
@@ -113,6 +110,7 @@ public class GoogleMapSearchLocationTest extends ActivityInstrumentationTestCase
 	 * a dialog is shown upon the query.
 	 */
 	public void testDialogRoomNotFound(){
+		Dialog showingDialog = null;
 		TouchUtils.tapView(this, this.lectureEdit);
 		super.sendKeys(KeyEvent.KEYCODE_BACKSLASH);
 		super.sendKeys("R O O M THATDOESNOTEXIST");
@@ -144,14 +142,7 @@ public class GoogleMapSearchLocationTest extends ActivityInstrumentationTestCase
 		super.getInstrumentation().waitForIdleSync();
 		TouchUtils.clickView(this, this.editButton);
 		super.getInstrumentation().waitForIdleSync();
-		try {
-			Field roomToFindField = activity.getClass().getDeclaredField("roomToFind");
-			roomToFindField.setAccessible(true);
-			roomToFindString = (String) roomToFindField.get(this.activity);
-			Log.e("GMSLtest", roomToFindString);
-		} catch (Exception e) {
-		}
-		assertEquals("runan", roomToFindString);
+		assertEquals("runan", activity.getRoomToFind());
 	}
 	
 	/**

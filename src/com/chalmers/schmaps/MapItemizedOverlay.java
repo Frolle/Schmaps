@@ -41,6 +41,7 @@ public class MapItemizedOverlay extends ItemizedOverlay<OverlayItem>{
 	private Context mContext;
 	private AlertDialog alertDialog;
 	
+
 	public MapItemizedOverlay(Drawable defaultMarker, Context context) {
 		super(boundCenterBottom(defaultMarker));
 		mContext = context;	
@@ -109,9 +110,29 @@ public class MapItemizedOverlay extends ItemizedOverlay<OverlayItem>{
 	  alertDialog = builder.create();
 	  alertDialog.setTitle(item.getTitle());
 	  alertDialog.setCanceledOnTouchOutside(true);
+	  //Set the dialog field so it can be tested.
+	  setAlertDialog(alertDialog);
 	  alertDialog.show();
 	  
 	  return true;
 	}
+	/**
+	 * Returns the alert dialog that would be shown if there is no internet
+	 * connection
+	 * @return AlertDialog - the dialog for no internet connection
+	 */
+	public AlertDialog getAlertDialog() {
+		return alertDialog;
+	}
+
+	/**
+	 * Set the field variable alert dialog to tell the user there is no internet
+	 * connection. Method is mostly used for testing.
+	 * @param alertDialog - the dialog to set.
+	 */
+	public void setAlertDialog(AlertDialog alertDialog) {
+		this.alertDialog = alertDialog;
+	}
+
 
 }

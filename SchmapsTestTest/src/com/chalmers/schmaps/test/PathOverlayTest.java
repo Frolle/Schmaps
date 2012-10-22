@@ -43,7 +43,6 @@ public class PathOverlayTest extends ActivityInstrumentationTestCase2<GoogleMapS
 	private GoogleMapSearchLocation activity;
 	private MapView mapview;
 	private PathOverlay pathoverlay;
-	private GeoPoint p1, p2, p3, p4;
 	private List<GeoPoint> geolist = new ArrayList<GeoPoint>();
 	private Canvas canvas;
 
@@ -56,6 +55,7 @@ public class PathOverlayTest extends ActivityInstrumentationTestCase2<GoogleMapS
 	 */
 	protected void setUp() throws Exception {
 		super.setUp();
+		GeoPoint p1, p2, p3, p4;
 		this.activity = super.getActivity();
 		p1 = new GeoPoint(ARBITRARYLATVALUE1, ARBITRARYLONGVALUE1);
 		geolist.add(p1);

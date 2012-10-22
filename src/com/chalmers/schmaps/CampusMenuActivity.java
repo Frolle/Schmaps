@@ -32,12 +32,8 @@ public class CampusMenuActivity extends Activity implements View.OnClickListener
 	private static final int JOHANNESBERG = 40; //identifier for Johanneberg
 	private static final int LINDHOLMEN = 42;	// -||- for Lindholmen
 	
-	private Intent startMapActivity;
-	private Button johannebergButton;
-	private Button lindholmenButton;
 	private Bundle menuActionChosen;
 	private String actionString;
-	private int campus;
 
 	/**
 	 * onCreate method for determining what the activity does on creation.
@@ -54,6 +50,8 @@ public class CampusMenuActivity extends Activity implements View.OnClickListener
 	 * Method for assigning all the field variables used.
 	 */
 	private void assignInstances() {
+		Button johannebergButton;
+		Button lindholmenButton;
 		johannebergButton = (Button) findViewById(R.id.johannebergButton);
 		johannebergButton.setOnClickListener(this);
 		lindholmenButton = (Button) findViewById(R.id.lindholmenButton);
@@ -69,23 +67,24 @@ public class CampusMenuActivity extends Activity implements View.OnClickListener
 	*/
 	public void onClick(View arg0) {
 		
-		
-		
+		Intent startMapActivity;
+		int campusId = 0;
+
 		switch (arg0.getId())
 		{
 		case R.id.johannebergButton:
-			campus = JOHANNESBERG;
+			campusId = JOHANNESBERG;
 			break;
 			
 			
 		case R.id.lindholmenButton:
-			campus = LINDHOLMEN;
+			campusId = LINDHOLMEN;
 			break;
 		}
 		
 		startMapActivity = new Intent("android.intent.action.GOOGLEMAPSHOWLOCATION");
 		setActionString(startMapActivity.getAction());
-		startMapActivity.putExtra("Campus", campus);
+		startMapActivity.putExtra("Campus", campusId);
 		//Transfer what kind of locations should be drawn
 		startMapActivity.putExtra("Show locations", menuActionChosen.getInt("Show locations"));
 		startActivity(startMapActivity);

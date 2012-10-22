@@ -73,9 +73,6 @@ public class CheckInActivity extends MapActivity implements View.OnClickListener
 	private LocationManager locationManager;
 	private LocationListener locationListener;
 	private JSONObject returnedJsonObject;
-	private List<Overlay> overlayList;
-	private MapItemizedOverlay mapItemizedCheckIn;
-
 	private Criteria criteria;
 	private String bestProvider;
 	private Location location;
@@ -85,10 +82,7 @@ public class CheckInActivity extends MapActivity implements View.OnClickListener
 	private boolean checkin;
 	private MapController mapcon;
 	private MapView mapview;
-	private Button checkInButton;
 	private EditText enterName;
-	private Drawable checkInDot;
-	private OverlayItem overlayitem;
 	private JSONArray result;
 	private boolean running;
 
@@ -101,15 +95,6 @@ public class CheckInActivity extends MapActivity implements View.OnClickListener
 		super.onCreate(savedInstanceState);
 		//assigns variables used in this class
 		assignInstances(); 
-
-		locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
-		//deafult criteria
-		criteria = new Criteria(); 
-		//best reception
-		bestProvider = locationManager.getBestProvider(criteria, false); 
-		//gets last known location from chosen provider
-		location = locationManager.getLastKnownLocation(bestProvider); 
-
 		//if there is an provider that provides an location ->continue
 		if(location != null){ 
 			//get the latitude
@@ -165,10 +150,17 @@ public class CheckInActivity extends MapActivity implements View.OnClickListener
 		username = "";
 		checkin = false;
 		running = false;
-
 		mapview = (MapView) findViewById(R.id.mapview);
 		mapview.setBuiltInZoomControls(true);
 		mapcon = mapview.getController(); 
+		locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+		//deafult criteria
+		criteria = new Criteria(); 
+		//best reception
+		bestProvider = locationManager.getBestProvider(criteria, false); 
+		//gets last known location from chosen provider
+		location = locationManager.getLastKnownLocation(bestProvider); 
+		Button checkInButton;
 
 		checkInButton = (Button) findViewById(R.id.checkinbutton);
 		enterName = (EditText) findViewById(R.id.entername);
@@ -208,17 +200,21 @@ public class CheckInActivity extends MapActivity implements View.OnClickListener
 	 **********************************************************************/
 	public void parseJsonAndDraw(JSONObject jsonObject){
 		//greates an geopoint with our location
+		OverlayItem overlayitem;
 		GeoPoint geopoint; 
 		int lat, lng;
 		String name,time;
 		StringBuffer timebuffer = new StringBuffer();
+		List<Overlay> overlayList;
+		MapItemizedOverlay mapItemizedCheckIn;
+		Drawable checkInDot;
 
 		overlayList = mapview.getOverlays();
 		 //drawable
 		checkInDot = this.getResources().getDrawable(R.drawable.chalmersandroid);
 		//mapitemizedoverlay with drawable
 		mapItemizedCheckIn = new MapItemizedOverlay(checkInDot, this); 
-
+		
 		result =null;
 
 		try {

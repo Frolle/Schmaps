@@ -36,9 +36,7 @@ public class MenuActivity extends Activity implements View.OnClickListener {
 	private static final int RESTAURANTBUTTON = 2;
 	private static final int ATMBUTTON = 3;
 
-	private Intent startActivity;
 
-	private Button searchHall, groupRoom,atmButton,microwaveButton,findRestaurantsButton, checkin, bus;
 
 
 	private String activityString;
@@ -52,6 +50,8 @@ public class MenuActivity extends Activity implements View.OnClickListener {
 	}
 
 	private void assignInstances() {
+		Button searchHall, groupRoom,atmButton,microwaveButton,findRestaurantsButton, checkin, bus;
+
 		searchHall = (Button) findViewById(R.id.searchHallButton);
 		searchHall.setOnClickListener(this);
 		microwaveButton = (Button) findViewById(R.id.microwaveButton);
@@ -74,6 +74,7 @@ public class MenuActivity extends Activity implements View.OnClickListener {
 	 * a switch case to start correct activity with correct variables.
 	 */
 	public void onClick(View v) {
+		Intent startActivity = null;
 		switch(v.getId()){
 
 		case R.id.searchHallButton:

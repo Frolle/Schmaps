@@ -67,7 +67,6 @@ public class GoogleMapSearchLocation extends MapActivity implements View.OnClick
 	private static final long UPDATEFREQUENCYINMS = 1000;
 	private static final float UPDATEAAREA = 10;
 	private static final long SLEEPTIMEINMS = 500;
-	private Button editButton, directionsButton;
 	private EditText lectureEdit;
 
 	private GeoPoint ourLocation, roomLocation;
@@ -75,18 +74,14 @@ public class GoogleMapSearchLocation extends MapActivity implements View.OnClick
 	private LocationListener locationListener;
 	private List<Overlay> mapOverlays;
 	private MapItemizedOverlay mapItemizedRoom, mapItemizedStudent;
-	private String roomToFind;
 	private MapView mapView;
 	private SearchSQL search;
-	private Criteria criteria;
-	private String bestProvider;
 	private Location location;
 	private int longitude;
 	private int latitude;
 	private JSONObject jsonObject;
 
 	private OverlayItem overlayitemStudent, overlayItemRoom;
-	private Drawable room, student;
 	private MapController mapcon;
 	private PathOverlay pathOverlay;
 	private boolean roomSearched;
@@ -94,6 +89,7 @@ public class GoogleMapSearchLocation extends MapActivity implements View.OnClick
 	private List<GeoPoint> geoList;
 
 	private boolean running;
+	private String roomToFind;
 
 	/**
 	 * onCreate method for determining what the activity does on creation.
@@ -203,6 +199,12 @@ public class GoogleMapSearchLocation extends MapActivity implements View.OnClick
 	 */
 	private void assignInstances() {
 		setContentView(R.layout.activity_map); 
+		//Fields used only once.
+		Button editButton, directionsButton;
+		Criteria criteria;
+		String bestProvider;
+		Drawable room, student;
+
 		mapView = (MapView) findViewById(R.id.mapview);
 		mapView.setBuiltInZoomControls(true);
 
@@ -238,6 +240,7 @@ public class GoogleMapSearchLocation extends MapActivity implements View.OnClick
 	 * but you have to search for a room first
 	 */
 	public void onClick(View v) {
+		
 		switch(v.getId()){
 
 		case R.id.edittextbutton:
@@ -254,6 +257,8 @@ public class GoogleMapSearchLocation extends MapActivity implements View.OnClick
 			roomToFind.toLowerCase().trim(); 
 			//Removes illegal characters to prevent sql injection
 			roomToFind = roomToFind.replaceAll("[^[a-z���][A-Z���][0-9]]",""); 
+			//Set the field variable so it can be tested.
+			setRoomToFind(roomToFind);
 			//open database in read mode
 			search.openRead(); 
 			//if we find room show room on map, if not show dialog 
@@ -317,7 +322,20 @@ public class GoogleMapSearchLocation extends MapActivity implements View.OnClick
 	public int returnNrOfGeopoints(){
 		return geoList.size();
 	}
-
+	/**
+	 * Returns the latest query from the user.
+	 * @return - String containing the user's query.
+	 */
+	public String getRoomToFind() {
+		return roomToFind;
+	}
+	/**
+	 * Setting a field variable containing the latest query from the user.
+	 * @param roomToFind - String with the user's query.
+	 */
+	public void setRoomToFind(String roomToFind) {
+		this.roomToFind = roomToFind;
+	}
 
 
 	/***********************************************

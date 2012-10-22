@@ -16,8 +16,6 @@
 
 package com.chalmers.schmaps.test;
 
-import java.lang.reflect.Field;
-
 import android.app.AlertDialog;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -50,7 +48,6 @@ public class MapItemizedOverlayTest extends ActivityInstrumentationTestCase2<Goo
 	private MapItemizedOverlay mapOverlay;
 	private Drawable drawable;
 
-	private AlertDialog dialogShowing;
 
 	
 	public MapItemizedOverlayTest(){
@@ -113,12 +110,8 @@ public class MapItemizedOverlayTest extends ActivityInstrumentationTestCase2<Goo
 		mapOverlay.addOverlay(item);
 		mapOverlay.onTap(THEOVERLAYITEMONMAP);
 		super.getInstrumentation().waitForIdleSync();
-		try {
-			Field dialogToShow = mapOverlay.getClass().getDeclaredField("alertDialog");
-			dialogToShow.setAccessible(true);
-			dialogShowing = (AlertDialog) dialogToShow.get(this.mapOverlay);
-		} catch (Exception e) {
-		}
+		//Get the alert dialog.
+		AlertDialog dialogShowing = mapOverlay.getAlertDialog();
 		assertTrue(dialogShowing.isShowing());
 		}
 }

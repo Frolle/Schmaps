@@ -74,7 +74,6 @@ public class CheckBusActivity extends Activity implements View.OnClickListener {
 	private List<String> lindholmenDestArray = new ArrayList<String>();
 	private List<String> lindholmenTimeArray = new ArrayList<String>();
 	private List<String> lindholmenTrackArray = new ArrayList<String>();
-	private Button refreshButton;
 
 	@Override
 	/**
@@ -84,6 +83,7 @@ public class CheckBusActivity extends Activity implements View.OnClickListener {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_checkbus);
+		Button refreshButton;
 		refreshButton = (Button) findViewById(R.id.refreshbutton);
 		refreshButton.setOnClickListener(this);
 

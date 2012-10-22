@@ -35,7 +35,6 @@ public class StartupTest extends ActivityInstrumentationTestCase2<Startup> {
 
 	private static final float ARBITRARYSCREENLOC = 65;
 	private Startup startupActivity;
-	private Thread threadForSplash;
 	private Solo solo;
 	
 	public StartupTest() {
@@ -65,6 +64,7 @@ public class StartupTest extends ActivityInstrumentationTestCase2<Startup> {
 	 * early when the screen is touched
 	 */
 	public void testSplashThreadAndOnTouch(){
+		Thread threadForSplash = null;
 		try {
 			Field splashThread = startupActivity.getClass().getDeclaredField("threadForSplash");
 			splashThread.setAccessible(true);

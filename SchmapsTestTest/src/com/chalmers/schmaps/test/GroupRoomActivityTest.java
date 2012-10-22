@@ -15,8 +15,6 @@
  */
 package com.chalmers.schmaps.test;
 
-import java.lang.reflect.Field;
-
 import android.test.ActivityInstrumentationTestCase2;
 
 import com.chalmers.schmaps.GroupRoomActivity;
@@ -31,7 +29,6 @@ public class GroupRoomActivityTest extends ActivityInstrumentationTestCase2<Grou
 
 	private static final String URLTOBESTARTED = "https://web.timeedit.se/chalmers_se/db1/b1/";
 	private GroupRoomActivity groupRoomActivity;
-	private String urlString;
 
 	public GroupRoomActivityTest() {
 		super(GroupRoomActivity.class);
@@ -56,15 +53,7 @@ public class GroupRoomActivityTest extends ActivityInstrumentationTestCase2<Grou
 	 * and compares it to what it should be.
 	 */
 	public void testCorrectUrlString(){
-		Field urlStringField;
-		try {
-			urlStringField = groupRoomActivity.getClass().getDeclaredField("uri");
-			urlStringField.setAccessible(true);
-			urlString = (String)urlStringField.get(this.groupRoomActivity).toString();
-		} catch (NoSuchFieldException e) {
-		} catch (IllegalArgumentException e) {
-		} catch (IllegalAccessException e) {
-		}
+		String urlString = groupRoomActivity.getUri().toString();
 		assertEquals(URLTOBESTARTED, urlString);
 		
 	}

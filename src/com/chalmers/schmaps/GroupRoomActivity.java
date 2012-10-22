@@ -39,9 +39,27 @@ public class GroupRoomActivity extends Activity{
  */
 		private void getUrlLink() {
 			 uri = Uri.parse("https://web.timeedit.se/chalmers_se/db1/b1/"); 
+			 //Set the uri for testing purposes
+			 setUri(uri);
 			 Intent intent = new Intent(Intent.ACTION_VIEW, uri);
 			 startActivity(intent);
 			 finish();//take back to previous activity
 		}
 		
+		 /**
+		  * Get the url used to link to Time Edit
+		  * @return Uri - the url containing web address
+		  */
+		public Uri getUri() {
+			return uri;
+		}
+		/**
+		 * Set the url field, mostly used for testing this activity.
+		 * @param uri - the url containing web address
+		 */
+		public void setUri(Uri uri) {
+			this.uri = uri;
+		}
+
+
 }

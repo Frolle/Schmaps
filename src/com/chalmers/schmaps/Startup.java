@@ -33,8 +33,6 @@ import android.widget.ImageView;
 public class Startup extends Activity {
 
     protected static final long TIMETODISPLAYSPLASH = 5000;
-	private ImageView myView;
-	private Animation fadeInAnimation;
     private Intent startMenuActivity;
     private Thread threadForSplash;
     private boolean isBackPressed = false;
@@ -72,11 +70,13 @@ public class Startup extends Activity {
 	/**
 	 * Method to assign the instance variables.
 	 */
-    private void assignInstances() {
-               myView = (ImageView) findViewById(R.id.imageView1);
-               fadeInAnimation = AnimationUtils.loadAnimation(this, R.anim.appear);
-               myView.startAnimation(fadeInAnimation);
-               startMenuActivity = new Intent("android.intent.action.MENUACTIVITY");
+	private void assignInstances() {
+		Animation fadeInAnimation;
+		ImageView myView;
+		myView = (ImageView) findViewById(R.id.imageView1);
+		fadeInAnimation = AnimationUtils.loadAnimation(this, R.anim.appear);
+		myView.startAnimation(fadeInAnimation);
+		startMenuActivity = new Intent("android.intent.action.MENUACTIVITY");
 	}
     
 	@Override
