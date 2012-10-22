@@ -20,10 +20,14 @@ The following features are included in the release of Schmaps version 1.0:
 
 The app contains database that contains information on lecture halls, other rooms, microwaves, restaurants and ATMs on Chalmers campus Lindholmen and Johanneberg.
 
+IMPORTANT!
+When using check in be aware that the data is send with a regular GET http request. If you do not want your name to be shown do not type any name and you should log in as "Unknown"
+
 Permissions used:
 - android.permission.INTERNET: used so that the Schmpas can access Internet and get directions, buss timetable etc.
 - android.permission.ACCESS_COARSE_LOCATION: used so that Schmaps can get your location using the network (triangulation).
 - android.permission.ACCESS_NETWORK_STATE: used so that Schmaps can check if you have Internet connection before attempting to get directions, check in or get the bus time table.
+
 
 Fixed bugs:
 --- --------------------------------
