@@ -30,7 +30,7 @@ Permissions used:
 
 
 Fixed bugs:
---- --------------------------------
+-----------------------------------------
 Bug#1 
 Line in the bottom in splash screen
 When starting splash a lighter line in the bottom on lg optimus 2x. On Samsung galaxy s the line is on the bottom and on the top
