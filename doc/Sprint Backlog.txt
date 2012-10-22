@@ -85,13 +85,15 @@ Sprint backlog 3 - läsvecka 5
 5.    Check-in                               		22 
 6.    Möte m.m    					20
 
-Den här veckan ska vi fokusera på göra klart det som inte är klart och refaktorera. Vi behver fylla vår databas med salar och avsätter tid så att detta blir gjort. Vi ska börja med tester också då vi inte har några junit tester ännu, endast accentence tester. Vi ska även prova att tillämpa TDD på de funktioner som inte är skrivna ännu. Vi behöver dokumntera också. Enligt planeringen skulle vi börja med två nya funktioner den här veckan; visa när bussen mellan campus Chalmers och Lindholmen går och visa hur mycket folk det finns på respektive restaurang. Vi beslutar att påbörja en check-in funktion. Layouten ska också göras klar.
+Den här veckan ska vi fokusera på göra klart det som inte är klart och refaktorera. GoogleMapActivity behöver refaktoreras, delas upp i två klasser, googlemapsearchlocation som hanterar sökningen av salar och googlemapshowlocation sm hanterar visningen av flera punkter bland annat i show micros, show restaurants and show atm. Det blir för krångligt med många if, else och switchcase satser om vi har det i samma klass. Då behöver man hålla reda på vilken xml som ska visas,om en eller flera element ska visas på kartan och om ens egen postion ska visas. Klassen skulle bli väldigt stor och svår att orientera sig i.
+
+Vi behöver fylla vår databas med salar och avsätter tid så att detta blir gjort. Vi ska börja med tester också då vi inte har några junit tester ännu, endast accentence tester. Vi ska även prova att tillämpa TDD på de funktioner som inte är skrivna ännu. Vi behöver dokumntera också. Enligt planeringen skulle vi börja med två nya funktioner den här veckan; visa när bussen mellan campus Chalmers och Lindholmen går och visa hur mycket folk det finns på respektive restaurang. Vi beslutar att påbörja en check-in funktion. Layouten ska också göras klar.
 
 ******************************************************************************
 
 Läsvecka 6
 Förra sprinten:
-Testmiljön är uppsatt och en del tester är skrivna, saknas testfall för alla klasser men vi har kommit en bra bit på vägen. En grundläggande check-in funktion som kontaktar en extern mysql databas på server är fixad. Man kan se vilka som är incheckade och checka in själv. Detta tog en del tid, behövde använda php för att kunna kommunicera med databasen på servern. En del krångel men kommunkationen fungerar nu. Alla salarna är inmatade i databasen, både johanneberg och lindholmen. Mikros och restauranger behöver matas in också. Fortfarande ingen info om var det finns mikros på Chalmers, vi får gå runt och leta efter dessa. Layouten är påbörjad, alla knappar finns men de byter inte färg när man klickar på returnknappen. Backgrunden behöver bytas.
+Refaktoreringen är klar, blev väldigt bra med att dela upp googlemapactivityi två delar. Det blir bättre kvalie på koden och vi slipper nästlade if, else och switch klasser. Testmiljön är uppsatt och en del tester är skrivna, saknas testfall för alla klasser men vi har kommit en bra bit på vägen. En grundläggande check-in funktion som kontaktar en extern mysql databas på server är fixad. Man kan se vilka som är incheckade och checka in själv. Detta tog en del tid, behövde använda php för att kunna kommunicera med databasen på servern. En del krångel men kommunkationen fungerar nu. Alla salarna är inmatade i databasen, både johanneberg och lindholmen. Mikros och restauranger behöver matas in också. Fortfarande ingen info om var det finns mikros på Chalmers, vi får gå runt och leta efter dessa. Layouten är påbörjad, alla knappar finns men de byter inte färg när man klickar på returnknappen. Backgrunden behöver bytas.
 
 
 Sprint backlog 4 - läsvecka 6
@@ -135,11 +137,13 @@ Sprint backlog 5 - läsvecka 7
 
 Den här veckan ska fokusera på dokumentaion, testning, fixa buggar och göra klart västtrafik och checkin/gpspoint. De buggar som är prioriterade är att datan ska sparas när man flippar telefonen samt att å, ä och ö ska kunna användas. En del av tiden kommer också att gå åt att förbereda redovisningen.
 
+Vi kommer också att refaktorera en del kod i menuactivity och campusmanyactivity då vår handledare har gjort oss uppmärksamma på att vi har en del kodduplicering.  
+
 **********************************************************************************
 
 Läsvecka 8
 Förra sprinten:
-Testningen är klar, vi liggerpå ca 95% covarage och det nöjer vi oss med. Vidare är de flesta buggar fixade: datan sparas när man vrider på telefonen, går att checka in med å,ä och ö mm. Dokumentaionen är klar den med och finns i doc-mappen i github. Redovisningen är klar. Västtrafik appenär klar den med, tog lite tid att fixabuggar accocierade med den tex att ibland svarar inte västrafiks api med data och i de fallen krashade appen. Det är nu fixat med expections som fångas upp.
+Refaktoreringen av menuactivity och campusmenyactivity är fixat, istället för att upprepa samma rader kod har vi tagit bort duplikat och istället optimerat koden. I capmusmeny activity är bara en del med i switch-case satsen, själva delen där man avgör vilken knapp är nedtryct (Lindholmen eller JOhanneberg). Testningen är klar, vi liggerpå ca 95% covarage och det nöjer vi oss med. Vidare är de flesta buggar fixade: datan sparas när man vrider på telefonen, går att checka in med å,ä och ö mm. Dokumentaionen är klar den med och finns i doc-mappen i github. Redovisningen är klar. Västtrafik appenär klar den med, tog lite tid att fixabuggar accocierade med den tex att ibland svarar inte västrafiks api med data och i de fallen krashade appen. Det är nu fixat med expections som fångas upp.
 
 GeoPoint blev inte klar. Vi fick inte ihop med med att lägga ut approximity allerts som triggas när man går in eller ut från området, det vill säga radien runt en viss punkt. Detta får vi titta på vidare.
 	
