@@ -24,7 +24,7 @@
         <activity
             android:name=".Startup"
             android:label="@string/title_activity_startup"
-            android:screenOrientation="fullSensor" >
+            android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -33,8 +33,8 @@
         </activity>
         <activity
             android:name=".MenuActivity"
+            android:screenOrientation="portrait"
             android:label="@string/title_activity_menu"
-            android:screenOrientation="fullSensor"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
             <intent-filter>
                 <action android:name="android.intent.action.MENUACTIVITY" />
@@ -57,7 +57,7 @@
         <activity
             android:name=".CampusMenuActivity"
 
-            android:screenOrientation="fullSensor"
+            android:screenOrientation="portrait"
             android:label="@string/title_activity_campus_menu"
             android:configChanges="orientation|screenSize" >
 
