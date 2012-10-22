@@ -73,4 +73,4 @@ Bug #13 App crashes sometimes when trying to access Check buses
 Bug #15 Checkbus crashes after 01:00 besouse västrafik does not return from whish stop the bus leaves bug 
 
 Bug #16 campus menu does not work properly in landscape mode, streches the picture out bug 
-(menu, campusmenu ans splach is now locked in portrait mode intill this bug is fixed=
+(menu, campusmenu ans splash is now locked in portrait mode intill this bug is fixed)
