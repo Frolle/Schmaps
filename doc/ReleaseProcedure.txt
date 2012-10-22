@@ -1,0 +1,25 @@
+Release Procedure
+
+When the application is ready to be released following has to be done:
+
+- Change the branch to release branch (git checkout release)
+
+- Pull down master to release branch (git pull origin master)
+
+- Fix the conflicts. One of the conflicts is to decide which key to use in three sml files: activity_checkin.xml, activity_map.xml and activity_strippedmap.xml. The key that is to be used is 03N-mnT3vcNEWHzw40BLVNrfFitLJcef3mPbSng, that is the google api key that is generated from the signed keystore and not just the debug key.
+
+- Push upp the changes to release branch (git push origin release)
+
+- Get the signed keystore from the google drive group 17 (only accessible to group members)
+
+- In Eclipse, press File -> Export -> Android -> Export Android Application. Choose project Schmaps and click next. Choose "use existing key", browse to the key you have downloaded from google drive and enter the password, click next. Choose "use existing key", the alias "schmaps" and enter the password. Name the apk Schmaps.apk and click finish. Save the apk to you desctop for example, outside your Schmaps folder.
+
+- Change branch to master (git checkout origin master)
+
+- Open the Schmaps directory, open the directory called Release_apk and remove the file Schmaps.apk that is in there. That is the apk from the previous release. Move the new Schmaps.apk that you have just created to the folder.
+
+- Add the file to the git repository (git add Release_apk/Schmaps.apk) You may have to force it to upload since it is on the ignore list, do do that simply add -f in the end (git add Release_apk/Schmaps.apk -f)
+
+- Commit the entry (git commit -m "comment") and push it to the master branch (git push origin master)
+
+Done!
