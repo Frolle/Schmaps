@@ -45,7 +45,9 @@ Efter denna veckan ska vi leverera följande produkt: en applikation därman kan
 
 Läsvecka 4
 Förra sprinten:
-Databasen är klar, det som saknas är all information som skall in i den. Det vill säga alla salarna och dess latitude, longitude och andress. Några salar går att söka efter, de pekas ut på kartan när man har tryckt på enter. Det behövs layoutförändringar: bland annat ny bakgrund, grafik på knapp, ny markeringspunkt i kartan. Är vi klara? Nej! Vi har inte skrivit unit tester eller kommenterat. Vi har kört acceptance tester. Göra JUnit-tester, skriva klart alla salar och kommentera klart.
+Databasen är "klar" dvs funktionen av databasen, det som saknas är all information som skall in i den. Det vill säga alla salarna och dess latitude, longitude och andress. Detta visar sig ta betydligt längre tid än vi har tänkt oss. Anledningen är att det endast en bråkdel av salarna finns att hitta på Chalmers hemida (http://www.chalmers.se/HyperText/Karta/load.html). Vi har ontaktat kåren och bett en omförteckning över alla salar och mikros med får inget svar. Vi kommer behöva gå runt och leta efter salar vilket är tidskrävande men då detta är en väsentlig del av appen så behöver det göras. 
+
+Några salar går att söka efter, de pekas ut på kartan när man har tryckt på enter. Det behövs layoutförändringar: bland annat ny bakgrund, grafik på knapp, ny markeringspunkt i kartan. Är vi klara? Nej! Vi har inte skrivit unit tester eller kommenterat. Vi har kört acceptance tester. Göra JUnit-tester, skriva klart alla salar och kommentera klart.
 
 
 Sprint backlog 2 - läsvecka 4
@@ -67,11 +69,9 @@ Efter denna vecka ska man kunna få en väg utritad på kartan från mobilens po
 
 Läsvecka 5
 Förra sprinten:
-Funktionaliteten för micro, restaranger och bankomater är klar men all info är inte inmatad i databasen. Bankomater är klart, visa directions klar men de är inte testade, något dokumneterade. Alla salar är inte inmatade. 
+Funktionaliteten för micro, restaranger och bankomater är klar men all info är inte inmatad i databasen. Bankomater är klart, visa directions klar men de är inte testade, något dokumneterade. Salarna är fortfarande inte inmatade, annat har prioriterats. Vi har fortfarande inte fått kontkat med kåren. Sektionsstyrelser har vi också kontaktat men utan större framgång där heller.
 
-Problem med att merga våra filer, vi bestämmer oss för att refaktorera, dela upp googleMapActivity i två delar. En del som visar en googlemapkarta där man kan söka rum och en som visar ut punkter på karta tex bankmat, mikro, restaurager.
-
-Vi tänkte först att vi skulle ha två xml filer och beroende på om man vill söka sal eller visa tex mikro så visas två olika xml, en med sökruta och en utan. Detta skulle inte vara så bra eftersom googlemapactivity skulle blivit massiv och väldigt krånglig. Det blir bättre att dela upp det.
+Problem med att merga våra filer, vi bestämmer oss för att refaktorera, dela upp googleMapActivity i två delar. En del som visar en googlemapkarta där man kan söka rum och en som visar ut punkter på karta tex bankmat, mikro, restaurager.Vi tänkte först att vi skulle ha två xml filer och beroende på om man vill söka sal eller visa tex mikro så visas två olika xml, en med sökruta och en utan. Detta skulle inte vara så bra eftersom googlemapactivity skulle blivit massiv och väldigt krånglig. Det blir bättre att dela upp det.
 
 
 Sprint backlog 3 - läsvecka 5
@@ -85,13 +85,13 @@ Sprint backlog 3 - läsvecka 5
 5.    Check-in                               		22 
 6.    Möte m.m    					20
 
-Den här veckan ska vi fokusera på göra klart det som inte är klart och refaktorera. Vi ska börja med tester då vi nte har några junit tester ännu, endast accentence tester. Vi ska även prova att tillämpa TDD på de funktioner som inte är skrivna ännu. Vi behöver dokumntera också. Enligt planeringen skulle vi börja med två nya funktioner den här veckan; visa när bussen mellan campus Chalmers och Lindholmen går och visa hur mycket folk det finns på respektive restaurang. Vi beslutar att påbörja en check-in funktion. Layouten ska också göras klar.
+Den här veckan ska vi fokusera på göra klart det som inte är klart och refaktorera. Vi behver fylla vår databas med salar och avsätter tid så att detta blir gjort. Vi ska börja med tester också då vi inte har några junit tester ännu, endast accentence tester. Vi ska även prova att tillämpa TDD på de funktioner som inte är skrivna ännu. Vi behöver dokumntera också. Enligt planeringen skulle vi börja med två nya funktioner den här veckan; visa när bussen mellan campus Chalmers och Lindholmen går och visa hur mycket folk det finns på respektive restaurang. Vi beslutar att påbörja en check-in funktion. Layouten ska också göras klar.
 
 ******************************************************************************
 
 Läsvecka 6
 Förra sprinten:
-Testmiljön är uppsatt och en del tester är skrivna, saknas testfall för alla klasser. En grundläggande check-in funktion som kontaktar en extern databas på server är fixad. Man kan se vilka som är incheckade och checka in själv. Alla salarna är inmatade i databasen, både johanneberg och lindholmen. Layouten är påbörjad, alla knappar finns men de byter inte färg när man klickar på returnknappen. Backgrunden behöver bytas.
+Testmiljön är uppsatt och en del tester är skrivna, saknas testfall för alla klasser men vi har kommit en bra bit på vägen. En grundläggande check-in funktion som kontaktar en extern mysql databas på server är fixad. Man kan se vilka som är incheckade och checka in själv. Detta tog en del tid, behövde använda php för att kunna kommunicera med databasen på servern. En del krångel men kommunkationen fungerar nu. Alla salarna är inmatade i databasen, både johanneberg och lindholmen. Mikros och restauranger behöver matas in också. Fortfarande ingen info om var det finns mikros på Chalmers, vi får gå runt och leta efter dessa. Layouten är påbörjad, alla knappar finns men de byter inte färg när man klickar på returnknappen. Backgrunden behöver bytas.
 
 
 Sprint backlog 4 - läsvecka 6
@@ -115,7 +115,9 @@ Vi beslutar att hoppa över funktionerna som skulle vara i denna sprinten; perso
 
 Läsvecka 7
 Förra sprinten:
-Buss-funktionen är så gott som klar, layouten behöver fixas till och testas. Databaserna är klara nu, all data är inmatad. Tester är skrivna, vi har bra coverege men satsar på över 90%. Signed keystore och "riktig" maps api nyckel är fixat. Tabell i extern databas på server är fixad och ska ta emot incheckade och skicka info om hur många som är vid respektive restaurang. Mobildelen är påbörjad, proximity allerts finns för alla restauranger. Fungerar inte än.
+Buss-funktionen är så gott som klar, layouten behöver fixas till och testas. Databaserna är klara nu, all data är inmatad. Att mata in allt i databasen dvs salar, grupprum, restauranger och mikros tog längre tid än vi har räknat med. Hade hoppats att kåren eller liknande skulle ha informationen tillgängligt så att man lätt kunde skriva in den men så var inte fallet. 
+
+Tester är skrivna, vi har bra coverege men satsar på över 90%. Signed keystore och "riktig" maps api nyckel är fixat. Tabell i extern databas på server är fixad och ska ta emot incheckade och skicka info om hur många som är vid respektive restaurang. Mobildelen är påbörjad, proximity allerts finns för alla restauranger. Fungerar inte än.
 
 
 Sprint backlog 5 - läsvecka 7
@@ -131,12 +133,13 @@ Sprint backlog 5 - läsvecka 7
 6	Västtrafik					3
 7	Möte, handledning mm				20
 
-Den här veckan ska fokusera på dokumentaion, testning, fixa buggar och göra klart västtrafik och checkin/gpspoint. En del av tiden kommer också att gå åt att förbereda redovisningen.
+Den här veckan ska fokusera på dokumentaion, testning, fixa buggar och göra klart västtrafik och checkin/gpspoint. De buggar som är prioriterade är att datan ska sparas när man flippar telefonen samt att å, ä och ö ska kunna användas. En del av tiden kommer också att gå åt att förbereda redovisningen.
 
 **********************************************************************************
 
 Läsvecka 8
 Förra sprinten:
+Testningen är klar, vi liggerpå ca 95% covarage och det nöjer vi oss med. Vidare är de flesta buggar fixade: datan sparas när man vrider på telefonen, går att checka in med å,ä och ö mm. Dokumentaionen är klar den med och finns i doc-mappen i github. Redovisningen är klar. Västtrafik appenär klar den med, tog lite tid att fixabuggar accocierade med den tex att ibland svarar inte västrafiks api med data och i de fallen krashade appen. Det är nu fixat med expections som fångas upp.
 
-
+GeoPoint blev inte klar. Vi fick inte ihop med med att lägga ut approximity allerts som triggas när man går in eller ut från området, det vill säga radien runt en viss punkt. Detta får vi titta på vidare.
 	
