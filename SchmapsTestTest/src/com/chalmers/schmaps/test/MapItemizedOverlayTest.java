@@ -19,6 +19,7 @@ package com.chalmers.schmaps.test;
 import java.lang.reflect.Field;
 
 import android.app.AlertDialog;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.test.ActivityInstrumentationTestCase2;
 
@@ -66,7 +67,14 @@ public class MapItemizedOverlayTest extends ActivityInstrumentationTestCase2<Goo
 		drawable = activity.getResources().getDrawable(R.drawable.chalmersandroid);
 		mapOverlay = new MapItemizedOverlay(drawable,activity);		
 	}
-	
+	/**
+	 * Test that all fields are assigned correct class.
+	 */
+
+	public void testPreConditions(){
+		assertEquals(GoogleMapSearchLocation.class, activity.getClass());
+		assertEquals(BitmapDrawable.class, drawable.getClass());
+	}
 	/**
 	 * Tests that an overlay item is added by adding it to the the overlay
 	 * and checking the size of it.

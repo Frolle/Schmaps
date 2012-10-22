@@ -72,9 +72,15 @@ public class PathOverlayTest extends ActivityInstrumentationTestCase2<GoogleMapS
 		
 		canvas = new Canvas();
 		this.mapview = (MapView) this.activity.findViewById(R.id.mapview);
-		
 	}
 	
+	/**
+	 * Test that all fields are assigned correct class.
+	 */
+	public void testPreConditions(){
+		assertEquals(GoogleMapSearchLocation.class, activity.getClass());
+		assertEquals(MapView.class, mapview.getClass());
+	}
 	/**
 	 * Tests that all four geopoints are added when pathoverlay-activity is started 
 	 */

@@ -52,9 +52,17 @@ public class StartupTest extends ActivityInstrumentationTestCase2<Startup> {
 		solo = new Solo(getInstrumentation(), getActivity());
 		this.startupActivity = super.getActivity();
 		}
+	
 	/**
-	 * Test that the splash screen starts the correct activity and that it shuts down
-	 * when it's touched.
+	 * Test that all fields are assigned correct class.
+	 */
+	public void testPreConditions(){
+		assertEquals(Solo.class, solo.getClass());
+		assertEquals(Startup.class, startupActivity.getClass());
+	}
+	/**
+	 * Test that the splash screen starts the correct activity and that it finishes
+	 * early when the screen is touched
 	 */
 	public void testSplashThreadAndOnTouch(){
 		try {
@@ -78,7 +86,7 @@ public class StartupTest extends ActivityInstrumentationTestCase2<Startup> {
 	/**
 	 * Test for testing that the activity finishes when users clicks back.
 	 */
-	public void testSkipStart(){
+	public void testFinishActivityOnBackKey(){
 		assertTrue(startupActivity.onKeyDown(KeyEvent.KEYCODE_BACK, null));
 		assertFalse(startupActivity.onKeyDown(KeyEvent.KEYCODE_MENU, null));
 	}

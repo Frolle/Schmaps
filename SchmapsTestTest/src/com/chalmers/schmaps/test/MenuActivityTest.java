@@ -67,11 +67,14 @@ public class MenuActivityTest extends ActivityInstrumentationTestCase2<MenuActiv
 	 * Tests conditions before starting all the tests.
 	 */
 	public void testPreConditions(){
-		super.assertNotNull(searchHall);
-		super.assertNotNull(groupRoom);
-		super.assertNotNull(atmButton);
-		super.assertNotNull(microwaveButton);
-		super.assertNotNull(findRestaurantsButton);
+		assertEquals(Solo.class, solo.getClass());
+		assertEquals(MenuActivity.class, menuActivity.getClass());
+		assertEquals(Button.class, searchHall.getClass());
+		assertEquals(Button.class, groupRoom.getClass());
+		assertEquals(Button.class, atmButton.getClass());
+		assertEquals(Button.class, microwaveButton.getClass());
+		assertEquals(Button.class, findRestaurantsButton.getClass());
+		assertEquals(ConnectivityManager.class, iConnectivityManager.getClass());
 	}
 	
 	/**

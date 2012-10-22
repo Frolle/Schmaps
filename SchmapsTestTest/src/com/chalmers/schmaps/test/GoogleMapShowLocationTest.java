@@ -57,23 +57,27 @@ public class GoogleMapShowLocationTest extends
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-		//Simulate the intent from the previous activities which is usually rendered from the user's inputs in the app.
 		setActivityInitialTouchMode(false);
 	}
 	
 	/**
-	 * Test to see if all the locations for the microwaves were drawn out, by comparing
+	 * Test to see if all the locations for the restaurants were drawn out, by comparing
 	 * the size of all the items drawn out to the size of the data table.
 	 * Reason to why the mapView and overlay variables are in all the tests and not in the
- 	 * setUp is because the intent needs to be customized for every different test to be
-	 * customized for every different case to get coverage of all the code.
+ 	 * setUp is because the intent needs to be customized for every different simulated input
+ 	 * from the user to get coverage of all the code. The specific method setActivityIntent
+ 	 * must be called before the getActivity call, and since we're injecting customized intents
+ 	 * in every test case we need to have the getActivity calls and assigns in every test case.
+ 	 * We tried finding a better solution to this but time ran out on us.
 	 */
 	public void testDrawLocationsMicrowaves(){
 		setActivityIntent(new Intent("android.intent.action.CAMPUSMENUACTIVITY").putExtra("Show locations", MICROWAVEBUTTON).putExtra("Campus", JOHANNESBERG));
-		this.showLocationActivity = super.getActivity();
+		showLocationActivity = super.getActivity();
 		this.mapView = (MapView) this.showLocationActivity.findViewById(R.id.mapview);
 		overlay = mapView.getOverlays();
 		overlay.clear();
+		assertEquals(GoogleMapShowLocation.class, showLocationActivity.getClass());
+		assertEquals(MapView.class, mapView.getClass());
 		this.showLocationActivity.drawLocationList("Microwaves");
 		super.getInstrumentation().waitForIdleSync();
 		assertEquals(SIZEOFMICROWAVETABLE,overlay.size());
@@ -82,34 +86,44 @@ public class GoogleMapShowLocationTest extends
 	 * Test to see if all the locations for the restaurants were drawn out, by comparing
 	 * the size of all the items drawn out to the size of the data table.
 	 * Reason to why the mapView and overlay variables are in all the tests and not in the
- 	 * setUp is because the intent needs to be customized for every different test to be
-	 * customized for every different case to get coverage of all the code.
+ 	 * setUp is because the intent needs to be customized for every different simulated input
+ 	 * from the user to get coverage of all the code. The specific method setActivityIntent
+ 	 * must be called before the getActivity call, and since we're injecting customized intents
+ 	 * in every test case we need to have the getActivity calls and assigns in every test case.
+ 	 * We tried finding a better solution to this but time ran out on us.
 	 */
 
 	public void testDrawLocationsRestaurants(){
 		setActivityIntent(new Intent("android.intent.action.CAMPUSMENUACTIVITY").putExtra("Show locations", RESTAURANTBUTTON).putExtra("Campus", JOHANNESBERG));
-		this.showLocationActivity = super.getActivity();
+		showLocationActivity = super.getActivity();
 		this.mapView = (MapView) this.showLocationActivity.findViewById(R.id.mapview);
 		overlay = mapView.getOverlays();
 		overlay.clear();
+		assertEquals(GoogleMapShowLocation.class, showLocationActivity.getClass());
+		assertEquals(MapView.class, mapView.getClass());
 		this.showLocationActivity.drawLocationList("Restaurants");
 		super.getInstrumentation().waitForIdleSync();
 		assertEquals(SIZEOFRESTAURANTTABLE,overlay.size());
 	}
 	/**
-	 * Test to see if all the locations for the ATMs were drawn out, by comparing
+	 * Test to see if all the locations for the restaurants were drawn out, by comparing
 	 * the size of all the items drawn out to the size of the data table.
 	 * Reason to why the mapView and overlay variables are in all the tests and not in the
- 	 * setUp is because the intent needs to be customized for every different test to be
-	 * customized for every different case to get coverage of all the code.
+ 	 * setUp is because the intent needs to be customized for every different simulated input
+ 	 * from the user to get coverage of all the code. The specific method setActivityIntent
+ 	 * must be called before the getActivity call, and since we're injecting customized intents
+ 	 * in every test case we need to have the getActivity calls and assigns in every test case.
+ 	 * We tried finding a better solution to this but time ran out on us.
 	 */
 
 	public void testDrawLocationsAtms(){
 		setActivityIntent(new Intent("android.intent.action.CAMPUSMENUACTIVITY").putExtra("Show locations", ATMBUTTON).putExtra("Campus", JOHANNESBERG));
-		this.showLocationActivity = super.getActivity();
+		showLocationActivity = super.getActivity();
 		this.mapView = (MapView) this.showLocationActivity.findViewById(R.id.mapview);
 		overlay = mapView.getOverlays();
 		overlay.clear();
+		assertEquals(GoogleMapShowLocation.class, showLocationActivity.getClass());
+		assertEquals(MapView.class, mapView.getClass());
 		this.showLocationActivity.drawLocationList("Atm");
 		super.getInstrumentation().waitForIdleSync();
 		assertEquals(SIZEOFATMTABLE,overlay.size());

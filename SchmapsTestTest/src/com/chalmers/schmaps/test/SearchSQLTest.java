@@ -67,6 +67,12 @@ public class SearchSQLTest extends ActivityInstrumentationTestCase2<GoogleMapSea
 	}
 
 	/**
+	 * Test that all fields are assigned correct class.
+	 */
+	public void testPreConditions(){
+		assertEquals(GoogleMapSearchLocation.class, activity.getClass());
+	}
+	/**
 	 * Tests the method that checks if the value exists in the database
 	 */
 	public void testExists() {
