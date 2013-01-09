@@ -329,7 +329,7 @@ public class CheckInActivity extends MapActivity implements View.OnClickListener
 			
 
 			//Create a string with the right start and end position
-			urlString.append("http://schmaps.scarleo.se/schmaps.php?name=");
+			urlString.append("http://schmaps.zuko.se/schmaps.php?name=");
 			//from, your position, latitude
 			urlString.append(decodedUsername); 
 			urlString.append("&lat=");
